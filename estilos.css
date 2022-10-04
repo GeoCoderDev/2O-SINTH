@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&family=Tenor+Sans&display=swap');
 
-body{
-    /* opcion 1
-    background-image:linear-gradient(-135deg,rgb(246, 164, 243),rgb(149, 155, 255)); */
-    background-image:linear-gradient(-135deg,rgb(143, 205, 149),rgb(167, 198, 217));
+*{
     margin: 0;
     padding:0;
+    box-sizing: border-box;
+}
+body{
+    /* opcion 1 */
+    background-image:linear-gradient(-135deg,rgb(181, 120, 179),rgb(149, 155, 255));
+    /* background-image:linear-gradient(135deg,rgb(149, 225, 129),rgb(167, 198, 217)); */
+    /* background-image:linear-gradient(-135deg,rgb(235, 168, 121),rgb(255, 235, 107)); */
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
@@ -22,18 +27,146 @@ header{
 .elemento-header{
     margin:0.3em;
     color:white;
-    font-size: 2.2em;
+    font-size: 2.5em;
 }
 
 #logo{
-    width:100px;
-    height:60px;
+    min-width:100px;
+    min-height:60px;
     background-image: url("./Assets/Imagenes/Logo\ 2O\ SYNTH\ V3.png");        
     background-size: contain;
     background-repeat: no-repeat;
-    margin-top:0.75em;
+    margin-top:0.7em;
+    margin-right:0;
 }
 
 .elemento-header:nth-child(2){
     margin-left:0;
+    min-width: 140px;
+    width: 1035px;
+}
+
+div a{
+    text-decoration:none;
+    color:white;
+    color:inherit;
+}
+
+
+li > a{
+    color:black;
+    font-family: 'Poppins', sans-serif;
+    /* font-weight:bold ; */
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction:row;
+    align-items:center;
+    justify-content: center;
+}
+
+
+ul{
+    list-style: none;
+}
+
+#Inicio-sesion{
+    display:flex;
+    font-size:1.2em;
+    border:3px solid white;
+    height: 6.5vh;
+    min-width:170px;
+    align-items:center;
+    justify-content: center;
+    border-radius:1.5em;
+    background-color:rgba(240, 255, 255,0.3);
+    
+}
+
+#Inicio-sesion:hover{
+    background-color:rgba(240, 255, 255,0.8);
+    color:rgb(138, 138, 172);
+}
+
+/* BARRA DE NAVEGACION VERTICAL */
+
+.barra-navegacion{
+    position: absolute;    
+    top:calc((100vh - 340px)/2); 
+    margin-left: 0.8em;
+
+}
+
+#contenedor_elementos_barra-navegacion{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    width: 260px;
+    height:340px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 0.8em;
+    box-shadow: 12px 10px 10px rgba(73, 71, 71, 0.408);
+
+}
+
+.elemento-barra-navegacion{
+    width: 210px;
+    margin: 1em 0;
+    letter-spacing:1px;
+    /* border: 1px solid black; */
+    text-align: center;
+}
+
+.text-nav{
+    /* border:1px solid black; */
+    width:150px;
+    margin-right:0.5em;
+}
+
+.icon-nav{
+    width: 50px;
+    height:50px;
+    background-size: contain;
+    background-repeat:no-repeat;
+    transition:0.5s;
+    
+}
+
+#icono-sintetizador{
+    background-image:url("./Assets/Imagenes/Sinth\ Icono.png");
+
+    height:45px;
+}
+
+#icono-efectos{
+    background-image:url("./Assets/Imagenes/FX\ icono.png");
+    /* border:1px solid black; */
+    height: 40px;
+    padding-top: 5px;
+}
+
+#SQ-Melodias{
+    background-image:url("./Assets/Imagenes/Sequenciador\ de\ melodias\ icono.png");
+    /* border:1px solid black; */
+    height: 40px;
+    padding-top: 5px;
+}
+
+#SQ-Ritmos{
+    background-image:url("./Assets/Imagenes/Sequenciador\ de\ ritmos\ icono.png");
+    /* border:1px solid black; */
+    height: 39px;
+    padding-top: 5px;
+}
+
+.indicador{
+    width: 75px;
+    height:70px;
+    /* background-color:#ffa6009b; */
+    border-radius:70%/30%;
+    position:relative;
+    left:171.2px;
+    top:-325px;
+    border:4px solid  rgba(73, 71, 71, 0.6);
+    
 }
