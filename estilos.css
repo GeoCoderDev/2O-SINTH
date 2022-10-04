@@ -15,12 +15,18 @@ body{
 
 
 header{
+    position:fixed;
     display:flex;    
     width:100vw;
     height:12vh;
     flex-direction:row;
     align-items:center;
     /* border: 1px solid white; */
+    z-index:2;
+    top:0;
+    left:0;
+    background-color:rgba(24, 30, 134, 0.8);
+    /* background-image: linear-gradient(to left, rgba(24, 30, 134, 0.2), rgba(66, 199, 236, 0.2)); */
 
 }
 
@@ -90,7 +96,7 @@ ul{
 /* BARRA DE NAVEGACION VERTICAL */
 
 .barra-navegacion{
-    position: absolute;    
+    position: fixed;    
     top:calc((100vh - 340px)/2); 
     margin-left: 0.8em;
 
@@ -101,7 +107,7 @@ ul{
     flex-direction: column;
     justify-content:center;
     align-items: center;
-    width: 260px;
+    width: 100px;
     height:340px;
     background-color: rgba(255,255,255,0.5);
     border-radius: 0.8em;
@@ -110,7 +116,7 @@ ul{
 }
 
 .elemento-barra-navegacion{
-    width: 210px;
+    width: 90px;
     margin: 1em 0;
     letter-spacing:1px;
     /* border: 1px solid black; */
@@ -165,8 +171,58 @@ ul{
     /* background-color:#ffa6009b; */
     border-radius:70%/30%;
     position:relative;
-    left:171.2px;
-    top:-325px;
+    left:12px;
+    top:-315px;
     border:4px solid  rgba(73, 71, 71, 0.6);
     
+}
+
+.Contenedor-seccion{
+    font-family:'Poppins', sans-serif;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    margin-top: 13vh;
+}
+
+.Titulo-seccion{
+    color: white;
+    font-style:italic;
+    font-weight:500;
+    font-size:3em;
+    width:450px;
+    border:1px solid black;
+    text-align: center;
+    line-height:50px;
+}
+
+/* SINTETIZADOR */
+
+#Sintetizador{
+    width:60vw;
+    height:450px;
+    border:2px solid black;
+    border-radius:2em;
+}
+
+
+
+/* EFECTOS */
+
+#Efectos{
+    width:50vw;
+    height:450px;
+    border:2px solid black;
+    border-radius:2em;
+}
+
+
+/* Secuenciador de melodias */
+
+#Titulo-SQM{
+
+    font-size:2.5em;
+
 }
