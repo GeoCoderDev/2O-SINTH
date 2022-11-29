@@ -156,7 +156,7 @@
     /* BARRA DE NAVEGACION VERTICAL */
 
     .barra-navegacion{
-        position: sticky;    
+        position: fixed;    
         top:calc(((100vh - 340px)/2) + 6vh); 
         margin-left: 0.8em;
         border:1px solid black;
