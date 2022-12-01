@@ -156,10 +156,10 @@
     /* BARRA DE NAVEGACION VERTICAL */
 
     .barra-navegacion{
-        position: fixed;    
+        position: sticky;    
         top:calc(((100vh - 340px)/2) + 6vh); 
         margin-left: 0.8em;
-        border:1px solid black;
+        /* border:1px solid black; */
         width: 2vw;
     }
 
@@ -238,104 +238,31 @@
         
     }
 
-    /* CONFIGURACIONES GENERALES */
-
-    .Contenedor-seccion{
-        font-family:'Poppins', sans-serif;
+    #Contenedor-Secciones{
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        align-items:center;
-        margin-top: 14vh;
-    }
-
-    @media screen and (min-width:400px){
-        .Contenedor-seccion{
-            margin-top:18vh;
-        }
-    }
-    
-    .Titulo-seccion{
-        color: white;
-        font-style:italic;
-        font-weight:500;
-        font-size:8vh;
-        width:450px;
-        /* border:1px solid black; */
-        text-align: center;
-        line-height:50px;
-    }
+    }        
 
     /* SINTETIZADOR */
-
-    #Sintetizador{
-        width:60vw;
-        height:70vh;
-        border:2px solid black;
-        border-radius:2em;
-        margin-top: 5vh;
+    #contenedor-sintetizador{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-
-
-    /* EFECTOS */
-
-    #Titulo-efectos{
-        margin-bottom:5vh;
-    }
-
-    #Efectos{
-        width:75vw;
-        height:400px;
-        border-radius:2em;
-        border:2px solid black;
-    }
-
-
-    /* Secuenciador de melodias */
-
-    #Titulo-SQM{
-
-        font-size:6vh;
-        width:670px;
-        margin-bottom:0.25em;    
-    }
-
-    #SQM{
-
-        width:75vw;
-        height:470px;
-        border-radius:2em;
-        border:2px solid black;
-
-    }
-
-
-    /* Secuenciador de ritmos */
-
-    #Titulo-SQR{
-
-        font-size:6vh;
-        width:670px;
-        margin-bottom:0.5em;    
-    }
-
-    #SQR{
-
-        width:60vw;
-        height:400px;
-        border-radius:2em;
-        border:2px solid black;
-        margin-bottom: 4em;
-    }
     
-    /* Footer */
+
+
+
 
     footer{
         height:25vh;
         display:flex;
         background-color: black;
-        z-index:3;
+        z-index:3;                    
     }
 
 }
@@ -344,24 +271,15 @@
 
     
     
-
-
-
-    
-    
     
 
 
+    
+
+    
 
 
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -370,13 +288,10 @@
 
 
     
+
     
     
-    
-    
-    
-    
-    
+
 
     
     
