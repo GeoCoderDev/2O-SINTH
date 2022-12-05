@@ -6,69 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2O SINTH</title>
     <link rel="stylesheet" href="estilos.css">
-    <link rel="shortcut icon" href="Assets/Imagenes/Logo 2O SYNTH V3.png">
+    <link rel="shortcut icon" href="Assets/Imagenes/Logo 2O SYNTH V3.png" type="image/x-icon">
+    <script src="config.js"></script>
 </head>
 <body>
+    
     <header>
-        <div id="logo" class="elemento-header"></div>
-        <div class="elemento-header"><i>2O SINTH</i></div>        
-        <div id="Inicio-sesion" class="elemento-header"><a href=""> INICIAR SESIÓN</a></div>
+        <div id="logo"></div><h1 id="texto-2o-sinth">2O SINTH</h1>
+        <a href="#" id="boton-iniciar-sesion">INICIAR SESION</a>
     </header>
 
-    <div id="Contenido-todo">
+    <div id="contenido-todo">
+        <div id="barra-navegacion-contenedor">
+            <div id="barra-navegacion">
 
-        <div class="barra-navegacion">
-            <ul id="contenedor_elementos_barra-navegacion">
-                <li class="elemento-barra-navegacion" title="Sintetizador">
-                    <a href="#Titulo_sintetizador">
-                        <!-- <span class="text-nav">Sintetizador</span> -->
-                        <div id="icono-sintetizador" class="icon-nav"></div>
-                    </a>
-                </li>
-
-                <li class="elemento-barra-navegacion" title="Efectos">
-                    <a href="#Titulo-efectos">
-                        <!-- <span class="text-nav">Efectos</span> -->
-                        <div class="icon-nav" id="icono-efectos"></div>
-                    </a>
-                </li>
-
-                <li class="elemento-barra-navegacion" title="Secuenciador de Melodias">
-                    <a href="#Titulo-SQM">
-                        <!-- <span class="text-nav">Secuenciador de Melodias</span> -->
-                        <div class="icon-nav" id="SQ-Melodias"></div>
-                    </a>
-                </li>
-
-                <li class="elemento-barra-navegacion" title="Secuenciador de Ritmos">
-                    <a href="#Titulo-SQR">
-                        <!-- <span class="text-nav">Secuenciador de Ritmos</span> -->
-                        <div class="icon-nav" id="SQ-Ritmos"></div>
-                    </a>
-                </li>            
-            </ul>
-
-            <div class="indicador"></div>
-
-        </div>
-
-        <div id="Contenedor-Secciones">
-
-            <div id="contenedor-sintetizador">
-                <!--Sintetizador-->
-                <h1 id="titulo-sintetizador">SINTETIZADOR</h1>
-                
-                <div id="sintetizador">
-
-                </div>
             </div>
+        </div>
+        <div id="todas-las-secciones-contenedor"></div>
+
+        <div id="formulario-de-guardado-contenedor">
+            <form id="formulario-de-guardado" action="#">
+
+            </form>
 
         </div>
 
     </div>
 
+
     <footer>
-        
+
     </footer>
 
     <div id="Mensaje-portrait">
@@ -76,28 +43,5 @@
         <div id="Imagen-voltear"></div>
     </div>
 
-
-
-
 </body>
 </html>
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-    
-    
-
-
-
-    
