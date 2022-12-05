@@ -50,6 +50,11 @@ body{
 
 
 @media screen and (orientation:landscape){
+
+    #Mensaje-portrait{
+        display:none;
+    }
+
     header{
         position: fixed;
         top: 0;
