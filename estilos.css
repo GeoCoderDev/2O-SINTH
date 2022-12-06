@@ -4,6 +4,7 @@
     box-sizing: border-box;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
@@ -135,24 +136,47 @@ body{
     #barra-navegacion{
         position: sticky;
         width: 70%;
-        height: 60vh;
-        margin: 12vh 0;
-        top: 28vh;
+        height: 55vh;
+        margin: 14.5vh 0;
+        top: 30.5vh;
         display:flex;
         flex-direction: column;
-        justify-content:center;
+        justify-content:space-evenly;
         align-items: center;
         background-color: rgba(255,255,255,0.5);
         border-radius: 2.5vh;
         box-shadow: 1vh 1vh 2vh rgba(73, 71, 71, 0.408);
     }
+
+    .icono-barra-navegacion{
+        width:65%;
+        height: 17%;
+        /* border: 1px solid black; */
+    }
+
+    .icono-barra-navegacion:nth-child(1){
+        background-image: url('./Assets/Imagenes/Sinth\ Icono.png');
+    }
     
+    .icono-barra-navegacion:nth-child(2){
+        background-image: url('./Assets/Imagenes/FX\ icono.png');
+    }
+
+    .icono-barra-navegacion:nth-child(3){
+        background-image: url('./Assets/Imagenes/Sequenciador\ de\ melodias\ icono.png');
+    }
+
+    .icono-barra-navegacion:nth-child(4){
+        background-image: url('./Assets/Imagenes/Sequenciador\ de\ ritmos\ icono.png');
+    }
+
     #todas-las-secciones-contenedor{
         width: 70%;
         height: 100%;
         border: 1px solid black;
-    }
-    
+    }    
+
+
     #formulario-de-guardado-contenedor{
         width: 20%;
         height: 100%;
@@ -176,8 +200,7 @@ body{
         border-radius: 2.5vh;
         box-shadow: 1vh 1vh 2vh rgba(73, 71, 71, 0.408);
     }    
-    
-    
+        
     footer{
         background-color: black;
         width: 100%;
@@ -185,3 +208,31 @@ body{
     }
 }
 
+
+
+
+
+
+    
+    
+    
+    
+
+
+
+    
+    
+    
+    
+        
+    
+    
+
+
+    
+
+    
+        
+
+    
+    
