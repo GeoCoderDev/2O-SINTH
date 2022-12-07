@@ -129,7 +129,7 @@ body{
         flex-direction: row;
         align-items: center;
         justify-content: space-evenly;
-        height: 700vh;
+        height: 380vh;
         width: 100%;
         /* border: 1px solid black; */
         margin-top: 16vh;
@@ -139,13 +139,12 @@ body{
     #barra-navegacion-contenedor{
         width: 10%;
         height: 100%;
-        /* border: 1px solid black; */
         display: flex;
         justify-content: left;
         flex-direction: column;
         flex-wrap: wrap;
         align-items: center;
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
     
     #barra-navegacion{
@@ -188,21 +187,50 @@ body{
 
     #indicador{
         width: 61%;
-        height:1.8%;
+        height:12.5vh;
         /* background-color:#ffa6009b; */
         border-radius:70%/30%;
         position:sticky;
         top:32.5vh;
         margin-top: -67.5vh;
         margin-bottom: 55vh;
-        border:3px solid  rgba(73, 71, 71, 0.6);        
+        border:0.6vh solid  rgba(73, 71, 71, 0.6);        
     }
 
     #todas-las-secciones-contenedor{
         width: 70%;
         height: 100%;
         border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }    
+
+    .titulo-seccion{  
+        color: white;
+        font-size: 7vh;
+        font-style: italic;    
+        font-weight: 500;
+    }
+
+    .contenedor-seccion{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        height: 84vh;
+    }
+
+
+    /* SINTETIZADOR */
+    #contenedor-sintetizador{
+        
+        width: 100%;
+
+    }
+
+
 
     #formulario-de-guardado-contenedor{
         width: 20%;
