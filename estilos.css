@@ -278,20 +278,96 @@ body{
     .Cont_tipos_de_onda{
         width: 90%;
         height: 30%;
-        border: 1px solid black;
+        /* border: 1px solid black; */
         display: flex;
         align-items: center;
         justify-content: space-evenly;
     }
-
     .Titulo_tipo_onda{
         font-size: 1vw;
     }   
 
     #cont_slider_de_imagenes_1{
-        width: 50%;
+        width: 52%;
+        height: 85%;
+        /* border: 1px solid black; */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    @keyframes elevar_y_bajar {
+        0%{
+            top:0;            
+        }
+
+        25%{
+            top:-0.1vw;        
+        }
+
+        75%{
+            top:0.1vw;
+        }
+
+        100%{
+            top:0;
+        }
+    }
+
+    #boton_slider_izquierda_1,#boton_slider_derecha_1{
+        position: relative;
+        width: 25%;
         height: 80%;
+        border: 0.2vw solid rgb(160, 160, 160);
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content:space-around;
+        font-size: 1.5vw;
+        font-family: monospace;
+        animation:elevar_y_bajar 1s ease-in infinite;
+        border-radius: 1vw;
+        /* background-color: white; */
+        /* background-image: radial-gradient(white,rgb(0, 0, 0)); */
+    }
+
+    #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover{
+        cursor: pointer;
+        animation: none;
+    }
+
+    #slider_de_imagenes_ondas_1{
+        width: 40%;
+        height: 100%;
         border: 1px solid black;
+        display: flex;
+        flex-direction: row;
+        border-radius: 0.75vw;
+        overflow: hidden;
+    }
+
+
+
+    .imagen_slider{
+        min-width: 100%;
+        min-height: 100%;
+        border: 1px solid black;
+    }
+
+    .imagen_slider:nth-child(1){
+        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+    }
+
+    .imagen_slider:nth-child(2){
+        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+    }
+
+    .imagen_slider:nth-child(3){
+        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+    }
+
+    .imagen_slider:nth-child(4){
+        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
     }
 
     .Cont_voces_y_Desafinacion{
