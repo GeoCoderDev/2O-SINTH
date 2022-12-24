@@ -264,6 +264,40 @@ body{
         border-radius: 1vw;
         box-shadow: 0 0 0.7vw 0.2vw inset rgba(0, 0, 0, 0.408);
         background-image:radial-gradient(rgb(230,230,230),rgb(227, 227, 227));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+    }
+
+    .titulo_osc{
+        font-size: 1.75vw;
+    }
+
+    .Cont_tipos_de_onda{
+        width: 90%;
+        height: 30%;
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .Titulo_tipo_onda{
+        font-size: 1vw;
+    }   
+
+    #cont_slider_de_imagenes_1{
+        width: 50%;
+        height: 80%;
+        border: 1px solid black;
+    }
+
+    .Cont_voces_y_Desafinacion{
+        width: 90%;
+        height: 30%;
+        border: 1px solid black;
     }
 
     #cont_analizador{
