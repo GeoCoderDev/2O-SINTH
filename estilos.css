@@ -325,7 +325,7 @@ body{
         justify-content:space-around;
         font-size: 1.5vw;
         font-family: monospace;
-        animation:elevar_y_bajar 1s ease-in infinite;
+        animation: elevar_y_bajar 1s ease-in infinite;
         border-radius: 1vw;
         /* background-color: white; */
         /* background-image: radial-gradient(white,rgb(0, 0, 0)); */
@@ -334,40 +334,61 @@ body{
     #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover{
         cursor: pointer;
         animation: none;
+
+    }
+
+
+    #cont_slider_ondas_1{
+        width: 40%;
+        height: 100%;
+        /* border: 0.2vw solid rgb(160, 160, 160);                 */
+        overflow: hidden;        
     }
 
     #slider_de_imagenes_ondas_1{
-        width: 40%;
+        width: 400%;
         height: 100%;
-        border: 1px solid black;
         display: flex;
         flex-direction: row;
-        border-radius: 0.75vw;
-        overflow: hidden;
+        margin-left: -100%;
     }
-
-
 
     .imagen_slider{
-        min-width: 100%;
+        min-width: 25%;
         min-height: 100%;
-        border: 1px solid black;
+        object-fit: cover;
+        background-position: center;
+        margin-right: 20%vw;
+        /* border: 1px solid black; */
     }
 
-    .imagen_slider:nth-child(1){
-        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
-    }
 
-    .imagen_slider:nth-child(2){
-        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+    #imagen_onda_sen_1{        
+        width:80%;
+        height: 100%;
+        margin: auto;
+        background-image: url('/Assets/Imagenes/Onda\ Senoidal\ icon.png');
     }
-
-    .imagen_slider:nth-child(3){
-        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+                                            
+    #imagen_onda_tri_1{
+        width:80%;
+        height: 100%;
+        margin: auto;
+        background-image: url('/Assets/Imagenes/Onda\ Triangular\ Icon.png');
     }
-
-    .imagen_slider:nth-child(4){
-        background-image: url('/Assets/Imagenes/Sinth\ Icono.png');
+    
+    #imagen_onda_cuadrada_1{
+        width:80%;
+        height: 100%;
+        margin: auto;
+        background-image: url('/Assets/Imagenes/Onda\ Cuadrada\ Icon.png');
+    }
+    
+    #imagen_onda_dientesierra_1{
+        width:80%;
+        height: 100%;
+        margin: auto;
+        background-image: url('/Assets/Imagenes/Onda\ diente\ de\ sierra\ icon.png');
     }
 
     .Cont_voces_y_Desafinacion{
@@ -445,7 +466,7 @@ body{
     }
 
     input[type="range"]{
-        -webkit-appearance: none;
+        appearance: none;
         outline: none;
         border: none; 
     }
