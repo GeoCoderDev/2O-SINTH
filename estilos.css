@@ -326,9 +326,9 @@ body{
         flex-direction: row;
         flex-wrap: wrap;
         overflow:hidden;
-        border-top:0.2vw solid black;
-        border-image: linear-gradient(to bottom,rgb(167, 165, 165),black) 1;
-        padding: 0 0.3% 0.7% 0.3%;
+        border-top:0.1vw solid black;
+        border-image: linear-gradient(to bottom,rgb(167, 165, 165),rgb(157, 149, 149)) 100;
+        padding: 0 0.4% 0.7% 0.3%;
         /* border-radius: 1vw; */
         box-shadow: 0 0 0.3vw 0.1vw inset rgba(0, 0, 0, 0.408);
     }
