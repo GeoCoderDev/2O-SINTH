@@ -6,6 +6,7 @@
     background-repeat: no-repeat;
     background-position: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    scroll-behavior: smooth;
 }
 
 body{
@@ -164,6 +165,10 @@ body{
 
     }
 
+    .Seccion-en-Vista{
+        visibility: initial;
+    }
+
     .icono-barra-navegacion{
         width:65%;
         height: 17%;
@@ -192,10 +197,11 @@ body{
         /* background-color:#ffa6009b; */
         border-radius:70%/30%;
         position:sticky;
-        top:32.5vh;
         margin-top: -67.5vh;
-        margin-bottom: 55vh;
-        border:0.6vh solid  rgba(73, 71, 71, 0.6);        
+        top:32.5vh;      
+        margin-bottom: 55vh; 
+        border:0.6vh solid  rgba(73, 71, 71, 0.6);    
+        transition: 0.2s;    
     }
 
     #todas-las-secciones-contenedor{

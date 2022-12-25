@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <header>
+    <header id="f">
         <div id="seccion-header-left">
             <div id="logo"></div>
             <div id="texto-2o-sinth">2O SINTH</div>
@@ -22,17 +22,17 @@
     <div id="contenido-todo">
         <div id="barra-navegacion-contenedor">
             <div id="barra-navegacion">
-                <a href="#" title="Sintetizador" class="icono-barra-navegacion"></a>
-                <a href="#" title="Efectos" class="icono-barra-navegacion"></a>
-                <a href="#" title="Secuenciador de Melodias" class="icono-barra-navegacion"></a>
-                <a href="#" title="Secuenciador de Ritmos" class="icono-barra-navegacion"></a>
+                <a href="javascript:window.scroll(0, 0);" title="Sintetizador" class="icono-barra-navegacion"></a>
+                <a href="javascript:window.scroll(0, 617);" title="Efectos" class="icono-barra-navegacion"></a>
+                <a href="javascript:window.scroll(0, 1235);" title="Secuenciador de Melodias" class="icono-barra-navegacion"></a>
+                <a href="javascript:window.scroll(0, 1850);" title="Secuenciador de Ritmos" class="icono-barra-navegacion"></a>
             </div>
             <div id="indicador"></div>
         </div>
 
         <div id="todas-las-secciones-contenedor">
 
-            <div id="contenedor-sintetizador" class="contenedor-seccion">
+            <div id="contenedor-sintetizador" class="contenedor-seccion" data-numero_seccion="1">
                 <h1 class="titulo-seccion">SINTETIZADOR</h1>
                 <div id="sintetizador">                    
                     <div id="primera-mitad">
@@ -208,15 +208,15 @@
                 </div>
             </div>
 
-            <div id="contenedor-efectos" class="contenedor-seccion">
+            <div id="contenedor-efectos" class="contenedor-seccion" data-numero_seccion="2">
                 <h1 class="titulo-seccion">EFECTOS</h1>
             </div>
 
-            <div id="contenedor-secuenciador-melodias" class="contenedor-seccion">
+            <div id="contenedor-secuenciador-melodias" class="contenedor-seccion" data-numero_seccion="3">
                 <h1 class="titulo-seccion">SECUENCIADOR DE MELODIAS</h1>
             </div>
 
-            <div id="contenedor-secuenciador-ritmos" class="contenedor-seccion">
+            <div id="contenedor-secuenciador-ritmos" class="contenedor-seccion" data-numero_seccion="4">
                 <h1 class="titulo-seccion">SECUENCIADOR DE RITMOS</h1>
             </div>
 
@@ -240,8 +240,8 @@
         <h1 id="Mensaje-portrait-text">POR FAVOR GIRE LA PANTALLA</h1>
         <div id="Imagen-voltear"></div>
     </div>
-
     <script src="./Assets/JavaScript/principal.js"></script>
+    <script src="./Assets/JavaScript/Observadores.js"></script>            
     <script src="./Assets/JavaScript/Slider_imagenes_tipos_de_ondas.js"></script>
     <script src="./Assets/JavaScript/Sintetizador.js"></script>
 
