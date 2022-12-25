@@ -34,12 +34,16 @@ Observador_de_Secciones.observe(seccion_secuenciador_de_ritmos);
 
 var iconos_de_barra_de_navegacion = document.getElementsByClassName('icono-barra-navegacion');
 
+var unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? screen.height/100:screen.width/100;
 
-// alert(seccion_efectos.getBoundingClientRect().bottom);
+iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
+    window.scroll(0,80.45 * unidad_vh_en_px);
+});
 
-// iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
-//     window.scroll(0,seccion_efectos.getBoundingClientRect().top)
-// });
+iconos_de_barra_de_navegacion[2].addEventListener('click',()=>{
+    window.scroll(0,80.45 * unidad_vh_en_px * 2);
+});
 
-var g6 = document.getElementById('C6');
-g6.innerText = screen.height;
+iconos_de_barra_de_navegacion[3].addEventListener('click',()=>{
+    window.scroll(0,80.45 * unidad_vh_en_px * 3);
+});

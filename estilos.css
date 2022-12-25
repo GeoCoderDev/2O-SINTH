@@ -175,6 +175,10 @@ body{
         /* border: 1px solid black; */
     }
 
+    .icono-barra-navegacion:hover{
+        cursor: pointer;
+    }
+
     .icono-barra-navegacion:nth-child(1){
         background-image: url('./Assets/Imagenes/Sinth\ Icono.png');
     }
