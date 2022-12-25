@@ -31,3 +31,15 @@ Observador_de_Secciones.observe(seccion_efectos);
 Observador_de_Secciones.observe(seccion_secuenciador_melodias);
 Observador_de_Secciones.observe(seccion_secuenciador_de_ritmos);
 
+
+var iconos_de_barra_de_navegacion = document.getElementsByClassName('icono-barra-navegacion');
+
+
+// alert(seccion_efectos.getBoundingClientRect().bottom);
+
+// iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
+//     window.scroll(0,seccion_efectos.getBoundingClientRect().top)
+// });
+
+var g6 = document.getElementById('C6');
+g6.innerText = screen.height;
