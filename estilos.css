@@ -257,7 +257,7 @@ body{
         /* border: 1px solid black; */
     }
 
-    #primer-oscilador{
+    #primer-oscilador, #segundo-oscilador{
         width: 30%;
         height: 100%;
         /* border: 1px solid black; */
@@ -287,7 +287,7 @@ body{
         font-size: 1vw;
     }   
 
-    #cont_slider_de_imagenes_1{
+    #cont_slider_de_imagenes_1, #cont_slider_de_imagenes_2{
         width: 52%;
         height: 85%;
         /* border: 1px solid black; */
@@ -314,7 +314,7 @@ body{
         }
     }
 
-    #boton_slider_izquierda_1,#boton_slider_derecha_1{
+    #boton_slider_izquierda_1,#boton_slider_derecha_1,#boton_slider_izquierda_2,#boton_slider_derecha_2{
         position: relative;
         width: 25%;
         height: 80%;
@@ -331,21 +331,21 @@ body{
         /* background-image: radial-gradient(white,rgb(0, 0, 0)); */
     }
 
-    #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover{
+    #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover,#boton_slider_izquierda_2:hover,#boton_slider_derecha_2:hover{
         cursor: pointer;
         animation: none;
 
     }
 
 
-    #cont_slider_ondas_1{
+    #cont_slider_ondas_1,#cont_slider_ondas_2{
         width: 40%;
         height: 100%;
         /* border: 0.2vw solid rgb(160, 160, 160);                 */
         overflow: hidden;        
     }
 
-    #slider_de_imagenes_ondas_1{
+    #slider_de_imagenes_ondas_1,#slider_de_imagenes_ondas_2{
         width: 400%;
         height: 100%;
         display: flex;
@@ -363,38 +363,39 @@ body{
     }
 
 
-    #imagen_onda_sen_1{        
+    #imagen_onda_sen_1,#imagen_onda_sen_2{        
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('/Assets/Imagenes/Onda\ Senoidal\ icon.png');
     }
                                             
-    #imagen_onda_tri_1{
+    #imagen_onda_tri_1, #imagen_onda_tri_2{
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('/Assets/Imagenes/Onda\ Triangular\ Icon.png');
     }
     
-    #imagen_onda_cuadrada_1{
+    #imagen_onda_cuadrada_1,#imagen_onda_cuadrada_2{
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('/Assets/Imagenes/Onda\ Cuadrada\ Icon.png');
     }
     
-    #imagen_onda_dientesierra_1{
+    #imagen_onda_dientesierra_1,#imagen_onda_dientesierra_2{
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('/Assets/Imagenes/Onda\ diente\ de\ sierra\ icon.png');
     }
 
-    .Cont_voces_y_Desafinacion{
+
+    .Cont_voces_y_Desafinacion_1,.Cont_voces_y_Desafinacion_2{
         width: 90%;
         height: 30%;
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
 
     #cont_analizador{
@@ -504,7 +505,9 @@ body{
     #titulo_volumen{
         font-size: 1.2vw;
     }
-
+/* =================================================================================================================
+    SUB-SECCION TECLAS
+   ================================================================================================================= */
     #contenedor-teclas{
         width: 84%;
         height:100%;
@@ -619,6 +622,10 @@ body{
         z-index:8;
         background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
     }
+
+    /*=================================================================================================================
+    FORMULARIOS DE GUARDADO
+    ================================================================================================================= */
 
     #formulario-de-guardado-contenedor{
         width: 20%;
