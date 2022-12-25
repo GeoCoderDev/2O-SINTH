@@ -368,28 +368,28 @@ body{
         width:80%;
         height: 100%;
         margin: auto;
-        background-image: url('/Assets/Imagenes/Onda\ Senoidal\ icon.png');
+        background-image: url('./Assets/Imagenes/Onda\ Senoidal\ icon.png');
     }
                                             
     #imagen_onda_tri_1, #imagen_onda_tri_2{
         width:80%;
         height: 100%;
         margin: auto;
-        background-image: url('/Assets/Imagenes/Onda\ Triangular\ Icon.png');
+        background-image: url('./Assets/Imagenes/Onda\ Triangular\ Icon.png');
     }
     
     #imagen_onda_cuadrada_1,#imagen_onda_cuadrada_2{
         width:80%;
         height: 100%;
         margin: auto;
-        background-image: url('/Assets/Imagenes/Onda\ Cuadrada\ Icon.png');
+        background-image: url('./Assets/Imagenes/Onda\ Cuadrada\ Icon.png');
     }
     
     #imagen_onda_dientesierra_1,#imagen_onda_dientesierra_2{
         width:80%;
         height: 100%;
         margin: auto;
-        background-image: url('/Assets/Imagenes/Onda\ diente\ de\ sierra\ icon.png');
+        background-image: url('./Assets/Imagenes/Onda\ diente\ de\ sierra\ icon.png');
     }
 
 
