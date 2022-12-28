@@ -250,7 +250,7 @@ body{
         background-color: rgb(239,238,236);
         background-image: linear-gradient(to right bottom, rgb(239,238,236), rgb(214, 208, 208));
         box-shadow: 0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408),
-                    1vh 1vh 2vh rgba(73, 71, 71, 0.408);;        
+                    1vh 1vh 2vh rgba(73, 71, 71, 0.408);        
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -659,6 +659,107 @@ body{
         z-index:8;
         background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
     }
+
+    /*=================================================================================================================
+    EFECTOS
+    ================================================================================================================= */
+    #seccion-efectos{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+    }
+    
+    #contenedor-efectos{
+        display:flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 95%;
+        height: 83%;
+        /* border: 1px solid black; */
+    }
+
+    #Primera_fila{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 25%;
+        height: 95%;
+        /* border: 1px solid black; */
+    }
+
+    #cont-amplificador{
+        width: 100%;
+        height:45%;
+        background-color: #edce98;
+    }
+
+    #cont-LFO{
+        width: 100%;
+        height:52%;
+        background-color: #cae9c0;
+    }
+
+    #Segunda_fila{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 30%;
+        height: 95%;
+        /* border: 1px solid black; */
+    }
+
+    #cont-filtro{
+        width: 100%;
+        height:60%;
+        background-color: #f0afe6;
+    }
+
+    #cont-Distorsion{
+        width: 100%;
+        height:37%;
+        background-color: #efa1a1;
+    }
+
+    #Tercera_fila{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 25%;
+        height: 95%;
+        /* border: 1px solid black; */
+    }
+
+    #cont-reverb{
+        width: 100%;
+        height:45%;
+        background-color: #bae7f0;
+    }
+
+    #cont-eco{
+        width: 100%;
+        height:52%;
+        background-color: #a3a6f0;
+    }
+
+    #cont-master-pan{
+        width: 10%;
+        height: 95%;
+        background-color: #fbe5b6;
+    }
+
+    .efecto{    
+        /* border: 1px solid black; */
+        border-radius: 1vw;
+        box-shadow: 0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408),
+        1vh 1vh 2vh rgba(73, 71, 71, 0.408); 
+        
+    }
+
 
     /*=================================================================================================================
     FORMULARIOS DE GUARDADO
