@@ -1,5 +1,5 @@
 const seccion_sintetizador = document.getElementById('contenedor-sintetizador');
-const seccion_efectos = document.getElementById('contenedor-efectos'); 
+const seccion_efectos = document.getElementById('seccion-efectos'); 
 const seccion_secuenciador_melodias = document.getElementById('contenedor-secuenciador-melodias');
 const seccion_secuenciador_de_ritmos = document.getElementById('contenedor-secuenciador-ritmos');
 var seccion_en_vista;
