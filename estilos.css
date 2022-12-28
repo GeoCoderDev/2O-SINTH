@@ -503,14 +503,14 @@ body{
         height: 74%;
     }
 
-    input[type="range"]{
+    #sintetizador input[type="range"]{
         appearance: none;
         outline: none;
         border: none; 
     }
 
 
-    input[type="range"]::-webkit-slider-thumb{
+    #sintetizador input[type="range"]::-webkit-slider-thumb{
         -webkit-appearance: none;
         width: 1.2vw;
         height: 2.2vw;
@@ -523,7 +523,7 @@ body{
         border:2px solid black
     }
 
-    input[type="range"]::-webkit-slider-runnable-track{
+    #sintetizador input[type="range"]::-webkit-slider-runnable-track{
         -webkit-appearance: none;
         height: 0.4vw;
         border-radius: 0.5vw;    
@@ -690,11 +690,78 @@ body{
         /* border: 1px solid black; */
     }
 
+    .titulo-efecto{
+        font-size: 1.5vw;
+    }
+
     #cont-amplificador{
         width: 100%;
         height:45%;
         background-color: #edce98;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        padding-bottom:0.5vw;;
+        border: 1px solid black;
     }
+
+    #Cont-deslizadores-amplificador{
+        width:90%;
+        height: 75%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 14fr 2fr;
+        align-items: center;
+        justify-items: center;                
+    }
+
+    #cont-amplificador input[type="range"]{
+        position: absolute;
+        appearance: none;
+        outline: none;
+        border: none; 
+        transform: rotate(-90deg);
+        width: 7vw;
+    }
+
+    #cont-amplificador input[type="range"]::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        width: 0.9vw;
+        height: 1.6vw;
+        background-color: white;
+        background-image: linear-gradient(to left,black 30%,rgb(255, 255, 255) 50%, rgb(0, 0, 0) 70%),
+                          linear-gradient(to right,#111 0 2px);
+        cursor: pointer;
+        border-radius:0.3vw;
+        transform: translateY(-0.7vw);
+        border:2px solid black
+    }
+
+    #cont-amplificador input[type="range"]::-webkit-slider-runnable-track{
+        -webkit-appearance: none;
+        border-radius: 0.5vw;    
+        border: 0.1vw solid rgba(0, 0, 0,0.8);
+        background-color: rgb(87, 86, 70);
+        box-shadow: 0 0 0.5vw 0.1vw rgba(82, 77, 22, 0.8);    
+        height: 0.4vw;
+
+    }
+
+    .cont-un-dezlizador{        
+        height: 85%;
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border: 1px solid black; */
+    }
+    
+
+
+
+
+
 
     #cont-LFO{
         width: 100%;
@@ -757,7 +824,7 @@ body{
         border-radius: 1vw;
         box-shadow: 0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408),
         1vh 1vh 2vh rgba(73, 71, 71, 0.408); 
-        
+        color: rgb(146, 144, 106);
     }
 
 
