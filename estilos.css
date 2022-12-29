@@ -563,7 +563,7 @@ body{
     .tecla_blanca{
         width:calc(100% / 22); 
         height:100%; 
-        background-color: white;
+
         border: 1px solid black;
         background-color: white;
         border:1px solid #ccc;
@@ -690,8 +690,38 @@ body{
         /* border: 1px solid black; */
     }
 
-    .titulo-efecto{
+    #cont-LFO{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 0.5vw 0.1vw;
+    }
+
+    #cont-amplificador .titulo-efecto{
         font-size: 1.5vw;
+    }
+
+    #cont-LFO .titulo-efecto{
+        font-size:2vw;
+    }
+
+    #cont-slider-ondas-lfo{
+        width: 90%;
+        height: 25%;
+        border: 1px solid black;
+    }
+
+    #cont-frecuencia-lfo{
+        width:90%;
+        height: 20%;
+        border: 1px solid black;
+    }
+
+    #cont-retraso-lfo{
+        width:90%;
+        height: 20%;
+        border: 1px solid black;
     }
 
     #cont-amplificador{
@@ -703,7 +733,6 @@ body{
         align-items: center;
         justify-content: space-evenly;
         padding-bottom:0.5vw;;
-        border: 1px solid black;
     }
 
     #Cont-deslizadores-amplificador{
@@ -735,13 +764,13 @@ body{
         cursor: pointer;
         border-radius:0.3vw;
         transform: translateY(-0.7vw);
-        border:2px solid black
+        border:2px solid rgb(0, 0, 0)
     }
 
     #cont-amplificador input[type="range"]::-webkit-slider-runnable-track{
         -webkit-appearance: none;
         border-radius: 0.5vw;    
-        border: 0.1vw solid rgba(0, 0, 0,0.8);
+        border: 0.1vw solid rgba(30, 30, 12, 0.8);
         background-color: rgb(87, 86, 70);
         box-shadow: 0 0 0.5vw 0.1vw rgba(82, 77, 22, 0.8);    
         height: 0.4vw;
@@ -757,10 +786,6 @@ body{
         /* border: 1px solid black; */
     }
     
-
-
-
-
 
 
     #cont-LFO{

@@ -218,16 +218,16 @@
                             <div class="titulo-efecto">AMPLIFICADOR</div>
                             <div id="Cont-deslizadores-amplificador">
                                 <div class="cont-un-dezlizador">
-                                    <input type="range" id="Amp-Ataque-Slider">
+                                    <input type="range" id="Amp-Ataque-Slider" min="0" max="100" value="0">
                                 </div>
                                 <div class="cont-un-dezlizador">
-                                    <input type="range" id="Amp-Decay-Slider">
+                                    <input type="range" id="Amp-Decay-Slider" min="0" max="100" value="0">
                                 </div>
                                 <div class="cont-un-dezlizador">
-                                    <input type="range" id="Amp-Sustain-Slider">
+                                    <input type="range" id="Amp-Sustain-Slider" min="0" max="100" value="0">
                                 </div>
                                 <div class="cont-un-dezlizador">
-                                    <input type="range" id="Amp-Release-Slider">
+                                    <input type="range" id="Amp-Release-Slider" min="0" max="100" value="0">
                                 </div>
                                 <div class="titulo-dezlizador-amplificador">A</div>
                                 <div class="titulo-dezlizador-amplificador">D</div>
@@ -236,7 +236,20 @@
                             </div>
                         </div>
 
-                        <div id="cont-LFO" class="efecto"></div>
+                        <div id="cont-LFO" class="efecto">
+
+                            <div class="titulo-efecto">LFO</div>
+
+                            <div id="cont-slider-ondas-lfo">
+
+                            </div>
+
+                            <div id="cont-frecuencia-lfo"></div>
+
+                            <div id="cont-retraso-lfo"></div>
+
+                        </div>
+
                     </div>
 
                     <div id="Segunda_fila">                    
