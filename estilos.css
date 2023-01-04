@@ -298,7 +298,7 @@ body{
         font-size: 1vw;
     }   
 
-    #cont_slider_de_imagenes_1, #cont_slider_de_imagenes_2{
+    #cont_slider_de_imagenes_1, #cont_slider_de_imagenes_2,#cont_slider_de_imagenes_3{
         width: 52%;
         height: 85%;
         /* border: 1px solid black; */
@@ -325,7 +325,8 @@ body{
         }
     }
 
-    #boton_slider_izquierda_1,#boton_slider_derecha_1,#boton_slider_izquierda_2,#boton_slider_derecha_2{
+    #boton_slider_izquierda_1,#boton_slider_derecha_1,#boton_slider_izquierda_2,#boton_slider_derecha_2,
+    #boton_slider_izquierda_3,#boton_slider_derecha_3{
         position: relative;
         width: 25%;
         height: 80%;
@@ -342,21 +343,22 @@ body{
         /* background-image: radial-gradient(white,rgb(0, 0, 0)); */
     }
 
-    #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover,#boton_slider_izquierda_2:hover,#boton_slider_derecha_2:hover{
+    #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover,#boton_slider_izquierda_2:hover,#boton_slider_derecha_2:hover,
+    #boton_slider_izquierda_3:hover,#boton_slider_derecha_3:hover{
         cursor: pointer;
         animation: none;
 
     }
 
 
-    #cont_slider_ondas_1,#cont_slider_ondas_2{
+    #cont_slider_ondas_1,#cont_slider_ondas_2,#cont_slider_ondas_3{
         width: 40%;
         height: 100%;
         /* border: 0.2vw solid rgb(160, 160, 160);                 */
         overflow: hidden;        
     }
 
-    #slider_de_imagenes_ondas_1,#slider_de_imagenes_ondas_2{
+    #slider_de_imagenes_ondas_1,#slider_de_imagenes_ondas_2,#slider_de_imagenes_ondas_3{
         width: 400%;
         height: 100%;
         display: flex;
@@ -374,28 +376,28 @@ body{
     }
 
 
-    #imagen_onda_sen_1,#imagen_onda_sen_2{        
+    #imagen_onda_sen_1,#imagen_onda_sen_2,#imagen_onda_sen_3{        
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('./Assets/Imagenes/Onda\ Senoidal\ icon.png');
     }
                                             
-    #imagen_onda_tri_1, #imagen_onda_tri_2{
+    #imagen_onda_tri_1, #imagen_onda_tri_2, #imagen_onda_tri_3{
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('./Assets/Imagenes/Onda\ Triangular\ Icon.png');
     }
     
-    #imagen_onda_cuadrada_1,#imagen_onda_cuadrada_2{
+    #imagen_onda_cuadrada_1,#imagen_onda_cuadrada_2 ,#imagen_onda_cuadrada_3{
         width:80%;
         height: 100%;
         margin: auto;
         background-image: url('./Assets/Imagenes/Onda\ Cuadrada\ Icon.png');
     }
     
-    #imagen_onda_dientesierra_1,#imagen_onda_dientesierra_2{
+    #imagen_onda_dientesierra_1,#imagen_onda_dientesierra_2, #imagen_onda_dientesierra_3{
         width:80%;
         height: 100%;
         margin: auto;
@@ -709,20 +711,45 @@ body{
     #cont-slider-ondas-lfo{
         width: 90%;
         height: 25%;
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
 
-    #cont-frecuencia-lfo{
-        width:90%;
-        height: 20%;
-        border: 1px solid black;
+    #cont-control-a-controlar{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 84%;
+        height: 15%;
     }
 
-    #cont-retraso-lfo{
-        width:90%;
-        height: 20%;
-        border: 1px solid black;
+    #Control-a-controlar-LFO{
+        width: 50%;
+        background-color: transparent;
+        text-align: center;
+        border-radius: 0.5vw;
+        border: 0.2vw solid rgb(146, 144, 106);
+        color: rgb(146, 144, 106);
     }
+
+    #cont-knobs-lfo{
+        width:90%;
+        height: 40%;
+        /* border: 1px solid black; */
+    }
+
+    .knob::after{
+        position: relative;
+        top:15px;
+        left:50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 10px;
+        background:rgb(169, 16, 16);
+        box-shadow: 0px 0px 10px #349beb;
+        border-radius: 50%;
+        z-index:7
+    }
+    
 
     #cont-amplificador{
         width: 100%;

@@ -18,7 +18,7 @@ const encontrando_secciones = (entradas, observador) => {
     });    
 };
 
-var g = new AudioContext().create;
+
 
 const Observador_de_Secciones = new IntersectionObserver(encontrando_secciones,{
     root: null,

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2O SINTH</title>
     <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="Assets/CSS/Knobs_Giratorios.css">
     <link rel="shortcut icon" href="Assets/Imagenes/Logo 2O SYNTH V3.png" type="image/x-icon">
     <script src="config.js"></script>
 </head>
@@ -240,13 +241,55 @@
 
                             <div class="titulo-efecto">LFO</div>
 
-                            <div id="cont-slider-ondas-lfo">
+                            <div id="cont-slider-ondas-lfo" class="Cont_tipos_de_onda">
 
+                                <div class="Titulo_tipo_onda">Tipo de onda:</div>
+
+                                <div id="cont_slider_de_imagenes_3">
+                                    
+                                    <div id="boton_slider_izquierda_3">&#60</div>                                    
+                                                                        
+                                    <div id="cont_slider_ondas_3">
+                                        
+                                        <div id="slider_de_imagenes_ondas_3">                                        
+                                            
+                                            <div class="imagen_slider" title="Senoidal">
+                                                <div id="imagen_onda_sen_3"></div>                                                    
+                                            </div>
+                                            
+                                            <div class="imagen_slider" title="Triangular">
+                                                <div id="imagen_onda_tri_3"></div> 
+                                            </div>
+                                            
+                                            <div class="imagen_slider" title="Cuadrada">
+                                                <div id="imagen_onda_cuadrada_3"></div> 
+                                            </div>
+                                            
+                                            <div class="imagen_slider" title="Diente de Sierra">
+                                                <div id="imagen_onda_dientesierra_3"></div>
+                                            </div>
+                                        
+                                        </div>
+                                    
+                                    </div>
+
+                                    <div id="boton_slider_derecha_3">&#62</div>
+
+                                </div>
                             </div>
 
-                            <div id="cont-frecuencia-lfo"></div>
+                            <div id="cont-control-a-controlar">
+                                <div>CONTROL:</div>
+                                <select id="Control-a-controlar-LFO">
+                                    <option value="">NINGUNO</option>
+                                    <option value="">TONO</option>
+                                    <option value="">PAN</option>
+                                </select>
+                            </div>
 
-                            <div id="cont-retraso-lfo"></div>
+                            <div id="cont-knobs-lfo">
+                                
+                            </div>                    
 
                         </div>
 
@@ -297,6 +340,7 @@
     <script src="./Assets/JavaScript/principal.js"></script>
     <script src="./Assets/JavaScript/Observadores.js"></script>            
     <script src="./Assets/JavaScript/Slider_imagenes_tipos_de_ondas.js"></script>
+    <script src="./Assets/JavaScript/Knobs_Giratorios.js"></script>
     <script src="./Assets/JavaScript/Sintetizador.js"></script>
 
 
