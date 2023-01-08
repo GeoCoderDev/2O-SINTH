@@ -1,9 +1,3 @@
-var contenedorKnobsLFO = document.getElementById('cont-knobs-lfo');
-
-// alert(`${document.getElementById('cont-amplificador').getBoundingClientRect().left},${document.getElementById('cont-amplificador').getBoundingClientRect().top}`)
-
-// var unidad_vw_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerWidth/100:windows.innerHeight/100;
-
 function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
     const OriginX = ObjetoX + (ancho_O_altoKnob/2);
     const OriginY = ObjetoY + (ancho_O_altoKnob/2);    
@@ -11,8 +5,7 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
     const PosYMouse = e.clientY;
     const PosXMouseWithKnobAsReference = PosXMouse - OriginX;
     const PosYMouseWithKnobAsReference = OriginY - PosYMouse;
-    // alert(`${PosXMouseWithKnobAsReference},${PosYMouseWithKnobAsReference}`);
-    // alert(`${PosXMouse},${PosYMouse}`);
+
     let grados;
 
     if(PosXMouseWithKnobAsReference>=0 && PosYMouseWithKnobAsReference>=0){
@@ -44,9 +37,15 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
 }
 
 
+function gradosCSSaValorKnob(gradosCSS,limiteInferior,limiteSuperior){
+    return (((gradosCSS+135)*(limiteSuperior-limiteInferior))/270);
+}
 
+function ValorKnobAGradosCSS(valorKnob,limiteInferior,limiteSuperior){
+    return ((valorKnob*270)/(limiteSuperior-limiteInferior)-135);
+}
 
-function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKnobs,cantidadKnobsPorFila,textoKnobs,idKnobs){
+function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKnobs,cantidadKnobsPorFila,textoKnobs,idKnobs,limitesInferiores,limitesSuperiores){
     contenedorDeKnobs.style.display = "flex";
     contenedorDeKnobs.style.flexWrap = "wrap";
     contenedorDeKnobs.style.alignItems = "center"
@@ -60,6 +59,8 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
     let altoContenedoresDeKnobs = ((100/(Math.ceil(cantidadKnobs/cantidadKnobsPorFila)))-1) + "%";
     let datosGeometricosKnob = [];
     let funcionesRotate = [];
+    let mascarasDeArrastre = [];
+    let knobsValues = [];
 
     for(let i = 0; i < cantidadKnobs; i++){
 
@@ -88,6 +89,10 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
                                        0vw 0vw 0.2vw 0.2vw inset`; 
             Knobs[i].style.transform = 'rotate(-135deg)';
 
+            //Inicializando matriz de valores de los knobs con 0
+
+            knobsValues[i] = 0;
+
                 //CREACION DE UN INDICADOR
                 indicadores_knobs[i] = document.createElement('div');
                 indicadores_knobs[i].style.position = "relative"
@@ -110,33 +115,45 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
 
         //AÑADIENDO EVENTOS
              
+        Knobs[i].addEventListener("mousedown",function(){                    
 
-        Knobs[i].addEventListener("mousedown",function(){
+            //DEFINIENDO LAS MASCARAS DE PARA ARRASTRAR LIBREMENTE POR TODA LA PANTALLA
+            mascarasDeArrastre[i] = document.createElement('div');
+            mascarasDeArrastre[i].style.position = 'fixed';
+            mascarasDeArrastre[i].style.top = '0';
+            mascarasDeArrastre[i].style.left = '0';
+            mascarasDeArrastre[i].style.width = "100vw";
+            mascarasDeArrastre[i].style.height = "100vh";
+            mascarasDeArrastre[i].style.zIndex = "101";
 
+            //Insertando Mascara de Arrastre Invisible en el contenedor de knobs
+            contenedorDeKnobs.appendChild(mascarasDeArrastre[i]);
+
+            //Funcion de Rotacion
             funcionesRotate[i] = (e) => {
                 datosGeometricosKnob[i] = Knobs[i].getBoundingClientRect();
-                Knobs[i].style.transform = `rotate(${calcularGrados(e,datosGeometricosKnob[i].left,datosGeometricosKnob[i].top,datosGeometricosKnob[i].width)}deg)`;
+                let rotacion = calcularGrados(e,datosGeometricosKnob[i].left,datosGeometricosKnob[i].top,datosGeometricosKnob[i].width);
+                Knobs[i].style.transform = `rotate(${rotacion}deg)`;
+                knobsValues[i] = gradosCSSaValorKnob(rotacion,limitesInferiores[i],limitesSuperiores[i]);
             }
+            
+            mascarasDeArrastre[i].addEventListener("mousemove",funcionesRotate[i]);
 
-            Knobs[i].addEventListener("mousemove",funcionesRotate[i]);
-
-            Knobs[i].addEventListener("mouseup",function(){
-                Knobs[i].removeEventListener('mousemove',funcionesRotate[i]);                       
+            mascarasDeArrastre[i].addEventListener("mouseup",function(){
+                mascarasDeArrastre[i].removeEventListener('mousemove',funcionesRotate[i]);   
+                contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);         
             })                
 
         });
 
-        
-
-
-
     }
 
+    return knobsValues;
 
 }; 
 
-insertaKnobsEn(contenedorKnobsLFO,"3vw","1vw",3,3,["Retraso","Amplitud","Velocidad"],["Knob-Retraso-LFO","Knob-Amplitud-LFO","Knob-Velocidad-LFO"]);
-
+var contenedorKnobsLFO = document.getElementById('cont-knobs-lfo');
+var LFOKnobsValues = insertaKnobsEn(contenedorKnobsLFO,"2.8vw","1vw",3,3,["Retraso","Amplitud","Velocidad"],["Knob-Retraso-LFO","Knob-Amplitud-LFO","Knob-Velocidad-LFO"],[0,0,0],[100,100,100]);
 
 
 

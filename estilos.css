@@ -70,7 +70,7 @@ body{
         flex-direction: row;
         align-items: center;   
         justify-content: space-between;
-        z-index:4;
+        z-index:100;
     }
     
     #seccion-header-left{
@@ -723,6 +723,10 @@ body{
         height: 15%;
     }
 
+    .textosLFO{
+        font-size: 1.2vw;
+    }
+
     #Control-a-controlar-LFO{
         width: 50%;
         background-color: transparent;
@@ -730,6 +734,7 @@ body{
         border-radius: 0.5vw;
         border: 0.2vw solid rgb(146, 144, 106);
         color: rgb(146, 144, 106);
+        font-size: 0.8vw;
     }
 
     #cont-knobs-lfo{
