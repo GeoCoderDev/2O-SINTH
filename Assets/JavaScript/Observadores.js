@@ -23,7 +23,7 @@ const encontrando_secciones = (entradas, observador) => {
 const Observador_de_Secciones = new IntersectionObserver(encontrando_secciones,{
     root: null,
     rootMargin: '0px 0px 0px 0px',
-    threshold: 1.0    
+    threshold: 0.97    
 });
 
 Observador_de_Secciones.observe(seccion_sintetizador);
@@ -35,16 +35,23 @@ Observador_de_Secciones.observe(seccion_secuenciador_de_ritmos);
 
 var iconos_de_barra_de_navegacion = document.getElementsByClassName('icono-barra-navegacion');
 
-var unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
+function asignarEventosParaBotonesDeNavegacion(){
 
-iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
-    window.scroll(0,98.8 * unidad_vh_en_px);
-});
+    var unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
 
-iconos_de_barra_de_navegacion[2].addEventListener('click',()=>{
-    window.scroll(0,98.75 * unidad_vh_en_px * 2);
-});
+    iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
+        window.scroll(0,98.8 * unidad_vh_en_px);
+    });
+    
+    iconos_de_barra_de_navegacion[2].addEventListener('click',()=>{
+        window.scroll(0,98.75 * unidad_vh_en_px * 2);
+    });
+    
+    iconos_de_barra_de_navegacion[3].addEventListener('click',()=>{
+        window.scroll(0,98.7 * unidad_vh_en_px * 3);
+    });
 
-iconos_de_barra_de_navegacion[3].addEventListener('click',()=>{
-    window.scroll(0,98.7 * unidad_vh_en_px * 3);
-});
+}
+
+window.addEventListener('load',asignarEventosParaBotonesDeNavegacion);
+window.addEventListener('resize',asignarEventosParaBotonesDeNavegacion);

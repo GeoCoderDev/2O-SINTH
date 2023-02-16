@@ -141,7 +141,8 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
 
             mascarasDeArrastre[i].addEventListener("mouseup",function(){
                 mascarasDeArrastre[i].removeEventListener('mousemove',funcionesRotate[i]);   
-                contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);         
+                contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);   
+                alert(knobsValues);
             })                
 
         });
