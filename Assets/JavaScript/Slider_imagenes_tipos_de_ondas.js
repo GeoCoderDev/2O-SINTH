@@ -129,12 +129,14 @@ boton_derecho_3.addEventListener('click',Siguiente_onda_Osc_3);
 
 function insertaDeslizadorDeImagenesEn(
     contenedorDeslizadorSuperior,
+    valoresParaCadaImagen,
+    titulosImagenes,
     rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML,
     nombresDeImagenesIncluidoFormato,tituloDeslizadorDeImagenes,
     tamañoTituloDeslizadorDeImagenes,
     ORIENTACIONcolumnaOfila = "columna",
-    tamanoFlechas="3vw",
-    colorDeControles="rgb(160, 160, 160)",
+    tamanoFlechas = "3vw",
+    colorDeControles = "rgb(160, 160, 160)",
     grosorContornosFlecha = "0.2vw"
 ){
     
@@ -153,14 +155,14 @@ function insertaDeslizadorDeImagenesEn(
             box-sizing: border-box;
         }
 
-        .boton-slider-imagenes{ 
+        #${contenedorDeslizadorSuperior.id} .boton-slider-imagenes{ 
             font-family: monospace;
             color: ${colorDeControles};
             font-size: ${tamanoFlechas};
             position: relative;
             width: 25%;
             height: 80%;
-            border: ${grosorContornosFlecha} solid rgb(160, 160, 160);
+            border: ${grosorContornosFlecha} solid ${colorDeControles};
             display: flex;
             flex-direction: column;
             text-align: center;
@@ -174,7 +176,7 @@ function insertaDeslizadorDeImagenesEn(
             animation: none;
         }
 
-        .imagen-deslizador-imagenes{
+        #${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes{
             min-width: ${(100/cantidadDeImagenes)}%;
             min-height: 100%;
             object-fit: cover;
@@ -202,15 +204,15 @@ function insertaDeslizadorDeImagenesEn(
 
     window.document.head.appendChild(estilosAdicionalesParaPseudoCLASES);
 
-    let tituloDeslizadorImagenes = document.createElement('h1');
+    let tituloDeslizadorImagenes = document.createElement('div');
         tituloDeslizadorImagenes.innerText = tituloDeslizadorDeImagenes;
         tituloDeslizadorImagenes.style.fontSize = tamañoTituloDeslizadorDeImagenes;
 
     let contenedorTotalFlechasMasDeslizador = document.createElement('div');
 
         //MODIFICANDO EL ESTILO DE NUESTRO CONTENEDOR DEL DESLIZADOR DE IMAGENES
-        contenedorTotalFlechasMasDeslizador.style.width = "80%"
-        contenedorTotalFlechasMasDeslizador.style.height = "90%"
+        contenedorTotalFlechasMasDeslizador.style.width = (ORIENTACIONcolumnaOfila=="columna")?"80%":"56%";
+        contenedorTotalFlechasMasDeslizador.style.height = "90%";
         contenedorTotalFlechasMasDeslizador.style.display = "flex";
         contenedorTotalFlechasMasDeslizador.style.flexDirection = "row";
         contenedorTotalFlechasMasDeslizador.style.alignItems = "center";
@@ -249,6 +251,7 @@ function insertaDeslizadorDeImagenesEn(
                             imagenFONDO.style.width = "80%";
                             imagenFONDO.style.height = "100%";
                             imagenFONDO.style.margin = "auto";
+                            imagenFONDO.title = titulosImagenes[i];
                             imagenFONDO.style.backgroundImage = 
                             `url('${rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML}/${nombresDeImagenesIncluidoFormato[i]}')`;
                             imagenes[i].appendChild(imagenFONDO);
@@ -302,10 +305,16 @@ function insertaDeslizadorDeImagenesEn(
     contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
     contenedorDeslizadorSuperior.appendChild(tituloDeslizadorImagenes);
 
+    if (ORIENTACIONcolumnaOfila=="columna"){
+        contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
+        contenedorDeslizadorSuperior.appendChild(tituloDeslizadorImagenes);
+    }else{
+        contenedorDeslizadorSuperior.appendChild(tituloDeslizadorImagenes);
+        contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
+    }
+
     boton_izquierda.addEventListener('click',anteriorImagen);
     boton_derecha.addEventListener('click',siguienteImagen);
-
-
 
     return true;
 

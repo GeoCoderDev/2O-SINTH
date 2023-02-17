@@ -714,8 +714,8 @@ body{
         background-color: transparent;
         text-align: center;
         border-radius: 0.5vw;
-        border: 0.2vw solid rgb(146, 144, 106);
-        color: rgb(146, 144, 106);
+        border: 0.2vw solid rgb(106, 146, 106);
+        color: rgb(106, 146, 106);
         font-size: 0.85vw;
     }
 
@@ -822,7 +822,7 @@ body{
     }
 
     #cont-knobs-filtro{
-        width: 70%;
+        width: 85%;
         height: 32%;
     }
 
