@@ -143,6 +143,7 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
                 mascarasDeArrastre[i].removeEventListener('mousemove',funcionesRotate[i]);   
                 contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);   
                 alert(knobsValues);
+                console.log(LFOKnobsValues);
             })                
 
         });
@@ -153,8 +154,7 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
 
 }; 
 
-var contenedorKnobsLFO = document.getElementById('cont-knobs-lfo');
-var LFOKnobsValues = insertaKnobsEn(contenedorKnobsLFO,"2.8vw","1vw",3,3,["Retraso","Amplitud","Velocidad"],["Knob-Retraso-LFO","Knob-Amplitud-LFO","Knob-Velocidad-LFO"],[0,0,0],[100,100,100]);
+
 
 
 

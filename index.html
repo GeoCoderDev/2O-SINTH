@@ -211,10 +211,14 @@
             </div>
 
             <div id="seccion-efectos" class="contenedor-seccion" data-numero_seccion="2">
+
                 <h1 class="titulo-seccion">EFECTOS</h1>
+
                 <div id="contenedor-efectos">
+
                     <div id="Primera_fila">
 
+                        <!-- AMPLIFICADOR -->
                         <div id="cont-amplificador" class="efecto">
 
                             <div class="titulo-efecto">AMPLIFICADOR</div>
@@ -226,7 +230,7 @@
                                     <input type="range" id="Amp-Decay-Slider" min="0" max="100" value="0">
                                 </div>
                                 <div class="cont-un-dezlizador">
-                                    <input type="range" id="Amp-Sustain-Slider" min="0" max="100" value="0">
+                                    <input type="range" id="Amp-Sustain-Slider" min="0" max="100" value="100">
                                 </div>
                                 <div class="cont-un-dezlizador">
                                     <input type="range" id="Amp-Release-Slider" min="0" max="100" value="0">
@@ -238,6 +242,8 @@
                             </div>
                         </div>
 
+
+                        <!-- LFO -->
                         <div id="cont-LFO" class="efecto">
 
                             <div class="titulo-efecto">LFO</div>
@@ -285,28 +291,63 @@
                                     <option value="">NINGUNO</option>
                                     <option value="">TONO</option>
                                     <option value="">PAN</option>
+                                    <option value="">FILTRO-FACTOR Q</option>
+                                    <option value="">FILTRO-FRECUENCIA</option>
+
                                 </select>
                             </div>
 
                             <div id="cont-knobs-lfo">
-                                
+                                <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (KnobsGiratorios.js) -->
                             </div>                    
 
                         </div>
 
                     </div>
 
-                    <div id="Segunda_fila">                    
-                        <div id="cont-filtro" class="efecto"></div>
-                        <div id="cont-Distorsion" class="efecto"></div>
+                    <div id="Segunda_fila">    
+
+                        <!-- EFECTO DE FILTRO -->
+                        <div id="cont-filtro" class="efecto">
+
+                            <div class="titulo-efecto">FILTRO</div>
+                            
+                            <div id="cont-slider-tipos-de-filtros">
+                                <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (Slider_imagenes_tipos_de_ondas.js) -->
+                            </div>
+
+                            <div id="cont-knobs-filtro">
+                                <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (KnobsGiratorios.js) -->
+                            </div>
+
+                        </div>
+
+                        <!-- EFECTO DE DISTORSION -->
+                        <div id="cont-Distorsion" class="efecto">
+
+                        </div>
+
                     </div>
 
                     <div id="Tercera_fila">
-                        <div id="cont-reverb" class="efecto"></div>
-                        <div id="cont-eco" class="efecto"></div>
+
+                        <!-- EFECTO DE REVERB -->
+                        <div id="cont-reverb" class="efecto">
+
+                        </div>
+
+                        <!-- EFECTO DE ECO -->
+                        <div id="cont-eco" class="efecto">
+
+                        </div>
+
                     </div>
 
-                    <div id="cont-master-pan" class="efecto"></div>
+                    <!-- MASTER Y PAN -->
+                    <div id="cont-master-pan" class="efecto">
+
+                    </div>
+
                 </div>
             </div>
 

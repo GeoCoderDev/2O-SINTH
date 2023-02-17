@@ -308,23 +308,7 @@ body{
         justify-content: space-between;
     }
 
-    @keyframes elevar_y_bajar {
-        0%{
-            top:0;            
-        }
 
-        25%{
-            top:-0.1vw;        
-        }
-
-        75%{
-            top:0.1vw;
-        }
-
-        100%{
-            top:0;
-        }
-    }
 
     #boton_slider_izquierda_1,#boton_slider_derecha_1,#boton_slider_izquierda_2,#boton_slider_derecha_2,
     #boton_slider_izquierda_3,#boton_slider_derecha_3{
@@ -343,6 +327,12 @@ body{
         /* background-color: white; */
         /* background-image: radial-gradient(white,rgb(0, 0, 0)); */
     }
+
+    #cont-slider-tipos-de-filtros{
+        width: 90%;
+        height: 45%;
+    }
+
 
     #boton_slider_izquierda_1:hover,#boton_slider_derecha_1:hover,#boton_slider_izquierda_2:hover,#boton_slider_derecha_2:hover,
     #boton_slider_izquierda_3:hover,#boton_slider_derecha_3:hover{
@@ -372,7 +362,7 @@ body{
         min-height: 100%;
         object-fit: cover;
         background-position: center;
-        margin-right: 20%vw;
+        /* margin-right: 20%vw; */
         /* border: 1px solid black; */
     }
 
@@ -694,19 +684,11 @@ body{
     }
 
     #cont-LFO{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
         padding: 0.5vw 0.1vw;
-    }
-
-    #cont-amplificador .titulo-efecto{
-        font-size: 1.5vw;
-    }
-
-    #cont-LFO .titulo-efecto{
-        font-size:2vw;
+        width: 100%;
+        height:52%;
+        background-color: #cae9c0;
+        color: rgb(106, 146, 106);
     }
 
     #cont-slider-ondas-lfo{
@@ -728,7 +710,7 @@ body{
     }
 
     #Control-a-controlar-LFO{
-        width: 50%;
+        width: 60%;
         background-color: transparent;
         text-align: center;
         border-radius: 0.5vw;
@@ -761,11 +743,8 @@ body{
         width: 100%;
         height:45%;
         background-color: #edce98;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        padding-bottom:0.5vw;;
+        padding-bottom:0.5vw;
+        color: rgb(146, 144, 106);
     }
 
     #Cont-deslizadores-amplificador{
@@ -820,11 +799,8 @@ body{
     }
     
 
-
-    #cont-LFO{
-        width: 100%;
-        height:52%;
-        background-color: #cae9c0;
+    .titulo-dezlizador-amplificador{
+        font-size: 1.3vw;
     }
 
     #Segunda_fila{
@@ -841,6 +817,13 @@ body{
         width: 100%;
         height:60%;
         background-color: #f0afe6;
+        color: rgb(146, 106, 139);
+        padding: 0.5vw 0.1vw;
+    }
+
+    #cont-knobs-filtro{
+        width: 70%;
+        height: 32%;
     }
 
     #cont-Distorsion{
@@ -878,13 +861,29 @@ body{
     }
 
     .efecto{    
-        /* border: 1px solid black; */
         border-radius: 1vw;
         box-shadow: 0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408),
         1vh 1vh 2vh rgba(73, 71, 71, 0.408); 
-        color: rgb(146, 144, 106);
+        /* FLEXBOX VERTICAL PARA LOS EFECTOS */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        
     }
 
+
+    #cont-amplificador .titulo-efecto{
+        font-size: 1.5vw;
+    }
+
+    #cont-LFO .titulo-efecto{
+        font-size:2vw;
+    }
+
+    #cont-filtro .titulo-efecto{
+        font-size: 1.8vw;
+    }
 
     /*=================================================================================================================
     FORMULARIOS DE GUARDADO

@@ -127,3 +127,187 @@ boton_izquierdo_3.addEventListener('click',Anterior_Onda_Osc_3);
 boton_derecho_3.addEventListener('click',Siguiente_onda_Osc_3);
 
 
+function insertaDeslizadorDeImagenesEn(
+    contenedorDeslizadorSuperior,
+    rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML,
+    nombresDeImagenesIncluidoFormato,tituloDeslizadorDeImagenes,
+    tamañoTituloDeslizadorDeImagenes,
+    ORIENTACIONcolumnaOfila = "columna",
+    tamanoFlechas="3vw",
+    colorDeControles="rgb(160, 160, 160)",
+    grosorContornosFlecha = "0.2vw"
+){
+    
+    contenedorDeslizadorSuperior.style.display = "flex";
+    contenedorDeslizadorSuperior.style.flexDirection = (ORIENTACIONcolumnaOfila=="columna")?"column":"row";
+    contenedorDeslizadorSuperior.style.alignItems = "center";
+    contenedorDeslizadorSuperior.style.justifyContent = "space-evenly";
+
+    let cantidadDeImagenes = nombresDeImagenesIncluidoFormato.length;
+
+    // AGREGANDO ESTILOS ADICIONALES DESDE JAVASCRIPT
+    let estilosAdicionalesParaPseudoCLASES = document.createElement('style');
+    estilosAdicionalesParaPseudoCLASES.innerHTML =
+    `
+        *{
+            box-sizing: border-box;
+        }
+
+        .boton-slider-imagenes{ 
+            font-family: monospace;
+            color: ${colorDeControles};
+            font-size: ${tamanoFlechas};
+            position: relative;
+            width: 25%;
+            height: 80%;
+            border: ${grosorContornosFlecha} solid rgb(160, 160, 160);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content:space-around;
+            animation: elevar_y_bajar 1s ease-in infinite;
+            border-radius: 1vw;
+        }
+
+        .boton-slider-imagenes:hover{ 
+            cursor: pointer;
+            animation: none;
+        }
+
+        .imagen-deslizador-imagenes{
+            min-width: ${(100/cantidadDeImagenes)}%;
+            min-height: 100%;
+            object-fit: cover;
+            background-position: center;
+        }
+
+        @keyframes elevar_y_bajar {
+            0%{
+                top:0;            
+            }
+    
+            25%{
+                top:-0.1vw;        
+            }
+    
+            75%{
+                top:0.1vw;
+            }
+    
+            100%{
+                top:0;
+            }
+        }
+    `;
+
+    window.document.head.appendChild(estilosAdicionalesParaPseudoCLASES);
+
+    let tituloDeslizadorImagenes = document.createElement('h1');
+        tituloDeslizadorImagenes.innerText = tituloDeslizadorDeImagenes;
+        tituloDeslizadorImagenes.style.fontSize = tamañoTituloDeslizadorDeImagenes;
+
+    let contenedorTotalFlechasMasDeslizador = document.createElement('div');
+
+        //MODIFICANDO EL ESTILO DE NUESTRO CONTENEDOR DEL DESLIZADOR DE IMAGENES
+        contenedorTotalFlechasMasDeslizador.style.width = "80%"
+        contenedorTotalFlechasMasDeslizador.style.height = "90%"
+        contenedorTotalFlechasMasDeslizador.style.display = "flex";
+        contenedorTotalFlechasMasDeslizador.style.flexDirection = "row";
+        contenedorTotalFlechasMasDeslizador.style.alignItems = "center";
+        contenedorTotalFlechasMasDeslizador.style.justifyContent = "space-evenly"
+
+
+            //CREANDO EL BOTON HACIA LA IZQUIERDA
+            let boton_izquierda = document.createElement('div');
+                boton_izquierda.classList.add('boton-slider-imagenes');
+                boton_izquierda.innerText = '<';
+
+            
+            //CREANDO EL DESLIZADOR
+            let contenedor_slider_imagenes = document.createElement('div'); 
+                contenedor_slider_imagenes.style.width = "40%";
+                contenedor_slider_imagenes.style.height = "100%";
+                contenedor_slider_imagenes.style.overflow = "hidden";
+                
+                //CREANDO EL CONTENEDOR DE IMAGENES CON OVERFLOW HIDDEN
+                let contenedorImagenes = document.createElement('div');
+                    contenedorImagenes.style.width = 100 * cantidadDeImagenes + "%";
+                    contenedorImagenes.style.height = "100%";
+                    contenedorImagenes.style.display = "flex";
+                    contenedorImagenes.style.flexDirection = "row";
+                    contenedorImagenes.style.marginLeft = "-100%";
+
+                    contenedor_slider_imagenes.appendChild(contenedorImagenes);
+
+                    let imagenes = [];
+
+                    for(let i=0;i<cantidadDeImagenes;i++){
+                        imagenes[i] = document.createElement('div');
+                        imagenes[i].classList.add('imagen-deslizador-imagenes');
+                        
+                            let imagenFONDO = document.createElement('div');
+                            imagenFONDO.style.width = "80%";
+                            imagenFONDO.style.height = "100%";
+                            imagenFONDO.style.margin = "auto";
+                            imagenFONDO.style.backgroundImage = 
+                            `url('${rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML}/${nombresDeImagenesIncluidoFormato[i]}')`;
+                            imagenes[i].appendChild(imagenFONDO);
+                        contenedorImagenes.appendChild(imagenes[i]);
+                    }
+
+
+
+            //CREANDO EL BOTON HACIA LA DERECHA
+            let boton_derecha = document.createElement('div');
+                boton_derecha.innerText = ">";
+                boton_derecha.classList.add('boton-slider-imagenes');
+
+
+        contenedorTotalFlechasMasDeslizador.appendChild(boton_izquierda);
+        contenedorTotalFlechasMasDeslizador.appendChild(contenedor_slider_imagenes);
+        contenedorTotalFlechasMasDeslizador.appendChild(boton_derecha);
+
+    //AGREGANDO EVENTOS DE CLIC A BOTONES IZQUIERDO Y DERECHO
+
+    contenedorImagenes.insertAdjacentElement('afterbegin',imagenes[imagenes.length-1]);
+    
+    function anteriorImagen(){
+        let ultimaImagenActual = document.querySelectorAll
+        (`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)
+        [cantidadDeImagenes - 1];
+        contenedorImagenes.style.transition = "all 0.4s";
+        contenedorImagenes.style.marginLeft = "0";
+
+        setTimeout(()=>{
+            contenedorImagenes.style.transition = "none";
+            contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
+            contenedorImagenes.style.marginLeft = "-100%";
+        },400)
+    }
+
+    function siguienteImagen(){
+        let primeraImagenActual = document.querySelectorAll
+        (`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[0];
+            
+        contenedorImagenes.style.marginLeft = "-200%";
+        contenedorImagenes.style.transition = "all 0.4s";
+
+        setTimeout(()=>{
+            contenedorImagenes.style.transition = "none";
+            contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
+            contenedorImagenes.style.marginLeft = "-100%";
+        },400)
+    }
+
+    contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
+    contenedorDeslizadorSuperior.appendChild(tituloDeslizadorImagenes);
+
+    boton_izquierda.addEventListener('click',anteriorImagen);
+    boton_derecha.addEventListener('click',siguienteImagen);
+
+
+
+    return true;
+
+}
+
