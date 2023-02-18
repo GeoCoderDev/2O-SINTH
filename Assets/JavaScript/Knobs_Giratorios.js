@@ -154,8 +154,6 @@ function insertaKnobsEn
             mascarasDeArrastre[i].addEventListener("mouseup",function(){
                 mascarasDeArrastre[i].removeEventListener('mousemove',funcionesRotate[i]);   
                 contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);   
-                alert(knobsValues);
-                console.log(LFOKnobsValues);
             })                
 
         });

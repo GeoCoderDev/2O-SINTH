@@ -1,87 +1,3 @@
-// =================================================================================================================
-// PRIMER SLIDER DE IMAGENES DE ONDAS  (TIPO DE ONDA OSC 1)
-// =================================================================================================================
-const slider_oscilador_1 = document.querySelector("#slider_de_imagenes_ondas_1");
-let imagenes_slider_oscilador_1 = document.querySelectorAll("#slider_de_imagenes_ondas_1 .imagen_slider");
-let ultima_imagen_slider_osc_1 = imagenes_slider_oscilador_1[imagenes_slider_oscilador_1.length-1];
-
-const boton_izquierdo_1 = document.getElementById("boton_slider_izquierda_1");
-const boton_derecho_1 = document.getElementById("boton_slider_derecha_1");
-
-slider_oscilador_1.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_1);
- 
-function Siguiente_onda_Osc_1(){
-
-    let primera_imagen_slider_osc_1_temp = document.querySelectorAll("#slider_de_imagenes_ondas_1 .imagen_slider")[0];
-    slider_oscilador_1.style.marginLeft = "-200%";
-    slider_oscilador_1.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_1.style.transition = "none";
-        slider_oscilador_1.insertAdjacentElement('beforeend',primera_imagen_slider_osc_1_temp);
-        slider_oscilador_1.style.marginLeft = "-100%";
-    },400)
-
-}
-
-function Anterior_Onda_Osc_1(){
-    let ultima_imagen_slider_osc_1_temp = 
-    document.querySelectorAll("#slider_de_imagenes_ondas_1 .imagen_slider")[document.querySelectorAll("#slider_de_imagenes_ondas_1 .imagen_slider").length-1];
-    slider_oscilador_1.style.marginLeft = "0";
-    slider_oscilador_1.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_1.style.transition = "none";
-        slider_oscilador_1.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_1_temp);
-        slider_oscilador_1.style.marginLeft = "-100%";
-    },400)
-}
-
-boton_izquierdo_1.addEventListener('click',Anterior_Onda_Osc_1);
-boton_derecho_1.addEventListener('click',Siguiente_onda_Osc_1);
-
-
-// =================================================================================================================
-// SEGUNDO SLIDER DE IMAGENES DE ONDAS (TIPO DE ONDA OSC 2)
-// =================================================================================================================
-const slider_oscilador_2 = document.querySelector("#slider_de_imagenes_ondas_2");
-let imagenes_slider_oscilador_2 = document.querySelectorAll("#slider_de_imagenes_ondas_2 .imagen_slider");
-let ultima_imagen_slider_osc_2 = imagenes_slider_oscilador_2[imagenes_slider_oscilador_2.length-1];
-
-const boton_izquierdo_2 = document.getElementById("boton_slider_izquierda_2");
-const boton_derecho_2 = document.getElementById("boton_slider_derecha_2");
-
-slider_oscilador_2.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_2);
- 
-function Siguiente_onda_Osc_2(){
-
-    let primera_imagen_slider_osc_2_temp = document.querySelectorAll("#slider_de_imagenes_ondas_2 .imagen_slider")[0];
-    slider_oscilador_2.style.marginLeft = "-200%";
-    slider_oscilador_2.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_2.style.transition = "none";
-        slider_oscilador_2.insertAdjacentElement('beforeend',primera_imagen_slider_osc_2_temp);
-        slider_oscilador_2.style.marginLeft = "-100%";
-    },400)
-
-}
-
-function Anterior_Onda_Osc_2(){
-    let ultima_imagen_slider_osc_2_temp = 
-    document.querySelectorAll("#slider_de_imagenes_ondas_2 .imagen_slider")[document.querySelectorAll("#slider_de_imagenes_ondas_2 .imagen_slider").length-1];
-    slider_oscilador_2.style.marginLeft = "0";
-    slider_oscilador_2.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_2.style.transition = "none";
-        slider_oscilador_2.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_2_temp);
-        slider_oscilador_2.style.marginLeft = "-100%";
-    },400)
-}
-
-boton_izquierdo_2.addEventListener('click',Anterior_Onda_Osc_2);
-boton_derecho_2.addEventListener('click',Siguiente_onda_Osc_2);
 
 function insertaDeslizadorDeImagenesEn(
     contenedorDeslizadorSuperior,
@@ -95,7 +11,9 @@ function insertaDeslizadorDeImagenesEn(
     grosorContornosFlecha = "0.2vw",
     colorDeControles = "rgb(160, 160, 160)"
 ){
-    
+
+    let datosDeslizadorImagenes = {};
+
     contenedorDeslizadorSuperior.style.display = "flex";
     contenedorDeslizadorSuperior.style.flexDirection = (ORIENTACIONcolumnaOfila=="columna")?"column":"row";
     contenedorDeslizadorSuperior.style.alignItems = "center";
@@ -127,9 +45,9 @@ function insertaDeslizadorDeImagenesEn(
             border-radius: 1vw;
         }
 
-        .boton-slider-imagenes:hover{ 
-            cursor: pointer;
+        #${contenedorDeslizadorSuperior.id} .boton-slider-imagenes:hover{ 
             animation: none;
+            cursor: pointer;
         }
 
         #${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes{
@@ -230,8 +148,6 @@ function insertaDeslizadorDeImagenesEn(
 
     contenedorImagenes.insertAdjacentElement('afterbegin',imagenes[imagenes.length-1]); //Colocando el ultimo elemento detras del primero 
                                                                                         //por si se pulsa el boton hacia la izquierda primero
-    
-    let valorSeleccionado;
 
     function anteriorImagen(){
         let ultimaImagenActual = document.querySelectorAll
@@ -244,11 +160,8 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
-            valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+            actualizarValor();
         },400);
-
-        
-
     }
 
     function siguienteImagen(){
@@ -262,10 +175,16 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
-            valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+            actualizarValor();
         },400)
     }
 
+    boton_izquierda.addEventListener('click',anteriorImagen);
+    boton_derecha.addEventListener('click',siguienteImagen);
+    
+    function actualizarValor(){
+        datosDeslizadorImagenes.value = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+    }
 
     if (ORIENTACIONcolumnaOfila=="columna"){
         contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
@@ -275,13 +194,51 @@ function insertaDeslizadorDeImagenesEn(
         contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
     }
 
-    valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
 
+    datosDeslizadorImagenes.value = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
 
-    boton_izquierda.addEventListener('click',anteriorImagen);
-    boton_derecha.addEventListener('click',siguienteImagen);
+    datosDeslizadorImagenes.go = function(valorDeImagen){
+        let todasLasImagenes = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`);
+        let posicionImagenEncontrada;
+        let diferenciaParaSerSeleccionado;
 
-    return {value:valorSeleccionado};
+        //Encontrando Posicion de nuestra imagen en funcion de su valor 
+        for(let i=0;i<todasLasImagenes.length;i++){
+            if(todasLasImagenes[i].dataset.value==valorDeImagen)
+                posicionImagenEncontrada=i;
+        }
+
+        //Obteniendo la diferencia con respecto a 1 que es la posicion de la imagen seleccionada
+        //en nuestros deslizadores de imagenes
+        diferenciaParaSerSeleccionado = 1 - posicionImagenEncontrada;
+
+        if(diferenciaParaSerSeleccionado<0){
+            for(let i=1;i<=Math.abs(diferenciaParaSerSeleccionado);++i){
+                let primeraImagenActual = document.querySelectorAll
+                (`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[0];                            
+                contenedorImagenes.style.marginLeft = "-200%";
+                contenedorImagenes.style.transition = "none";
+                contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
+                contenedorImagenes.style.marginLeft = "-100%";
+                actualizarValor();
+            }
+        }else if(diferenciaParaSerSeleccionado>0){
+            for(let i=1;i<=Math.abs(diferenciaParaSerSeleccionado);i++){
+
+                let ultimaImagenActual = document.querySelectorAll
+                (`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)
+                [cantidadDeImagenes - 1];
+                contenedorImagenes.style.marginLeft = "0";
+                contenedorImagenes.style.transition = "none";
+                contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
+                contenedorImagenes.style.marginLeft = "-100%";
+                actualizarValor();
+            
+            }
+        };
+    }
+
+    return datosDeslizadorImagenes;
 
 }
 

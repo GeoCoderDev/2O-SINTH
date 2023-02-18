@@ -1,3 +1,4 @@
+//CREANDO DESLIZADOR DE IMAGENES PARA EL OSCILADOR 1
 var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('Cont-tipos-onda-OSC1'),
@@ -15,6 +16,7 @@ var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
     "0.2vw"
 );
 
+//CREANDO DESLIZADOR DE IMAGENES PARA EL OSCILADOR 2
 var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('Cont-tipos-onda-OSC2'),
@@ -32,7 +34,7 @@ var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
     "0.2vw"
 );
 
-
+//CREANDO DESLIZADOR DE IMAGENES PARA EL LFO 
 var tipoOndaLFO = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('cont-slider-ondas-lfo'),
@@ -51,6 +53,7 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
     "rgb(106, 146, 106)"
 );
 
+//CREANDO KNOBS PARA EL LFO 
 var LFOKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-lfo'),
@@ -65,11 +68,13 @@ var LFOKnobsValues = insertaKnobsEn
     "rgb(106, 146, 106)"
 );
 
+//CREANDO DESLIZADOR DE IMAGENES PARA EL FILTRO
 var tipoDeFiltro = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('cont-slider-tipos-de-filtros'),
     ["lowpass","highpass","bandpass","notch","lowshelf","highshelf","peaking","allpass"],
-    ["Filtro Paso Bajo","Filtro Paso Alto","Filtro Paso Banda", "Filtro Banda Rechazo", "Filtro de Escalon Bajo","Filtro de Escalon Alto","Filtro Peaking","Filtro Paso Total"],
+    ["Filtro Paso Bajo","Filtro Paso Alto","Filtro Paso Banda", "Filtro Banda Rechazo", 
+    "Filtro de Escalon Bajo","Filtro de Escalon Alto","Filtro Peaking","Filtro Paso Total"],
     './Assets/Imagenes',
     ['Filtro\\ lowpass\\ icon\\ Morado\\ Oscuro.png',
     'Filtro\\ highpass\\ icon\\ Morado\\ Oscuro.png',
@@ -87,6 +92,7 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
     "rgb(146, 106, 139)"
 );
 
+//CREANDO KNOBS PARA EL FILTRO
 var FiltroKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-filtro'),
