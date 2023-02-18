@@ -83,50 +83,6 @@ function Anterior_Onda_Osc_2(){
 boton_izquierdo_2.addEventListener('click',Anterior_Onda_Osc_2);
 boton_derecho_2.addEventListener('click',Siguiente_onda_Osc_2);
 
-// =================================================================================================================
-// TERCER SLIDER DE IMAGENES DE ONDAS (TIPO DE ONDA LFO)
-// =================================================================================================================
-
-const slider_oscilador_3 = document.querySelector("#slider_de_imagenes_ondas_3");
-let imagenes_slider_oscilador_3 = document.querySelectorAll("#slider_de_imagenes_ondas_3 .imagen_slider");
-let ultima_imagen_slider_osc_3 = imagenes_slider_oscilador_3[imagenes_slider_oscilador_3.length-1];
-
-const boton_izquierdo_3 = document.getElementById("boton_slider_izquierda_3");
-const boton_derecho_3 = document.getElementById("boton_slider_derecha_3");
-
-slider_oscilador_3.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_3);
- 
-function Siguiente_onda_Osc_3(){
-
-    let primera_imagen_slider_osc_3_temp = document.querySelectorAll("#slider_de_imagenes_ondas_3 .imagen_slider")[0];
-    slider_oscilador_3.style.marginLeft = "-200%";
-    slider_oscilador_3.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_3.style.transition = "none";
-        slider_oscilador_3.insertAdjacentElement('beforeend',primera_imagen_slider_osc_3_temp);
-        slider_oscilador_3.style.marginLeft = "-100%";
-    },400)
-
-}
-
-function Anterior_Onda_Osc_3(){
-    let ultima_imagen_slider_osc_3_temp = 
-    document.querySelectorAll("#slider_de_imagenes_ondas_3 .imagen_slider")[document.querySelectorAll("#slider_de_imagenes_ondas_3 .imagen_slider").length-1];
-    slider_oscilador_3.style.marginLeft = "0";
-    slider_oscilador_3.style.transition = " all 0.4s";
-
-    setTimeout(function(){
-        slider_oscilador_3.style.transition = "none";
-        slider_oscilador_3.insertAdjacentElement('afterbegin',ultima_imagen_slider_osc_3_temp);
-        slider_oscilador_3.style.marginLeft = "-100%";
-    },400)
-}
-
-boton_izquierdo_3.addEventListener('click',Anterior_Onda_Osc_3);
-boton_derecho_3.addEventListener('click',Siguiente_onda_Osc_3);
-
-
 function insertaDeslizadorDeImagenesEn(
     contenedorDeslizadorSuperior,
     valoresParaCadaImagen,
@@ -136,8 +92,8 @@ function insertaDeslizadorDeImagenesEn(
     tamañoTituloDeslizadorDeImagenes,
     ORIENTACIONcolumnaOfila = "columna",
     tamanoFlechas = "3vw",
-    colorDeControles = "rgb(160, 160, 160)",
-    grosorContornosFlecha = "0.2vw"
+    grosorContornosFlecha = "0.2vw",
+    colorDeControles = "rgb(160, 160, 160)"
 ){
     
     contenedorDeslizadorSuperior.style.display = "flex";
@@ -246,7 +202,7 @@ function insertaDeslizadorDeImagenesEn(
                     for(let i=0;i<cantidadDeImagenes;i++){
                         imagenes[i] = document.createElement('div');
                         imagenes[i].classList.add('imagen-deslizador-imagenes');
-                        
+                        imagenes[i].dataset.value = valoresParaCadaImagen[i];
                             let imagenFONDO = document.createElement('div');
                             imagenFONDO.style.width = "80%";
                             imagenFONDO.style.height = "100%";
@@ -272,8 +228,11 @@ function insertaDeslizadorDeImagenesEn(
 
     //AGREGANDO EVENTOS DE CLIC A BOTONES IZQUIERDO Y DERECHO
 
-    contenedorImagenes.insertAdjacentElement('afterbegin',imagenes[imagenes.length-1]);
+    contenedorImagenes.insertAdjacentElement('afterbegin',imagenes[imagenes.length-1]); //Colocando el ultimo elemento detras del primero 
+                                                                                        //por si se pulsa el boton hacia la izquierda primero
     
+    let valorSeleccionado;
+
     function anteriorImagen(){
         let ultimaImagenActual = document.querySelectorAll
         (`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)
@@ -285,7 +244,11 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
-        },400)
+            valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+        },400);
+
+        
+
     }
 
     function siguienteImagen(){
@@ -299,11 +262,10 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
+            valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
         },400)
     }
 
-    contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
-    contenedorDeslizadorSuperior.appendChild(tituloDeslizadorImagenes);
 
     if (ORIENTACIONcolumnaOfila=="columna"){
         contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
@@ -313,10 +275,13 @@ function insertaDeslizadorDeImagenesEn(
         contenedorDeslizadorSuperior.appendChild(contenedorTotalFlechasMasDeslizador);
     }
 
+    valorSeleccionado = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+
+
     boton_izquierda.addEventListener('click',anteriorImagen);
     boton_derecha.addEventListener('click',siguienteImagen);
 
-    return true;
+    return {value:valorSeleccionado};
 
 }
 

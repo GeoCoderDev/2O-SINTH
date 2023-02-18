@@ -45,7 +45,19 @@ function ValorKnobAGradosCSS(valorKnob,limiteInferior,limiteSuperior){
     return ((valorKnob*270)/(limiteSuperior-limiteInferior)-135);
 }
 
-function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKnobs,cantidadKnobsPorFila,textoKnobs,idKnobs,limitesInferiores,limitesSuperiores){
+function insertaKnobsEn
+(
+    contenedorDeKnobs,
+    tamanoDeKnobs,
+    tamanoTextos,
+    cantidadKnobs,
+    cantidadKnobsPorFila,
+    textoKnobs,
+    idKnobs,
+    limitesInferiores,
+    limitesSuperiores,
+    colorControles = "#999999"
+){
     contenedorDeKnobs.style.display = "flex";
     contenedorDeKnobs.style.flexWrap = "wrap";
     contenedorDeKnobs.style.alignItems = "center"
@@ -101,7 +113,7 @@ function insertaKnobsEn(contenedorDeKnobs,tamanoDeKnobs,tamanoTextos,cantidadKno
                 indicadores_knobs[i].style.height = "40%";
                 indicadores_knobs[i].style.width = "10%";       
                 indicadores_knobs[i].borderRadius = "50%";                                         
-                indicadores_knobs[i].style.backgroundColor = "#999999";                                       
+                indicadores_knobs[i].style.backgroundColor = colorControles;                                       
 
             //CREACION DE LOS TEXTOS DE LOS KNOBS
             textosKnobs[i] = document.createElement('div');

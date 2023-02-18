@@ -710,13 +710,14 @@ body{
     }
 
     #Control-a-controlar-LFO{
-        width: 60%;
+        width: 65%;
         background-color: transparent;
         text-align: center;
         border-radius: 0.5vw;
         border: 0.2vw solid rgb(106, 146, 106);
         color: rgb(106, 146, 106);
         font-size: 0.85vw;
+        margin-left: 0.5vw;
     }
 
     #cont-knobs-lfo{
