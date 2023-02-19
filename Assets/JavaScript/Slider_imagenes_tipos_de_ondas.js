@@ -22,8 +22,7 @@ function insertaDeslizadorDeImagenesEn(
     let cantidadDeImagenes = nombresDeImagenesIncluidoFormato.length;
 
     // AGREGANDO ESTILOS ADICIONALES DESDE JAVASCRIPT
-    let estilosAdicionalesParaPseudoCLASES = document.createElement('style');
-    estilosAdicionalesParaPseudoCLASES.innerHTML =
+    insertarReglasCSSAdicionales(
     `
         *{
             box-sizing: border-box;
@@ -74,9 +73,7 @@ function insertaDeslizadorDeImagenesEn(
                 top:0;
             }
         }
-    `;
-
-    window.document.head.appendChild(estilosAdicionalesParaPseudoCLASES);
+    `);
 
     let tituloDeslizadorImagenes = document.createElement('div');
         tituloDeslizadorImagenes.innerText = tituloDeslizadorDeImagenes;

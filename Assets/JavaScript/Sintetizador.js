@@ -106,3 +106,20 @@ var FiltroKnobsValues = insertaKnobsEn
     [100,18000,100],
     "rgb(146, 106, 139)"
 );
+
+
+//BARRAS DE CURVA DE DISTORSION
+
+var barrasDistorsion = insertarGraficoDeBarrasInteractiva
+(
+    document.getElementById('cont-barras'),
+    15,
+    0,
+    1,
+    "rgb(184, 133, 112)",
+    "rgb(154, 103, 82)"
+)
+
+setTimeout(()=>{
+    console.log(barrasDistorsion)
+},5000);
