@@ -775,12 +775,15 @@ body{
         width: 100%;
         height:45%;
         background-color: #bae7f0;
+        color:rgb(106, 141, 146);
     }
 
     #cont-eco{
         width: 100%;
         height:52%;
         background-color: #a3a6f0;
+        color:rgb(104, 86, 130);
+        padding: 0.5vw 0;
     }
 
     #cont-master-pan{
@@ -820,8 +823,28 @@ body{
 
     #controles-distorsion .titulo-efecto{
         font-size: 1vw;
-
     }
+
+    #cont-reverb .titulo-efecto{
+        font-size: 1.8vw;
+    }
+
+    #cont-knobs-reverb{
+        width: 70%;
+        height: 70%;
+        /* padding-bottom: 2vh; */
+    }
+
+    #cont-eco .titulo-efecto{
+        font-size: 2vw;
+    }
+
+    #controles-eco{
+        width: 70%;
+        height: 65%;
+        border: 1px solid black ;
+    }
+
     /*=================================================================================================================
     FORMULARIOS DE GUARDADO
     ================================================================================================================= */

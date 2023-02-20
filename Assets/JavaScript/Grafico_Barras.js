@@ -1,3 +1,6 @@
+
+//FUNCION PARA CALCULAR EL VALOR DE UNA BARRA 
+//MEDIANTE UN EVENTO MOUSEMOVE
 function calcularValorBarra(e,barraPosYBaja,altoBarra,limiteInferior,limiteSuperior,enPorcentajes){
     let diferenciaPosicionesY = barraPosYBaja - e.clientY;
     let valorCalculado;
@@ -17,6 +20,9 @@ function calcularValorBarra(e,barraPosYBaja,altoBarra,limiteInferior,limiteSuper
     return valorCalculado;
 }
 
+//FUNCION PARA OBTENER EL VALOR DE UNA BARRA A PARTIR
+//DE LA PROPIEDAD CSS backgroundImage MEDIANTE EXPRESIONES 
+//REGULARES
 function obtenerValorBarra(barra,limiteInferior,limiteSuperior){
     let valorBackgroundImage = barra.style.backgroundImage;
     console.log(valorBackgroundImage);
@@ -32,6 +38,8 @@ function obtenerValorBarra(barra,limiteInferior,limiteSuperior){
     return (parseFloat(coincidencia.match(/\d\d\d?.\d+|\d.\d+|\d\d/)[0])/100)*(limiteSuperior-limiteInferior);
 }
 
+//FUNCION PARA GUARDAR UN VALOR EN UNA BARRA
+//MEDIANTE SU PROPIEDAD BACKGROUND IMAGE
 function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
     let porcentajeApintar =
     ((valor/(limiteSuperior-limiteInferior))*100) + 0.01;
@@ -39,7 +47,6 @@ function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
     barra.style.backgroundImage = "none";
 
     barra.style.backgroundImage = `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${porcentajeApintar}%,transparent ${porcentajeApintar}%)`;
-    
 
 }
 

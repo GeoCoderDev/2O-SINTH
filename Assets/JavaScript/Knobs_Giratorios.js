@@ -160,7 +160,17 @@ function insertaKnobsEn
 
     }
 
-    return knobsValues;
+    function guardarValores(valores){
+        for(let i = 0;i<cantidadKnobs;i++){
+            Knobs[i].style.transform = `rotate(${ValorKnobAGradosCSS(valores[i],limitesInferiores[i],limitesSuperiores[i])}deg)`;
+            knobsValues[i] = valores[i];
+        }
+    }
+
+    return {
+        value: knobsValues,
+        setValues: guardarValores
+    }
 
 }; 
 

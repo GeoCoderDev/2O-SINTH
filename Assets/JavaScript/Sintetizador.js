@@ -84,7 +84,7 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
     'Filtro\\ highshelf\\ icon\\ Morado\\ Oscuro.png',
     'Filtro\\ peaking\\ icon\\ Morado\\ Oscuro.png',
     'Filtro\\ allpass\\ icon\\ Morado\\ Oscuro.png'],
-    "TIPO DE FILTRO:",
+    "TIPO DE FILTRO",
     "1.2vw",
     "columna",
     "3vw",
@@ -118,16 +118,30 @@ var barrasDistorsion = insertarGraficoDeBarrasInteractiva
     2,
     "rgb(184, 133, 112)",
     "rgb(154, 103, 82)"
-)
+);
 
-// setTimeout(()=>{
-//     barrasDistorsion.setValues([0,1.5,0,0,0,0,0,0,0,0,0.6,0,0,0,0]);
+//CREANDO KNOBS PARA EL EFECTO DE REBERB
+var knobsReverb = insertaKnobsEn(
+    document.getElementById('cont-knobs-reverb'),
+    "4.5vw",
+    "1.4vw",
+    1,
+    1,
+    ["DURACION"],
+    ["knob-duracion-reverb"],
+    [0],
+    [1.5],
+    "rgb(106, 141, 146)"
+);
 
-
-// },5000);
+let hh ;
+setTimeout(()=>{
+    hh = knobsReverb.value[0];
+    console.log("Valor tomado")
+},3000);
 
 setTimeout(()=>{
-    console.log(barrasDistorsion.value);
-},5000);
-
+    knobsReverb.setValues([hh]);
+    console.log(knobsReverb.value);
+},5000)  
 
