@@ -1,21 +1,46 @@
-
-
 function calcularValorBarra(e,barraPosYBaja,altoBarra,limiteInferior,limiteSuperior,enPorcentajes){
-        let diferenciaPosicionesY = barraPosYBaja - e.clientY;
-        let valorCalculado;
+    let diferenciaPosicionesY = barraPosYBaja - e.clientY;
+    let valorCalculado;
 
-        if(diferenciaPosicionesY<0){
-            valorCalculado = (enPorcentajes)?0:limiteInferior;
+    if(diferenciaPosicionesY<0){
+        valorCalculado = (enPorcentajes)?0:limiteInferior;
+    }else{
+        
+        if((diferenciaPosicionesY>altoBarra)){
+            valorCalculado = (enPorcentajes)?100:limiteSuperior;
         }else{
-            if((diferenciaPosicionesY>altoBarra)){
-                valorCalculado = (enPorcentajes)?100:limiteSuperior;
-            }else{
-                valorCalculado = 
-                (enPorcentajes)?(diferenciaPosicionesY/(altoBarra))*100:(diferenciaPosicionesY/(altoBarra))*(limiteSuperior-limiteInferior);
-            }
+            valorCalculado = 
+            (enPorcentajes)?(diferenciaPosicionesY/(altoBarra))*100:(diferenciaPosicionesY/(altoBarra))*(limiteSuperior-limiteInferior);
         }
+    }
 
-        return valorCalculado;
+    return valorCalculado;
+}
+
+function obtenerValorBarra(barra,limiteInferior,limiteSuperior){
+    let valorBackgroundImage = barra.style.backgroundImage;
+    console.log(valorBackgroundImage);
+    let coincidencia;
+    let i = 0;                                          
+    for (let iterador of valorBackgroundImage.matchAll(/\d\d\d?.\d+%|\d.\d+%|\d\d%/g)){
+        if(i==0){
+            coincidencia = iterador[0];
+        }
+        i++;
+    }
+
+    return (parseFloat(coincidencia.match(/\d\d\d?.\d+|\d.\d+|\d\d/)[0])/100)*(limiteSuperior-limiteInferior);
+}
+
+function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
+    let porcentajeApintar =
+    ((valor/(limiteSuperior-limiteInferior))*100) + 0.01;
+
+    barra.style.backgroundImage = "none";
+
+    barra.style.backgroundImage = `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${porcentajeApintar}%,transparent ${porcentajeApintar}%)`;
+    
+
 }
 
 
@@ -41,7 +66,7 @@ function insertarGraficoDeBarrasInteractiva
 
     `);
 
-
+    //MODIFICANDO ALGUNAS PROPIEDADES CSS DE NUESTRO CONTENEDOR
     contenedor.style.display = "flex";
     contenedor.style.flexDirection = "row";
     contenedor.style.alignItems = "center";
@@ -50,27 +75,36 @@ function insertarGraficoDeBarrasInteractiva
     contenedor.style.borderRadius = "0.5vw";
 
     let anchoContenedor = contenedor.getBoundingClientRect().right - contenedor.getBoundingClientRect().left; 
-    let matrizValores = [];
     let mascarasDeArrastre = [];
     let funcionesParaCambiarValorDeUnaSolaBarra = [];
-
+    let barrasContenedoras = []
+    let matrizValores = [];
 
     for(let i=0;i<cantidadDeBarras;i++){
 
-        matrizValores[i] = 0;
+        //Creacion de una barra contenedora
+        barrasContenedoras[i] = document.createElement("div");
+        barrasContenedoras[i].style.width = pixelsToVWVH(anchoContenedor/cantidadDeBarras,"vw") + "vw";
+        barrasContenedoras[i].style.height = "100%";
+        barrasContenedoras[i].style.borderRight = (i==cantidadDeBarras-1)?"none":`0.2vw solid ${colorContornos}`;
 
-        let barraContenedora = document.createElement("div");
-        barraContenedora.style.width = pixelsToVWVH(anchoContenedor/cantidadDeBarras,"vw") + "vw";
-        barraContenedora.style.height = "100%";
-        barraContenedora.style.borderRight = (i==cantidadDeBarras-1)?"none":`0.2vw solid ${colorContornos}`;
-        barraContenedora.style.backgroundImage = `linear-gradient(to top,${colorFondo} 0%,${colorFondo} 50%,transparent 50%)`;
-        barraContenedora.classList.add('barra-valor-Grafica-barras');
+        //Colocando valores por defecto en funcion a f(x)=x
+        let alturaDefecto = (100/(cantidadDeBarras-1))*i;
+        alturaDefecto = ((alturaDefecto + "").length < 2)?alturaDefecto + 0.01: alturaDefecto;
+        console.log(alturaDefecto);
+        barrasContenedoras[i].style.backgroundImage = 
+        `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${parseFloat(alturaDefecto.toFixed(2))}%,transparent ${parseFloat(alturaDefecto.toFixed(2))}%)`;
 
-        contenedor.appendChild(barraContenedora);
+        //===============================================================================================================================
+        barrasContenedoras[i].classList.add('barra-valor-Grafica-barras');
 
-        let altoBarra = barraContenedora.getBoundingClientRect().bottom - barraContenedora.getBoundingClientRect().top; 
+        contenedor.appendChild(barrasContenedoras[i]);
 
-        barraContenedora.addEventListener('mousedown',function(){
+        matrizValores[i] = obtenerValorBarra(barrasContenedoras[i],valorLimiteInferiorBarras,valorLimiteSuperiorBarras);
+
+        barrasContenedoras[i].addEventListener('mousedown',function(){
+
+            let altoBarra = barrasContenedoras[i].getBoundingClientRect().bottom - barrasContenedoras[i].getBoundingClientRect().top; 
 
             //DEFINIENDO LAS MASCARA DE PARA ARRASTRAR LIBREMENTE POR 
             //TODA LA PANTALLA PARA CADA BARRA
@@ -84,14 +118,13 @@ function insertarGraficoDeBarrasInteractiva
 
             funcionesParaCambiarValorDeUnaSolaBarra[i] = function(e){
                 let valorEnPorcentaje = 
-                calcularValorBarra(e,barraContenedora.getBoundingClientRect().bottom,altoBarra,valorLimiteInferiorBarras,valorLimiteSuperiorBarras,true);
+                calcularValorBarra(e,barrasContenedoras[i].getBoundingClientRect().bottom,altoBarra,valorLimiteInferiorBarras,valorLimiteSuperiorBarras,true);
 
-                let valorCalculado = 
-                calcularValorBarra(e,barraContenedora.getBoundingClientRect().bottom,altoBarra,valorLimiteInferiorBarras,valorLimiteSuperiorBarras);
-
-                barraContenedora.style.backgroundImage = 
+                barrasContenedoras[i].style.backgroundImage = 
                 `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${valorEnPorcentaje}%,transparent ${valorEnPorcentaje}%)`;
-                matrizValores[i] = valorCalculado;
+
+                matrizValores[i] = (valorEnPorcentaje/100)*(valorLimiteSuperiorBarras-valorLimiteInferiorBarras);
+
             }
             //Insertando Mascara de Arrastre Invisible en el contenedor de knobs
             contenedor.appendChild(mascarasDeArrastre[i]);
@@ -105,9 +138,20 @@ function insertarGraficoDeBarrasInteractiva
         });
 
     }
-    
 
-    return matrizValores;
+    function guardarValoresEnBarras(valores){
+        for(let i=0;i<cantidadDeBarras;i++){
+            valores[i] = (valores[i]>valorLimiteSuperiorBarras)?valorLimiteSuperiorBarras:valores[i];
+            valores[i] = (valores[i]<valorLimiteInferiorBarras)?valorLimiteInferiorBarras:valores[i];
+            setValueBarra(barrasContenedoras[i],parseFloat(valores[i].toFixed(2)),valorLimiteInferiorBarras,valorLimiteSuperiorBarras,colorFondo)
+            matrizValores[i] = parseFloat(valores[i].toFixed(2));
+        }
+    }
+
+    return {
+        value: matrizValores,
+        setValues: guardarValoresEnBarras
+    };
 
 }
 

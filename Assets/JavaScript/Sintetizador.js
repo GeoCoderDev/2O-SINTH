@@ -113,13 +113,21 @@ var FiltroKnobsValues = insertaKnobsEn
 var barrasDistorsion = insertarGraficoDeBarrasInteractiva
 (
     document.getElementById('cont-barras'),
-    15,
+    26,
     0,
-    1,
+    2,
     "rgb(184, 133, 112)",
     "rgb(154, 103, 82)"
 )
 
+// setTimeout(()=>{
+//     barrasDistorsion.setValues([0,1.5,0,0,0,0,0,0,0,0,0.6,0,0,0,0]);
+
+
+// },5000);
+
 setTimeout(()=>{
-    console.log(barrasDistorsion)
+    console.log(barrasDistorsion.value);
 },5000);
+
+
