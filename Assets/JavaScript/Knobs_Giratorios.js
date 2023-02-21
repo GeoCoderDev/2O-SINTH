@@ -119,6 +119,7 @@ function insertaKnobsEn
             textosKnobs[i] = document.createElement('div');
             textosKnobs[i].innerText = textoKnobs[i];
             textosKnobs[i].style.fontSize = tamanoTextos;
+            textosKnobs[i].style.textAlign = "center";
         //JUNTANDO TODO 
         Knobs[i].appendChild(indicadores_knobs[i]);
         contenedoresKnobs[i].appendChild(Knobs[i]);

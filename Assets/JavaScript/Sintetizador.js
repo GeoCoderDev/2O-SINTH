@@ -134,14 +134,28 @@ var knobsReverb = insertaKnobsEn(
     "rgb(106, 141, 146)"
 );
 
-let hh ;
-setTimeout(()=>{
-    hh = knobsReverb.value[0];
-    console.log("Valor tomado")
-},3000);
+var knobsEco = insertaKnobsEn(
+    document.getElementById('controles-eco'),
+    "2.7vw",
+    "1vw",
+    2,
+    1,
+    ["TIEMPO ENTRE REPETICIONES","FEEDBACK"],
+    ["KNOB-TER-ECO","KNOB-FEEDBACK-ECO"],
+    [0,0],
+    [0.5,99],
+    "rgb(104, 86, 130)"
+)
 
-setTimeout(()=>{
-    knobsReverb.setValues([hh]);
-    console.log(knobsReverb.value);
-},5000)  
-
+var panSintetizador = insertaKnobsEn(
+    document.getElementById('cont-pan'),
+    "2.8vw",
+    "1.2vw",
+    1,
+    1,
+    ["PAN"],
+    "panSintetizador",
+    [-1],
+    [1],
+    "rgb(174, 172, 121)"
+)
