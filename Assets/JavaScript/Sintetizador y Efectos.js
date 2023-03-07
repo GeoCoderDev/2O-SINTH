@@ -1,3 +1,11 @@
+//ASIGNANDO TECLAS a NOTAS DEL SINTETIZADOR
+
+let C7 = new NotaSintetizador(document.getElementById(''),"",2093);
+
+
+
+
+
 //CREANDO DESLIZADOR DE IMAGENES PARA EL OSCILADOR 1
 var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
 (
@@ -159,3 +167,5 @@ var panSintetizador = insertaKnobsEn(
     [1],
     "rgb(174, 172, 121)"
 )
+
+

@@ -499,6 +499,11 @@ body{
         top:-100%;
     }
 
+    .tecla_negra:active{
+        z-index:8;
+        background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
+    }
+
     #Csos3{
         left: 3%;
     }
@@ -559,10 +564,7 @@ body{
         left:45.6%;
     }
 
-    .tecla_negra:active{
-        z-index:8;
-        background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
-    }
+
 
     /*=================================================================================================================
     EFECTOS
@@ -709,7 +711,6 @@ body{
         justify-content: center;
         /* border: 1px solid black; */
     }
-    
 
     .titulo-dezlizador-amplificador{
         font-size: 1.3vw;
@@ -761,8 +762,6 @@ body{
         border: 1px solid black;
 
     }
-
-
 
     #Tercera_fila{
         display: flex;
@@ -819,9 +818,6 @@ body{
         position: relative;
         top: 19vh;
     }
-
-
-
 
     .efecto{    
         border-radius: 1vw;
@@ -883,6 +879,112 @@ body{
         font-size: 1vw;
         text-align: center;
         
+    }
+
+    /*==================================================================================================
+    SECUENCIADOR DE MELODIAS
+    ==================================================================================================*/
+    tr td{
+        height: 1.5vw;
+    }
+
+    #secuenciador-melodias-marco{
+        width: 90%;
+        height: 80%;
+        overflow: scroll;
+        border-top-left-radius: 1vw;
+        border-bottom-right-radius: 1vw;
+        display:flex;
+        flex-direction: row;
+        color:white;
+    }
+
+    #secuenciador-melodias-marco::-webkit-scrollbar{
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 0.5em;
+    }
+
+    #secuenciador-melodias-marco::-webkit-scrollbar-thumb{
+        background-color: #473a4f;
+        border-radius: 0.5em;
+    }
+
+    #Ocultador-Espacio-Blanco{
+        overflow: hidden;
+        min-height: 57vw;
+        min-width: 128vw;
+
+    }
+
+    #Teclas-Piano-Roll{
+        min-width: 6vw;
+        position: sticky;
+        left: 0;
+    }
+
+    .Tecla-Blanca-Piano-Roll{
+        border: 0;
+        background-image: linear-gradient(to right, white 70%,rgb(150,150,150));
+        border-bottom: 0.5px solid gray;
+        border-top: 0.5px solid gray;
+        border-right: 0.1vw solid black;
+        color: black;
+        font-size: 1vw;
+        text-align: right;
+        padding-right: 0.4vw;
+    }
+
+    .Tecla-Negra-Piano-Roll{
+        border: 0;
+        background-image: linear-gradient(to right,black 55% ,white 65%,rgb(150,150,150) );
+        border-right: 0.1vw solid black;
+    }
+
+    #Espacio-Blanco-Piano-Roll{
+        text-align: center;
+        background-color: #473a4f;
+        border-right: 0.1vw solid black;
+        background-color: black;
+    }
+
+    #Piano-Roll{
+        width: 128vw;
+    }
+
+
+    td{
+        border-right: 1px solid #473a4f;
+        border-bottom: 1px solid #473a4f;
+        height: 1.5vw;
+
+    }
+
+    .numeros_compas_cabecera{
+        text-align: right;
+        padding-right: 0.5vw;
+        background-color: #473a4f;
+        border: 0;
+
+    }
+
+    .Cuadro-Semicorchea{
+        background-color: #c5c7eb;
+        width: 2vw;
+    }
+
+    
+    .Cuadro-Semicorchea:nth-child(4n){
+        border-right: 0.2vw solid #473a4f;
+    }
+
+    .Cuadro-Semicorchea:nth-child(16n){
+        border-right: 0.25vw solid #473a4f;
+    }
+    
+    .Tecla-Blanca-PianoRoll{
+        width: 6vw;
     }
 
     /*=================================================================================================================
