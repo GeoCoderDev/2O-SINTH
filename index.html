@@ -61,7 +61,10 @@
                         </div>
 
                         <div id="cont_analizador">
-                            <canvas id="analizador"></canvas>
+                            <div id="analizador-marco">
+                                <canvas id="analizador"></canvas>
+                            </div>
+                                
                             <div id="titulo_analizador">ANALIZADOR</div>
                         </div>
 
@@ -100,13 +103,6 @@
                         </div>
 
                         <div id="contenedor-teclas">
-                            <div id="C3" class="tecla_blanca"></div>
-                            <div id="D3" class="tecla_blanca"></div>
-                            <div id="E3" class="tecla_blanca"></div>
-                            <div id="F3" class="tecla_blanca"></div>
-                            <div id="G3" class="tecla_blanca"></div>
-                            <div id="A3" class="tecla_blanca"></div>
-                            <div id="B3" class="tecla_blanca"></div>
                             <div id="C4" class="tecla_blanca"></div>
                             <div id="D4" class="tecla_blanca"></div>
                             <div id="E4" class="tecla_blanca"></div>
@@ -122,11 +118,13 @@
                             <div id="A5" class="tecla_blanca"></div>
                             <div id="B5" class="tecla_blanca"></div>
                             <div id="C6" class="tecla_blanca"></div>
-                            <div id="Csos3" class="tecla_negra"></div>
-                            <div id="Dsos3" class="tecla_negra"></div>
-                            <div id="Fsos3" class="tecla_negra"></div>
-                            <div id="Gsos3" class="tecla_negra"></div>
-                            <div id="Asos3" class="tecla_negra"></div>
+                            <div id="D6" class="tecla_blanca"></div>
+                            <div id="E6" class="tecla_blanca"></div>
+                            <div id="F6" class="tecla_blanca"></div>
+                            <div id="G6" class="tecla_blanca"></div>
+                            <div id="A6" class="tecla_blanca"></div>
+                            <div id="B6" class="tecla_blanca"></div>
+                            <div id="C7" class="tecla_blanca"></div>
                             <div id="Csos4" class="tecla_negra"></div>
                             <div id="Dsos4" class="tecla_negra"></div>
                             <div id="Fsos4" class="tecla_negra"></div>
@@ -137,6 +135,11 @@
                             <div id="Fsos5" class="tecla_negra"></div>
                             <div id="Gsos5" class="tecla_negra"></div>
                             <div id="Asos5" class="tecla_negra"></div>
+                            <div id="Csos6" class="tecla_negra"></div>
+                            <div id="Dsos6" class="tecla_negra"></div>
+                            <div id="Fsos6" class="tecla_negra"></div>
+                            <div id="Gsos6" class="tecla_negra"></div>
+                            <div id="Asos6" class="tecla_negra"></div>
                         </div>
                     </div>
                 </div>
@@ -277,115 +280,115 @@
                                 <td id="Espacio-Blanco-Piano-Roll">NOTAS</td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll">C7</td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="C7Roll">C7</td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="B6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Asos6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="A6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Gsos6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="G6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Fsos6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="F6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="E6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Dsos6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="D6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Csos6Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll">C6</td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="C6Roll">C6</td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="B5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Asos5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="A5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Gsos5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="G5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Fsos5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="F5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="E5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Dsos5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="D5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Csos5Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll">C5</td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="C5Roll">C5</td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="B4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Asos4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="A4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Gsos4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="G4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Fsos4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="F4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="E4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Dsos4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll"></td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="D4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Negra-Piano-Roll"></td>
+                                <td class="Tecla-Negra-Piano-Roll" id="Csos4Roll"></td>
                             </tr>
                             <tr>
-                                <td class="Tecla-Blanca-Piano-Roll">C4</td>
+                                <td class="Tecla-Blanca-Piano-Roll" id="C4Roll">C4</td>
                             </tr>
                         </table>
                         
@@ -2896,15 +2899,309 @@
 
             <div id="contenedor-secuenciador-ritmos" class="contenedor-seccion" data-numero_seccion="4">
                 <h1 class="titulo-seccion">SECUENCIADOR DE RITMOS</h1>
+
+                <div id="Secuenciador-Ritmos">
+
+                    <div class="Percusion-Ritmo">KICK</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">SNARE</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">SNARE 2</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">CLOSED HAT</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">OPEN HAT</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">CLAP</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">SHAKERS</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                    <div class="Percusion-Ritmo">CRASH</div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+                    <div class="Semicorchea-Ritmo"></div>
+
+                </div>
+
             </div>
 
         </div>
 
-        <div id="formulario-de-guardado-contenedor">
+        <div id="formulario-de-guardado-y-controles-contenedor">
 
-            <form id="formulario-de-guardado" method="post" action="#">
 
-            </form>
+            <div id="contenedor-formulario-de-guardado-y-controles">
+
+                <div id="contenedor-controles-guardado">
+
+                    <div id="formulario-de-guardado">
+                        <input id="Nombre-de-Guardado" type="text" placeholder="Ingrese un nombre para el ...">
+                        <button id="Boton-de-Guardado">Guardar ...</button>
+                    </div>
+
+                    <div id="Mensaje-Inicia-Sesion">Para guardar lo que hagas, primero Inicia Sesión</div>
+                
+                </div>
+
+
+
+            </div>
+
+            
+
 
         </div>
 
@@ -2926,6 +3223,7 @@
     <script src="Assets/JavaScript/Grafico_Barras.js"></script>
     <script src="./Assets/JavaScript/Sintetizador y Efectos.js"></script>
     <script src="Assets/JavaScript/Secuenciador Melodias.js"></script>
+    <script src="Assets/JavaScript/Secuenciador de Ritmos.js"></script>
 
 
 </body>

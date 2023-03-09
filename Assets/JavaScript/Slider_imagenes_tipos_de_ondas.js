@@ -157,7 +157,6 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
-            actualizarValor();
         },400);
     }
 
@@ -172,15 +171,16 @@ function insertaDeslizadorDeImagenesEn(
             contenedorImagenes.style.transition = "none";
             contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
             contenedorImagenes.style.marginLeft = "-100%";
-            actualizarValor();
+
         },400)
     }
 
     boton_izquierda.addEventListener('click',anteriorImagen);
     boton_derecha.addEventListener('click',siguienteImagen);
-    
-    function actualizarValor(){
-        datosDeslizadorImagenes.value = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
+
+
+    datosDeslizadorImagenes.obtenerValor = function(){
+        return document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
     }
 
     if (ORIENTACIONcolumnaOfila=="columna"){
@@ -192,7 +192,6 @@ function insertaDeslizadorDeImagenesEn(
     }
 
 
-    datosDeslizadorImagenes.value = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`)[1].dataset.value;
 
     datosDeslizadorImagenes.go = function(valorDeImagen){
         let todasLasImagenes = document.querySelectorAll(`#${contenedorDeslizadorSuperior.id} .imagen-deslizador-imagenes`);
@@ -217,7 +216,7 @@ function insertaDeslizadorDeImagenesEn(
                 contenedorImagenes.style.transition = "none";
                 contenedorImagenes.insertAdjacentElement('beforeend',primeraImagenActual);
                 contenedorImagenes.style.marginLeft = "-100%";
-                actualizarValor();
+
             }
         }else if(diferenciaParaSerSeleccionado>0){
             for(let i=1;i<=Math.abs(diferenciaParaSerSeleccionado);i++){
@@ -229,7 +228,6 @@ function insertaDeslizadorDeImagenesEn(
                 contenedorImagenes.style.transition = "none";
                 contenedorImagenes.insertAdjacentElement('afterbegin',ultimaImagenActual);
                 contenedorImagenes.style.marginLeft = "-100%";
-                actualizarValor();
             
             }
         };
