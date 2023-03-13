@@ -38,7 +38,7 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
 
 
 function gradosCSSaValorKnob(gradosCSS,limiteInferior,limiteSuperior){
-    return (((gradosCSS+135)*(limiteSuperior-limiteInferior))/270);
+    return ((((gradosCSS+135)*(limiteSuperior-limiteInferior))/270)+limiteInferior);
 }
 
 function ValorKnobAGradosCSS(valorKnob,limiteInferior,limiteSuperior){

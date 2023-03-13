@@ -447,7 +447,7 @@ body{
     }
 
 
-    #Slider-Vol{
+    #Slider-Vol-Sintetizador{
         width: 20vh;
         transform: rotate(270deg);
         margin: 4.5vw;
@@ -495,6 +495,12 @@ body{
         box-shadow:0 0 2px #0004;
     }
     
+    .tecla_blanca_pulsada{
+        transform:translate(2px,0);
+        border-top:2px solid #fff;
+        box-shadow:0 0 2px #0004;
+    }
+
     .tecla_negra{
         width: calc(100% / 32);
         height: 60%;

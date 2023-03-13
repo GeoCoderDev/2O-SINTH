@@ -1,9 +1,24 @@
+
+function eventosParaTeclasDelTeclado(e){
+
+    switch (e.keyCode) {
+        case 81:
+            
+            break;
+    
+        default:
+            break;
+    }
+
+}
+
+
+
 const seccion_sintetizador = document.getElementById('contenedor-sintetizador');
 const seccion_efectos = document.getElementById('seccion-efectos'); 
 const seccion_secuenciador_melodias = document.getElementById('contenedor-secuenciador-melodias');
 const seccion_secuenciador_de_ritmos = document.getElementById('contenedor-secuenciador-ritmos');
 var seccion_en_vista;
-
 
 
 const encontrando_secciones = (entradas, observador) => {
@@ -15,10 +30,10 @@ const encontrando_secciones = (entradas, observador) => {
             indicador.style.top = (32.5 + ((seccion_en_vista-1)*12.9)) + "vh";
             indicador.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";
         }
+
     });    
+
 };
-
-
 
 const Observador_de_Secciones = new IntersectionObserver(encontrando_secciones,{
     root: null,
@@ -30,8 +45,6 @@ Observador_de_Secciones.observe(seccion_sintetizador);
 Observador_de_Secciones.observe(seccion_efectos);
 Observador_de_Secciones.observe(seccion_secuenciador_melodias);
 Observador_de_Secciones.observe(seccion_secuenciador_de_ritmos);
-
-
 
 var iconos_de_barra_de_navegacion = document.getElementsByClassName('icono-barra-navegacion');
 
@@ -55,3 +68,4 @@ function asignarEventosParaBotonesDeNavegacion(){
 
 window.addEventListener('load',asignarEventosParaBotonesDeNavegacion);
 window.addEventListener('resize',asignarEventosParaBotonesDeNavegacion);
+

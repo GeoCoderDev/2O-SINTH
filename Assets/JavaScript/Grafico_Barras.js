@@ -25,7 +25,6 @@ function calcularValorBarra(e,barraPosYBaja,altoBarra,limiteInferior,limiteSuper
 //REGULARES
 function obtenerValorBarra(barra,limiteInferior,limiteSuperior){
     let valorBackgroundImage = barra.style.backgroundImage;
-    console.log(valorBackgroundImage);
     let coincidencia;
     let i = 0;                                          
     for (let iterador of valorBackgroundImage.matchAll(/\d\d\d?.\d+%|\d.\d+%|\d\d%/g)){
@@ -98,7 +97,6 @@ function insertarGraficoDeBarrasInteractiva
         //Colocando valores por defecto en funcion a f(x)=x
         let alturaDefecto = (100/(cantidadDeBarras-1))*i;
         alturaDefecto = ((alturaDefecto + "").length < 2)?alturaDefecto + 0.01: alturaDefecto;
-        console.log(alturaDefecto);
         barrasContenedoras[i].style.backgroundImage = 
         `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${parseFloat(alturaDefecto.toFixed(2))}%,transparent ${parseFloat(alturaDefecto.toFixed(2))}%)`;
 

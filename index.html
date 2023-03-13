@@ -94,7 +94,7 @@
                             
                             <div id="Cont-Slider-Vol">
 
-                                <input type="range" id="Slider-Vol">
+                                <input type="range" id="Slider-Vol-Sintetizador" min="0" max="100" value="50">
                                 
                             </div>
 
@@ -3196,7 +3196,16 @@
                 
                 </div>
 
+                <div id="contenedor-controles-guardado">
 
+                    <div id="formulario-de-guardado">
+                        <input id="Nombre-de-Guardado" type="text" placeholder="Ingrese un nombre para el ...">
+                        <button id="Boton-de-Guardado">Guardar ...</button>
+                    </div>
+
+                    <div id="Mensaje-Inicia-Sesion">Para guardar lo que hagas, primero Inicia Sesión</div>
+                
+                </div>
 
             </div>
 
@@ -3217,14 +3226,16 @@
     </div>
     <script src="./Assets/JavaScript/principal.js"></script>
     <script src="./Assets/JavaScript/Funciones.js"></script>
-    <script src="./Assets/JavaScript/Observadores.js"></script>            
     <script src="./Assets/JavaScript/Slider_imagenes_tipos_de_ondas.js"></script>
     <script src="./Assets/JavaScript/Knobs_Giratorios.js"></script>
     <script src="Assets/JavaScript/Grafico_Barras.js"></script>
-    <script src="./Assets/JavaScript/Sintetizador y Efectos.js"></script>
-    <script src="Assets/JavaScript/Secuenciador Melodias.js"></script>
+    <script src="./Assets/JavaScript/Sintetizador.js"></script>
+    <script src="Assets/JavaScript/Sonido.js"></script>
+    <script src="Assets/JavaScript/Efectos.js"></script>
     <script src="Assets/JavaScript/Secuenciador de Ritmos.js"></script>
+    <script src="./Assets/JavaScript/Observadores.js"></script>            
 
+    
 
 </body>
 </html>
