@@ -1,4 +1,8 @@
-var ENTORNO_AUDIO = new AudioContext();
+const ENTORNO_AUDIO = new AudioContext();
+
+let nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
+let nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
+
 
 
 // let h = new Map;

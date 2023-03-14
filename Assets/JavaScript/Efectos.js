@@ -29,6 +29,7 @@ var LFOKnobsValues = insertaKnobsEn
     ["Knob-Retraso-LFO","Knob-Amplitud-LFO","Knob-Velocidad-LFO"],
     [0,0,0],
     [100,100,100],
+    [0,0,0],
     "rgb(106, 146, 106)"
 );
 
@@ -68,6 +69,7 @@ var FiltroKnobsValues = insertaKnobsEn
     ['Filtro-Factor-Q','Filtro-Frecuencia','Filtro-Ganancia'],
     [0,20,0],
     [100,18000,100],
+    [0,20,0],
     "rgb(146, 106, 139)"
 );
 
@@ -95,6 +97,7 @@ var knobsReverb = insertaKnobsEn(
     ["knob-duracion-reverb"],
     [0],
     [1.5],
+    [0],
     "rgb(106, 141, 146)"
 );
 
@@ -108,6 +111,7 @@ var knobsEco = insertaKnobsEn(
     ["KNOB-TER-ECO","KNOB-FEEDBACK-ECO"],
     [0,0],
     [0.5,99],
+    [0,0],
     "rgb(104, 86, 130)"
 )
 
@@ -121,7 +125,30 @@ var panSintetizador = insertaKnobsEn(
     "panSintetizador",
     [-1],
     [1],
-    "rgb(174, 172, 121)"
+    [0],
+    "rgb(174, 172, 121)",
+
+    // CONFIGURANDO EL PANEO
+    [
+        function(){
+            nodoPaneo.pan.value = panSintetizador.value[0];
+        }
+    ]
 )
+
+
+
+
+// CONFIGURANDO EL VOLUMEN DEL MASTER
+let volumenSliderMaster = document.getElementById('volumenMaster');
+
+volumenSliderMaster.addEventListener('mousemove',()=>{
+    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
+})
+volumenSliderMaster.addEventListener('keyup',()=>{
+    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
+})
+
+
 
 

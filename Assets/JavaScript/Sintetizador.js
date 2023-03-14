@@ -1,4 +1,20 @@
 
+// EVENTO PARA CONTROLAR EL VOLUMEN DE SALIDA DEL SINTETIZADOR
+let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador');
+
+volumenSliderSintetizador.addEventListener('mousemove',()=>{
+    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
+})
+volumenSliderSintetizador.addEventListener('keyup',()=>{
+    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
+})
+
+// CONFIGURANDO EL COMPRESSOR
+nodoCompresorSintetizador.attack.value = 0;
+nodoCompresorSintetizador.knee.value = 20;
+nodoCompresorSintetizador.ratio.value = 12;
+nodoCompresorSintetizador.threshold.value = -21;
+
 
 //CREANDO DESLIZADOR DE IMAGENES PARA EL OSCILADOR 1
 var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn

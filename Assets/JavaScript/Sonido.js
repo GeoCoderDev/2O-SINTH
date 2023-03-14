@@ -1,12 +1,3 @@
-
-
-
-let nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
-let nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
-// .
-// .
-// .
-
 let nodoMaster = ENTORNO_AUDIO.createGain();
 let nodoPaneo = ENTORNO_AUDIO.createStereoPanner();
 
@@ -265,38 +256,6 @@ window.addEventListener('keyup',(e)=>{
     teclasPulsadas.delete(e.keyCode);
     
 })
-
-
-// EVENTO PARA CONTROLAR EL VOLUMEN DE SALIDA DEL SINTETIZADOR
-let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador');
-
-volumenSliderSintetizador.addEventListener('mousemove',()=>{
-    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
-})
-volumenSliderSintetizador.addEventListener('keyup',()=>{
-    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
-})
-
-// CONFIGURANDO EL COMPRESSOR
-nodoCompresorSintetizador.attack.value = 0;
-nodoCompresorSintetizador.knee.value = 20;
-nodoCompresorSintetizador.ratio.value = 12;
-nodoCompresorSintetizador.threshold.value = -21;
-
-
-// CONFIGURANDO EL VOLUMEN DEL MASTER
-let volumenSliderMaster = document.getElementById('volumenMaster');
-
-volumenSliderMaster.addEventListener('mousemove',()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
-})
-volumenSliderMaster.addEventListener('keyup',()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
-})
-
-// // CONFIGURANDO EL PANEO
-// console.log(panSintetizador.value[0])
-// nodoPaneo.pan.value = panSintetizador.value[0];
 
 // REALIZANDO CONEXIONES ENTRE NODOS
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);

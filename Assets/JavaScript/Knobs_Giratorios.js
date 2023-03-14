@@ -18,6 +18,8 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
         grados = ((Math.atan(Math.abs(PosXMouseWithKnobAsReference/PosYMouseWithKnobAsReference)) * 180)/Math.PI) + 270;
     }
 
+    
+
     if(grados>225 && grados<315 && PosXMouseWithKnobAsReference<0){
         grados = -135;
     }else if(grados>225 && grados<315 && PosXMouseWithKnobAsReference>0){
@@ -25,13 +27,13 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
     }else{
         if(grados>=90 && grados<=225){
             grados = 90 - grados;
-        }else if(grados<90 || grados>=0){
+        }else if(grados<90 && grados>=0){
             grados = 90 - grados;
-        }else if(grados<360 || grados>=315){
+        }else if(grados<360 && grados>=315){
             grados = (360 - grados) + 90;
         }        
     }
-
+    console.log(grados);
     return grados;
 
 }
@@ -42,7 +44,7 @@ function gradosCSSaValorKnob(gradosCSS,limiteInferior,limiteSuperior){
 }
 
 function ValorKnobAGradosCSS(valorKnob,limiteInferior,limiteSuperior){
-    return ((valorKnob*270)/(limiteSuperior-limiteInferior)-135);
+    return ((((valorKnob-limiteInferior)*270)/(limiteSuperior-limiteInferior))-135);
 }
 
 function insertaKnobsEn
@@ -56,7 +58,9 @@ function insertaKnobsEn
     idKnobs,
     limitesInferiores,
     limitesSuperiores,
-    colorControles = "#999999"
+    valoresPorDefecto,
+    colorControles = "#999999",
+    callBacks
 ){
     contenedorDeKnobs.style.display = "flex";
     contenedorDeKnobs.style.flexWrap = "wrap";
@@ -148,6 +152,9 @@ function insertaKnobsEn
                 let rotacion = calcularGrados(e,datosGeometricosKnob[i].left,datosGeometricosKnob[i].top,datosGeometricosKnob[i].width);
                 Knobs[i].style.transform = `rotate(${rotacion}deg)`;
                 knobsValues[i] = gradosCSSaValorKnob(rotacion,limitesInferiores[i],limitesSuperiores[i]);
+
+                //Ejecutando Callback para cambiar valores
+                if(callBacks) callBacks[i]();
             }
             
             mascarasDeArrastre[i].addEventListener("mousemove",funcionesRotate[i]);
@@ -167,6 +174,8 @@ function insertaKnobsEn
             knobsValues[i] = valores[i];
         }
     }
+
+    guardarValores(valoresPorDefecto);
 
     return {
         value: knobsValues,
