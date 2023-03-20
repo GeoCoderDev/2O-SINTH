@@ -1,8 +1,37 @@
+let nodoADSR = ENTORNO_AUDIO.createGain();
 let nodoMaster = ENTORNO_AUDIO.createGain();
 let nodoPaneo = ENTORNO_AUDIO.createStereoPanner();
 
 let frecuenciasPorTecla = [];
 let teclaHTMLPorTecla = []
+const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
+
+
+// DESLIZADORES DEL AMPLIFICADOR ADSR
+let ataqueSlider = document.getElementById('Amp-Ataque-Slider');
+let decaySlider = document.getElementById('Amp-Decay-Slider');
+let sustainSlider = document.getElementById('Amp-Sustain-Slider');
+let releaseSlider = document.getElementById('Amp-Release-Slider');
+
+function getADSRvalues(elementoADSR){
+    switch (elementoADSR) {
+        case "A":
+            return ataqueSlider.value;
+    
+        case "D":
+            return decaySlider.value;
+
+        case "S":
+            return sustainSlider.value;
+
+        case "R":
+            return releaseSlider.value;
+
+        default:
+            console.log("Error 35, sonido.js")
+            break;
+    }
+}
 
 class NotaSintetizador{
 
@@ -68,24 +97,78 @@ class NotaSintetizador{
                 Osciladores2[i].connect(nodoSalidaSintetizador);
             }
 
+  
+            //INICIANDO AMPLIFICADOR ADSR
+
+            nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+            let horaInicioPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+            let duracionAtaque = (getADSRvalues("A")/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+            let finalAtaque = horaInicioPresionDeUnaNota + duracionAtaque;
+            let duracionDecay = (getADSRvalues("D")/100)*MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+            //Ataque
+            nodoADSR.gain.setValueAtTime(0,horaInicioPresionDeUnaNota);
+            nodoADSR.gain.linearRampToValueAtTime(0.5,finalAtaque);
+            //Decay + Sustain
+            nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
+
+            let yaSeSoltoLaTecla = false;
+
             this.elementoHTML.addEventListener('mouseup',()=>{
-                for(let i=0; i<Osciladores1.length;i++){
-                    Osciladores1[i].stop();
-                }
-        
-                for(let i=0; i<Osciladores2.length;i++){
-                    Osciladores2[i].stop();
-                }
+
+                if(yaSeSoltoLaTecla) return false;
+
+                yaSeSoltoLaTecla = false;
+
+                let volumenAntesDeSoltar = nodoADSR.gain.value;
+
+                nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+                let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+                let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+                let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
+                nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
+                nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
+    
+                    setTimeout(function(){
+
+                        for(let i=0; i<Osciladores1.length;i++){
+                            Osciladores1[i].stop();
+                        }
+                
+                        for(let i=0; i<Osciladores2.length;i++){
+                            Osciladores2[i].stop();
+                        }
+
+                    },duracionRelease*995);
+                
             })
 
             this.elementoHTML.addEventListener('mouseout',()=>{
-                for(let i=0; i<Osciladores1.length;i++){
-                    Osciladores1[i].stop();
-                }
-        
-                for(let i=0; i<Osciladores2.length;i++){
-                    Osciladores2[i].stop();
-                }
+
+                if(yaSeSoltoLaTecla) return false;
+
+                yaSeSoltoLaTecla = true;
+
+                let volumenAntesDeSoltar = nodoADSR.gain.value;
+
+                nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+                let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+                let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+                let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
+                nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
+                nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
+    
+                    setTimeout(function(){
+
+                        for(let i=0; i<Osciladores1.length;i++){
+                            Osciladores1[i].stop();
+                        }
+                
+                        for(let i=0; i<Osciladores2.length;i++){
+                            Osciladores2[i].stop();
+                        }
+
+                    },duracionRelease*995);
+
             })
 
         })
@@ -231,26 +314,60 @@ window.addEventListener('keydown',(e)=>{
             Osciladores2[i].connect(nodoSalidaSintetizador);
         }
 
+        //INICIANDO AMPLIFICADOR ADSR
+
+        nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+        let horaInicioPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+        let duracionAtaque = (getADSRvalues("A")/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+        let finalAtaque = horaInicioPresionDeUnaNota + duracionAtaque;
+        let duracionDecay = (getADSRvalues("D")/100)*MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+        //Ataque
+        nodoADSR.gain.setValueAtTime(0,horaInicioPresionDeUnaNota);
+        nodoADSR.gain.linearRampToValueAtTime(0.5,finalAtaque);
+        //Decay + Sustain
+        nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
 
         teclaHTMLPorTecla[e.keyCode].classList.add('tecla_blanca_pulsada');  
     
         teclasPulsadas.set(e.keyCode,[Osciladores1,Osciladores2]);
+
     }        
 
 })
+
+let teclasApagandose = new Map();
+
+function pararOsciladore(key){
+    for(let u=0;u<teclasApagandose.get(key).length;u++){
+        for(let i=0; i<teclasApagandose.get(key)[u].length;i++){
+            teclasApagandose.get(key)[u][i].stop();
+        }        
+    }
+    teclasApagandose.delete(key);
+}
+
 
 window.addEventListener('keyup',(e)=>{
 
     if(!teclasPulsadas.has(e.keyCode)) return false;
 
-    let osciladores = teclasPulsadas.get(e.keyCode);
+    // let osciladores = teclasPulsadas.get(e.keyCode);
 
-    for(let u=0;u<osciladores.length;u++){
-        for(let i=0; i<osciladores[u].length;i++){
-            osciladores[u][i].stop();
-        }        
-    }
-    
+    teclasApagandose.set(e.keyCode,teclasPulsadas.get(e.keyCode))
+
+
+    let volumenAntesDeSoltar = nodoADSR.gain.value;
+
+    nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+    let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+    let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+    let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
+    nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
+    nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
+
+    console.log(duracionRelease);
+    setTimeout(pararOsciladore(e.keyCode),duracionRelease*995);
+
     teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_blanca_pulsada');
 
     teclasPulsadas.delete(e.keyCode);
@@ -259,7 +376,8 @@ window.addEventListener('keyup',(e)=>{
 
 // REALIZANDO CONEXIONES ENTRE NODOS
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
-nodoCompresorSintetizador.connect(nodoMaster)
+nodoCompresorSintetizador.connect(nodoADSR);
+nodoADSR.connect(nodoMaster)
 nodoMaster.connect(nodoPaneo);
 nodoPaneo.connect(ENTORNO_AUDIO.destination);
 
