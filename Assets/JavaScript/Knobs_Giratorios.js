@@ -33,7 +33,7 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
             grados = (360 - grados) + 90;
         }        
     }
-    console.log(grados);
+    // console.log(grados);
     return grados;
 
 }
@@ -131,7 +131,7 @@ function insertaKnobsEn
         contenedorDeKnobs.appendChild(contenedoresKnobs[i]);
 
         //AÑADIENDO EVENTOS
-             
+        
         Knobs[i].addEventListener("mousedown",function(){                    
 
             //DEFINIENDO LAS MASCARAS DE PARA ARRASTRAR LIBREMENTE POR TODA LA PANTALLA
@@ -166,6 +166,8 @@ function insertaKnobsEn
 
         });
 
+        //EJECUTANDO LOS CALLBACKS SIN NECESIDAD DE ALGUNA INTERACCION CON LOS KNOBS
+        if(callBacks) callBacks[i]();
     }
 
     function guardarValores(valores){
@@ -175,11 +177,18 @@ function insertaKnobsEn
         }
     }
 
+    function obtenerIDs(){
+        return idKnobs;
+    }
+
     guardarValores(valoresPorDefecto);
+
+
 
     return {
         value: knobsValues,
-        setValues: guardarValores
+        setValues: guardarValores,
+        obtenerIDs: obtenerIDs
     }
 
 }; 

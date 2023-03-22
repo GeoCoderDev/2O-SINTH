@@ -11,6 +11,7 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
     "Onda\\ diente\\ de\\ sierra\\ icon\\ Verde\\ Oscuro.png"],
     "Tipo de Onda:",
     "1vw",
+    ["LeftButtonTipoOndaLFO","RightButtonTipoOndaLFO"],
     "fila",
     "1.5vw",
     "0.2vw",
@@ -28,9 +29,56 @@ var LFOKnobsValues = insertaKnobsEn
     ["RETRASO","AMPLITUD","VELOCIDAD"],
     ["Knob-Retraso-LFO","Knob-Amplitud-LFO","Knob-Velocidad-LFO"],
     [0,0,0],
-    [100,100,100],
+    [0.5,100,20],
     [0,0,0],
-    "rgb(106, 146, 106)"
+    "rgb(106, 146, 106)",
+    [
+        function(){
+            if (!LFOKnobsValues){
+                
+                let esperandoPromesa = new Promise((resolve,reject)=>{
+                    setTimeout(()=>{
+                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[0]);
+                    },1000)
+                })
+                esperandoPromesa
+                    .then((resolve)=>{retrasoLFO = resolve});
+
+            }else{
+                retrasoLFO = LFOKnobsValues.value[0];
+            }
+        },
+        function(){
+            if (!LFOKnobsValues){
+                
+                let esperandoPromesa = new Promise((resolve,reject)=>{
+                    setTimeout(()=>{
+                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[1]);
+                    },1000)
+                })
+                esperandoPromesa
+                    .then((resolve)=>{LFOgain.gain.value = resolve});
+
+            }else{
+                LFOgain.gain.value = LFOKnobsValues.value[1];
+            }            
+        },
+        function(){
+            if (!LFOKnobsValues){
+                
+                let esperandoPromesa = new Promise((resolve,reject)=>{
+                    setTimeout(()=>{
+                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[2]);
+                    },1000)
+                })
+                esperandoPromesa
+                    .then((resolve)=>{velocidadLFO = resolve});
+
+            }else{
+                velocidadLFO = LFOKnobsValues.value[2];
+            }  
+        }
+    ]
 );
 
 //CREANDO DESLIZADOR DE IMAGENES PARA EL FILTRO
@@ -51,6 +99,7 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
     'Filtro\\ allpass\\ icon\\ Morado\\ Oscuro.png'],
     "TIPO DE FILTRO",
     "1.2vw",
+    ["LeftButtonTipoFiltro","RightButtonTipoFiltro"],
     "columna",
     "3vw",
     "0.22vw",
@@ -131,8 +180,21 @@ var panSintetizador = insertaKnobsEn(
     // CONFIGURANDO EL PANEO
     [
         function(){
-            nodoPaneo.pan.value = panSintetizador.value[0];
-        }
+            if (!panSintetizador){
+                
+                let esperandoPromesa = new Promise((resolve,reject)=>{
+                    setTimeout(()=>{
+                        if (panSintetizador) resolve(panSintetizador.value[0]);
+                    },1000)
+                })
+                esperandoPromesa
+                    .then((resolve)=>{nodoPaneo.pan.value = resolve});
+
+            }else{
+                nodoPaneo.pan.value = panSintetizador.value[0];
+            }  
+            
+        }        
     ]
 )
 
@@ -142,11 +204,13 @@ var panSintetizador = insertaKnobsEn(
 // CONFIGURANDO EL VOLUMEN DEL MASTER
 let volumenSliderMaster = document.getElementById('volumenMaster');
 
+nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
+
 volumenSliderMaster.addEventListener('mousemove',()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
+    nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
 })
 volumenSliderMaster.addEventListener('keyup',()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)*2;
+    nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
 })
 
 

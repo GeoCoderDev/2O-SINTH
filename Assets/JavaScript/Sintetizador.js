@@ -2,11 +2,13 @@
 // EVENTO PARA CONTROLAR EL VOLUMEN DE SALIDA DEL SINTETIZADOR
 let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador');
 
+nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
+
 volumenSliderSintetizador.addEventListener('mousemove',()=>{
-    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
+    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
 })
 volumenSliderSintetizador.addEventListener('keyup',()=>{
-    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)*2;
+    nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
 })
 
 // CONFIGURANDO EL COMPRESSOR
@@ -29,6 +31,7 @@ var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
     "Onda\\ diente\\ de\\ sierra\\ icon.png"],
     "Tipo de Onda:",
     "1vw",
+    ["LeftButtonOsc1","RightButtonOsc1"],
     "fila",
     "1.5vw",
     "0.2vw"
@@ -48,6 +51,7 @@ var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
     "Onda\\ diente\\ de\\ sierra\\ icon.png"],
     "Tipo de Onda:",
     "1vw",
+    ["LeftButtonOsc2","RightButtonOsc2"],
     "fila",
     "1.5vw",
     "0.2vw"

@@ -1,11 +1,16 @@
-let nodoADSR = ENTORNO_AUDIO.createGain();
-let nodoMaster = ENTORNO_AUDIO.createGain();
-let nodoPaneo = ENTORNO_AUDIO.createStereoPanner();
+
 
 let frecuenciasPorTecla = [];
-let teclaHTMLPorTecla = []
-const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
+let teclaHTMLPorTecla = [];
 
+
+// CONTROL A CONTROLAR CON LFO
+let controlLFO = document.getElementById('Control-a-controlar-LFO').value;
+document.getElementById('Control-a-controlar-LFO').addEventListener('change',(e)=>{
+    controlLFO = e.target.value;
+})
+
+const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
 
 // DESLIZADORES DEL AMPLIFICADOR ADSR
 let ataqueSlider = document.getElementById('Amp-Ataque-Slider');
@@ -16,16 +21,16 @@ let releaseSlider = document.getElementById('Amp-Release-Slider');
 function getADSRvalues(elementoADSR){
     switch (elementoADSR) {
         case "A":
-            return ataqueSlider.value;
+            return parseFloat(ataqueSlider.value);
     
         case "D":
-            return decaySlider.value;
+            return parseFloat(decaySlider.value);
 
         case "S":
-            return sustainSlider.value;
+            return parseFloat(sustainSlider.value);
 
         case "R":
-            return releaseSlider.value;
+            return parseFloat(releaseSlider.value)/2;
 
         default:
             console.log("Error 35, sonido.js")
@@ -49,25 +54,94 @@ class NotaSintetizador{
             let Osciladores2 = [];
             let desafinacionOscilador1 = datosOscilador1[2].value;
             let desafinacionOscilador2 = datosOscilador2[2].value;
-    
+                let OsciladoresLFO1 = []; 
+                let OsciladoresLFO2 = [];                      
+                let requestAnimationFrameLFOIDs1 = [];
+                let requestAnimationFrameLFOIDs2 = [];
+
             for(let i=0; i<datosOscilador1[1].value;i++){
+                
                 Osciladores1[i] = ENTORNO_AUDIO.createOscillator();
                 Osciladores1[i].frequency.value = this.frecuencia;
                 Osciladores1[i].type = datosOscilador1[0].obtenerValor();
 
-                if(i==0){
-                    Osciladores1[i].detune.value = 0;
-                }else{
-    
-                    if(i%2!=0){
-                        Osciladores1[i].detune.value = desafinacionOscilador1;
-                    }else{
-                        Osciladores1[i].detune.value = -desafinacionOscilador1;
+                    function actualizarTipoOndaEnTiempoReal(){
+                        setTimeout(()=>{
+                            for(let n=0;n<Osciladores1.length;i++){
+                                Osciladores1[i].type = datosOscilador1[0].obtenerValor();
+                            }
+                        },400);
+
                     }
-    
-                    desafinacionOscilador1 = desafinacionOscilador1/2;
+
+                    hacerAlgoLuegoQueOcurraUnEvento(actualizarTipoOndaEnTiempoReal,document.getElementById(tipoOndaOSC1.obtenerIDs[0]),"click");
+                    hacerAlgoLuegoQueOcurraUnEvento(actualizarTipoOndaEnTiempoReal,document.getElementById(tipoOndaOSC1.obtenerIDs[1]),"click");
+
+                let funcionesActualizacionValoresDetune = [];
+                let AnalizadoresLFO = [];
+                let arraysValoresOsciladorLFO = [];  
+
+                if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
+
+                    AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
+                        AnalizadoresLFO[i].fftSize = 2048;
+                        arraysValoresOsciladorLFO[i] = new Uint8Array(2048);                        
+                    OsciladoresLFO1[i] = ENTORNO_AUDIO.createOscillator();
+                        OsciladoresLFO1[i].frequency.value = velocidadLFO;
+                        OsciladoresLFO1[i].type = tipoOndaLFO.obtenerValor();
+                        OsciladoresLFO1[i].connect(AnalizadoresLFO[i]);
+                        OsciladoresLFO1[i].connect(LFOgain);
+                        OsciladoresLFO1[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO);
+
+                        funcionesActualizacionValoresDetune[i] = function(){
+
+                            //OBTENIENDO VALORES DEL ANALIZADOR EN NUESTRO ARRAY
+                            AnalizadoresLFO[i].getByteTimeDomainData(arraysValoresOsciladorLFO[i]);
+
+                            let valorInicial = (((arraysValoresOsciladorLFO[i][0]-128)*200)/256);
+
+                            if(!i==0){         
+                                if(i%2==0){
+                                    valorInicial -= desafinacionOscilador1;
+                                }else{
+                                    valorInicial += desafinacionOscilador1;
+                                }             
+                                
+                                desafinacionOscilador1 = desafinacionOscilador1/2;                                
+                                
+                            }
+
+                            if(valorInicial<-255){
+                                valorInicial = -255;
+                            }else if(valorInicial>255){
+                                valorInicial = 255;
+                            }
+
+                            Osciladores1[i].detune.value = valorInicial;
+                            console.log(valorInicial);
+                            requestAnimationFrameLFOIDs1[i] = requestAnimationFrame(funcionesActualizacionValoresDetune[i]);
+                        }
+
+                        funcionesActualizacionValoresDetune[i]();
+
+                }else{  //SI EL LFO NO CONTROLARA EL TONO
+
+                    if(i==0){
+                        Osciladores1[i].detune.value = 0;
+                    }else{
+                        
+                        
+                        if(i%2!=0){
+                            Osciladores1[i].detune.value = desafinacionOscilador1;
+                        }else{
+                            Osciladores1[i].detune.value = -desafinacionOscilador1;
+                        }
+                        desafinacionOscilador1 = desafinacionOscilador1/2;
+                        
+                        
+                    }    
                     
-                }    
+                }
 
                 Osciladores1[i].start();
                 Osciladores1[i].connect(nodoSalidaSintetizador);
@@ -75,26 +149,75 @@ class NotaSintetizador{
             }
     
             for(let i=0; i<datosOscilador2[1].value;i++){
+
                 Osciladores2[i] = ENTORNO_AUDIO.createOscillator();
                 Osciladores2[i].frequency.value = this.frecuencia;
-                Osciladores2[i].type = datosOscilador2[0];
+                Osciladores2[i].type = datosOscilador2[0].obtenerValor();
 
-                if(i==0){
-                    Osciladores2[i].detune.value = 0;
-                }else{
-    
-                    if(i%2!=0){
-                        Osciladores2[i].detune.value = desafinacionOscilador2;
+                let funcionesActualizacionValoresDetune = [];
+                let AnalizadoresLFO = [];
+                let arraysValoresOsciladorLFO = [];  
+                
+                if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
+
+                    AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
+                        AnalizadoresLFO[i].fftSize = 2048;
+                        arraysValoresOsciladorLFO[i] = new Uint8Array(2048);
+                        AnalizadoresLFO[i].getByteTimeDomainData(arraysValoresOsciladorLFO[i]);
+                    OsciladoresLFO2[i] = ENTORNO_AUDIO.createOscillator();
+                        OsciladoresLFO2[i].frequency.value = velocidadLFO;
+                        OsciladoresLFO2[i].type = tipoOndaLFO.obtenerValor();
+                        OsciladoresLFO2[i].connect(AnalizadoresLFO[i]);
+                        OsciladoresLFO2[i].connect(LFOgain);
+                        OsciladoresLFO2[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO);
+
+                        funcionesActualizacionValoresDetune[i] = function(){
+
+                            //OBTENIENDO VALORES DEL ANALIZADOR EN NUESTRO ARRAY
+                            AnalizadoresLFO[i].getByteTimeDomainData(arraysValoresOsciladorLFO[i]);
+
+                            let valorInicial = (((arraysValoresOsciladorLFO[i][0]-128)*200)/256);
+
+                            if(!i==0){
+                                valorInicial += desafinacionOscilador1;
+                                desafinacionOscilador1 = desafinacionOscilador1/2;
+                            }
+
+                            if(valorInicial<-255){
+                                valorInicial = -255;
+                            }else if(valorInicial>255){
+                                valorInicial = 255;
+                            }
+
+                            Osciladores2[i].detune.value = valorInicial;
+
+                            requestAnimationFrameLFOIDs2[i] = requestAnimationFrame(funcionesActualizacionValoresDetune[i]);
+                        }
+
+                        funcionesActualizacionValoresDetune[i]();
+
+                }else{  //SI EL LFO NO CONTROLARA EL TONO
+
+                    if(i==0){
+                        Osciladores2[i].detune.value = 0;
                     }else{
-                        Osciladores2[i].detune.value = -desafinacionOscilador2;
-                    }
-    
-                    desafinacionOscilador2 = desafinacionOscilador2/2;
+                        
+                        
+                        if(i%2!=0){
+                            Osciladores2[i].detune.value = desafinacionOscilador2;
+                        }else{
+                            Osciladores2[i].detune.value = -desafinacionOscilador2;
+                        }
+                        desafinacionOscilador2 = desafinacionOscilador2/2;
+                        
+                        
+                    }    
                     
                 }
-    
+
                 Osciladores2[i].start();
                 Osciladores2[i].connect(nodoSalidaSintetizador);
+
             }
 
   
@@ -138,7 +261,7 @@ class NotaSintetizador{
                             Osciladores2[i].stop();
                         }
 
-                    },duracionRelease*995);
+                    },duracionRelease*1000);
                 
             })
 
@@ -167,7 +290,7 @@ class NotaSintetizador{
                             Osciladores2[i].stop();
                         }
 
-                    },duracionRelease*995);
+                    },duracionRelease*1000);
 
             })
 
@@ -202,7 +325,6 @@ class NotaSintetizador{
             }
 
             Osciladores1[i].start();
-            Osciladores1[i].stop(ENTORNO_AUDIO.currentTime + duracion);
             Osciladores1[i].connect(nodoSalidaSintetizador);
 
         }
@@ -226,15 +348,50 @@ class NotaSintetizador{
                 
             }
 
-            Osciladores2[i].start();
-            Osciladores2[i].stop(ENTORNO_AUDIO.currentTime + duracion);
+            Osciladores2[i].start();            
             Osciladores2[i].connect(nodoSalidaSintetizador);
         }
 
+        nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+        let horaInicioPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+        let duracionAtaque = (getADSRvalues("A")/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+        let finalAtaque = horaInicioPresionDeUnaNota + duracionAtaque;
+        let duracionDecay = (getADSRvalues("D")/100)*MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+        //Ataque
+        nodoADSR.gain.setValueAtTime(0,horaInicioPresionDeUnaNota);
+        nodoADSR.gain.linearRampToValueAtTime(0.5,finalAtaque);
+        //Decay + Sustain
+        nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
+
         this.elementoHTML.classList.add('tecla_blanca_pulsada');
+
+        let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
+
         setTimeout(()=>{
+
+            let volumenAntesDeSoltar = nodoADSR.gain.value;
+
+            nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
+            let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;            
+            let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
+            nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
+            nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
+
             this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+
         },duracion*990)
+
+        setTimeout(()=>{
+
+            for(let i=0;i<Osciladores1.length;i++){
+                Osciladores1[i].stop();
+            }
+
+            for(let i=0;i<Osciladores2.length;i++){
+                Osciladores2[i].stop();
+            }
+
+        },(duracion*990)+(duracionRelease*1000))
         
     }
 
@@ -248,7 +405,7 @@ var seRealizoUnRecorridoYa = false;        //Bandera para ejecutar una sola vez 
                                             //Por mas de aprox. 1 segundo el evento se empieza a disparar varias
                                             //Veces por segundo.
 
-let teclasPulsadas = new Map;
+let teclasPulsadas = new Map();
 
 
 window.addEventListener('keydown',(e)=>{
@@ -337,59 +494,45 @@ window.addEventListener('keydown',(e)=>{
 
 let teclasApagandose = new Map();
 
-function pararOsciladore(key){
-    for(let u=0;u<teclasApagandose.get(key).length;u++){
-        for(let i=0; i<teclasApagandose.get(key)[u].length;i++){
-            teclasApagandose.get(key)[u][i].stop();
-        }        
-    }
-    teclasApagandose.delete(key);
-}
-
-
 window.addEventListener('keyup',(e)=>{
 
     if(!teclasPulsadas.has(e.keyCode)) return false;
 
-    // let osciladores = teclasPulsadas.get(e.keyCode);
+    let osciladores = teclasPulsadas.get(e.keyCode);
 
-    teclasApagandose.set(e.keyCode,teclasPulsadas.get(e.keyCode))
-
-
-    let volumenAntesDeSoltar = nodoADSR.gain.value;
-
-    nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
-    let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
-    let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
-    let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
-    nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
-    nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
-
-    console.log(duracionRelease);
-    setTimeout(pararOsciladore(e.keyCode),duracionRelease*995);
+    for(let u=0;u<osciladores.length;u++){
+        for(let i=0; i<osciladores[u].length;i++){
+            osciladores[u][i].stop();
+        }        
+    };
 
     teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_blanca_pulsada');
 
-    teclasPulsadas.delete(e.keyCode);
-    
+    teclasPulsadas.delete(e.keyCode);    
 })
 
-// REALIZANDO CONEXIONES ENTRE NODOS
+// REALIZANDO CONEXIONES ENTRE NODOS PARTE 1
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 nodoCompresorSintetizador.connect(nodoADSR);
-nodoADSR.connect(nodoMaster)
+nodoADSR.connect(nodoMaster);
+// LFO.connect(LFOgain);
+// LFOgain.connect(nodoMaster)
+
+// LOW FRECUENCY OSCILLATOR
+
+
+
+// REALIZANDO CONEXIONES ENTRE NODOS PARTE 2
+
 nodoMaster.connect(nodoPaneo);
 nodoPaneo.connect(ENTORNO_AUDIO.destination);
 
 
-
-
 window.onload = function(){
-    
+
     /*===================================================================================================================
     ASIGNANDO TECLAS a NOTAS DEL SINTETIZADOR
-    =====================================================================================================================*/
-
+    =====================================================================================================================*/    
     let C4 = new NotaSintetizador(document.getElementById('C4'),document.getElementById('C4Roll'),261.626,81);
     let Csos4 = new NotaSintetizador(document.getElementById('Csos4'),document.getElementById('Csos4Roll'),277.183,50);
     let D4 = new NotaSintetizador(document.getElementById('D4'),document.getElementById('D4Roll'),293.665,87);
@@ -453,11 +596,12 @@ window.onload = function(){
         contextoAnalizador.beginPath();
         var sliceWidth = analizadorHTML.width * 1.0 /bufferLength;
         var x = 0;
+
         for(var i =0; i < bufferLength; i++){
             var v = dataArray[i]/128.0;
             var y = v * analizadorHTML.height/2;
 
-            if(i ===0){
+            if(i===0){
                 contextoAnalizador.moveTo(x,y);
             }else{
                 contextoAnalizador.lineTo(x,y);

@@ -6,10 +6,11 @@ function insertaDeslizadorDeImagenesEn(
     rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML,
     nombresDeImagenesIncluidoFormato,tituloDeslizadorDeImagenes,
     tamañoTituloDeslizadorDeImagenes,
+    flechasIDs,
     ORIENTACIONcolumnaOfila = "columna",
     tamanoFlechas = "3vw",
     grosorContornosFlecha = "0.2vw",
-    colorDeControles = "rgb(160, 160, 160)"
+    colorDeControles = "rgb(160, 160, 160)",    
 ){
 
     let datosDeslizadorImagenes = {};
@@ -92,6 +93,7 @@ function insertaDeslizadorDeImagenesEn(
 
             //CREANDO EL BOTON HACIA LA IZQUIERDA
             let boton_izquierda = document.createElement('div');
+                boton_izquierda.id = flechasIDs[0];
                 boton_izquierda.classList.add('boton-slider-imagenes');
                 boton_izquierda.innerText = '<';
 
@@ -133,6 +135,7 @@ function insertaDeslizadorDeImagenesEn(
 
             //CREANDO EL BOTON HACIA LA DERECHA
             let boton_derecha = document.createElement('div');
+                boton_derecha.id = flechasIDs[1];
                 boton_derecha.innerText = ">";
                 boton_derecha.classList.add('boton-slider-imagenes');
 
@@ -232,6 +235,8 @@ function insertaDeslizadorDeImagenesEn(
             }
         };
     }
+
+    datosDeslizadorImagenes.obtenerIDs = flechasIDs;
 
     return datosDeslizadorImagenes;
 
