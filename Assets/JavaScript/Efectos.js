@@ -31,54 +31,7 @@ var LFOKnobsValues = insertaKnobsEn
     [0,0,0],
     [0.5,100,20],
     [0,0,0],
-    "rgb(106, 146, 106)",
-    [
-        function(){
-            if (!LFOKnobsValues){
-                
-                let esperandoPromesa = new Promise((resolve,reject)=>{
-                    setTimeout(()=>{
-                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[0]);
-                    },1000)
-                })
-                esperandoPromesa
-                    .then((resolve)=>{retrasoLFO = resolve});
-
-            }else{
-                retrasoLFO = LFOKnobsValues.value[0];
-            }
-        },
-        function(){
-            if (!LFOKnobsValues){
-                
-                let esperandoPromesa = new Promise((resolve,reject)=>{
-                    setTimeout(()=>{
-                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[1]);
-                    },1000)
-                })
-                esperandoPromesa
-                    .then((resolve)=>{LFOgain.gain.value = resolve});
-
-            }else{
-                LFOgain.gain.value = LFOKnobsValues.value[1];
-            }            
-        },
-        function(){
-            if (!LFOKnobsValues){
-                
-                let esperandoPromesa = new Promise((resolve,reject)=>{
-                    setTimeout(()=>{
-                        if (LFOKnobsValues) resolve(LFOKnobsValues.value[2]);
-                    },1000)
-                })
-                esperandoPromesa
-                    .then((resolve)=>{velocidadLFO = resolve});
-
-            }else{
-                velocidadLFO = LFOKnobsValues.value[2];
-            }  
-        }
-    ]
+    "rgb(106, 146, 106)"
 );
 
 //CREANDO DESLIZADOR DE IMAGENES PARA EL FILTRO

@@ -28,19 +28,6 @@ function waitEvent(HTMLElement,typeEvent){
 }
 
 
-function hacerAlgoLuegoQueOcurraUnEvento(Callback,HTMLElement,typeEvent){
-    
-    let ocurrioElEvento = waitEvent(HTMLElement,typeEvent)
-    
-    ocurrioElEvento
-        .then(()=>{
-            Callback();
-        })
-}
-
-hacerAlgoLuegoQueOcurraUnEvento(()=>console.log("Hola juan"),document.getElementById('analizador'),"click");
-
-
 
 
 

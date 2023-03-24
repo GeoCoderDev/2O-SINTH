@@ -93,7 +93,7 @@ function insertaKnobsEn
 
             //CREACION DE LOS KNOBS
             Knobs[i] = document.createElement('div');
-            Knobs[i].id = idKnobs[i];
+            // Knobs[i].id = idKnobs[i];
             Knobs[i].style.display = "flex";
             Knobs[i].style.alignItems = "start";            
             Knobs[i].style.justifyContent = "space-evenly";            
@@ -136,6 +136,7 @@ function insertaKnobsEn
 
             //DEFINIENDO LAS MASCARAS DE PARA ARRASTRAR LIBREMENTE POR TODA LA PANTALLA
             mascarasDeArrastre[i] = document.createElement('div');
+            mascarasDeArrastre[i].id = idKnobs[i];
             mascarasDeArrastre[i].style.position = 'fixed';
             mascarasDeArrastre[i].style.top = '0';
             mascarasDeArrastre[i].style.left = '0';
@@ -172,23 +173,19 @@ function insertaKnobsEn
 
     function guardarValores(valores){
         for(let i = 0;i<cantidadKnobs;i++){
-            Knobs[i].style.transform = `rotate(${ValorKnobAGradosCSS(valores[i],limitesInferiores[i],limitesSuperiores[i])}deg)`;
-            knobsValues[i] = valores[i];
+            if(valores[i]!==undefined){
+                Knobs[i].style.transform = `rotate(${ValorKnobAGradosCSS(valores[i],limitesInferiores[i],limitesSuperiores[i])}deg)`;
+                knobsValues[i] = valores[i];
+            }
         }
-    }
-
-    function obtenerIDs(){
-        return idKnobs;
     }
 
     guardarValores(valoresPorDefecto);
 
-
-
     return {
         value: knobsValues,
         setValues: guardarValores,
-        obtenerIDs: obtenerIDs
+        obtenerIDs: idKnobs
     }
 
 }; 
