@@ -4,6 +4,10 @@ let frecuenciasPorTecla = [];
 let teclaHTMLPorTecla = [];
 let controlLFO = document.getElementById('Control-a-controlar-LFO').value;
 
+document.getElementById('Control-a-controlar-LFO').addEventListener('change',()=>{
+    controlLFO = document.getElementById('Control-a-controlar-LFO').value;
+})
+
 const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
 
 // DESLIZADORES DEL AMPLIFICADOR ADSR
@@ -84,11 +88,12 @@ class NotaSintetizador{
                         LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                         
                         //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                             for(let k=0;k<LFOgains.length;k++){     
                                 LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                            }     
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                            }    
+                        });
+
                         
                     AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                         AnalizadoresLFO[i].fftSize = 2048;
@@ -98,11 +103,12 @@ class NotaSintetizador{
                         OsciladoresLFO1[i].frequency.value = LFOKnobsValues.value[2];
 
                         // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                             for(let u=0;u<OsciladoresLFO1.length;u++){
                                 OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                             }
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                        });
 
                         OsciladoresLFO1[i].type = tipoOndaLFO.obtenerValor();
 
@@ -210,11 +216,11 @@ class NotaSintetizador{
                             LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                             
                             //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                            agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                            delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                                 for(let k=0;k<LFOgains.length;k++){     
                                     LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                                }     
-                            },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                                }    
+                            });
                             
                         AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                             AnalizadoresLFO[i].fftSize = 2048;
@@ -224,11 +230,11 @@ class NotaSintetizador{
                             OsciladoresLFO2[i].frequency.value = LFOKnobsValues.value[2];
     
                             // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                            agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+                            delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                                 for(let u=0;u<OsciladoresLFO1.length;u++){
                                     OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                                 }
-                            },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                            });
     
                             OsciladoresLFO2[i].type = tipoOndaLFO.obtenerValor();
     
@@ -434,11 +440,11 @@ class NotaSintetizador{
                     LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                     
                     //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                    agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                    delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                         for(let k=0;k<LFOgains.length;k++){     
                             LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                        }     
-                    },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                        }    
+                    });
                     
                 AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                     AnalizadoresLFO[i].fftSize = 2048;
@@ -448,11 +454,11 @@ class NotaSintetizador{
                     OsciladoresLFO1[i].frequency.value = LFOKnobsValues.value[2];
 
                     // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                    agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+                    delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                         for(let u=0;u<OsciladoresLFO1.length;u++){
                             OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                         }
-                    },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                    });
 
                     OsciladoresLFO1[i].type = tipoOndaLFO.obtenerValor();
 
@@ -560,11 +566,11 @@ class NotaSintetizador{
                         LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                         
                         //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                             for(let k=0;k<LFOgains.length;k++){     
                                 LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                            }     
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                            }    
+                        });
                         
                     AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                         AnalizadoresLFO[i].fftSize = 2048;
@@ -574,11 +580,11 @@ class NotaSintetizador{
                         OsciladoresLFO2[i].frequency.value = LFOKnobsValues.value[2];
 
                         // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                             for(let u=0;u<OsciladoresLFO1.length;u++){
                                 OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                             }
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                        });
 
                         OsciladoresLFO2[i].type = tipoOndaLFO.obtenerValor();
 
@@ -764,11 +770,11 @@ window.addEventListener('keydown',(e)=>{
                     LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                     
                     //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                    agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                    delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                         for(let k=0;k<LFOgains.length;k++){     
                             LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                        }     
-                    },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                        }    
+                    });
                     
                 AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                     AnalizadoresLFO[i].fftSize = 2048;
@@ -778,11 +784,11 @@ window.addEventListener('keydown',(e)=>{
                     OsciladoresLFO1[i].frequency.value = LFOKnobsValues.value[2];
 
                     // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                    agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+                    delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                         for(let u=0;u<OsciladoresLFO1.length;u++){
                             OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                         }
-                    },true,[waitEvent(window,"keyup")]);
+                    });
 
                     OsciladoresLFO1[i].type = tipoOndaLFO.obtenerValor();
 
@@ -890,11 +896,11 @@ window.addEventListener('keydown',(e)=>{
                         LFOgains[i].gain.value = LFOKnobsValues.value[1]/100; //Inicializando la Amplitud
                         
                         //Colocando a todos los LFOs sus nuevos valores de ganancias                              
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
                             for(let k=0;k<LFOgains.length;k++){     
                                 LFOgains[k].gain.value = LFOKnobsValues.value[1]/100;
-                            }     
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                            }    
+                        });
                         
                     AnalizadoresLFO[i] = ENTORNO_AUDIO.createAnalyser();
                         AnalizadoresLFO[i].fftSize = 2048;
@@ -904,11 +910,11 @@ window.addEventListener('keydown',(e)=>{
                         OsciladoresLFO2[i].frequency.value = LFOKnobsValues.value[2];
 
                         // EVENTO DE PARA ACTUALIZAR LA VELOCIDAD LFO EN VIVO
-                        agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
+                        delegarEvento("mousemove",`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
                             for(let u=0;u<OsciladoresLFO1.length;u++){
                                 OsciladoresLFO1[u].frequency.value = LFOKnobsValues.value[2];
                             }
-                        },true,[waitEvent(this.elementoHTML,"mouseup"),waitEvent(this.elementoHTML,"mouseout")]);
+                        });
 
                         OsciladoresLFO2[i].type = tipoOndaLFO.obtenerValor();
 
@@ -1035,10 +1041,7 @@ window.addEventListener('keyup',(e)=>{
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 nodoCompresorSintetizador.connect(nodoADSR);
 nodoADSR.connect(nodoMaster);
-// LFO.connect(LFOgain);
-// LFOgain.connect(nodoMaster)
 
-// LOW FRECUENCY OSCILLATOR
 
 
 
@@ -1131,64 +1134,72 @@ window.onload = function(){
     dibujarSonido();
 
     //===========================================================================================================
-    // CONTROL A CONTROLAR CON LFO
+    // CONTROL A CONTROLAR CON LFO APARTE DE TONO
     //===========================================================================================================
     const comboBoxLFO = document.getElementById('Control-a-controlar-LFO');
 
-    let requestAnimationKNOBS;
+    let requestAnimationFrameLFO;
+    let LFO;
+    
+    let LFOgain = ENTORNO_AUDIO.createGain();
+    LFOgain.gain.value = LFOKnobsValues.value[1]/100;
 
-    comboBoxLFO.addEventListener('change',(e)=>{
-        controlLFO = e.target.value;
+    delegarEvento('mousemove',`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
+        LFOgain.gain.value = LFOKnobsValues.value[1]/100;
+    })
 
-        if(requestAnimationKNOBS) cancelAnimationFrame(requestAnimationKNOBS);
+    let LFOAnalizador = ENTORNO_AUDIO.createAnalyser();
+    LFOAnalizador.fftSize = 2048;
+    let dataLFO = new Uint8Array(2048);
 
-        if (controlLFO=="pan"){
 
-            let LFOpan = ENTORNO_AUDIO.createOscillator();
-                LFOpan.frequency.value = LFOKnobsValues.value[2];
+    //SE EJECUTARA UNA SOLA VEZ UNA VES QUE SE DISPARE EL EVENTO
+    eventoDeVariableEsDiferenteDe(this,
+        `((this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}])/3)`,
+        128,false,
+    function(){
+    
+        if(comboBoxLFO.value!="tono"&&comboBoxLFO.value!="none"){
 
-                agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[2],"mousemove",()=>{
-                    LFOpan.frequency.value = LFOKnobsValues.value[2];
-                },true);
-                
-                let LFOpanGain = ENTORNO_AUDIO.createGain();
-                LFOpanGain.gain.value = LFOKnobsValues.value[1];
-                agregarEventoLuegoQueSeCreeUnElementoHTML(LFOKnobsValues.obtenerIDs[1],"mousemove",()=>{
-                    LFOpanGain.gain.value = LFOKnobsValues.value[1];
-                },true);
+            LFO = ENTORNO_AUDIO.createOscillator();
+            LFO.type = tipoOndaLFO.obtenerValor();
+            delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]},#${tipoOndaLFO.obtenerIDs[1]}`,()=>{
+                LFO.type = tipoOndaLFO.obtenerValor();
+            })
 
-                let LFOAnalizador = ENTORNO_AUDIO.createAnalyser();
-                LFOAnalizador.fftSize = 2048;
-                let dataLFO = new Uint8Array(2048);
-                
-            LFOpan.connect(LFOpanGain);
-            LFOpanGain.connect(LFOAnalizador);
-            
             let retrasoLFO = LFOKnobsValues.value[0];
+
+            LFO.frequency.value = LFOKnobsValues.value[2];
+
+            delegarEvento('mousemove',`#${LFOKnobsValues.obtenerIDs[2]}`,()=>{
+                LFO.frequency.value = LFOKnobsValues.value[2];
+            });
+
+            LFO.connect(LFOgain);
+            LFOgain.connect(LFOAnalizador);
+
+            LFO.start(ENTORNO_AUDIO.currentTime + retrasoLFO);
+
             
-            waitVariablePropertyValueDifferentTo(this,`datosAnalizador[${parseInt(Math.random()*2048-2)}]`,128)
-                .then(()=>{
-                    LFOpan.start(ENTORNO_AUDIO.currentTime + retrasoLFO);
-                })
 
-            eventoDeVariableEsDiferenteDe(this,`datosAnalizador[${parseInt(Math.random()*2048-2)}]`,128,true,
-            function(){        
-
+            function actualizandoPanConstantemente(){                
                 LFOAnalizador.getByteTimeDomainData(dataLFO);
                 let valorPAN = ((dataLFO[0]-128))/128;
                 panSintetizador.setValues([valorPAN]);
                 nodoPaneo.pan.value = valorPAN;
-            },
-            function(){
-                LFOpan.stop();
-                nodoPaneo.pan.value += 0; 
-            })
+                requestAnimationFrameLFO = requestAnimationFrame(actualizandoPanConstantemente);
+            }
 
+            actualizandoPanConstantemente();
 
         }
+    },
+    function(){
 
-    })
+        if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
+        if(LFO!==undefined)LFO.stop();        
 
+    });
 
 
 
@@ -1216,5 +1227,10 @@ window.onload = function(){
     //     B4.hacerSonarNota(2)
     //     D5.hacerSonarNota(2)
     // },8000)
+
+    // setTimeout(()=>{
+
+    //     console.log(eval(`this.datosAnalizador[${parseInt(Math.random()*100)}]`));
+    // },3000)
 
 }

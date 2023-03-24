@@ -1,6 +1,6 @@
 
 
-async function waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedad,value){
+async function waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedadOcondicion,value){
 
     return new Promise((resolve,reject)=>{
 
@@ -12,10 +12,10 @@ async function waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpr
 
             let scope = localScope;
 
-            let variableOpropiedadEsDiferenteAvalue = eval(`scope.${nombreVariableOpropiedad}!==${value}`);
+            let variableOpropiedadEsDiferenteAvalue = eval(`${nombreVariableOpropiedadOcondicion}!==${value}`);
 
             if(variableOpropiedadEsDiferenteAvalue){
-                resolve({nombreVariable:nombreVariableOpropiedad,valorNuevo:eval(`${nombreVariableOpropiedad}`),valorAntiguo:value});
+                resolve({nombreVariable:nombreVariableOpropiedadOcondicion,valorNuevo:eval(`${nombreVariableOpropiedadOcondicion}`),valorAntiguo:value});
                 cancelAnimationFrame(requestAnimationID)
             }
         }
@@ -26,7 +26,7 @@ async function waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpr
 
 }
 
-async function waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedad,value){
+async function waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedadOcondicion,value){
 
     return new Promise((resolve,reject)=>{
 
@@ -38,11 +38,11 @@ async function waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropi
 
             let scope = localScope;
 
-            let variableOpropiedadEsIgualAvalue = eval(`scope.${nombreVariableOpropiedad}==${value}`);
+            let variableOpropiedadEsIgualAvalue = eval(`${nombreVariableOpropiedadOcondicion}==${value}`);
 
             if(variableOpropiedadEsIgualAvalue){
-                resolve({nombreVariable:nombreVariableOpropiedad,valorNuevo:eval(`${nombreVariableOpropiedad}`),valorAntiguo:value});
-                cancelAnimationFrame(requestAnimationID)
+                cancelAnimationFrame(requestAnimationID);
+                resolve({nombreVariable:nombreVariableOpropiedadOcondicion,valorNuevo:eval(`${nombreVariableOpropiedadOcondicion}`),valorAntiguo:value});
             }
         }
 
@@ -53,9 +53,9 @@ async function waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropi
 }
 
 
-function eventoDeVariableEsDiferenteDe(localScope,nombreVariableOpropiedad,value,constantemente,callbackEventoIniciado,callbackEventoTerminado){
+function eventoDeVariableEsDiferenteDe(localScope,nombreVariableOpropiedadOcondicion,value,constantemente,callbackEventoIniciado,callbackEventoTerminado){
 
-    waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedad,value)
+    waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedadOcondicion,value)
         .then((resolve)=>{
 
             let requestAnimationFrameEvento;
@@ -75,19 +75,19 @@ function eventoDeVariableEsDiferenteDe(localScope,nombreVariableOpropiedad,value
                 callbackEventoIniciado(resolve);
             }
             
-            waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedad,value)
+            waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedadOcondicion,value)
                 .then((resolve)=>{
                     if(constantemente==true) cancelAnimationFrame(requestAnimationFrameEvento);
                     if(callbackEventoTerminado!==undefined) callbackEventoTerminado(resolve);
-                    eventoDeVariableEsDiferenteDe(localScope,nombreVariableOpropiedad,value,callbackEventoIniciado,callbackEventoTerminado);
+                    eventoDeVariableEsDiferenteDe(localScope,nombreVariableOpropiedadOcondicion,value,constantemente,callbackEventoIniciado,callbackEventoTerminado);
                 })
             return resolve;
         })
 
 }
 
-function eventoDeVariableEsIgualA(localScope,nombreVariableOpropiedad,value,constantemente,callbackEventoIniciado,callbackEventoTerminado){
-    waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedad,value)
+function eventoDeVariableEsIgualA(localScope,nombreVariableOpropiedadOcondicion,value,constantemente,callbackEventoIniciado,callbackEventoTerminado){
+    waitVariablePropertyValueEqualsTo(localScope,nombreVariableOpropiedadOcondicion,value)
         .then((resolve)=>{
             
             let requestAnimationFrameEvento;
@@ -107,12 +107,12 @@ function eventoDeVariableEsIgualA(localScope,nombreVariableOpropiedad,value,cons
                 callbackEventoIniciado(resolve);
             }
 
-            waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedad,value)
+            waitVariablePropertyValueDifferentTo(localScope,nombreVariableOpropiedadOcondicion,value)
                 .then((resolve)=>{
 
                     if(constantemente==true) cancelAnimationFrame(requestAnimationFrameEvento);
                     if(callbackEventoTerminado!==undefined) callbackEventoTerminado(resolve);
-                    eventoDeVariableEsIgualA(localScope,nombreVariableOpropiedad,value,constantemente,callbackEventoIniciado,callbackEventoTerminado);
+                    eventoDeVariableEsIgualA(localScope,nombreVariableOpropiedadOcondicion,value,constantemente,callbackEventoIniciado,callbackEventoTerminado);
 
                 })
         })

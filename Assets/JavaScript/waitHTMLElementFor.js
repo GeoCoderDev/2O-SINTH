@@ -71,3 +71,4 @@ function agregarEventoLuegoQueSeCreeUnElementoHTML(id,typeEvent,callBack,element
 
 }
 
+// No necesario con la delegacion de eventos SORRY//
