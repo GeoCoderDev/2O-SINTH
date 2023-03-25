@@ -81,11 +81,12 @@ var FiltroKnobsValues = insertaKnobsEn
 var barrasDistorsion = insertarGraficoDeBarrasInteractiva
 (
     document.getElementById('cont-barras'),
-    26,
-    0,
-    2,
+    CANTIDAD_BARRAS_DISTORSION,
+    -1,
+    1,
     "rgb(184, 133, 112)",
-    "rgb(154, 103, 82)"
+    "rgb(154, 103, 82)",
+    "BarraDistorsion"
 );
 
 //CREANDO KNOBS PARA EL EFECTO DE REBERB
@@ -97,9 +98,9 @@ var knobsReverb = insertaKnobsEn(
     1,
     ["DURACION"],
     ["knob-duracion-reverb"],
-    [0],
-    [1.5],
-    [0],
+    [0.01],
+    [3],
+    [0.01],
     "rgb(106, 141, 146)"
 );
 

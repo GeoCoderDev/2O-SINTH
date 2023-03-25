@@ -36,6 +36,29 @@ function getADSRvalues(elementoADSR){
     }
 }
 
+//===========================================================================================================
+// REVERBERACION
+//===========================================================================================================
+
+var impulse;
+
+
+function impulseResponse(duration,decay) {
+    var length = ENTORNO_AUDIO.sampleRate * duration;
+    var impulse;
+    impulse = ENTORNO_AUDIO.createBuffer(2,length,ENTORNO_AUDIO.sampleRate);
+    var IR = impulse.getChannelData(0);
+    for (var i=0;i<length;i++) IR[i] = (2*Math.random()-1)*Math.pow(1-i/length,decay);
+    return impulse;
+}
+
+// duracionReverb = knobsReverb.value[0];
+
+// delegarEvento('mousemove',`#${knobsReverb.obtenerIDs[0]}`,()=>{
+//     duracionReverb = knobsReverb.value[0];
+// })
+
+
 class NotaSintetizador{
 
     constructor(elementoHTML,elementoHTMLPianoRoll,frecuencia,codigoTecla){
@@ -47,6 +70,12 @@ class NotaSintetizador{
         teclaHTMLPorTecla[codigoTecla] = this.elementoHTML;
 
         this.elementoHTML.addEventListener('mousedown',()=>{
+
+            setTimeout(()=>{        
+                console.log(knobsReverb.value[0]);
+                nodoDeConvolucion.buffer = impulse;
+                impulse = impulseResponse(knobsReverb.value[0],1);
+            }, 1);
 
             let Osciladores1 = [];
             let Osciladores2 = [];
@@ -409,6 +438,12 @@ class NotaSintetizador{
             let requestAnimationFrameLFOIDs1 = [];
             let requestAnimationFrameLFOIDs2 = [];
 
+        setTimeout(()=>{        
+            console.log(knobsReverb.value[0]);
+            nodoDeConvolucion.buffer = impulse;
+            impulse = impulseResponse(knobsReverb.value[0],1);
+        }, 1);
+
         for(let i=0; i<datosOscilador1[1].value;i++){
             
             Osciladores1[i] = ENTORNO_AUDIO.createOscillator();
@@ -739,6 +774,14 @@ window.addEventListener('keydown',(e)=>{
         let requestAnimationFrameLFOIDs1 = [];
         let requestAnimationFrameLFOIDs2 = [];
 
+
+        setTimeout(()=>{        
+            console.log(knobsReverb.value[0]);
+            nodoDeConvolucion.buffer = impulse;
+            impulse = impulseResponse(knobsReverb.value[0],1);
+        }, 1);
+
+
         for(let i=0; i<datosOscilador1[1].value;i++){
             
             Osciladores1[i] = ENTORNO_AUDIO.createOscillator();
@@ -989,6 +1032,8 @@ window.addEventListener('keydown',(e)=>{
                 Osciladores2[i].start();
                 Osciladores2[i].connect(nodoSalidaSintetizador);
         }
+
+
         //INICIANDO AMPLIFICADOR ADSR
 
         nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
@@ -1037,17 +1082,23 @@ window.addEventListener('keyup',(e)=>{
     teclasPulsadas.delete(e.keyCode);    
 })
 
-// REALIZANDO CONEXIONES ENTRE NODOS PARTE 1
+// REALIZANDO CONEXIONES ENTRE NODOS
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 nodoCompresorSintetizador.connect(nodoADSR);
 nodoADSR.connect(nodoDeFiltro);
-nodoDeFiltro.connect(nodoMaster);
+nodoDeFiltro.connect(nodoDistorsion);
 
+nodoDistorsion.connect(nodoMaster);
+nodoDistorsion.connect(nodoDeConvolucion);
+nodoDeConvolucion.connect(nodoMaster);
 
-
-// REALIZANDO CONEXIONES ENTRE NODOS PARTE 2
+nodoMaster.connect(nodoDeEco);
+nodoDeEco.connect(nodoFeedbackEco);
+nodoFeedbackEco.connect(nodoDeEco);
+nodoDeEco.connect(nodoPaneo);
 
 nodoMaster.connect(nodoPaneo);
+nodoPaneo.connect(nodoAnalizador);
 nodoPaneo.connect(ENTORNO_AUDIO.destination);
 
 
@@ -1097,8 +1148,6 @@ window.onload = function(){
     /*===================================================================================================================
     ANALIZADOR
     =====================================================================================================================*/
-
-    nodoMaster.connect(nodoAnalizador);
 
     var analizadorHTML = document.getElementById('analizador');
     var contextoAnalizador = analizadorHTML.getContext('2d');
@@ -1158,7 +1207,7 @@ window.onload = function(){
         `((this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}])/3)`,
         128,false,
     function(){
-        
+
         if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
         if(LFO!==undefined)LFO.stop();
 
@@ -1236,35 +1285,67 @@ window.onload = function(){
         nodoDeFiltro.gain.value = FiltroKnobsValues.value[2]/100;
     })
 
+    //===========================================================================================================
+    // DISTORSION
+    //===========================================================================================================
+
+    // barrasDistorsion.setValues([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+
+    for(let i = 0;i<datosCurvaDistorsion.length;i++){
+        datosCurvaDistorsion[i] = barrasDistorsion.value[i];
+    }
+    nodoDistorsion.curve = datosCurvaDistorsion;
+
+    delegarEvento('mousemove',`.${barrasDistorsion.claseBarras}`,()=>{
+        for(let i = 0;i<datosCurvaDistorsion.length;i++){
+            datosCurvaDistorsion[i] = barrasDistorsion.value[i];
+        }
+        nodoDistorsion.curve = datosCurvaDistorsion;
+    })
 
 
-    // setTimeout(()=>{
-    //     C4.hacerSonarNota(2)
-    //     E4.hacerSonarNota(2)
-    //     G4.hacerSonarNota(2)
-    // },2000)
+    //===========================================================================================================
+    // REVERBERACION
+    //===========================================================================================================
 
-    // setTimeout(()=>{
-    //     D4.hacerSonarNota(2)
-    //     Fsos4.hacerSonarNota(2)
-    //     A4.hacerSonarNota(2)
-    // },4000)
 
-    // setTimeout(()=>{
-    //     E4.hacerSonarNota(2)
-    //     G4.hacerSonarNota(2)
-    //     B4.hacerSonarNota(2)
-    // },6000)
+    //===========================================================================================================
+    // ECO
+    //===========================================================================================================
+    nodoDeEco.delayTime.value = knobsEco.value[0];
 
-    // setTimeout(()=>{
-    //     G4.hacerSonarNota(2)
-    //     B4.hacerSonarNota(2)
-    //     D5.hacerSonarNota(2)
-    // },8000)
+    delegarEvento('mousemove',`#${knobsEco.obtenerIDs[0]}`,()=>{
+        nodoDeEco.delayTime.value = knobsEco.value[0];
+    })
 
-    // setTimeout(()=>{
+    nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
+    
+    delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
+        nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
+    })
 
-    //     console.log(eval(`this.datosAnalizador[${parseInt(Math.random()*100)}]`));
-    // },3000)
+    setTimeout(()=>{
+        C4.hacerSonarNota(2)
+        E4.hacerSonarNota(2)
+        G4.hacerSonarNota(2)
+    },2000)
+
+    setTimeout(()=>{
+        D4.hacerSonarNota(2)
+        Fsos4.hacerSonarNota(2)
+        A4.hacerSonarNota(2)
+    },4000)
+
+    setTimeout(()=>{
+        E4.hacerSonarNota(2)
+        G4.hacerSonarNota(2)
+        B4.hacerSonarNota(2)
+    },6000)
+
+    setTimeout(()=>{
+        G4.hacerSonarNota(2)
+        B4.hacerSonarNota(2)
+        D5.hacerSonarNota(2)
+    },8000)
 
 }

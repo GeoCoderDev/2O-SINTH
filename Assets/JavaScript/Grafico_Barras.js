@@ -34,14 +34,16 @@ function obtenerValorBarra(barra,limiteInferior,limiteSuperior){
         i++;
     }
 
-    return (parseFloat(coincidencia.match(/\d\d\d?.\d+|\d.\d+|\d\d/)[0])/100)*(limiteSuperior-limiteInferior);
+    return (((parseFloat(coincidencia.match(/\d\d\d?.\d+|\d.\d+|\d\d/)[0])/100)*(limiteSuperior-limiteInferior))+limiteInferior);
 }
 
 //FUNCION PARA GUARDAR UN VALOR EN UNA BARRA
 //MEDIANTE SU PROPIEDAD BACKGROUND IMAGE
 function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
     let porcentajeApintar =
-    ((valor/(limiteSuperior-limiteInferior))*100) + 0.01;
+    (((valor-limiteInferior)/(limiteSuperior-limiteInferior))*100) + 0.01;
+
+    console.log(porcentajeApintar)
 
     barra.style.backgroundImage = "none";
 
@@ -57,7 +59,8 @@ function insertarGraficoDeBarrasInteractiva
     valorLimiteInferiorBarras,
     valorLimiteSuperiorBarras,
     colorContornos,
-    colorFondo
+    colorFondo,
+    NombreDeClaseDeLasBarras
 ){
 
     insertarReglasCSSAdicionales(
@@ -114,6 +117,7 @@ function insertarGraficoDeBarrasInteractiva
             //DEFINIENDO LAS MASCARA DE PARA ARRASTRAR LIBREMENTE POR 
             //TODA LA PANTALLA PARA CADA BARRA
             mascarasDeArrastre[i] = document.createElement('div');
+            mascarasDeArrastre[i].classList.add(NombreDeClaseDeLasBarras);
             mascarasDeArrastre[i].style.position = 'fixed';
             mascarasDeArrastre[i].style.top = '0';
             mascarasDeArrastre[i].style.left = '0';
@@ -128,7 +132,7 @@ function insertarGraficoDeBarrasInteractiva
                 barrasContenedoras[i].style.backgroundImage = 
                 `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${valorEnPorcentaje}%,transparent ${valorEnPorcentaje}%)`;
 
-                matrizValores[i] = (valorEnPorcentaje/100)*(valorLimiteSuperiorBarras-valorLimiteInferiorBarras);
+                matrizValores[i] = ((valorEnPorcentaje/100)*(valorLimiteSuperiorBarras-valorLimiteInferiorBarras)) + valorLimiteInferiorBarras;
 
             }
             //Insertando Mascara de Arrastre Invisible en el contenedor de knobs
@@ -150,12 +154,14 @@ function insertarGraficoDeBarrasInteractiva
             valores[i] = (valores[i]<valorLimiteInferiorBarras)?valorLimiteInferiorBarras:valores[i];
             setValueBarra(barrasContenedoras[i],parseFloat(valores[i].toFixed(2)),valorLimiteInferiorBarras,valorLimiteSuperiorBarras,colorFondo)
             matrizValores[i] = parseFloat(valores[i].toFixed(2));
+
         }
     }
 
     return {
         value: matrizValores,
-        setValues: guardarValoresEnBarras
+        setValues: guardarValoresEnBarras,
+        claseBarras: NombreDeClaseDeLasBarras
     };
 
 }
