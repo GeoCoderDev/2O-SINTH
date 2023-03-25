@@ -6,6 +6,8 @@ var nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
 
 var nodoADSR = ENTORNO_AUDIO.createGain();
 
+var nodoDeFiltro = ENTORNO_AUDIO.createBiquadFilter();
+
 var nodoMaster = ENTORNO_AUDIO.createGain();
 var nodoPaneo = ENTORNO_AUDIO.createStereoPanner();
 

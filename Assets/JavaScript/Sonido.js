@@ -1040,8 +1040,8 @@ window.addEventListener('keyup',(e)=>{
 // REALIZANDO CONEXIONES ENTRE NODOS PARTE 1
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 nodoCompresorSintetizador.connect(nodoADSR);
-nodoADSR.connect(nodoMaster);
-
+nodoADSR.connect(nodoDeFiltro);
+nodoDeFiltro.connect(nodoMaster);
 
 
 
@@ -1158,13 +1158,18 @@ window.onload = function(){
         `((this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}]+this.datosAnalizador[${parseInt(Math.random()*100)}])/3)`,
         128,false,
     function(){
-    
+        
+        if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
+        if(LFO!==undefined)LFO.stop();
+
         if(comboBoxLFO.value!="tono"&&comboBoxLFO.value!="none"){
 
             LFO = ENTORNO_AUDIO.createOscillator();
             LFO.type = tipoOndaLFO.obtenerValor();
             delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]},#${tipoOndaLFO.obtenerIDs[1]}`,()=>{
-                LFO.type = tipoOndaLFO.obtenerValor();
+                setTimeout(()=>{
+                    LFO.type = tipoOndaLFO.obtenerValor();
+                },400)
             })
 
             let retrasoLFO = LFOKnobsValues.value[0];
@@ -1185,8 +1190,12 @@ window.onload = function(){
             function actualizandoPanConstantemente(){                
                 LFOAnalizador.getByteTimeDomainData(dataLFO);
                 let valorPAN = ((dataLFO[0]-128))/128;
-                panSintetizador.setValues([valorPAN]);
-                nodoPaneo.pan.value = valorPAN;
+
+                if(comboBoxLFO.value=="pan"){
+                    panSintetizador.setValues([valorPAN]);
+                    nodoPaneo.pan.value = valorPAN;
+                }
+                
                 requestAnimationFrameLFO = requestAnimationFrame(actualizandoPanConstantemente);
             }
 
@@ -1195,12 +1204,37 @@ window.onload = function(){
         }
     },
     function(){
-
-        if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
-        if(LFO!==undefined)LFO.stop();        
-
+            if((datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)])/3==128){
+                if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
+                if(LFO!==undefined)LFO.stop();        
+            }               
     });
 
+    //===========================================================================================================
+    // FILTRO
+    //===========================================================================================================
+
+    nodoDeFiltro.type = tipoDeFiltro.obtenerValor();
+    delegarEvento('click',`#${tipoDeFiltro.obtenerIDs[0]},#${tipoDeFiltro.obtenerIDs[1]}`,()=>{
+        setTimeout(()=>{
+            nodoDeFiltro.type = tipoDeFiltro.obtenerValor();
+        },400)        
+    })
+
+    nodoDeFiltro.Q.value = FiltroKnobsValues.value[0]/100;
+    delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[0]}`,()=>{
+        nodoDeFiltro.Q.value = FiltroKnobsValues.value[0]/100;
+    })
+
+    nodoDeFiltro.frequency.value = FiltroKnobsValues.value[1];
+    delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[1]}`,()=>{
+        nodoDeFiltro.frequency.value = FiltroKnobsValues.value[1];
+    })
+
+    nodoDeFiltro.gain.value = FiltroKnobsValues.value[2]/100;
+    delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[2]}`,()=>{
+        nodoDeFiltro.gain.value = FiltroKnobsValues.value[2]/100;
+    })
 
 
 
