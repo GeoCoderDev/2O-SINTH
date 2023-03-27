@@ -1236,27 +1236,42 @@ window.onload = function(){
 
             
 
-            function actualizandoPanConstantemente(){                
-                LFOAnalizador.getByteTimeDomainData(dataLFO);
-                let valorPAN = ((dataLFO[0]-128))/128;
+            function actualizandoKnobsConstantemente(){                
+                LFOAnalizador.getByteTimeDomainData(dataLFO);                
 
                 if(comboBoxLFO.value=="pan"){
+
+                    let valorPAN = ((dataLFO[0]-128))/128;
                     panSintetizador.setValues([valorPAN]);
                     nodoPaneo.pan.value = valorPAN;
+
+                }else if(comboBoxLFO.value=="filtro-factor-q"){
+                    let valorFiltroFactorQ = (Math.abs(dataLFO[0]-128)/128)*(100);
+                    FiltroKnobsValues.setValues([valorFiltroFactorQ,undefined,undefined]);
+                    // console.log(valorFiltroFactorQ)
+                    nodoDeFiltro.Q.value = valorFiltroFactorQ;
+
+                }else if(comboBoxLFO.value=="filtro-frecuencia"){
+                    let valorFiltroFrecuencia = (Math.abs(dataLFO[0]-128)/128)*(FRECUENCIA_MAXIMA_FILTRO);
+                    FiltroKnobsValues.setValues([undefined,valorFiltroFrecuencia,undefined]);
+                    nodoDeFiltro.frequency.value = valorFiltroFrecuencia;
                 }
                 
-                requestAnimationFrameLFO = requestAnimationFrame(actualizandoPanConstantemente);
+                requestAnimationFrameLFO = requestAnimationFrame(actualizandoKnobsConstantemente);
             }
 
-            actualizandoPanConstantemente();
+            actualizandoKnobsConstantemente();
 
         }
     },
     function(){
+        setTimeout(()=>{
             if((datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)])/3==128){
-                if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
                 if(LFO!==undefined)LFO.stop();        
-            }               
+                if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
+            }      
+        },500)
+
     });
 
     //===========================================================================================================
@@ -1305,11 +1320,6 @@ window.onload = function(){
 
 
     //===========================================================================================================
-    // REVERBERACION
-    //===========================================================================================================
-
-
-    //===========================================================================================================
     // ECO
     //===========================================================================================================
     nodoDeEco.delayTime.value = knobsEco.value[0];
@@ -1324,28 +1334,28 @@ window.onload = function(){
         nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
     })
 
-    setTimeout(()=>{
-        C4.hacerSonarNota(2)
-        E4.hacerSonarNota(2)
-        G4.hacerSonarNota(2)
-    },2000)
+    // setTimeout(()=>{
+    //     C4.hacerSonarNota(2)
+    //     E4.hacerSonarNota(2)
+    //     G4.hacerSonarNota(2)
+    // },2000)
 
-    setTimeout(()=>{
-        D4.hacerSonarNota(2)
-        Fsos4.hacerSonarNota(2)
-        A4.hacerSonarNota(2)
-    },4000)
+    // setTimeout(()=>{
+    //     D4.hacerSonarNota(2)
+    //     Fsos4.hacerSonarNota(2)
+    //     A4.hacerSonarNota(2)
+    // },4000)
 
-    setTimeout(()=>{
-        E4.hacerSonarNota(2)
-        G4.hacerSonarNota(2)
-        B4.hacerSonarNota(2)
-    },6000)
+    // setTimeout(()=>{
+    //     E4.hacerSonarNota(2)
+    //     G4.hacerSonarNota(2)
+    //     B4.hacerSonarNota(2)
+    // },6000)
 
-    setTimeout(()=>{
-        G4.hacerSonarNota(2)
-        B4.hacerSonarNota(2)
-        D5.hacerSonarNota(2)
-    },8000)
+    // setTimeout(()=>{
+    //     G4.hacerSonarNota(2)
+    //     B4.hacerSonarNota(2)
+    //     D5.hacerSonarNota(2)
+    // },8000)
 
 }

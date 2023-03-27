@@ -70,7 +70,7 @@ var FiltroKnobsValues = insertaKnobsEn
     ["FACTOR Q","FRECUENCIA","GANANCIA"],
     ['Filtro-Factor-Q','Filtro-Frecuencia','Filtro-Ganancia'],
     [0,20,0],
-    [100,18000,100],
+    [100,FRECUENCIA_MAXIMA_FILTRO,100],
     [0,20,0],
     "rgb(146, 106, 139)"
 );

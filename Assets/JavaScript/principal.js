@@ -7,6 +7,7 @@ var nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
 var nodoADSR = ENTORNO_AUDIO.createGain();
 
 var nodoDeFiltro = ENTORNO_AUDIO.createBiquadFilter();
+    const FRECUENCIA_MAXIMA_FILTRO = 15000;
 
 var nodoDistorsion = ENTORNO_AUDIO.createWaveShaper();
     const CANTIDAD_BARRAS_DISTORSION = 25;
