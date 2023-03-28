@@ -706,7 +706,13 @@ class NotaSintetizador{
         //Decay + Sustain
         nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
 
-        this.elementoHTML.classList.add('tecla_blanca_pulsada');
+        
+        if (this.elementoHTML.id.match(/sos/g)){
+            this.elementoHTML.classList.add('tecla_negra_pulsada');
+        }else{
+            this.elementoHTML.classList.add('tecla_blanca_pulsada');
+        }
+
 
         let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
 
@@ -720,7 +726,11 @@ class NotaSintetizador{
             nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
             nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
 
-            this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+            if (this.elementoHTML.id.match(/sos/g)){
+                this.elementoHTML.classList.remove('tecla_negra_pulsada');
+            }else{
+                this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+            }
 
         },duracion*990)
 
@@ -1047,7 +1057,11 @@ window.addEventListener('keydown',(e)=>{
         //Decay + Sustain
         nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
 
-        teclaHTMLPorTecla[e.keyCode].classList.add('tecla_blanca_pulsada');  
+        if (teclaHTMLPorTecla[e.keyCode].id.match(/sos/g)){
+            teclaHTMLPorTecla[e.keyCode].classList.add('tecla_negra_pulsada');
+        }else{
+            teclaHTMLPorTecla[e.keyCode].classList.add('tecla_blanca_pulsada');
+        }
     
         teclasPulsadas.set(e.keyCode,[[Osciladores1,Osciladores2,OsciladoresLFO1,OsciladoresLFO2],[requestAnimationFrameLFOIDs1,requestAnimationFrameLFOIDs2]]);
 
@@ -1076,8 +1090,12 @@ window.addEventListener('keyup',(e)=>{
         }
     }
 
+    if (teclaHTMLPorTecla[e.keyCode].id.match(/sos/g)){
+        teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_negra_pulsada');
+    }else{
+        teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_blanca_pulsada');
+    }
 
-    teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_blanca_pulsada');
 
     teclasPulsadas.delete(e.keyCode);    
 })

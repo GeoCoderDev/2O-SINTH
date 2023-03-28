@@ -527,6 +527,12 @@ a{
         background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
     }
 
+    .tecla_negra_pulsada{
+        z-index:8;
+        background-image:linear-gradient(to right,#111 0 2px,transparent 2px),linear-gradient(to left,#111 0 2px,transparent 2px),linear-gradient(to top,transparent 0 1px,#fff3 2px 3px,transparent 6px);
+    }
+
+
     #Csos4{
         left: 3%;
     }
@@ -1164,7 +1170,6 @@ a{
 
     #Icono-Github:hover{
         transition: all 0.2s ease-out;
-        /* color: rgb(181, 128, 181); */
         transform: rotateZ(-370deg) scale(1.2);
     }
 
