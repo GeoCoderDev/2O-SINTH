@@ -930,6 +930,7 @@ a{
         flex-direction: row;
         color:white;
         box-shadow: 2vh 2vh 3vh rgba(73, 71, 71, 0.408);   
+        border: 1px solid orange;
     }
 
     #secuenciador-melodias-marco::-webkit-scrollbar{

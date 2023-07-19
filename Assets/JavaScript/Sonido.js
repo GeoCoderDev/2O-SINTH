@@ -765,6 +765,7 @@ var seRealizoUnRecorridoYa = false;        //Bandera para ejecutar una sola vez 
 let teclasPulsadas = new Map();
 
 
+
 window.addEventListener('keydown',(e)=>{
 
     //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
@@ -1120,7 +1121,7 @@ nodoPaneo.connect(nodoAnalizador);
 nodoPaneo.connect(ENTORNO_AUDIO.destination);
 
 
-window.onload = function(){
+// window.onload = function(){
 
     /*===================================================================================================================
     ASIGNANDO TECLAS a NOTAS DEL SINTETIZADOR
@@ -1350,30 +1351,7 @@ window.onload = function(){
     
     delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
         nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
-    })
+    })    
 
-    // setTimeout(()=>{
-    //     C4.hacerSonarNota(2)
-    //     E4.hacerSonarNota(2)
-    //     G4.hacerSonarNota(2)
-    // },2000)
 
-    // setTimeout(()=>{
-    //     D4.hacerSonarNota(2)
-    //     Fsos4.hacerSonarNota(2)
-    //     A4.hacerSonarNota(2)
-    // },4000)
-
-    // setTimeout(()=>{
-    //     E4.hacerSonarNota(2)
-    //     G4.hacerSonarNota(2)
-    //     B4.hacerSonarNota(2)
-    // },6000)
-
-    // setTimeout(()=>{
-    //     G4.hacerSonarNota(2)
-    //     B4.hacerSonarNota(2)
-    //     D5.hacerSonarNota(2)
-    // },8000)
-
-}
+// }
