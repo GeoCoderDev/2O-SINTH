@@ -23,6 +23,8 @@ a{
     color:white
 }
 
+
+
 @media screen and (orientation:portrait){
 
     header, #contenido-todo, footer{
@@ -957,6 +959,7 @@ a{
         min-width: 6vw;
         position: sticky;
         left: 0;
+        z-index: 2;
     }
 
     .Tecla-Blanca-Piano-Roll{
@@ -989,7 +992,7 @@ a{
     #Piano-Roll{
         position:relative;
         width: 128vw;
-        border: 1px solid aqua;
+        /* border: 1px solid aqua; */
     }
 
 
@@ -1010,6 +1013,7 @@ a{
     .Cuadro-Semicorchea{
         background-color: #c5c7eb;
         width: 2vw;
+        position: relative;
     }
 
     

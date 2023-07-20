@@ -32,7 +32,7 @@ document.addEventListener('mousemove',(e)=>{
 
     mapaDeEventosMouseMove.forEach((Evento)=>{
         if(e.target.matches(Evento.selector)){
-            Evento.callback();
+            Evento.callback(e);
         }
     })
 
@@ -125,6 +125,8 @@ function delegarEvento(typeEvent,querySelector,callback){
         
         case "mouseup":
             return agregarEventoMouseUp(querySelector,callback);
+
+        case "mouseover":
 
         default:
             console.log("Error 124, delegacionDeEvento.js")
