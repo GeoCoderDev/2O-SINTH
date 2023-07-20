@@ -2,24 +2,7 @@
 // SECUENCIADOR DE MELODIAS
 //===================================================================
 
-var CANTIDAD_DE_COMPASES = 4
-
-
-
-function obtenerDistanciaRelativa(ancestro, descendiente) {
-    let elementoActual = descendiente;
-    let distanciaHorizontal = 0;
-    let distanciaVertical = 0;
-
-    while (elementoActual && elementoActual !== ancestro) {
-        distanciaHorizontal += elementoActual.offsetLeft;
-        distanciaVertical += elementoActual.offsetTop;
-        elementoActual = elementoActual.offsetParent;
-    }
-
-    return { distanciaHorizontal, distanciaVertical };
-}
-
+var CANTIDAD_DE_COMPASES = 8
 
 
 
@@ -35,8 +18,8 @@ function createDraggableDiv(event) {
 
     let newDiv = document.createElement('div');
     newDiv.className = 'draggable';
-    newDiv.style.width = '7.9vw';
-    newDiv.style.height = '1.45vw';
+    newDiv.style.width = `${1.975*CANTIDAD_DE_COMPASES}vw`;
+    newDiv.style.height = '1.5vw';
     newDiv.style.backgroundColor = 'rgb(205, 104, 255)';
     newDiv.style.position = 'absolute';
     newDiv.style.cursor = 'grab';
@@ -69,8 +52,8 @@ function createDraggableDiv(event) {
         // Verificar que el nuevo div no se salga del contenedor
         const maxX = parentElement.clientWidth - newDiv.clientWidth;
         const maxY = parentElement.clientHeight - newDiv.clientHeight;
-        newDiv.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
-        newDiv.style.top = `${Math.max(20, Math.min(y, maxY))}px`;
+        newDiv.style.left = `${pixelsToVWVH(Math.max(0, Math.min(x, maxX)),'vw')[0]}vw`;
+        newDiv.style.top = `${pixelsToVWVH(Math.max(20, Math.min(y, maxY)),'vw')[0]}vw`;
     }
 
     function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e){
@@ -80,18 +63,17 @@ function createDraggableDiv(event) {
         // Verificar que el nuevo div no se salga del contenedor
         let maxX = parentElement.clientWidth - newDiv.clientWidth;
         let maxY = parentElement.clientHeight - newDiv.clientHeight;
-        newDiv.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
-        newDiv.style.top = `${Math.max(20, Math.min(y, maxY))}px`;
+        newDiv.style.left = `${pixelsToVWVH(Math.max(0, Math.min(x, maxX)),'vw')[0]}vw`;
+        newDiv.style.top = `${pixelsToVWVH(Math.max(20, Math.min(y, maxY)),'vw')[0]}vw`;
 
         let coordernadaDraggingNoteX = newDiv.getBoundingClientRect().left;
         let coordernadaDraggingNoteY = newDiv.getBoundingClientRect().top;
       
         let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
         let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0]
-        console.log(elementUnderCursorGrilla,elementUnderCursorGrilla.style.left)
-        newDiv.style.left = obtenerDistanciaRelativa(parentElement,elementUnderCursorGrilla).distanciaHorizontal + "px"
-        newDiv.style.top = obtenerDistanciaRelativa(parentElement,elementUnderCursorGrilla).distanciaVertical + "px"
-
+        newDiv.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaHorizontalPX,'vw')[0] + "vw"
+        newDiv.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaVerticalPX,'vw')[0] + "vw"
+        console.log(elementUnderCursorGrilla)
 
     }
 

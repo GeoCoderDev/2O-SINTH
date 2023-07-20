@@ -43,8 +43,6 @@ function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
     let porcentajeApintar =
     (((valor-limiteInferior)/(limiteSuperior-limiteInferior))*100) + 0.01;
 
-    console.log(porcentajeApintar)
-
     barra.style.backgroundImage = "none";
 
     barra.style.backgroundImage = `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${porcentajeApintar}%,transparent ${porcentajeApintar}%)`;
@@ -104,7 +102,7 @@ function insertarGraficoDeBarrasInteractiva
 
         //Creacion de una barra contenedora
         barrasContenedoras[i] = document.createElement("div");
-        barrasContenedoras[i].style.width = pixelsToVWVH(anchoContenedor/cantidadDeBarras,"vw") + "vw";
+        barrasContenedoras[i].style.width = pixelsToVWVH(anchoContenedor/cantidadDeBarras,"vw")[0] + "vw";
         barrasContenedoras[i].style.height = "100%";
         barrasContenedoras[i].style.borderRight = (i==cantidadDeBarras-1)?"none":`0.2vw solid ${colorContornos}`;
 

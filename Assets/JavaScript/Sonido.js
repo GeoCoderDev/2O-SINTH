@@ -31,7 +31,7 @@ function getADSRvalues(elementoADSR){
             return parseFloat(releaseSlider.value)/2;
 
         default:
-            console.log("Error 35, sonido.js")
+            console.log("Error 34, sonido.js")
             break;
     }
 }
@@ -72,7 +72,6 @@ class NotaSintetizador{
         this.elementoHTML.addEventListener('mousedown',()=>{
 
             setTimeout(()=>{        
-                console.log(knobsReverb.value[0]);
                 nodoDeConvolucion.buffer = impulse;
                 impulse = impulseResponse(knobsReverb.value[0],1);
             }, 1);
@@ -443,7 +442,6 @@ class NotaSintetizador{
             let requestAnimationFrameLFOIDs2 = [];
 
         setTimeout(()=>{        
-            console.log(knobsReverb.value[0]);
             nodoDeConvolucion.buffer = impulse;
             impulse = impulseResponse(knobsReverb.value[0],1);
         }, 1);
@@ -791,7 +789,6 @@ window.addEventListener('keydown',(e)=>{
 
 
         setTimeout(()=>{        
-            console.log(knobsReverb.value[0]);
             nodoDeConvolucion.buffer = impulse;
             impulse = impulseResponse(knobsReverb.value[0],1);
         }, 1);
@@ -1275,7 +1272,6 @@ function(){
             }else if(comboBoxLFO.value=="filtro-factor-q"){
                 let valorFiltroFactorQ = (Math.abs(dataLFO[0]-128)/128)*(100);
                 FiltroKnobsValues.setValues([valorFiltroFactorQ,undefined,undefined]);
-                // console.log(valorFiltroFactorQ)
                 nodoDeFiltro.Q.value = valorFiltroFactorQ;
 
             }else if(comboBoxLFO.value=="filtro-frecuencia"){

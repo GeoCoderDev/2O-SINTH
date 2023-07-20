@@ -33,7 +33,7 @@ function calcularGrados(e,ObjetoX,ObjetoY,ancho_O_altoKnob){
             grados = (360 - grados) + 90;
         }        
     }
-    // console.log(grados);
+
     return grados;
 
 }

@@ -129,7 +129,7 @@ function delegarEvento(typeEvent,querySelector,callback){
         case "mouseover":
 
         default:
-            console.log("Error 124, delegacionDeEvento.js")
+            console.log("Error 132, delegacionDeEvento.js")
         break;
     }
 };
@@ -159,7 +159,7 @@ function eliminarEventoDelegado(typeEvent,idEvento){
         break;
 
         default:
-            console.log("Error 152, delegacionDeEvento.js")
+            console.log("Error 162, delegacionDeEvento.js")
         break;
     }
 };
