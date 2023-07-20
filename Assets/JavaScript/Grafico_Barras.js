@@ -51,7 +51,18 @@ function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
 
 }
 
-
+/**
+ * @description esta funcion genera cierta cantidad de barras verticales en un elemento html
+ * @param {*} contenedor elemento HTML que contendra las barras
+ * @param {*} cantidadDeBarras numero de barras
+ * @param {*} valorLimiteInferiorBarras valor que reperesentaran las barra cuando estean en 0
+ * @param {*} valorLimiteSuperiorBarras valor que reperesentaran las barra cuando estean en 100
+ * @param {*} colorContornos color de los bordes de cada barra
+ * @param {*} colorFondo color de fondo de las barras
+ * @param {*} NombreDeClaseDeLasBarras clase css que tendran las barras(no util por el momento)
+ * @returns retorna un objeto con el que puedes acceder a una matriz con los valores de todas las barras
+ * y un metodo para establecer valores a cada barra
+ */
 function insertarGraficoDeBarrasInteractiva
 (
     contenedor,

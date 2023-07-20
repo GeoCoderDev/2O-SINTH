@@ -926,11 +926,12 @@ a{
         overflow: scroll;
         border-top-left-radius: 1vw;
         border-bottom-right-radius: 1vw;
+        position: relative;
         display:flex;
         flex-direction: row;
         color:white;
         box-shadow: 2vh 2vh 3vh rgba(73, 71, 71, 0.408);   
-        border: 1px solid orange;
+        
     }
 
     #secuenciador-melodias-marco::-webkit-scrollbar{
@@ -960,10 +961,10 @@ a{
 
     .Tecla-Blanca-Piano-Roll{
         border: 0;
-        background-image: linear-gradient(to right, white 70%,rgb(150,150,150));
-        border-bottom: 0.5px solid gray;
-        border-top: 0.5px solid gray;
-        border-right: 0.1vw solid black;
+        /* background-image: linear-gradient(to right, white 70%,rgb(150,150,150)); */
+        background-color: white;
+
+        border-right: 0.2vw solid black;
         color: black;
         font-size: 1vw;
         text-align: right;
@@ -972,8 +973,8 @@ a{
 
     .Tecla-Negra-Piano-Roll{
         border: 0;
-        background-image: linear-gradient(to right,black 55% ,white 65%,rgb(150,150,150) );
-        border-right: 0.1vw solid black;
+        background-image: linear-gradient(to right,black 65% ,white 65%);
+        border-right: 0.2vw solid black;
     }
 
     #Espacio-Blanco-Piano-Roll{
@@ -983,8 +984,12 @@ a{
         background-color: black;
     }
 
+
+
     #Piano-Roll{
+        position:relative;
         width: 128vw;
+        border: 1px solid aqua;
     }
 
 
@@ -1000,7 +1005,6 @@ a{
         padding-right: 0.5vw;
         background-color: #473a4f;
         border: 0;
-
     }
 
     .Cuadro-Semicorchea{
@@ -1019,6 +1023,22 @@ a{
     
     .Tecla-Blanca-PianoRoll{
         width: 6vw;
+    }
+
+    #C4Roll,#C5Roll,#C6Roll,#C7Roll{
+        background-color: rgb(230, 227, 227);
+    }
+
+    #C4Roll,#C5Roll,#C6Roll,#C7Roll,#F4Roll,#F5Roll,#F6Roll{        
+        border-bottom: 0.1vw solid rgb(191, 190, 190);
+    }
+
+    .Tecla-Blanca-Piano-Roll-pulsada{
+        background-color:  rgb(253, 191, 92);
+    }
+
+    .Tecla-Negra-Piano-Roll-pulsada{
+        background-image: linear-gradient(to right,rgb(255, 158, 2) 65% ,white 65%);
     }
 
     /*==================================================================================================

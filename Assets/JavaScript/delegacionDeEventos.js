@@ -102,7 +102,13 @@ document.addEventListener('mouseup',(e)=>{
 });
 
 
-
+/**
+ * 
+ * @param {*} typeEvent aqui escoges que tipo de evento quieres agregar, ejemplo: click,mousemove,etc
+ * @param {*} querySelector este parametro solicita un selector css para el/los elemento(s) que quieres que se aplique el evento
+ * @param {*} callback funcion que se ejecutara cada vez que se dispare el evento
+ * @returns devuelve un Id del evento que añadiste, con el cual podras eliminar el evento mediante la funcion eliminarEventoDelegado
+ */
 function delegarEvento(typeEvent,querySelector,callback){
     switch (typeEvent) {
         case "click":
@@ -125,6 +131,8 @@ function delegarEvento(typeEvent,querySelector,callback){
         break;
     }
 };
+
+
 
 function eliminarEventoDelegado(typeEvent,idEvento){
     switch (typeEvent) {
