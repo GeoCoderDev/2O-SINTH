@@ -31,18 +31,26 @@ function createDraggableDiv(event) {
 
     let newDiv = document.createElement('div');
     newDiv.className = 'draggable';
-    newDiv.style.width = '50px';
-    newDiv.style.height = '50px';
-    newDiv.style.backgroundColor = 'red';
+    newDiv.style.width = '7.9vw';
+    newDiv.style.height = '1.4vw';
+    newDiv.style.backgroundColor = 'rgb(205, 104, 255)';
     newDiv.style.position = 'absolute';
     newDiv.style.cursor = 'grab';
+    newDiv.style.borderRadius = '0.2vw';
+    newDiv.style.boxShadow = '0px 0px 0.9vw 0.4vw rgba(0, 0, 0, .5) inset';
 
     function onMouseDown(e) {
-        isDragging = true;
-        offsetX = e.offsetX;
-        offsetY = e.offsetY;
-        newDiv.style.cursor = 'grabbing';
-        document.addEventListener('mousemove', onMouseMove);
+
+        if(e.button!=2){
+            isDragging = true;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
+            newDiv.style.cursor = 'grabbing';
+            document.addEventListener('mousemove', onMouseMove);
+        }else{
+            e.target.remove();
+        }
+
     }
 
     function onMouseUp() {
@@ -65,6 +73,7 @@ function createDraggableDiv(event) {
 
     newDiv.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
+
 
     parentElement.appendChild(newDiv);
 
