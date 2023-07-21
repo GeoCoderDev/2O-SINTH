@@ -112,6 +112,6 @@ const scrollableDiv = document.getElementById('secuenciador-melodias-marco');
 
 scrollableDiv.addEventListener('wheel', (event) => {
   event.preventDefault(); // Evita el scroll predeterminado del navegador
-  const scrollStep = 200; // Ajusta la cantidad de desplazamiento por rueda (40 es un valor predeterminado)
+  const scrollStep = 250; // Ajusta la cantidad de desplazamiento por rueda (40 es un valor predeterminado)
   scrollableDiv.scrollTop += event.deltaY > 0 ? scrollStep : -scrollStep;
 });
