@@ -51,9 +51,25 @@ function distanciaRelativaEntreElementos(ancestroHTML, descendienteHTML){
 
 }
 
-function makeResizableByRight(elementoHTML) {
-    const resizableDiv = elementoHTML;
 
+function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILIDAD) {
+
+    insertarReglasCSSAdicionales(`
+
+        .${nombreClaseNueva}::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -${pixelsToVWVH(PIXELES_DE_SENSIBILIDAD,'vw')}vw;
+            bottom: 0;
+            width: ${pixelsToVWVH(PIXELES_DE_SENSIBILIDAD,'vw')}vw; 
+            cursor: ew-resize;
+        }
+
+    `)
+
+    const resizableDiv = elementoHTML;
+    resizableDiv.classList.add(nombreClaseNueva) 
     let isResizing = false;
     let lastX = 0;
     let originalWidth = 0;
