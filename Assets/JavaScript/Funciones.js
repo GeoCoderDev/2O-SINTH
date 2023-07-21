@@ -50,3 +50,33 @@ function distanciaRelativaEntreElementos(ancestroHTML, descendienteHTML){
     return{distanciaHorizontalPX,distanciaVerticalPX};
 
 }
+
+function makeResizableByRight(elementoHTML) {
+    const resizableDiv = elementoHTML;
+
+    let isResizing = false;
+    let lastX = 0;
+    let originalWidth = 0;
+
+    resizableDiv.style.position = 'absolute'; // Asegurarse de que el elemento tenga posición relativa o absoluta
+
+    resizableDiv.addEventListener('mousedown', (e) => {
+        if (e.offsetX >= resizableDiv.offsetWidth - 20) { // Solo en el borde derecho
+            isResizing = true;
+            lastX = e.clientX;
+            originalWidth = resizableDiv.offsetWidth;
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+
+        const deltaX = e.clientX - lastX;
+        const newWidth = originalWidth + deltaX; // Cambiamos aquí para que el elemento se redimensione hacia la derecha
+        resizableDiv.style.width = `${Math.max(newWidth, 0)}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+    });
+}
