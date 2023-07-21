@@ -9,7 +9,8 @@ var CANTIDAD_DE_COMPASES = 8
 let parentElement = document.getElementById('Piano-Roll');
 let isDraggingNote = false;
 let offsetX, offsetY;
-let currentDraggingNote
+let currentDraggingNote;
+let ultimoCuadroSemicorchea;
 
 parentElement.addEventListener('mousedown', createDraggableDiv);
 
@@ -68,16 +69,19 @@ function createDraggableDiv(event) {
 
         let coordernadaDraggingNoteX = newDiv.getBoundingClientRect().left;
         let coordernadaDraggingNoteY = newDiv.getBoundingClientRect().top;
-      
+        
         let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
         let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0]
-        newDiv.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaHorizontalPX,'vw')[0] + "vw"
-        newDiv.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaVerticalPX,'vw')[0] + "vw"
-        console.log(elementUnderCursorGrilla)
+        if(elementUnderCursorGrilla){
+            newDiv.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaHorizontalPX,'vw')[0] + "vw"
+            newDiv.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,elementUnderCursorGrilla).distanciaVerticalPX,'vw')[0] + "vw"
+            ultimoCuadroSemicorchea = elementUnderCursorGrilla;
+        }else{
+            newDiv.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,ultimoCuadroSemicorchea).distanciaHorizontalPX,'vw')[0] + "vw"
+            newDiv.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(parentElement,ultimoCuadroSemicorchea).distanciaVerticalPX,'vw')[0] + "vw"
+        }
 
     }
-
-
     
     function onMouseUp() {
         isDraggingNote = false;
@@ -102,3 +106,12 @@ function createDraggableDiv(event) {
     onMouseDown(event);
 }
 
+
+const scrollableDiv = document.getElementById('secuenciador-melodias-marco');
+
+
+scrollableDiv.addEventListener('wheel', (event) => {
+  event.preventDefault(); // Evita el scroll predeterminado del navegador
+  const scrollStep = 200; // Ajusta la cantidad de desplazamiento por rueda (40 es un valor predeterminado)
+  scrollableDiv.scrollTop += event.deltaY > 0 ? scrollStep : -scrollStep;
+});
