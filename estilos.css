@@ -23,6 +23,15 @@ a{
     color:white
 }
 
+.Secuenciador-Melodias-NOTA::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px; /* Ajusta este valor para cambiar el área sensible */
+    bottom: 0;
+    width: 10px; /* Ancho del área sensible para cambiar el cursor */
+    cursor: ew-resize; /* Cursor de cambio de tamaño horizontal */
+}
 
 
 @media screen and (orientation:portrait){
