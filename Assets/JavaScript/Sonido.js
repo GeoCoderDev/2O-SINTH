@@ -1179,7 +1179,7 @@ contextoAnalizador.clearRect(0,0,analizadorHTML.width,analizadorHTML.height);
  */
 function dibujarSonido(){
     requestAnimationFrame(dibujarSonido);
-
+    if(seccion_en_vista!=1) return;
     nodoAnalizador.getByteTimeDomainData(datosAnalizador);
     contextoAnalizador.fillStyle = 'rgb(226,225,223)';
     contextoAnalizador.fillRect(0,0,analizadorHTML.width,analizadorHTML.height);

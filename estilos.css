@@ -372,11 +372,12 @@ a{
         /* border: 0.2vw solid rgb(165, 161, 161); */
     }
 
-
-
-
     #titulo_analizador{
         font-size: 1.7vw;
+    }
+
+    input[type="number"]{
+        cursor: ns-resize;
     }
 
     #segundo-oscilador{

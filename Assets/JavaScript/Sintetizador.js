@@ -1,4 +1,3 @@
-
 // EVENTO PARA CONTROLAR EL VOLUMEN DE SALIDA DEL SINTETIZADOR
 let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador');
 
@@ -57,6 +56,6 @@ var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
     "0.2vw"
 );
 
-
 var datosOscilador1 = [tipoOndaOSC1,document.getElementById('Cantidad_voces_osc_1'),document.getElementById('Cantidad_desafinacion_osc_1')];
 var datosOscilador2 = [tipoOndaOSC2,document.getElementById('Cantidad_voces_osc_2'),document.getElementById('Cantidad_desafinacion_osc_2')];
+

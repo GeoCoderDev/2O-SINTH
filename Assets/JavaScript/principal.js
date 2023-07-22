@@ -26,3 +26,4 @@ var nodoAnalizador = ENTORNO_AUDIO.createAnalyser();
     nodoAnalizador.fftSize = 2048;
     var bufferLength = nodoAnalizador.frequencyBinCount;
     var datosAnalizador = new Uint8Array(bufferLength);
+

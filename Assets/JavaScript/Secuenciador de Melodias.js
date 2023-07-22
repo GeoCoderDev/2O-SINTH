@@ -198,7 +198,6 @@ class NotaSecuenciadorDeMelodias{
         this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
         // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
         // y no otro adyacente no deseado
-        // console.log(this.indiceTablaX)
         let coordenadaXSemicorcheaDebajo = todosLosOffsetLeft[0] + (ancho_de_una_semicorchea_actual * this.indiceTablaX) + 2 + PIANO_ROLL.getBoundingClientRect().left; 
         let coordenadaYSemicorcheaDebajo = todosLosOffsetTop[0] + (alto_de_una_semicorchea_actual * this.indiceTablaY) + 2 + PIANO_ROLL.getBoundingClientRect().top;
 
