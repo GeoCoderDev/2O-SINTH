@@ -71,8 +71,8 @@ class NotaSintetizador{
         teclaHTMLPorTecla[codigoTecla] = this.elementoHTML;
         teclaRollHTMLPorTecla[codigoTecla] = this.teclaPianoRoll;
 
-        this.elementoHTML.addEventListener('mousedown',()=>{
-
+        let eventoMouseDown = (e)=>{
+            
             setTimeout(()=>{        
                 nodoDeConvolucion.buffer = impulse;
                 impulse = impulseResponse(knobsReverb.value[0],1);
@@ -356,7 +356,8 @@ class NotaSintetizador{
 
             let yaSeSoltoLaTecla = false;
 
-            this.elementoHTML.addEventListener('mouseup',()=>{
+
+            let pararSonido = ()=>{
 
                 if(yaSeSoltoLaTecla) return false;
 
@@ -387,44 +388,16 @@ class NotaSintetizador{
                         }
 
                     },duracionRelease*1000);
-                
-            })
+            }
 
-            this.elementoHTML.addEventListener('mouseout',()=>{
 
-                if(yaSeSoltoLaTecla) return false;
 
-                yaSeSoltoLaTecla = false;
+            e.target.addEventListener('mouseup',pararSonido)
+            e.target.addEventListener('mouseout',pararSonido)
+        }
 
-                let volumenAntesDeSoltar = nodoADSR.gain.value;
-
-                nodoADSR.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
-                let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
-                let duracionRelease = ((getADSRvalues("R"))/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
-                let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
-                nodoADSR.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
-                nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
-    
-                    setTimeout(function(){
-
-                        for(let i=0; i<Osciladores1.length;i++){
-                            Osciladores1[i].stop();
-                            if(OsciladoresLFO1[i]) OsciladoresLFO1[i].stop();                         
-                            if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
-
-                        }
-                
-                        for(let i=0; i<Osciladores2.length;i++){
-                            Osciladores2[i].stop();
-                            if(OsciladoresLFO2[i]) OsciladoresLFO2[i].stop();                              
-                            if(requestAnimationFrameLFOIDs2[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs2[i]);  
-                        }
-
-                    },duracionRelease*1000);
-
-            })
-
-        })
+        this.elementoHTML.addEventListener('mousedown',eventoMouseDown)
+        this.teclaPianoRoll.addEventListener('mousedown',eventoMouseDown)
 
     }
 

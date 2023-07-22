@@ -1039,11 +1039,11 @@ a{
         border-bottom: 0.1vw solid rgb(191, 190, 190);
     }
 
-    .Tecla-Blanca-Piano-Roll-pulsada{
+    .Tecla-Blanca-Piano-Roll-pulsada, .Tecla-Blanca-Piano-Roll:active{
         background-color:  rgb(253, 191, 92) !important;
     }
 
-    .Tecla-Negra-Piano-Roll-pulsada{
+    .Tecla-Negra-Piano-Roll-pulsada, .Tecla-Negra-Piano-Roll:active{
         background-image: linear-gradient(to right,rgb(255, 158, 2) 65% ,white 65%) !important;
     }
 
