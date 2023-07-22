@@ -1358,7 +1358,6 @@ delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
 })    
 
 // window.addEventListener('load',()=>{
-
 //     Fsos4.hacerSonarNota(5)
 //     Gsos4.hacerSonarNota(5)
 //     Asos4.hacerSonarNota(5)

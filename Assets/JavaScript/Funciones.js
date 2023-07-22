@@ -17,15 +17,25 @@ window.addEventListener('resize',actualizarMedidadRelativas);
  * @returns devuelve la cantidad de pixeles ingresadas en vw o vh
  */
 function pixelsToVWVH(pixeles,medida){
-
-
     if(medida=="vw"){
         return [((pixeles*100)/medidasRelativas[0])]
     }else{
         return [((pixeles*100)/medidasRelativas[1])]
     }
+}
 
-
+/**
+ * 
+ * @param {*} medida medida relativa vw o vh
+ * @param {*} cantidad
+ * @returns devuelve la cantidad de pixeles ingresadas en vw o vh
+ */
+function VWVHTopixels(medida, cantidad){
+    if(medida=="vw"){
+        return [(cantidad*medidasRelativas[0])/100]
+    }else{
+        return [(cantidad*medidasRelativas[1])/100]
+    }
 }
 
 function insertarReglasCSSAdicionales(reglasCSS){

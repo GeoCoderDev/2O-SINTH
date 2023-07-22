@@ -1,9 +1,37 @@
 //===================================================================
 // SECUENCIADOR DE MELODIAS
 //==================================================================
-
 const SECUENCIADOR_DE_MELODIAS_MARCO = document.getElementById('secuenciador-melodias-marco')
+const PIANO_ROLL = document.getElementById('Piano-Roll');
+var CANTIDAD_DE_COMPASES = 4
 
+//Transformando la lista de nodos en un Array para poder usar todos los
+// metodos del prototipo array como slice
+var Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
+
+//Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
+var primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,64);
+var primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%64==0);
+
+
+var todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
+var todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+
+console.log(todosLosOffsetLeft)
+
+function actualizarCuadrosSemicorchea(){
+    Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
+    primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,64);
+    primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%64==0)
+    todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
+    todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+}
+
+
+window.addEventListener('resize',actualizarCuadrosSemicorchea)
+window.addEventListener('resize',()=>{
+    NotaSecuenciadorDeMelodias.acomodarTodasLasNotas();
+})
 // Este evento servira para que cuando estemos usando el rodillo 
 // en el secuenciador de melodias, no podamos hacer uso de las
 // barras de desplazamiento del navegador
@@ -14,9 +42,6 @@ SECUENCIADOR_DE_MELODIAS_MARCO.addEventListener('wheel', (event) => {
   });
 
 
-
-
-const PIANO_ROLL = document.getElementById('Piano-Roll');
 var NOTAS_SECUENCIADOR_DE_MELODIAS = [];
 var acumuladorParaNotasIDs = 0;
 
@@ -31,7 +56,6 @@ PIANO_ROLL.addEventListener('mousedown',(e)=>{
 
 
 // Variables que seran de uso compartido entre instancias de la clase NotaSecuenciadorDeMelodias
-var CANTIDAD_DE_COMPASES = 4
 var Cantidad_Semicorcheas_Foco = 1; //Cantidad de semicorcheas en la que nos quedamos
 const Nombre_Clase_para_las_notas = 'Secuenciador-Melodias-NOTA';
 let isDraggingNote = false;
@@ -92,13 +116,13 @@ class NotaSecuenciadorDeMelodias{
             if(e.button==0){
                 // Solo se podra arrastrar si esta fuera del area sensible a redimensionamiento o si 
                 // el evento esta siendo forzado
+                currentDraggingNote = this.elementoHTML;
                 if ((!(e.offsetX >= this.elementoHTML.offsetWidth - PIXELES_DE_SENSIBILIDAD))||forzado) { // Solo en el borde derecho
                     isDraggingNote = true;
                     offsetX = e.offsetX;
                     offsetY = e.offsetY;
                     this.elementoHTML.style.cursor = 'grabbing';
-                    PIANO_ROLL.style.cursor = 'grabbing';
-                    currentDraggingNote = this.elementoHTML;
+                    PIANO_ROLL.style.cursor = 'grabbing';                    
                     moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e,this.elementoHTML)
                 }else{
                     isResizing = true;
@@ -123,9 +147,12 @@ class NotaSecuenciadorDeMelodias{
             isDraggingNote = false;
             PIANO_ROLL.style.cursor = 'default';
             this.elementoHTML.style.cursor = 'grab';
-            currentDraggingNote = null;
-            document.removeEventListener('mousemove', onMouseMove);
+            if(this.elementoHTML==currentDraggingNote){
+                this.#actualizarLongitudNota()
+                currentDraggingNote = null;
+            }                
             isResizing = false;
+            document.removeEventListener('mousemove', onMouseMove);
         }
         
         let onMouseMove = (e)=>{
@@ -142,6 +169,55 @@ class NotaSecuenciadorDeMelodias{
 
         // Iniciar arrastre automáticamente
         onMouseDown(evento,true);
+    }
+
+
+    #actualizarLongitudNota(){
+        let lefClient = this.elementoHTML.getBoundingClientRect().left;
+        // Para obtener las coordenadas derechas quitaremos 5 pixeles para asegurar que tomaremos
+        // el elemento Cuadro-Semicorchea correcto y no el siguiente adyacente
+        let rightClient = this.elementoHTML.getBoundingClientRect().right - 5;
+        let topClient = this.elementoHTML.getBoundingClientRect().top;
+
+        let elementosDebajoDelLadoIzquierdo = document.elementsFromPoint(lefClient,topClient);
+        let elementosDebajoDelLadoDerecho = document.elementsFromPoint(rightClient,topClient);
+        let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+        let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+        let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
+        let alto_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetHeight;
+        if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
+            let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
+            semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
+            
+            this.longitudSemicorcheas = Math.round(longitud);
+            //Seteando la ultima longitud para las nuevas notas
+            Cantidad_Semicorcheas_Foco = this.longitudSemicorcheas;
+        }
+
+        this.indiceTablaX = todosLosOffsetLeft.indexOf(this.elementoHTML.offsetLeft);
+        this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
+        // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
+        // y no otro adyacente no deseado
+        // console.log(this.indiceTablaX)
+        let coordenadaXSemicorcheaDebajo = todosLosOffsetLeft[0] + (ancho_de_una_semicorchea_actual * this.indiceTablaX) + 2 + PIANO_ROLL.getBoundingClientRect().left; 
+        let coordenadaYSemicorcheaDebajo = todosLosOffsetTop[0] + (alto_de_una_semicorchea_actual * this.indiceTablaY) + 2 + PIANO_ROLL.getBoundingClientRect().top;
+
+        console.log(coordenadaXSemicorcheaDebajo,coordenadaYSemicorcheaDebajo)
+
+        let elementosEnCoordenada = document.elementsFromPoint(coordenadaXSemicorcheaDebajo,coordenadaYSemicorcheaDebajo);
+        this.CuadroSemicorcheaDebajo = elementosEnCoordenada.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+        console.log(this.CuadroSemicorcheaDebajo)
+    }
+
+    ajustarNotaAGrilla(){
+        this.elementoHTML.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaHorizontalPX,'vw')+'vw';
+        this.elementoHTML.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaVerticalPX,'vw')+'vw';
+    }   
+
+    static acomodarTodasLasNotas(){
+        NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias)=>{
+            notaSecuenciadorMelodias.ajustarNotaAGrilla();
+        })
     }
 
 }
@@ -206,20 +282,12 @@ class NotaSecuenciadorDeMelodias{
 
 // FUNCION PARA ACOMODAR TODAS LAS NOTAS
 
-const Todos_los_cuadros_semicorchea = document.querySelectorAll('.Cuadro-Semicorchea');
-
-
-
-function acomodarNotaVerticalmente(notaHTML){
+function acomodarNotaVerticalmente(notaHTML){   
 
 }
 
 
-function acomodarNotas(e){
-    
-    
-}
 
-window.addEventListener('resize',acomodarNotas)
+
 
     
