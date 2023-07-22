@@ -2,6 +2,7 @@
 
 let frecuenciasPorTecla = [];
 let teclaHTMLPorTecla = [];
+let teclaRollHTMLPorTecla = [];
 let controlLFO = document.getElementById('Control-a-controlar-LFO').value;
 
 document.getElementById('Control-a-controlar-LFO').addEventListener('change',()=>{
@@ -68,6 +69,7 @@ class NotaSintetizador{
 
         frecuenciasPorTecla[codigoTecla] = this.frecuencia; 
         teclaHTMLPorTecla[codigoTecla] = this.elementoHTML;
+        teclaRollHTMLPorTecla[codigoTecla] = this.teclaPianoRoll;
 
         this.elementoHTML.addEventListener('mousedown',()=>{
 
@@ -708,11 +710,19 @@ class NotaSintetizador{
         //Decay + Sustain
         nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
 
-        
+
         if (this.elementoHTML.id.match(/sos/g)){
-            this.elementoHTML.classList.add('tecla_negra_pulsada');
+            if(seccion_en_vista==1){
+                this.elementoHTML.classList.add('tecla_negra_pulsada');
+            }else if(seccion_en_vista==3){
+                this.teclaPianoRoll.classList.add('Tecla-Negra-Piano-Roll-pulsada');
+            }
         }else{
-            this.elementoHTML.classList.add('tecla_blanca_pulsada');
+            if(seccion_en_vista==1){
+                this.elementoHTML.classList.add('tecla_blanca_pulsada');
+            }else if(seccion_en_vista==3){
+                this.teclaPianoRoll.classList.add('Tecla-Blanca-Piano-Roll-pulsada');
+            }
         }
 
 
@@ -729,9 +739,17 @@ class NotaSintetizador{
             nodoADSR.gain.linearRampToValueAtTime(0,finalRelease);
 
             if (this.elementoHTML.id.match(/sos/g)){
-                this.elementoHTML.classList.remove('tecla_negra_pulsada');
+                if(seccion_en_vista==1){
+                    this.elementoHTML.classList.remove('tecla_negra_pulsada');
+                }else if(seccion_en_vista==3){
+                    this.teclaPianoRoll.classList.remove('Tecla-Negra-Piano-Roll-pulsada');
+                }
             }else{
-                this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+                if(seccion_en_vista==1){
+                    this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+                }else if(seccion_en_vista==3){
+                    this.teclaPianoRoll.classList.remove('Tecla-Blanca-Piano-Roll-pulsada');
+                }
             }
 
         },duracion*990)
@@ -1060,9 +1078,17 @@ window.addEventListener('keydown',(e)=>{
         nodoADSR.gain.setTargetAtTime((getADSRvalues("S"))/100,finalAtaque,duracionDecay);
 
         if (teclaHTMLPorTecla[e.keyCode].id.match(/sos/g)){
-            teclaHTMLPorTecla[e.keyCode].classList.add('tecla_negra_pulsada');
+            if(seccion_en_vista==1){
+                teclaHTMLPorTecla[e.keyCode].classList.add('tecla_negra_pulsada');    
+            }else if(seccion_en_vista==3){
+                teclaRollHTMLPorTecla[e.keyCode].classList.add('Tecla-Negra-Piano-Roll-pulsada')
+            }
         }else{
-            teclaHTMLPorTecla[e.keyCode].classList.add('tecla_blanca_pulsada');
+            if(seccion_en_vista==1){
+                teclaHTMLPorTecla[e.keyCode].classList.add('tecla_blanca_pulsada');
+            }else if(seccion_en_vista==3){
+                teclaRollHTMLPorTecla[e.keyCode].classList.add('Tecla-Blanca-Piano-Roll-pulsada')
+            }
         }
     
         teclasPulsadas.set(e.keyCode,[[Osciladores1,Osciladores2,OsciladoresLFO1,OsciladoresLFO2],[requestAnimationFrameLFOIDs1,requestAnimationFrameLFOIDs2]]);
@@ -1093,11 +1119,12 @@ window.addEventListener('keyup',(e)=>{
     }
 
     if (teclaHTMLPorTecla[e.keyCode].id.match(/sos/g)){
-        teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_negra_pulsada');
+        teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_negra_pulsada');    
+        teclaRollHTMLPorTecla[e.keyCode].classList.remove('Tecla-Negra-Piano-Roll-pulsada')
     }else{
         teclaHTMLPorTecla[e.keyCode].classList.remove('tecla_blanca_pulsada');
+        teclaRollHTMLPorTecla[e.keyCode].classList.remove('Tecla-Blanca-Piano-Roll-pulsada')
     }
-
 
     teclasPulsadas.delete(e.keyCode);    
 })
@@ -1357,5 +1384,9 @@ delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
     nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
 })    
 
+// window.addEventListener('load',()=>{
 
-
+//     Fsos4.hacerSonarNota(5)
+//     Gsos4.hacerSonarNota(5)
+//     Asos4.hacerSonarNota(5)
+// })

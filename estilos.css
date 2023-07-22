@@ -1040,11 +1040,11 @@ a{
     }
 
     .Tecla-Blanca-Piano-Roll-pulsada{
-        background-color:  rgb(253, 191, 92);
+        background-color:  rgb(253, 191, 92) !important;
     }
 
     .Tecla-Negra-Piano-Roll-pulsada{
-        background-image: linear-gradient(to right,rgb(255, 158, 2) 65% ,white 65%);
+        background-image: linear-gradient(to right,rgb(255, 158, 2) 65% ,white 65%) !important;
     }
 
     /*==================================================================================================

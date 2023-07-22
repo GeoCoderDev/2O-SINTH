@@ -1,3 +1,4 @@
+const ELEMENTO_SUPERIOR = document.querySelector('body');
 const ENTORNO_AUDIO = new AudioContext();
 
 var nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
