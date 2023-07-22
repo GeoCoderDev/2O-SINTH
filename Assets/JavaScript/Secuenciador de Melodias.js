@@ -17,8 +17,6 @@ var primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((ele
 var todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
 var todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
 
-console.log(todosLosOffsetLeft)
-
 function actualizarCuadrosSemicorchea(){
     Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
     primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,64);
@@ -28,8 +26,8 @@ function actualizarCuadrosSemicorchea(){
 }
 
 
-window.addEventListener('resize',actualizarCuadrosSemicorchea)
 window.addEventListener('resize',()=>{
+    actualizarCuadrosSemicorchea();
     NotaSecuenciadorDeMelodias.acomodarTodasLasNotas();
 })
 // Este evento servira para que cuando estemos usando el rodillo 
