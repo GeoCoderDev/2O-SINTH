@@ -216,6 +216,7 @@ a{
         margin-bottom: 55vh; 
         border:0.6vh solid  rgba(73, 71, 71, 0.6);    
         transition: 0.2s;    
+        cursor: pointer;
     }
 
     #todas-las-secciones-contenedor{
