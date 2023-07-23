@@ -62,7 +62,7 @@ function distanciaRelativaEntreElementos(ancestroHTML, descendienteHTML){
 }
 
 
-function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILIDAD) {
+function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILIDAD, posicionamientoDelElemento='absolute') {
 
     insertarReglasCSSAdicionales(`
 
@@ -84,7 +84,7 @@ function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILI
     let lastX = 0;
     let originalWidth = 0;
 
-    resizableDiv.style.position = 'absolute'; // Asegurarse de que el elemento tenga posición relativa o absoluta
+    resizableDiv.style.position = posicionamientoDelElemento; // Asegurarse de que el elemento tenga posición relativa o absoluta
 
     resizableDiv.addEventListener('mousedown', (e) => {
         if (e.offsetX >= resizableDiv.offsetWidth - 20) { // Solo en el borde derecho
@@ -106,3 +106,4 @@ function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILI
         isResizing = false;
     });
 }
+

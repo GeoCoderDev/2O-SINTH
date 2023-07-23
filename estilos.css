@@ -1,4 +1,10 @@
 @import url("./Assets/Fuentes/GithubIcon/icomoon/style.css");
+@import url("./Assets/Fuentes/Square Block/fuenteSquareBlock.css");
+
+
+:root{
+    --color-controles:#936bae;
+}
 
 *{
     margin: 0;
@@ -24,6 +30,46 @@ a{
 }
 
 
+/*=================================================================================================================
+ANIMACIONES
+================================================================================================================= */
+
+@keyframes desvanecer {
+    0%{
+        opacity: 1;
+    }
+
+    75%{
+        opacity: 0;
+        height: 30%;
+        margin: 0;
+    }
+
+    100%{
+        opacity: 0;
+        height: 0;
+        margin: -15%;
+        display: none;
+    }
+
+}
+
+
+@keyframes aparecer {
+    
+}
+
+    /* CLASES RELACIONADAS */
+    .desvanecerELemento{
+        animation: desvanecer 1.5s linear 1 forwards;
+    }
+
+    /* .aparecerElemento{
+
+    } */
+
+/*=================================================================================================================
+================================================================================================================= */
 
 
 @media screen and (orientation:portrait){
@@ -1099,19 +1145,18 @@ a{
         background-image: radial-gradient(white ,rgb(52, 78, 208) 95%);
     }
     /*=================================================================================================================
-    FORMULARIOS DE GUARDADO
+    CONTENEDOR DE CONTROLES Y BOTONES DE GUARDADO
     ================================================================================================================= */
 
-    #formulario-de-guardado-y-controles-contenedor{
+    #controles-y-botones-de-guardado-seccion{
         width: 20%;
         height: 100%;
         /* border: 1px solid black; */
         display: flex;
-        justify-content: center;
-
+        justify-content: center;        
     }
     
-    #contenedor-formulario-de-guardado-y-controles{
+    #controles-y-botones-de-guardado-contenedor{
         position: sticky;
         /* border: 1px solid black; */
         width: 85%;
@@ -1132,48 +1177,51 @@ a{
         transition: all 0.4s;
     }        
         
-    #contenedor-controles-guardado{
-        height: 22%;
-        width: 95%;
-        display: flex;
+    #contenedor-boton-guardado-preset{
+        border-radius: 0.7vw;
+        border: 1px solid var(--color-controles);
+        width: 80%;
+        height: 20%;
+        display:flex;
         flex-direction: column;
+        justify-content:center;
         align-items: center;
-        justify-content: space-evenly;
     }
 
-    #formulario-de-guardado{
-        border: 1px solid rgb(216, 139, 255);
-        border-radius: 0.5vw;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        /* display: none; */
-    }
-
-    #Mensaje-Inicia-Sesion{
-        display: none;
-        text-align: center;
-    }
-
-    #Nombre-de-Guardado{
-        width: 95%;
-        height: 35%;
-        padding-left:0.2vw ;
-        border-radius: 0.5vw;
-    }
-
-    #Boton-de-Guardado{
+    #contenedor-insertor-preset{
+        border-radius: 1vw;
+        border: 1px solid var(--color-controles);
         width: 80%;
         height: 30%;
-        text-align: center;
-        border-radius: 0.4vw;
-        background-color: white;
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
     }
 
 
+    #contenedor-controles-reproduccion-y-tempo{
+        border-radius: 1vw;
+        border: 1px solid var(--color-controles);
+        width: 80%;
+        height: 30%;
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
+    }
+
+    .titulo-sub-seccion{
+        font-style: italic;        
+        font-size: 1.6vw;
+        font-family: 'Square Block';
+        color: var(--color-controles);
+    }
+
+
+    /*=================================================================================================================
+    PIE DE PAGINA
+    ================================================================================================================= */
 
     footer{
         background-color: black;
@@ -1201,6 +1249,7 @@ a{
         transition: all 0.2s ease-out;
         transform: rotateZ(-370deg) scale(1.2);
     }
+    
 
 }
 

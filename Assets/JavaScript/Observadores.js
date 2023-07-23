@@ -5,14 +5,17 @@ const seccion_secuenciador_de_ritmos = document.getElementById('contenedor-secue
 const INDICADOR= document.getElementById('indicador');
 var seccion_en_vista;
 
+function getUnidadVhEnPX(){
+    return window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
+}
 
 // Inicializando seccion_en_vista
-let unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
-if(window.scrollY>=0&&window.scrollY<80 * unidad_vh_en_px){
+
+if(window.scrollY>=0&&window.scrollY<80 * getUnidadVhEnPX()){
     seccion_en_vista = 1;
-}else if(window.scrollY>=(80 * unidad_vh_en_px)&&window.scrollY<(72 * unidad_vh_en_px*1.8)){
+}else if(window.scrollY>=(80 * getUnidadVhEnPX())&&window.scrollY<(72 * getUnidadVhEnPX()*1.8)){
     seccion_en_vista = 2;
-}else if(window.scrollY>=(72 * unidad_vh_en_px*1.8)&&window.scrollY<(93 * unidad_vh_en_px*3)){
+}else if(window.scrollY>=(72 * getUnidadVhEnPX()*1.8)&&window.scrollY<(93 * getUnidadVhEnPX()*3)){
     seccion_en_vista = 3;
 }else{
     seccion_en_vista = 4
@@ -20,21 +23,20 @@ if(window.scrollY>=0&&window.scrollY<80 * unidad_vh_en_px){
 
 // Para que se pueda hacer hacer click sobre el indicador
 INDICADOR.addEventListener('mousedown',()=>{
-    let unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
     switch (seccion_en_vista) {
         case "1":
             window.scroll(0,0)
             break;
         case "2":
-            window.scroll(0,98.8 * unidad_vh_en_px);
+            window.scroll(0,98.8 * getUnidadVhEnPX());
             break;
 
         case "3":
-            window.scroll(0,98.75 * unidad_vh_en_px * 2);
+            window.scroll(0,98.75 * getUnidadVhEnPX() * 2);
             break;    
 
         case "4":
-            window.scroll(0,98.7 * unidad_vh_en_px * 3);
+            window.scroll(0,98.7 * getUnidadVhEnPX() * 3);
             break;          
             
         default:
@@ -50,6 +52,9 @@ const encontrando_secciones = (entradas, observador) => {
             seccion_en_vista = entrada.target.dataset.numero_seccion;            
             INDICADOR.style.top = (32.5 + ((seccion_en_vista-1)*12.9)) + "vh";
             INDICADOR.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";
+
+            
+
         }
 
     });    
@@ -73,19 +78,17 @@ var iconos_de_barra_de_navegacion = document.getElementsByClassName('icono-barra
 
 function asignarEventosParaBotonesDeNavegacion(){
 
-    var unidad_vh_en_px = window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
-
     // Seccion Efectos
     iconos_de_barra_de_navegacion[1].addEventListener('click',()=>{
-        window.scroll(0,98.8 * unidad_vh_en_px);
+        window.scroll(0,98.8 * getUnidadVhEnPX());
     });
     // Seccion Secuenciador de Melodias
     iconos_de_barra_de_navegacion[2].addEventListener('click',()=>{
-        window.scroll(0,98.75 * unidad_vh_en_px * 2);
+        window.scroll(0,98.75 * getUnidadVhEnPX() * 2);
     });
     // Seccion Secuenciador de Ritmos
     iconos_de_barra_de_navegacion[3].addEventListener('click',()=>{
-        window.scroll(0,98.7 * unidad_vh_en_px * 3);
+        window.scroll(0,98.7 * getUnidadVhEnPX() * 3);
     });
 
 }

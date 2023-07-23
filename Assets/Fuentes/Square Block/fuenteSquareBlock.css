@@ -1,0 +1,9 @@
+
+@font-face {
+    font-family: 'Square Block';
+    src: url('SquareBlock-Regular.woff2') format('woff2'),
+        url('SquareBlock-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
