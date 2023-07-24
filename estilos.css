@@ -3,7 +3,7 @@
 
 
 :root{
-    --color-controles:#936bae;
+    --color-controles:black;
 }
 
 *{
@@ -1121,7 +1121,6 @@ ANIMACIONES
     
     #controles-y-botones-de-guardado-contenedor{
         position: sticky;
-        /* border: 1px solid black; */
         width: 85%;
         height: 70vh;
         margin: 7vh 0;
@@ -1136,10 +1135,17 @@ ANIMACIONES
         transition: all 0.4s;
     }        
         
+    #controles-y-botones-de-guardado-contenedor .sub-secciones{
+        width:90%;
+        display:flex;
+        flex-direction: column;
+        justify-content:space-evenly;
+        align-items: center;
+    }
+
     #contenedor-boton-guardado-preset{
         border-radius: 0.7vw;
-        border: 1px solid var(--color-controles);
-        width: 80%;
+        border: 0.2vw solid var(--color-controles);
         height: 20%;
         display:flex;
         flex-direction: column;
@@ -1149,9 +1155,8 @@ ANIMACIONES
 
     #contenedor-insertor-preset{
         border-radius: 1vw;
-        border: 1px solid var(--color-controles);
-        width: 80%;
-        height: 30%;
+        /* border: 0.2vw solid var(--color-controles); */
+        height: 20%;
         display:flex;
         flex-direction: column;
         justify-content:center;
@@ -1161,22 +1166,91 @@ ANIMACIONES
 
     #contenedor-controles-reproduccion-y-tempo{
         border-radius: 1vw;
-        border: 1px solid var(--color-controles);
-        width: 80%;
+        /* border: 0.2vw solid var(--color-controles); */
         height: 40%;
-        display:flex;
-        flex-direction: column;
-        justify-content:center;
-        align-items: center;
+
     }
+
+
 
     .titulo-sub-seccion{
         font-style: italic;        
         font-size: 1.6vw;
         font-family: 'Square Block';
-        color: var(--color-controles);
+        color: rgb(70, 26, 82);
     }
 
+    #contenedor-botones-reproduccion{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        height: 35%;
+    }
+
+
+    .botones-reproduccion{
+        width: 27%;
+        height: 90%;
+        border-radius: 1vw;
+        cursor: pointer;
+    }
+
+    #boton-play{
+        border: 0.2vw solid rgb(50, 135, 50);  
+        display: flex;      
+        align-items: center;
+        justify-content: center;
+    }
+
+    #triangulo-boton-reproduccion{
+        width: 0;
+        height: 0;
+        border-top: 1vw solid transparent;
+        border-bottom: 1vw solid transparent;
+        border-left: 1.6vw solid rgb(50, 135, 50); /* Puedes cambiar el color según tus necesidades */
+        margin-left: 0.2vw;        
+    }
+
+    #boton-pausa{
+        border: 0.2vw solid rgb(200, 171, 66);
+        display: flex;      
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 0 0.1vw;
+    }
+
+    .rectangulo-pausa{
+        width: 25%;
+        height: 60%;
+        background-color: rgb(200, 149, 66);
+        border-radius: 0.2vw;
+    }
+
+    #boton-stop{
+        border: 0.2vw solid rgb(231, 40, 40);
+        display: flex;      
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    
+    #cuadrado-stop{
+        width: 55%;
+        height: 55%;
+        background-color: rgb(231, 40, 40);
+        border-radius: 0.2vw;
+    }
+
+    #contenedor-tempo{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        border: 1px solid black;
+        width: 90%;
+        height: 30%;
+    }
 
     /*=================================================================================================================
     PIE DE PAGINA

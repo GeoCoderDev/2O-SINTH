@@ -17,8 +17,8 @@ function desvanecerElemento(HTMLelement,duracionSegundos,horizontalmente=false,p
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
-            fill:'forwards',
-            easing:"ease-in"
+            easing:"ease-in",
+            fill:(permanent)?'forwards':'none'
         })
 
         return{anchoOriginalEnPorcentaje:anchoOriginalEnPorcentaje,animacionFinalizada:FADE_HORIZONTAL.finished,displayOriginal:displayOriginal}
@@ -38,8 +38,8 @@ function desvanecerElemento(HTMLelement,duracionSegundos,horizontalmente=false,p
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
-            fill:'forwards',
-            easing:"ease-in"
+            easing:"ease-in",
+            fill:(permanent)?'forwards':'none'
         })
 
         return{altoOriginalEnPorcentaje:altoOriginalEnPorcentaje,animacionFinalizada:FADE_VERTICAL.finished,displayOriginal:displayOriginal}
@@ -62,8 +62,8 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalEnPorcen
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
-            fill:'forwards',
-            easing:"ease-in"
+            easing:"ease-in",
+            fill:(permanent)?'forwards':'none'
         })
 
         return{animacionFinalizada:APPEAR_HORIZONTAL.finished}
@@ -79,8 +79,8 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalEnPorcen
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
-            fill:'forwards',
-            easing:"ease-in"
+            easing:"ease-in",
+            fill:(permanent)?'forwards':'none'
         })
 
         return{animacionFinalizada:APPEAR_VERTICAL.finished}
