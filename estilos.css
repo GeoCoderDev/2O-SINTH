@@ -34,43 +34,6 @@ a{
 ANIMACIONES
 ================================================================================================================= */
 
-@keyframes desvanecer {
-    0%{
-        opacity: 1;
-    }
-
-    75%{
-        opacity: 0;
-        height: 30%;
-        margin: 0;
-    }
-
-    100%{
-        opacity: 0;
-        height: 0;
-        margin: -15%;
-        display: none;
-    }
-
-}
-
-
-@keyframes aparecer {
-    
-}
-
-    /* CLASES RELACIONADAS */
-    .desvanecerELemento{
-        animation: desvanecer 1.5s linear 1 forwards;
-    }
-
-    /* .aparecerElemento{
-
-    } */
-
-/*=================================================================================================================
-================================================================================================================= */
-
 
 @media screen and (orientation:portrait){
 
@@ -440,10 +403,10 @@ ANIMACIONES
         width: 90%;
         height: 45%;
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        /* border: 1px solid black; */
     }
 
     #subseccion-volumen{
@@ -1163,10 +1126,6 @@ ANIMACIONES
         height: 70vh;
         margin: 7vh 0;
         top:23vh;
-        display:flex;
-        flex-direction: column;
-        justify-content:center;
-        align-items: center;
         background-color: rgba(255,255,255,0.5);
         border-radius: 2.5vh;
         box-shadow: 1vh 1vh 2vh rgba(73, 71, 71, 0.408);
@@ -1196,7 +1155,7 @@ ANIMACIONES
         display:flex;
         flex-direction: column;
         justify-content:center;
-        align-items: center;
+        align-items: center;        
     }
 
 
@@ -1204,7 +1163,7 @@ ANIMACIONES
         border-radius: 1vw;
         border: 1px solid var(--color-controles);
         width: 80%;
-        height: 30%;
+        height: 40%;
         display:flex;
         flex-direction: column;
         justify-content:center;
