@@ -53,12 +53,6 @@ function impulseResponse(duration,decay) {
     return impulse;
 }
 
-// duracionReverb = knobsReverb.value[0];
-
-// delegarEvento('mousemove',`#${knobsReverb.obtenerIDs[0]}`,()=>{
-//     duracionReverb = knobsReverb.value[0];
-// })
-
 
 class NotaSintetizador{
 
@@ -376,15 +370,27 @@ class NotaSintetizador{
 
                         for(let i=0; i<Osciladores1.length;i++){
                             Osciladores1[i].stop();
-                            if(OsciladoresLFO1[i]) OsciladoresLFO1[i].stop();                         
+                            Osciladores1[i].disconnect(); //Ahorrando Recursos
+                            Osciladores1[i] = null;
                             if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
+                            if(OsciladoresLFO1[i]){
+                                OsciladoresLFO1[i].stop();
+                                OsciladoresLFO1[i].disconnect();
+                                OsciladoresLFO1[i] = null
+                            }                       
 
                         }
                 
                         for(let i=0; i<Osciladores2.length;i++){
                             Osciladores2[i].stop();
-                            if(OsciladoresLFO2[i]) OsciladoresLFO2[i].stop();                              
+                            Osciladores2[i].disconnect(); //Ahorrando Recursos
+                            Osciladores2[i] = null;
                             if(requestAnimationFrameLFOIDs2[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs2[i]);  
+                            if(OsciladoresLFO2[i]){
+                                OsciladoresLFO2[i].stop();    
+                                OsciladoresLFO2[i].disconnect(); 
+                                OsciladoresLFO2[i] = null;                           
+                            }
                         }
 
                     },duracionRelease*1000);
@@ -731,13 +737,25 @@ class NotaSintetizador{
 
             for(let i=0;i<Osciladores1.length;i++){
                 Osciladores1[i].stop();
-                if(OsciladoresLFO1[i]) OsciladoresLFO1[i].stop();                         
+                Osciladores1[i].disconnect();
+                Osciladores1[i] = null;
+                if(OsciladoresLFO1[i]){
+                    OsciladoresLFO1[i].stop();
+                    OsciladoresLFO1[i].disconnect();
+                    OsciladoresLFO1[i] = null;
+                }                         
                 if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
             }
 
             for(let i=0;i<Osciladores2.length;i++){
                 Osciladores2[i].stop();
-                if(OsciladoresLFO2[i]) OsciladoresLFO2[i].stop();                         
+                Osciladores2[i].disconnect();
+                Osciladores2[i] = null;
+                if(OsciladoresLFO2[i]){
+                    OsciladoresLFO2[i].stop(); 
+                    OsciladoresLFO2[i].disconnect();
+                    OsciladoresLFO2[i] = null;                        
+                } 
                 if(requestAnimationFrameLFOIDs2[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs2[i]);  
             }
 
@@ -1082,6 +1100,8 @@ window.addEventListener('keyup',(e)=>{
     for(let u=0;u<4;u++){
         for(let i=0; i<osciladores[u].length;i++){
             osciladores[u][i].stop();
+            osciladores[u][i].disconnect();
+            osciladores[u][i] = null;
         }        
     };
 
@@ -1234,7 +1254,11 @@ eventoDeVariableEsDiferenteDe(this,
 function(){
 
     if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
-    if(LFO!==undefined)LFO.stop();
+    if(LFO!==undefined){
+        LFO.stop();
+        // LFO.disconnect();
+        // LFO = null;
+    } 
 
     if(comboBoxLFO.value!="tono"&&comboBoxLFO.value!="none"){
 
@@ -1290,10 +1314,14 @@ function(){
 function(){
     setTimeout(()=>{
         if((datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)])/3==128){
-            if(LFO!==undefined)LFO.stop();        
+            if(LFO!==undefined){
+                LFO.stop();        
+                // LFO.disconnect();        
+                // LFO = null;        
+            }
             if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
         }      
-    },500)
+    },100)
 
 });
 
