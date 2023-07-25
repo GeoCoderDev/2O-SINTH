@@ -3,7 +3,10 @@
 
 
 :root{
-    --color-controles:black;
+    --color-controles:rgb(71, 58, 79);
+    --color-boton-play: rgb(71, 58, 79);
+    --color-boton-pausa: rgb(71, 58, 79);
+    --color-boton-stop: rgb(71, 58, 79);
 }
 
 *{
@@ -192,10 +195,12 @@ ANIMACIONES
         width:65%;
         height: 17%;
         /* border: 1px solid black; */
+        transition: all 0.1s;
     }
 
     .icono-barra-navegacion:hover{
         cursor: pointer;
+        transform: scale(1.1);
     }
 
     .icono-barra-navegacion:nth-child(1){
@@ -1167,7 +1172,7 @@ ANIMACIONES
     #contenedor-controles-reproduccion-y-tempo{
         border-radius: 1vw;
         /* border: 0.2vw solid var(--color-controles); */
-        height: 40%;
+        height: 45%;
 
     }
 
@@ -1177,7 +1182,7 @@ ANIMACIONES
         font-style: italic;        
         font-size: 1.6vw;
         font-family: 'Square Block';
-        color: rgb(70, 26, 82);
+        color: var(--color-boton-pausa);
     }
 
     #contenedor-botones-reproduccion{
@@ -1186,7 +1191,7 @@ ANIMACIONES
         justify-content: space-between;
         align-items: center;
         width: 90%;
-        height: 35%;
+        height: 32%;
     }
 
 
@@ -1198,7 +1203,7 @@ ANIMACIONES
     }
 
     #boton-play{
-        border: 0.2vw solid rgb(50, 135, 50);  
+        border: 0.25vw solid var(--color-boton-play);  
         display: flex;      
         align-items: center;
         justify-content: center;
@@ -1209,12 +1214,12 @@ ANIMACIONES
         height: 0;
         border-top: 1vw solid transparent;
         border-bottom: 1vw solid transparent;
-        border-left: 1.6vw solid rgb(50, 135, 50); /* Puedes cambiar el color según tus necesidades */
+        border-left: 1.6vw solid var(--color-boton-play); /* Puedes cambiar el color según tus necesidades */
         margin-left: 0.2vw;        
     }
 
     #boton-pausa{
-        border: 0.2vw solid rgb(200, 171, 66);
+        border: 0.25vw solid var(--color-boton-pausa);
         display: flex;      
         align-items: center;
         justify-content: space-evenly;
@@ -1224,12 +1229,12 @@ ANIMACIONES
     .rectangulo-pausa{
         width: 25%;
         height: 60%;
-        background-color: rgb(200, 149, 66);
+        background-color: var(--color-boton-pausa);
         border-radius: 0.2vw;
     }
 
     #boton-stop{
-        border: 0.2vw solid rgb(231, 40, 40);
+        border: 0.25vw solid var(--color-boton-stop);
         display: flex;      
         align-items: center;
         justify-content: space-evenly;
@@ -1238,18 +1243,52 @@ ANIMACIONES
     #cuadrado-stop{
         width: 55%;
         height: 55%;
-        background-color: rgb(231, 40, 40);
+        background-color: var(--color-boton-stop);    
         border-radius: 0.2vw;
     }
 
     #contenedor-tempo{
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-evenly;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        border: 1px solid black;
-        width: 90%;
-        height: 30%;
+        /* border: 1px solid black; */
+        width: 40%;
+        height: 40%;
+    }
+
+    
+    #Tempo{
+        background-color: transparent;
+        height: 60%;
+        width: 80%;
+        text-align: center;
+        border-radius: 1vw;
+        font-size: 1.3vw;
+        font-style: italic;
+        letter-spacing: 0.1vw;
+        color: var(--color-boton-pausa);
+        border: 0.25vw solid var(--color-boton-pausa);
+        padding-left: 0.7vw;
+    }
+    
+    #texto-tempo{
+        font-size: 1vw;
+        font-family: 'Square Block';
+        font-style: italic;
+        color: var(--color-boton-pausa);
+        font-weight: bolder;
+    }
+
+    .botones-reproduccion, #Tempo{
+        box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2) inset;
+        transition: all 0.1s;
+    }
+
+    .botones-reproduccion:hover, #Tempo:hover{
+        box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
     }
 
     /*=================================================================================================================
