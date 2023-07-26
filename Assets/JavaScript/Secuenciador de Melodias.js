@@ -89,8 +89,8 @@ insertarReglasCSSAdicionales(`
 class NotaSecuenciadorDeMelodias{
 
     constructor(evento){        
-
-        if (evento.target.classList.contains(Nombre_Clase_para_las_notas)) return; // Evitar crear nuevo div si se hace clic en uno existente
+        // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
+        if (!(evento.target.classList.contains("Cuadro-Semicorchea"))||evento.target.classList.contains(Nombre_Clase_para_las_notas)) return;
         
         let newDiv = document.createElement('div');
         this.elementoHTML = newDiv;
@@ -277,14 +277,52 @@ class NotaSecuenciadorDeMelodias{
     }
 
 
-// FUNCION PARA ACOMODAR TODAS LAS NOTAS
+// ----------------------------
+// | REPRODUCCIÓN DE MELODIAS |      
+// ---------------------------- 
+const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
+const TRANSPORT_BAR = document.getElementById('Transport-Bar');
 
-function acomodarNotaVerticalmente(notaHTML){   
+function reproducirMelodias(){
 
+    TRANSPORT_BAR.animate([
+        {transform:"translateX(0)"},
+        {transform:"translateX(40vw)"}
+    ],{
+        iterations:1,
+        easing: "linear",
+        fill:"forwards",
+        duration:10000
+    })
+    
+
+}   
+
+// Obtiene la posición X del elemento relativa al contenedor a cada segundo
+const startTime = performance.now();
+const duration = 10000;
+const interval = 1000; // Intervalo de tiempo en milisegundos (1 segundo)
+
+function obtenerPosicionX() {
+  const currentTime = performance.now() - startTime;
+  if (currentTime <= duration) {
+    const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
+    const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
+
+    // Calcula la posición X relativa al contenedor
+    const posicionXRelativa = transportBarRect.left - contenedorRect.left;
+
+    console.log("Posición X relativa:", posicionXRelativa);
+
+    // Solicita la siguiente actualización
+    requestAnimationFrame(obtenerPosicionX);
+  }
 }
 
+obtenerPosicionX();
 
 
 
 
-    
+reproducirMelodias()
+

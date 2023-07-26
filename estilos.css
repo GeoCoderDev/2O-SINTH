@@ -968,9 +968,10 @@ ANIMACIONES
 
     #Ocultador-Espacio-Blanco{
         overflow: hidden;
-        min-height: 57vw;
-        min-width: 128vw;
-
+        min-height: 55.5vw;
+        min-width: 134vw;
+        position: absolute;
+        top: 1.5vw;
     }
 
     #Teclas-Piano-Roll{
@@ -978,6 +979,46 @@ ANIMACIONES
         position: sticky;
         left: 0;
         z-index: 2;
+        margin-left: -7vw;
+    }
+
+    #Transport-Bar{ 
+        position: sticky;
+        top: 0;
+        opacity: 0.8;
+        width: 0.2vw;
+        height: 1vh;
+        background-color: orange;
+        z-index: 2;
+        margin-left: 6vw;
+    }
+
+    #Transport-Bar::before{
+        position:absolute;
+        opacity: 0.8;
+        left: -0.8vw;
+        right: 0;
+        width: 0;
+        height: 0;
+        opacity: 1;
+        border-top: 1vw solid orange;
+        border-left: 1vw solid transparent;
+        border-right: 1vw solid transparent;
+        z-index: 2;
+        content: "";
+    }
+
+    #Transport-Bar::after{
+        position:absolute;
+        opacity: 0.8;
+        left: 0vw;
+        right: 0;
+        width: 0.2vw;
+        height: 32vw;
+        opacity: 1;
+        background-color: orange;
+        z-index: 2;
+        content: "";
     }
 
     .Tecla-Blanca-Piano-Roll{
@@ -1006,26 +1047,37 @@ ANIMACIONES
     }
 
 
-
     #Piano-Roll{
         position:relative;
         width: 128vw;
+        left: 6vw;
         /* border: 1px solid aqua; */
     }
 
-
-    td{
-        border-right: 1px solid #473a4f;
-        border-bottom: 1px solid #473a4f;
+    #NUMEROS-COMPASS{
+        position: sticky;
+        top: 0;
         height: 1.5vw;
-
+        max-width: 128vw;
+        margin-left: 1vw;
+        z-index: 1;
     }
-
+    
     .numeros_compas_cabecera{
         text-align: right;
         padding-right: 0.5vw;
         background-color: #473a4f;
         border: 0;
+        top: 0;
+        height: 1.5vw;
+        min-width: 32vw;
+        
+    }
+    
+    td{
+        border-right: 1px solid #473a4f;
+        border-bottom: 1px solid #473a4f;
+        height: 1.5vw;
     }
 
     .Cuadro-Semicorchea{

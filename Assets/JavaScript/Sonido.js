@@ -375,8 +375,8 @@ class NotaSintetizador{
                             if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
                             if(OsciladoresLFO1[i]){
                                 OsciladoresLFO1[i].stop();
-                                OsciladoresLFO1[i].disconnect();
-                                OsciladoresLFO1[i] = null
+                                // OsciladoresLFO1[i].disconnect();
+                                // OsciladoresLFO1[i] = null
                             }                       
 
                         }

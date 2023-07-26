@@ -54,7 +54,7 @@
                                 <div class="titulo_voc_des">Voces:</div>                                
                                 <div class="titulo_voc_des">Desafinación:</div>
                                 <div>
-                                    <input id="Cantidad_voces_osc_1" type="number" min="1" max="8" value="1">
+                                    <input id="Cantidad_voces_osc_1" type="number" min="0" max="8" value="1">
                                 </div>
                                 <div>
                                     <input id="Cantidad_desafinacion_osc_1" type="number" min="-30" max="30" value="0">
@@ -275,7 +275,7 @@
                 <h1 class="titulo-seccion">SECUENCIADOR DE MELODIAS</h1>
 
                 <div id="secuenciador-melodias-marco">
-
+                    <div id="Transport-Bar"></div>
                     
                     <table id="Teclas-Piano-Roll" cellspacing="0" cellpading="0">
                             
@@ -393,18 +393,20 @@
                             <tr>
                                 <td class="Tecla-Blanca-Piano-Roll" id="C4Roll">C4</td>
                             </tr>
-                        </table>
-                        
+                    </table>
+
+                    <table id ="NUMEROS-COMPASS" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="numeros_compas_cabecera">1</td>
+                            <td class="numeros_compas_cabecera">2</td>
+                            <td class="numeros_compas_cabecera">3</td>
+                            <td class="numeros_compas_cabecera">4</td>                            
+                        </tr>
+                    </table>
+
                     <div id="Ocultador-Espacio-Blanco">
 
-                        <table id="Piano-Roll" cellspacing="0" cellpading="0">
-
-                            <tr id = "NUMEROS-COMPASS">
-                                <td class="numeros_compas_cabecera" colspan="16">1</td>
-                                <td class="numeros_compas_cabecera" colspan="16">2</td>
-                                <td class="numeros_compas_cabecera" colspan="16">3</td>
-                                <td class="numeros_compas_cabecera" colspan="16">4</td>                            
-                            </tr>
+                        <table id="Piano-Roll" cellspacing="0" cellpading="0">                                                        
 
                             <tr id="C7">
                                 <td class="Cuadro-Semicorchea"></td>
@@ -1276,11 +1278,6 @@
                                 <td class="Cuadro-Semicorchea"></td>
                                 <td class="Cuadro-Semicorchea"></td>
                             </tr>
-
-
-                            <!-- <div>
-                                1
-                            </div> -->
 
                             <tr id="B5">
                                 <td class="Cuadro-Semicorchea"></td>
