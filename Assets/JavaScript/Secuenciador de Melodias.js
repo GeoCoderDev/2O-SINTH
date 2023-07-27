@@ -112,8 +112,8 @@ class NotaSecuenciadorDeMelodias{
         this.elementoHTML = newDiv;
         this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
         this.elementoHTML.className = Nombre_Clase_para_las_notas;
-        this.elementoHTML.style.width = `${1.975*this.longitudSemicorcheas}vw`;
-        this.elementoHTML.style.height = '1.5vw';
+        this.elementoHTML.style.width = `${1.98*this.longitudSemicorcheas}vw`;
+        this.elementoHTML.style.height = '3.2vh';
         this.elementoHTML.style.backgroundColor = 'rgb(205, 104, 255)';
         this.elementoHTML.style.position = 'absolute';
         this.elementoHTML.style.cursor = 'grab';
@@ -272,7 +272,7 @@ class NotaSecuenciadorDeMelodias{
             let maxX = PIANO_ROLL.clientWidth - divArrastrado.clientWidth;
             let maxY = PIANO_ROLL.clientHeight - divArrastrado.clientHeight;
             divArrastrado.style.left = `${pixelsToVWVH(Math.max(0, Math.min(x, maxX)),'vw')[0]}vw`;
-            divArrastrado.style.top = `${pixelsToVWVH(Math.max(20, Math.min(y, maxY)),'vw')[0]}vw`;
+            divArrastrado.style.top = `${pixelsToVWVH(Math.max(0, Math.min(y, maxY)),'vh')[0]}vh`;
             
             let coordernadaDraggingNoteX = divArrastrado.getBoundingClientRect().left;
             let coordernadaDraggingNoteY = divArrastrado.getBoundingClientRect().top;

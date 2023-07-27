@@ -10,10 +10,10 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
     "Onda\\ Cuadrada\\ Icon\\ Verde\\ Oscuro.png",
     "Onda\\ diente\\ de\\ sierra\\ icon\\ Verde\\ Oscuro.png"],
     "Tipo de Onda:",
-    "1vw",
+    "2.1vh",
     ["LeftButtonTipoOndaLFO","RightButtonTipoOndaLFO"],
     "fila",
-    "1.5vw",
+    "3.2vh",
     "0.2vw",
     "rgb(106, 146, 106)"
 );
@@ -22,8 +22,8 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
 var LFOKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-lfo'),
-    "2.8vw",
-    "1vw",
+    "5.9vh",
+    "2.1vh",
     3,
     3,
     ["RETRASO","AMPLITUD","VELOCIDAD"],
@@ -51,10 +51,10 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
     'Filtro\\ highshelf\\ icon\\ Morado\\ Oscuro.png',
     'Filtro\\ peaking\\ icon\\ Morado\\ Oscuro.png'],
     "TIPO DE FILTRO",
-    "1.2vw",
+    "2.55vh",
     ["LeftButtonTipoFiltro","RightButtonTipoFiltro"],
     "columna",
-    "3vw",
+    "6.2vh",
     "0.22vw",
     "rgb(146, 106, 139)"
 );
@@ -63,8 +63,8 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
 var FiltroKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-filtro'),
-    "3vw",
-    "1vw",
+    "6.4vh",
+    "2.15vh",
     3,
     3,
     ["FACTOR Q","FRECUENCIA","GANANCIA"],
@@ -92,8 +92,8 @@ var barrasDistorsion = insertarGraficoDeBarrasInteractiva
 //CREANDO KNOBS PARA EL EFECTO DE REBERB
 var knobsReverb = insertaKnobsEn(
     document.getElementById('cont-knobs-reverb'),
-    "4.5vw",
-    "1.4vw",
+    "9.5vh",
+    "3vh",
     1,
     1,
     ["DURACION"],
@@ -106,8 +106,8 @@ var knobsReverb = insertaKnobsEn(
 
 var knobsEco = insertaKnobsEn(
     document.getElementById('controles-eco'),
-    "2.7vw",
-    "1vw",
+    "5.8vh",
+    "2.1vh",
     2,
     1,
     ["TIEMPO ENTRE REPETICIONES","FEEDBACK"],
@@ -120,8 +120,8 @@ var knobsEco = insertaKnobsEn(
 
 var panSintetizador = insertaKnobsEn(
     document.getElementById('cont-pan'),
-    "2.8vw",
-    "1.2vw",
+    "5.9vh",
+    "2.5vh",
     1,
     1,
     ["PAN"],

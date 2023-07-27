@@ -348,7 +348,7 @@ ANIMACIONES
 
     #Cantidad_voces_osc_1, #Cantidad_desafinacion_osc_1,#Cantidad_voces_osc_2, #Cantidad_desafinacion_osc_2{
         min-width: 30%;
-        min-height: 2.5vw;
+        min-height: 5.3vh;
         text-align: center;
         border-radius: 0.5vw;
         background-color: transparent;
@@ -669,7 +669,7 @@ ANIMACIONES
     }
 
     .textosLFO{
-        font-size: 1.2vw;
+        font-size: 2.5vh;
     }
 
     #Control-a-controlar-LFO{
@@ -679,8 +679,9 @@ ANIMACIONES
         border-radius: 0.5vw;
         border: 0.2vw solid rgb(106, 146, 106);
         color: rgb(106, 146, 106);
-        font-size: 0.85vw;
+        font-size: 1.9vh;
         margin-left: 0.5vw;
+
     }
 
     #cont-knobs-lfo{
@@ -689,25 +690,12 @@ ANIMACIONES
         /* border: 1px solid black; */
     }
 
-    .knob::after{
-        position: relative;
-        top:15px;
-        left:50%;
-        transform: translateX(-50%);
-        width: 10px;
-        height: 10px;
-        background:rgb(169, 16, 16);
-        box-shadow: 0px 0px 10px #349beb;
-        border-radius: 50%;
-        z-index:7
-    }
-    
 
     #cont-amplificador{
         width: 100%;
         height:45%;
         background-color: #edce98;
-        padding-bottom:0.5vw;
+        padding-bottom:1vh;
         color: rgb(146, 144, 106);
     }
 
@@ -727,7 +715,7 @@ ANIMACIONES
         outline: none;
         border: none; 
         transform: rotate(-90deg);
-        width: 7vw;
+        width: 16vh;
     }
 
     #cont-amplificador input[type="range"]::-webkit-slider-thumb{
@@ -763,7 +751,7 @@ ANIMACIONES
     }
 
     .titulo-dezlizador-amplificador{
-        font-size: 1.3vw;
+        font-size: 2.8vh;
     }
 
     #Segunda_fila{
@@ -883,27 +871,27 @@ ANIMACIONES
 
 
     #cont-amplificador .titulo-efecto{
-        font-size: 1.5vw;
+        font-size: 3.1vh;
     }
 
     #cont-LFO .titulo-efecto{
-        font-size:2vw;
+        font-size:4.2vh;
     }
 
     #cont-filtro .titulo-efecto{
-        font-size: 1.8vw;
+        font-size: 3.8vh;
     }
 
     #cont-Distorsion .titulo-efecto{
-        font-size: 1.6vw;
+        font-size: 3.4vh;
     }
 
     #controles-distorsion .titulo-efecto{
-        font-size: 1vw;
+        font-size: 2.1vh;
     }
 
     #cont-reverb .titulo-efecto{
-        font-size: 1.8vw;
+        font-size: 3.9vh;
     }
 
     #cont-knobs-reverb{
@@ -912,21 +900,17 @@ ANIMACIONES
         /* padding-bottom: 2vh; */
     }
 
-    #cont-eco .titulo-efecto{
-        font-size: 2vw;
-    }
-
     #controles-eco{
         width: 80%;
         height: 80%;
     }
 
     #cont-eco .titulo-efecto{
-        font-size: 2vw;
+        font-size: 4.1vh;
     }
 
     #cont-master .titulo-efecto{
-        font-size: 1vw;
+        font-size: 2.1vh;
         text-align: center;
         
     }
@@ -937,10 +921,6 @@ ANIMACIONES
     
     .enRedimensionamiento{
         cursor: ew-resize;
-    }
-    
-    tr td{
-        height: 1.5vw;
     }
 
     #secuenciador-melodias-marco{
@@ -957,8 +937,8 @@ ANIMACIONES
     }
 
     #secuenciador-melodias-marco::-webkit-scrollbar{
-        width: 10px;
-        height: 10px;
+        width: 0.7vw;
+        height: 1.6vh;
         background-color: white;
 
     }
@@ -970,10 +950,11 @@ ANIMACIONES
 
     #Ocultador-Espacio-Blanco{
         overflow: hidden;
-        min-height: 55.5vw;
+        min-height: 80vh;
         min-width: 134vw;
         position: absolute;
-        top: 1.5vw;
+        top: 3.2vh;
+        min-height: 118.4vh;
     }
 
     #Teclas-Piano-Roll{
@@ -1016,7 +997,7 @@ ANIMACIONES
         left: 0vw;
         right: 0;
         width: 0.2vw;
-        height: 32vw;
+        height: 70vh;
         opacity: 1;
         background-color: orange;
         z-index: 2;
@@ -1033,6 +1014,8 @@ ANIMACIONES
         font-size: 1vw;
         text-align: right;
         padding-right: 0.4vw;
+        height: 3.2vh;
+        font-size: 1.9vh;
     }
 
     .Tecla-Negra-Piano-Roll{
@@ -1046,12 +1029,15 @@ ANIMACIONES
         background-color: #473a4f;
         border-right: 0.1vw solid black;
         background-color: black;
+        font-size: 2vh;
+        
     }
 
 
     #Piano-Roll{
         position:relative;
         width: 128vw;
+        min-height: 118.4vh;
         left: 6vw;
         /* border: 1px solid aqua; */
     }
@@ -1059,7 +1045,7 @@ ANIMACIONES
     #NUMEROS-COMPASS{
         position: sticky;
         top: 0;
-        height: 1.5vw;
+        max-height: 3.2vh;
         max-width: 128vw;
         margin-left: 1vw;
         z-index: 1;
@@ -1071,15 +1057,15 @@ ANIMACIONES
         background-color: #473a4f;
         border: 0;
         top: 0;
-        height: 1.5vw;
+        max-height: 3.2vh;
         min-width: 32vw;
-        
+        font-size: 2vh
     }
     
     td{
         border-right: 1px solid #473a4f;
         border-bottom: 1px solid #473a4f;
-        height: 1.5vw;
+        height: 3.2vh;
     }
 
     .Cuadro-Semicorchea{
@@ -1234,7 +1220,7 @@ ANIMACIONES
 
     .titulo-sub-seccion{
         font-style: italic;        
-        font-size: 1.6vw;
+        font-size: 3.3vh;
         font-family: 'Square Block';
         color: var(--color-boton-pausa);
     }
@@ -1266,9 +1252,9 @@ ANIMACIONES
     #triangulo-boton-reproduccion{
         width: 0;
         height: 0;
-        border-top: 1vw solid transparent;
-        border-bottom: 1vw solid transparent;
-        border-left: 1.6vw solid var(--color-boton-play); /* Puedes cambiar el color según tus necesidades */
+        border-top: 2.35vh solid transparent;
+        border-bottom: 2.35vh solid transparent;
+        border-left: 3vh solid var(--color-boton-play); /* Puedes cambiar el color según tus necesidades */
         margin-left: 0.2vw;        
     }
 
@@ -1335,7 +1321,7 @@ ANIMACIONES
         width: 80%;
         text-align: center;
         border-radius: 1vw;
-        font-size: 1.3vw;
+        font-size: 2.6vh;
         font-style: italic;
         letter-spacing: 0.1vw;
         color: var(--color-boton-pausa);
@@ -1344,7 +1330,7 @@ ANIMACIONES
     }
     
     #texto-tempo,#texto-Cantidad-Compases{
-        font-size: 1vw;
+        font-size: 2.1vh;
         font-family: 'Square Block';
         font-style: italic;
         color: var(--color-boton-pausa);
