@@ -212,14 +212,8 @@ class NotaSecuenciadorDeMelodias{
         this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
         // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
         // y no otro adyacente no deseado
-        let coordenadaXSemicorcheaDebajo = todosLosOffsetLeft[0] + (ancho_de_una_semicorchea_actual * this.indiceTablaX) + 2 + PIANO_ROLL.getBoundingClientRect().left; 
-        let coordenadaYSemicorcheaDebajo = todosLosOffsetTop[0] + (alto_de_una_semicorchea_actual * this.indiceTablaY) + 2 + PIANO_ROLL.getBoundingClientRect().top;
-
-        console.log(coordenadaXSemicorcheaDebajo,coordenadaYSemicorcheaDebajo)
-
-        let elementosEnCoordenada = document.elementsFromPoint(coordenadaXSemicorcheaDebajo,coordenadaYSemicorcheaDebajo);
-        this.CuadroSemicorcheaDebajo = elementosEnCoordenada.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
-        console.log(this.CuadroSemicorcheaDebajo)
+        this.CuadroSemicorcheaDebajo = Todos_los_cuadros_semicorchea[(16*CANTIDAD_DE_COMPASES*this.indiceTablaY)+this.indiceTablaX]
+        console.log(this.CuadroSemicorcheaDebajo);
     }
 
     ajustarNotaAGrilla(){
@@ -342,7 +336,7 @@ function obtenerCuadroSemiCorchea(currentTime) {
   }
 
   let cuadroSemicorcheaActual = Todos_los_cuadros_semicorchea.filter(
-    (element, indice) => (indice - indiceCuadroSemicorchea) % 64 === 0
+    (element, indice) => (indice - indiceCuadroSemicorchea) % (16*CANTIDAD_DE_COMPASES) === 0
   )[0];
 
   if (ultimoCuadroSemicorcheaPasado != cuadroSemicorcheaActual) {
