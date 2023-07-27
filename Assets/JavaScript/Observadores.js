@@ -3,7 +3,10 @@ const seccion_efectos = document.getElementById('seccion-efectos');
 const seccion_secuenciador_melodias = document.getElementById('contenedor-secuenciador-melodias');
 const seccion_secuenciador_de_ritmos = document.getElementById('contenedor-secuenciador-ritmos');
 const INDICADOR= document.getElementById('indicador');
+const CANTIDAD_COMPASES_CONTENEDOR = document.getElementById('cantidad-compases-contenedor');
+const CANTIDAD_COMPASES_INPUT = document.getElementById('Cantidad-Compases');
 var seccion_en_vista;
+let ultimaAnimacionParaCantidadCompasContenedor;
 
 function getUnidadVhEnPX(){
     return window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
@@ -17,6 +20,7 @@ if(window.scrollY>=0&&window.scrollY<80 * getUnidadVhEnPX()){
     seccion_en_vista = 2;
 }else if(window.scrollY>=(72 * getUnidadVhEnPX()*1.8)&&window.scrollY<(93 * getUnidadVhEnPX()*3)){
     seccion_en_vista = 3;
+    CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
 }else{
     seccion_en_vista = 4
 }
@@ -32,7 +36,7 @@ INDICADOR.addEventListener('mousedown',()=>{
             break;
 
         case "3":
-            window.scroll(0,98.75 * getUnidadVhEnPX() * 2);
+            window.scroll(0,98.75 * getUnidadVhEnPX() * 2);            
             break;    
 
         case "4":
@@ -51,10 +55,28 @@ const encontrando_secciones = (entradas, observador) => {
         if (entrada.isIntersecting){
             seccion_en_vista = entrada.target.dataset.numero_seccion;            
             INDICADOR.style.top = (32.5 + ((seccion_en_vista-1)*12.9)) + "vh";
-            INDICADOR.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";
-
-            
-
+            INDICADOR.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";             
+            if(seccion_en_vista==3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="none"){
+                console.log("appear")
+                if(ultimaAnimacionParaCantidadCompasContenedor){                    
+                    ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
+                        ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
+                        CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
+                    })               
+                }else{
+                    ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
+                    CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
+                }               
+            }else if(seccion_en_vista!=3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="flex"){
+                console.log("disapear")
+                if(ultimaAnimacionParaCantidadCompasContenedor){                    
+                    ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
+                        ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true,true)
+                    })                         
+                }else{
+                    ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true,true)
+                }               
+            }           
         }
 
     });    

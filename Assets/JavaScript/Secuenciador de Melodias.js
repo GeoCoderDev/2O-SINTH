@@ -1,28 +1,44 @@
 //===================================================================
 // SECUENCIADOR DE MELODIAS
 //==================================================================
-const SECUENCIADOR_DE_MELODIAS_MARCO = document.getElementById('secuenciador-melodias-marco')
+const SECUENCIADOR_DE_MELODIAS_MARCO = document.getElementById('secuenciador-melodias-marco');
 const PIANO_ROLL = document.getElementById('Piano-Roll');
+const TEMPO = document.getElementById('Tempo');
 var CANTIDAD_DE_COMPASES = 4
+let duracionSemicorcheas = 60/(TEMPO.value*4)
+
+function actualizarDurationSemicorcheas(){ 
+    duracionSemicorcheas = 60/(TEMPO.value*4)
+}
+
+TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
 
 //Transformando la lista de nodos en un Array para poder usar todos los
 // metodos del prototipo array como slice
 var Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
 
 //Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
-var primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,64);
-var primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%64==0);
-
+var primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
+var primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0);
 
 var todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
 var todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
 
+var todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
+    return (cuadroSemicorchea.getBoundingClientRect().left-SECUENCIADOR_DE_MELODIAS_MARCO.getBoundingClientRect().left);
+});
+
+console.log(todasLasPosicionesRelativasAlMarco);
+
 function actualizarCuadrosSemicorchea(){
     Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
-    primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,64);
-    primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%64==0)
+    primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
+    primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0)
     todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
     todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+    todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
+        return (cuadroSemicorchea.getBoundingClientRect().left-SECUENCIADOR_DE_MELODIAS_MARCO.getBoundingClientRect().left);
+    });
 }
 
 
@@ -280,6 +296,7 @@ class NotaSecuenciadorDeMelodias{
 // ----------------------------
 // | REPRODUCCIÓN DE MELODIAS |      
 // ---------------------------- 
+
 const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
 const TRANSPORT_BAR = document.getElementById('Transport-Bar');
 
@@ -287,12 +304,12 @@ function reproducirMelodias(){
 
     TRANSPORT_BAR.animate([
         {transform:"translateX(0)"},
-        {transform:"translateX(40vw)"}
+        {transform:"translateX(calc(31.8vw*2))"}
     ],{
         iterations:1,
         easing: "linear",
         fill:"forwards",
-        duration:10000
+        duration:4800
     })
     
 
@@ -300,29 +317,79 @@ function reproducirMelodias(){
 
 // Obtiene la posición X del elemento relativa al contenedor a cada segundo
 const startTime = performance.now();
-const duration = 10000;
+const duration = 12000;
 const interval = 1000; // Intervalo de tiempo en milisegundos (1 segundo)
+let ultimoCuadroSemicorcheaPasado;
 
-function obtenerPosicionX() {
-  const currentTime = performance.now() - startTime;
-  if (currentTime <= duration) {
-    const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
-    const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
+let lastAnimationTime = 0;
 
-    // Calcula la posición X relativa al contenedor
-    const posicionXRelativa = transportBarRect.left - contenedorRect.left;
+function obtenerCuadroSemiCorchea(currentTime) {
+  const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
+  const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
 
-    console.log("Posición X relativa:", posicionXRelativa);
+  // Calcula la posición X relativa al contenedor
+  const posicionXRelativa = transportBarRect.left - contenedorRect.left;
 
-    // Solicita la siguiente actualización
-    requestAnimationFrame(obtenerPosicionX);
+  let indiceCuadroSemicorchea;
+  for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
+    if (
+      posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
+      posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
+    ) {
+      indiceCuadroSemicorchea = i;
+      break;
+    }
   }
+
+  let cuadroSemicorcheaActual = Todos_los_cuadros_semicorchea.filter(
+    (element, indice) => (indice - indiceCuadroSemicorchea) % 64 === 0
+  )[0];
+
+  if (ultimoCuadroSemicorcheaPasado != cuadroSemicorcheaActual) {
+    cuadroSemicorcheaActual.style.backgroundColor = "red";
+    ultimoCuadroSemicorcheaPasado = cuadroSemicorcheaActual;
+  }
+
+  // Solicita la siguiente actualización
+  requestAnimationFrame(obtenerCuadroSemiCorchea);
+
 }
 
-obtenerPosicionX();
+
+function reproducirMelodias() {
+  // Reinicia la animación en cada llamada
+  TRANSPORT_BAR.style.transform = "translateX(0)";
+
+  TRANSPORT_BAR.animate(
+    [
+      { transform: "translateX(0)" },
+      { transform: "translateX(calc(31.9vw*3))" }
+    ],
+    {
+      iterations: 1,
+      easing: "linear",
+      fill: "forwards",
+      duration: 12000
+    }
+  );
+
+  // Reinicia el loop para obtener el cuadro semicorchea
+  lastAnimationTime = performance.now();
+  obtenerCuadroSemiCorchea();
+}
+
+// Listener para el evento de scroll en el contenedor "secuenciador-melodias-marco"
+SECUENCIADOR_DE_MELODIAS_MARCO.addEventListener("scroll", () => {
+  // Cuando ocurre un evento de scroll, actualiza las coordenadas relativas del elemento "Transport-Bar"
+  const currentTime = performance.now();
+  const deltaTime = currentTime - lastAnimationTime;
+  lastAnimationTime = currentTime;
+  const currentLeft = parseFloat(TRANSPORT_BAR.style.transform.split(" ")[1]) || 0;
+  const deltaLeft = (deltaTime / 4800) * (31.8 * 2); // 31.8vw * 2 es la longitud de la barra de transporte
+  TRANSPORT_BAR.style.transform = `translateX(${currentLeft + deltaLeft}vw)`;
+});
 
 
-
-
+obtenerCuadroSemiCorchea();
 reproducirMelodias()
 

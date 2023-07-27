@@ -57,13 +57,13 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalEnPorcen
             {opacity:0,width:0,margin:`0 -${dimensionOriginalEnPorcentaje/2}%`,display:displayOriginal}, //0%
             {}, //25%
             {}, //50%
-            {opacity:0,width:`${dimensionOriginalEnPorcentaje}%`, margin:0}, //75%
-            {opacity:1} //100%
+            {opacity:0,width:`${dimensionOriginalEnPorcentaje}%`, margin:0, display:displayOriginal}, //75%
+            {opacity:1, width:`${dimensionOriginalEnPorcentaje}%`, margin:0, display:displayOriginal} //100%
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
             easing:"ease-in",
-            fill:(permanent)?'forwards':'none'
+            fill:((permanent)?'forwards':'none')
         })
 
         return{animacionFinalizada:APPEAR_HORIZONTAL.finished}
@@ -74,8 +74,8 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalEnPorcen
             {opacity:0,height:0,display:displayOriginal}, //0%
             {}, //25%
             {}, //50%
-            {opacity:0,height:`${dimensionOriginalEnPorcentaje}%`, margin:0}, //75%
-            {opacity:1,height:`${dimensionOriginalEnPorcentaje}%`, margin:0} //100%
+            {opacity:0,height:`${dimensionOriginalEnPorcentaje}%`, margin:0,display:displayOriginal}, //75%
+            {opacity:1,height:`${dimensionOriginalEnPorcentaje}%`, margin:0,display:displayOriginal} //100%
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos

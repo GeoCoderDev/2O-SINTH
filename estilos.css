@@ -7,6 +7,8 @@
     --color-boton-play: rgb(71, 58, 79);
     --color-boton-pausa: rgb(71, 58, 79);
     --color-boton-stop: rgb(71, 58, 79);
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 *{
@@ -1299,7 +1301,19 @@ ANIMACIONES
         border-radius: 0.2vw;
     }
 
-    #contenedor-tempo{
+
+    #contenedor-tempo-cantidad-compases{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        /* border: 1px solid black; */
+        width: 100%;
+        height: 40%;
+    }
+
+
+    #contenedor-tempo,#cantidad-compases-contenedor{
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -1307,11 +1321,15 @@ ANIMACIONES
         align-items: center;
         /* border: 1px solid black; */
         width: 40%;
-        height: 40%;
+        height: 100%;
     }
 
-    
-    #Tempo{
+    #cantidad-compases-contenedor{
+        width: 30%;
+        display: none;
+    }
+
+    #Tempo,#Cantidad-Compases{
         background-color: transparent;
         height: 60%;
         width: 80%;
@@ -1325,7 +1343,7 @@ ANIMACIONES
         padding-left: 0.7vw;
     }
     
-    #texto-tempo{
+    #texto-tempo,#texto-Cantidad-Compases{
         font-size: 1vw;
         font-family: 'Square Block';
         font-style: italic;
@@ -1333,12 +1351,12 @@ ANIMACIONES
         font-weight: bolder;
     }
 
-    .botones-reproduccion, #Tempo{
+    .botones-reproduccion, #Tempo,#Cantidad-Compases{
         box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2) inset;
         transition: all 0.1s;
     }
 
-    .botones-reproduccion:hover, #Tempo:hover{
+    .botones-reproduccion:hover, #Tempo:hover, #Cantidad-Compases:hover{
         box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2);
         transform: scale(1.05);
     }
