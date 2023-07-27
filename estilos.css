@@ -1089,6 +1089,7 @@ ANIMACIONES
 
     #C4Roll,#C5Roll,#C6Roll,#C7Roll{
         background-color: rgb(230, 227, 227);
+        font-size: 2.1vh;
     }
 
     #C4Roll,#C5Roll,#C6Roll,#C7Roll,#F4Roll,#F5Roll,#F6Roll{        
@@ -1147,7 +1148,7 @@ ANIMACIONES
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8vw;
+        font-size: 1.65vh;
         border: 0.2vw solid black;   
         border-radius: 0.5vw;
         background-image: radial-gradient(white ,rgb(52, 78, 208) 95%);
