@@ -95,6 +95,7 @@ function insertarGraficoDeBarrasInteractiva
     let anchoContenedor = contenedor.getBoundingClientRect().right - contenedor.getBoundingClientRect().left; 
     let mascarasDeArrastre = [];
     let funcionesParaCambiarValorDeUnaSolaBarra = [];
+    let eventosMouseMoveIDs = [];
     let barrasContenedoras = []
     let matrizValores = [];
 
@@ -119,7 +120,7 @@ function insertarGraficoDeBarrasInteractiva
 
         matrizValores[i] = obtenerValorBarra(barrasContenedoras[i],valorLimiteInferiorBarras,valorLimiteSuperiorBarras);
 
-        barrasContenedoras[i].addEventListener('mousedown',function(){
+        delegarEvento('mousedown',barrasContenedoras[i],function(){
 
             let altoBarra = barrasContenedoras[i].getBoundingClientRect().bottom - barrasContenedoras[i].getBoundingClientRect().top; 
 
@@ -147,10 +148,11 @@ function insertarGraficoDeBarrasInteractiva
             //Insertando Mascara de Arrastre Invisible en el contenedor de knobs
             contenedor.appendChild(mascarasDeArrastre[i]);
 
-            mascarasDeArrastre[i].addEventListener('mousemove',funcionesParaCambiarValorDeUnaSolaBarra[i]);
+            eventosMouseMoveIDs[i] = delegarEvento('mousemove', mascarasDeArrastre[i],funcionesParaCambiarValorDeUnaSolaBarra[i]);
 
             mascarasDeArrastre[i].addEventListener('mouseup',function(){
                 contenedor.removeChild(mascarasDeArrastre[i]);
+                eliminarEventoDelegado('mousemove',eventosMouseMoveIDs[i])
             })
 
         });

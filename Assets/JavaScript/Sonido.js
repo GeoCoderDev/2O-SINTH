@@ -75,7 +75,6 @@ class NotaSintetizador{
         this.octava = octava;
         this.nombreNota = nombreNota;        
         this.frecuencia = FRECUENCIAS_12NOTAS_OCTAVA0.get(this.nombreNota)*(2**this.octava);
-        console.log(this.frecuencia)
         this.codigoTecla = codigoTecla;
         frecuenciasPorTecla[this.codigoTecla] = this.frecuencia; 
 
@@ -86,12 +85,12 @@ class NotaSintetizador{
 
         NotaSintetizador.todasLasNotasSintetizador.push(this);
 
-        this.elementoHTML.addEventListener('mousedown',(e)=>{
+        let ejecutarHacerSonarNotaMetodo = (e)=>{
             this.#hacerSonarNotaMientrasSeHaceClick(e);
-        });
-        this.teclaPianoRoll.addEventListener('mousedown',(e)=>{
-            this.#hacerSonarNotaMientrasSeHaceClick(e);
-        });
+        }
+        
+        delegarEvento('mousedown',this.elementoHTML,ejecutarHacerSonarNotaMetodo)
+        delegarEvento('mousedown',this.teclaPianoRoll,ejecutarHacerSonarNotaMetodo)
         
     }
 
@@ -124,10 +123,9 @@ class NotaSintetizador{
                         }
                     },400);
                 }
-
-                document.getElementById(tipoOndaOSC1.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                document.getElementById(tipoOndaOSC1.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                
+                delegarEvento('click',`#${tipoOndaOSC1.obtenerIDs[0]}, #${tipoOndaOSC1.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
+                
 
             let funcionesActualizacionValoresDetune = [];
             let LFOgains = [];
@@ -173,9 +171,8 @@ class NotaSintetizador{
                             }
                         },400);
                     }
-    
-                    document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                    document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
+
+                    delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);
 
                     OsciladoresLFO1[i].connect(LFOgains[i]);
                     LFOgains[i].connect(AnalizadoresLFO[i]);
@@ -253,9 +250,7 @@ class NotaSintetizador{
                         },400);
                     }
 
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                    delegarEvento('click',`#${tipoOndaOSC2.obtenerIDs[0]}, #${tipoOndaOSC2.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
 
                 let funcionesActualizacionValoresDetune = [];
                 let LFOgains = [];
@@ -300,8 +295,8 @@ class NotaSintetizador{
                             },400);
                         }
         
-                        document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                        document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
+                        delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);
+
 
                         OsciladoresLFO2[i].connect(LFOgains[i]);
                         LFOgains[i].connect(AnalizadoresLFO[i]);
@@ -405,7 +400,7 @@ class NotaSintetizador{
                         if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
                         if(OsciladoresLFO1[i]){
                             OsciladoresLFO1[i].stop();
-                            // OsciladoresLFO1[i].disconnect();
+                            OsciladoresLFO1[i].disconnect();
                             // OsciladoresLFO1[i] = null
                         }                       
 
@@ -419,18 +414,17 @@ class NotaSintetizador{
                         if(OsciladoresLFO2[i]){
                             OsciladoresLFO2[i].stop();    
                             OsciladoresLFO2[i].disconnect(); 
-                            OsciladoresLFO2[i] = null;                           
+                            // OsciladoresLFO2[i] = null;                           
                         }
                     }
 
                 },duracionRelease*1000);
         }
 
-
-
-        e.target.addEventListener('mouseup',pararSonido)
-        e.target.addEventListener('mouseout',pararSonido)
     
+        delegarEvento('mouseup',e.target,pararSonido)
+        delegarEvento('mouseout',e.target,pararSonido)
+
     }
 
 
@@ -495,9 +489,7 @@ class NotaSintetizador{
                     },400);
                 }
 
-                document.getElementById(tipoOndaOSC1.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                document.getElementById(tipoOndaOSC1.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                delegarEvento('click',`#${tipoOndaOSC1.obtenerIDs[0]}, #${tipoOndaOSC1.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
 
             let funcionesActualizacionValoresDetune = [];
             let LFOgains = [];
@@ -542,8 +534,7 @@ class NotaSintetizador{
                         },400);
                     }
     
-                    document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                    document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
+                    delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);
 
                     OsciladoresLFO1[i].connect(LFOgains[i]);
                     LFOgains[i].connect(AnalizadoresLFO[i]);
@@ -621,9 +612,7 @@ class NotaSintetizador{
                         },400);
                     }
 
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                    delegarEvento('click',`#${tipoOndaOSC2.obtenerIDs[0]}, #${tipoOndaOSC2.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
 
                 let funcionesActualizacionValoresDetune = [];
                 let LFOgains = [];
@@ -668,9 +657,8 @@ class NotaSintetizador{
                             },400);
                         }
         
-                        document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                        document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-
+                        delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);                    
+                        
                         OsciladoresLFO2[i].connect(LFOgains[i]);
                         LFOgains[i].connect(AnalizadoresLFO[i]);
 
@@ -793,11 +781,11 @@ class NotaSintetizador{
                     for(let i=0;i<Osciladores1.length;i++){
                         Osciladores1[i].stop();
                         Osciladores1[i].disconnect();
-                        Osciladores1[i] = null;
+                        // Osciladores1[i] = null;
                         if(OsciladoresLFO1[i]){
                             OsciladoresLFO1[i].stop();
                             OsciladoresLFO1[i].disconnect();
-                            OsciladoresLFO1[i] = null;
+                            // OsciladoresLFO1[i] = null;
                         }                         
                         if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
                     }
@@ -805,11 +793,11 @@ class NotaSintetizador{
                     for(let i=0;i<Osciladores2.length;i++){
                         Osciladores2[i].stop();
                         Osciladores2[i].disconnect();
-                        Osciladores2[i] = null;
+                        // Osciladores2[i] = null;
                         if(OsciladoresLFO2[i]){
                             OsciladoresLFO2[i].stop(); 
                             OsciladoresLFO2[i].disconnect();
-                            OsciladoresLFO2[i] = null;                        
+                            // OsciladoresLFO2[i] = null;                        
                         } 
                         if(requestAnimationFrameLFOIDs2[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs2[i]);  
                     }
@@ -851,11 +839,11 @@ class NotaSintetizador{
                 for(let i=0;i<Osciladores1.length;i++){
                     Osciladores1[i].stop();
                     Osciladores1[i].disconnect();
-                    Osciladores1[i] = null;
+                    // Osciladores1[i] = null;
                     if(OsciladoresLFO1[i]){
                         OsciladoresLFO1[i].stop();
                         OsciladoresLFO1[i].disconnect();
-                        OsciladoresLFO1[i] = null;
+                        // OsciladoresLFO1[i] = null;
                     }                         
                     if(requestAnimationFrameLFOIDs1[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs1[i]);  
                 }
@@ -863,11 +851,11 @@ class NotaSintetizador{
                 for(let i=0;i<Osciladores2.length;i++){
                     Osciladores2[i].stop();
                     Osciladores2[i].disconnect();
-                    Osciladores2[i] = null;
+                    // Osciladores2[i] = null;
                     if(OsciladoresLFO2[i]){
                         OsciladoresLFO2[i].stop(); 
                         OsciladoresLFO2[i].disconnect();
-                        OsciladoresLFO2[i] = null;                        
+                        // OsciladoresLFO2[i] = null;                        
                     } 
                     if(requestAnimationFrameLFOIDs2[i]) cancelAnimationFrame(requestAnimationFrameLFOIDs2[i]);  
                 }
@@ -939,9 +927,7 @@ window.addEventListener('keydown',(e)=>{
                     },400);
                 }
 
-                document.getElementById(tipoOndaOSC1.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                document.getElementById(tipoOndaOSC1.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                delegarEvento('click',`#${tipoOndaOSC1.obtenerIDs[0]}, #${tipoOndaOSC1.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
 
             let funcionesActualizacionValoresDetune = [];
             let LFOgains = [];
@@ -986,8 +972,7 @@ window.addEventListener('keydown',(e)=>{
                         },400);
                     }
     
-                    document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                    document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
+                    delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);
 
                     OsciladoresLFO1[i].connect(LFOgains[i]);
                     LFOgains[i].connect(AnalizadoresLFO[i]);
@@ -1065,9 +1050,7 @@ window.addEventListener('keydown',(e)=>{
                         },400);
                     }
 
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-                    document.getElementById(tipoOndaOSC2.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaEnTiempoReal);
-
+                    delegarEvento('click',`#${tipoOndaOSC2.obtenerIDs[0]}, #${tipoOndaOSC2.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal);
 
                 let funcionesActualizacionValoresDetune = [];
                 let LFOgains = [];
@@ -1111,9 +1094,8 @@ window.addEventListener('keydown',(e)=>{
                                 }
                             },400);
                         }
-        
-                        document.getElementById(tipoOndaLFO.obtenerIDs[0]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
-                        document.getElementById(tipoOndaLFO.obtenerIDs[1]).addEventListener('click',actualizarTipoOndaLFOEnTiempoReal);
+
+                        delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal);
 
                         OsciladoresLFO2[i].connect(LFOgains[i]);
                         LFOgains[i].connect(AnalizadoresLFO[i]);
@@ -1223,7 +1205,7 @@ window.addEventListener('keyup',(e)=>{
         for(let i=0; i<osciladores[u].length;i++){
             osciladores[u][i].stop();
             osciladores[u][i].disconnect();
-            osciladores[u][i] = null;
+            // osciladores[u][i] = null;
         }        
     };
 
@@ -1376,9 +1358,9 @@ eventoDeVariableEsDiferenteDe(this,
 function(){
 
     if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
-    if(LFO!==undefined){
+    if(LFO){
         LFO.stop();
-        // LFO.disconnect();
+        LFO.disconnect();
         // LFO = null;
     } 
 
@@ -1402,7 +1384,6 @@ function(){
 
         LFO.connect(LFOgain);
         LFOgain.connect(LFOAnalizador);
-
         LFO.start(ENTORNO_AUDIO.currentTime + retrasoLFO);
 
         
@@ -1436,10 +1417,10 @@ function(){
 function(){
     setTimeout(()=>{
         if((datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)]+this.datosAnalizador[parseInt(Math.random()*100)])/3==128){
-            if(LFO!==undefined){
+            if(LFO){
                 LFO.stop();        
-                // LFO.disconnect();        
-                // LFO = null;        
+                LFO.disconnect();        
+                LFOgain.disconnect();
             }
             if(requestAnimationFrameLFO!==undefined) cancelAnimationFrame(requestAnimationFrameLFO);
         }      
@@ -1507,3 +1488,9 @@ delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
     nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
 })    
 
+let y = [];
+
+y[0] = null;
+y[0] = 9
+
+console.log(y[0])

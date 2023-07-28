@@ -3,9 +3,10 @@ let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador
 
 nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
 
-volumenSliderSintetizador.addEventListener('mousemove',()=>{
+delegarEvento('mousemove',volumenSliderSintetizador,()=>{
     nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
 })
+
 volumenSliderSintetizador.addEventListener('keyup',()=>{
     nodoSalidaSintetizador.gain.value = (volumenSliderSintetizador.value/100)/1.5;
 })

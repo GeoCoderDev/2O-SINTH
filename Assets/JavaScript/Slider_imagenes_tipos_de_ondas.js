@@ -179,8 +179,8 @@ function insertaDeslizadorDeImagenesEn(
         },400)
     }
 
-    boton_izquierda.addEventListener('click',anteriorImagen);
-    boton_derecha.addEventListener('click',siguienteImagen);
+    delegarEvento('click',boton_izquierda,anteriorImagen);
+    delegarEvento('click',boton_derecha,siguienteImagen);
 
 
     datosDeslizadorImagenes.obtenerValor = function(){

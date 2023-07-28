@@ -160,9 +160,10 @@ let volumenSliderMaster = document.getElementById('volumenMaster');
 
 nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
 
-volumenSliderMaster.addEventListener('mousemove',()=>{
+delegarEvento('mousemove',volumenSliderMaster,()=>{
     nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
 })
+
 volumenSliderMaster.addEventListener('keyup',()=>{
     nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
 })

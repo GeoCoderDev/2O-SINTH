@@ -3,16 +3,17 @@
 var mapaDeEventosClick = new Map();
 var eventosClickID = 0;
 
-function agregarEventoClick(querySelector,callback){
-   mapaDeEventosClick.set(eventosClickID,{selector:querySelector,callback:callback})    
+function agregarEventoClick(querySelectorOElementoHTML,callback){
+   mapaDeEventosClick.set(eventosClickID,{selectorOElementoHTML:querySelectorOElementoHTML,callback:callback})    
    return eventosClickID++;;
 }
 
 document.addEventListener('click',(e)=>{
 
     mapaDeEventosClick.forEach((Evento)=>{
-        if(e.target.matches(Evento.selector)){
-            Evento.callback();
+        if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
+            ||e.target==Evento.selectorOElementoHTML){
+            Evento.callback(e);
         }
     })
 
@@ -23,15 +24,16 @@ document.addEventListener('click',(e)=>{
 var mapaDeEventosMouseMove = new Map();
 var eventosMouseMoveID = 0;
 
-function agregarEventoMouseMove(querySelector,callback){
-    mapaDeEventosMouseMove.set(eventosMouseMoveID,{selector:querySelector,callback:callback})     
+function agregarEventoMouseMove(querySelectorOElementoHTML,callback){
+    mapaDeEventosMouseMove.set(eventosMouseMoveID,{selectorOElementoHTML:querySelectorOElementoHTML,callback:callback})     
     return eventosMouseMoveID++;;
 }
 
 document.addEventListener('mousemove',(e)=>{
 
     mapaDeEventosMouseMove.forEach((Evento)=>{
-        if(e.target.matches(Evento.selector)){
+        if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
+            ||e.target==Evento.selectorOElementoHTML){
             Evento.callback(e);
         }
     })
@@ -44,16 +46,17 @@ document.addEventListener('mousemove',(e)=>{
 var mapaDeEventosMouseOut = new Map();
 var eventosMouseOutID = 0;
 
-function agregarEventoMouseOut(querySelector,callback){
-    mapaDeEventosMouseOut.set(eventosMouseOutID,{selector:querySelector,callback:callback});    
+function agregarEventoMouseOut(querySelectorOElementoHTML,callback){
+    mapaDeEventosMouseOut.set(eventosMouseOutID,{selectorOElementoHTML:querySelectorOElementoHTML,callback:callback});    
     return eventosMouseOutID++;
 }
 
 document.addEventListener('mouseout',(e)=>{
 
     mapaDeEventosMouseOut.forEach((Evento)=>{
-        if(e.target.matches(Evento.selector)){
-            Evento.callback();
+        if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
+        ||e.target==Evento.selectorOElementoHTML){
+            Evento.callback(e);
         }
     })
 
@@ -65,16 +68,17 @@ document.addEventListener('mouseout',(e)=>{
 var mapaDeEventosMouseDown = new Map();
 var eventosMouseDownID = 0;
 
-function agregarEventoMouseDown(querySelector,callback){
-    mapaDeEventosMouseDown.set(eventosMouseDownID,{selector:querySelector,callback:callback});    
+function agregarEventoMouseDown(querySelectorOElementoHTML,callback){
+    mapaDeEventosMouseDown.set(eventosMouseDownID,{selectorOElementoHTML:querySelectorOElementoHTML,callback:callback});    
     return eventosMouseDownID++;
 }
 
 document.addEventListener('mousedown',(e)=>{
 
     mapaDeEventosMouseDown.forEach((Evento)=>{
-        if(e.target.matches(Evento.selector)){
-            Evento.callback();
+        if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
+            ||e.target==Evento.selectorOElementoHTML){
+            Evento.callback(e);
         }
     })
 
@@ -86,16 +90,17 @@ document.addEventListener('mousedown',(e)=>{
 var mapaDeEventosMouseUp = new Map();
 var eventosMouseUpID = 0;
 
-function agregarEventoMouseUp(querySelector,callback){
-    mapaDeEventosMouseUp.set(eventosMouseUpID,{selector:querySelector,callback:callback});    
+function agregarEventoMouseUp(querySelectorOElementoHTML,callback){
+    mapaDeEventosMouseUp.set(eventosMouseUpID,{selectorOElementoHTML:querySelectorOElementoHTML,callback:callback});    
     return eventosMouseUpID++;
 }
 
 document.addEventListener('mouseup',(e)=>{
 
     mapaDeEventosMouseUp.forEach((Evento)=>{
-        if(e.target.matches(Evento.selector)){
-            Evento.callback();
+        if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
+            ||e.target==Evento.selectorOElementoHTML){
+            Evento.callback(e);
         }
     })
 
@@ -109,22 +114,22 @@ document.addEventListener('mouseup',(e)=>{
  * @param {*} callback funcion que se ejecutara cada vez que se dispare el evento
  * @returns devuelve un Id del evento que añadiste, con el cual podras eliminar el evento mediante la funcion eliminarEventoDelegado
  */
-function delegarEvento(typeEvent,querySelector,callback){
+function delegarEvento(typeEvent,querySelectorOrElement,callback){
     switch (typeEvent) {
         case "click":
-            return agregarEventoClick(querySelector,callback);
+            return agregarEventoClick(querySelectorOrElement,callback);
 
         case "mousemove":
-            return agregarEventoMouseMove(querySelector,callback);
+            return agregarEventoMouseMove(querySelectorOrElement,callback);
             
         case "mouseout":
-            return agregarEventoMouseOut(querySelector,callback);
+            return agregarEventoMouseOut(querySelectorOrElement,callback);
 
         case "mousedown":
-            return agregarEventoMouseDown(querySelector,callback);
+            return agregarEventoMouseDown(querySelectorOrElement,callback);
         
         case "mouseup":
-            return agregarEventoMouseUp(querySelector,callback);
+            return agregarEventoMouseUp(querySelectorOrElement,callback);
 
         case "mouseover":
 

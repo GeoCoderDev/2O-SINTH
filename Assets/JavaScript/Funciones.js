@@ -87,7 +87,7 @@ function makeResizableByRight(elementoHTML,nombreClaseNueva,PIXELES_DE_SENSIBILI
     resizableDiv.style.position = posicionamientoDelElemento; // Asegurarse de que el elemento tenga posición relativa o absoluta
 
     resizableDiv.addEventListener('mousedown', (e) => {
-        if (e.offsetX >= resizableDiv.offsetWidth - 20) { // Solo en el borde derecho
+        if (e.offsetX >= resizableDiv.offsetWidth - PIXELES_DE_SENSIBILIDAD) { // Solo en el borde derecho
             isResizing = true;
             lastX = e.clientX;
             originalWidth = resizableDiv.offsetWidth;

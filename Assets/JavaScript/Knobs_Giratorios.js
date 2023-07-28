@@ -77,6 +77,8 @@ function insertaKnobsEn
     let funcionesRotate = [];
     let mascarasDeArrastre = [];
     let knobsValues = [];
+    let eventosMouseDownIDs = [];
+    let eventosMouseUpIDs = [];
 
     for(let i = 0; i < cantidadKnobs; i++){
 
@@ -131,8 +133,8 @@ function insertaKnobsEn
         contenedorDeKnobs.appendChild(contenedoresKnobs[i]);
 
         //AÑADIENDO EVENTOS
-        
-        Knobs[i].addEventListener("mousedown",function(){                    
+
+        let crearMascaraDeArrastreParaMoverKnob = ()=>{                    
 
             //DEFINIENDO LAS MASCARAS DE PARA ARRASTRAR LIBREMENTE POR TODA LA PANTALLA
             mascarasDeArrastre[i] = document.createElement('div');
@@ -158,14 +160,21 @@ function insertaKnobsEn
                 if(callBacks) callBacks[i]();
             }
             
-            mascarasDeArrastre[i].addEventListener("mousemove",funcionesRotate[i]);
+            eventosMouseDownIDs[i]=delegarEvento('mousemove',mascarasDeArrastre[i],funcionesRotate[i]);
 
-            mascarasDeArrastre[i].addEventListener("mouseup",function(){
-                mascarasDeArrastre[i].removeEventListener('mousemove',funcionesRotate[i]);   
+
+            eventosMouseUpIDs[i]=delegarEvento("mouseup",mascarasDeArrastre[i],function(){
+                eliminarEventoDelegado('mousemove',eventosMouseDownIDs[i]);
                 contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);   
             })                
 
-        });
+        }
+
+        delegarEvento('mousedown',Knobs[i],crearMascaraDeArrastreParaMoverKnob);
+        delegarEvento('mousedown',indicadores_knobs[i],crearMascaraDeArrastreParaMoverKnob);
+
+
+        // Knobs[i].addEventListener("mousedown",
 
         //EJECUTANDO LOS CALLBACKS SIN NECESIDAD DE ALGUNA INTERACCION CON LOS KNOBS
         if(callBacks) callBacks[i]();
