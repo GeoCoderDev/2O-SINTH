@@ -213,13 +213,16 @@ class NotaSecuenciadorDeMelodias{
         // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
         // y no otro adyacente no deseado
         this.CuadroSemicorcheaDebajo = Todos_los_cuadros_semicorchea[(16*CANTIDAD_DE_COMPASES*this.indiceTablaY)+this.indiceTablaX]
-        console.log(this.CuadroSemicorcheaDebajo);
-    }
+        
+    }    
 
     ajustarNotaAGrilla(){
         this.elementoHTML.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaHorizontalPX,'vw')+'vw';
         this.elementoHTML.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaVerticalPX,'vw')+'vw';
     }   
+
+    
+
 
     static acomodarTodasLasNotas(){
         NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias)=>{
@@ -317,12 +320,12 @@ let ultimoCuadroSemicorcheaPasado;
 
 let lastAnimationTime = 0;
 
-function obtenerCuadroSemiCorchea(currentTime) {
+function obtenerCuadroSemiCorchea() {
   const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
   const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
 
-  // Calcula la posición X relativa al contenedor
-  const posicionXRelativa = transportBarRect.left - contenedorRect.left;
+  // Calcula la posición X relativa al contenedor incluyendo el scroll realizado
+  const posicionXRelativa = (transportBarRect.left - contenedorRect.left) + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
 
   let indiceCuadroSemicorchea;
   for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
@@ -372,16 +375,7 @@ function reproducirMelodias() {
   obtenerCuadroSemiCorchea();
 }
 
-// Listener para el evento de scroll en el contenedor "secuenciador-melodias-marco"
-SECUENCIADOR_DE_MELODIAS_MARCO.addEventListener("scroll", () => {
-  // Cuando ocurre un evento de scroll, actualiza las coordenadas relativas del elemento "Transport-Bar"
-  const currentTime = performance.now();
-  const deltaTime = currentTime - lastAnimationTime;
-  lastAnimationTime = currentTime;
-  const currentLeft = parseFloat(TRANSPORT_BAR.style.transform.split(" ")[1]) || 0;
-  const deltaLeft = (deltaTime / 4800) * (31.8 * 2); // 31.8vw * 2 es la longitud de la barra de transporte
-  TRANSPORT_BAR.style.transform = `translateX(${currentLeft + deltaLeft}vw)`;
-});
+
 
 
 obtenerCuadroSemiCorchea();
