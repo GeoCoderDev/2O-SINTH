@@ -134,7 +134,7 @@ class NotaSintetizador{
 
     /**
      * @description Esta funcion inicia la frecuencia de cierta nota durante el tiempo que se le pasa al parametro duracion
-     * @param {*} duracion Este parametro pide la duracion en segundos que se hara sonar la nota
+     * @param {*} duracionOPromesa Este parametro pide la duracion en segundos que se hara sonar la nota o bien una promesa para parar el sonido
      */
     hacerSonarNota(duracionOPromesa,releaseValido=true){
         
@@ -159,6 +159,31 @@ class NotaSintetizador{
             impulse = impulseResponse(knobsReverb.value[0],1);
         }, 1);
 
+
+        function* asignadorDeDetunesAOsciladores(cantidadTotalDeOsciladores,desafinacionTotalOsciladores){
+                
+            let desafinacionParaRepartir = desafinacionTotalOsciladores;
+
+            for(let i=0;i<cantidadTotalDeOsciladores;i++){
+                
+                if(i==0){
+                    yield 0;
+                }else{
+                    
+                    if(i%2!=0){
+                        yield desafinacionParaRepartir;
+                    }else{
+                        yield -desafinacionParaRepartir;
+                    }
+                    desafinacionParaRepartir = desafinacionParaRepartir/2;                                                
+                }    
+            }
+
+        }
+
+        let asignadorDeDetuneParaOsciladores1 = asignadorDeDetunesAOsciladores(datosOscilador1[1].value,desafinacionOscilador1);
+        let asignadorDeDetuneParaOsciladores2 = asignadorDeDetunesAOsciladores(datosOscilador2[1].value,desafinacionOscilador2);
+
         for(let i=0; i<datosOscilador1[1].value;i++){
             
             Osciladores1[i] = ENTORNO_AUDIO.createOscillator();
@@ -175,6 +200,7 @@ class NotaSintetizador{
 
                 todosLosEventosClick.push(delegarEvento('click',`#${tipoOndaOSC1.obtenerIDs[0]}, #${tipoOndaOSC1.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal));
 
+            // Para practicar funciones generadoras sobre todo jejej
 
             if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
 
@@ -211,7 +237,7 @@ class NotaSintetizador{
                         },400);
                     }
     
-                    todosLosEventosClick.push(delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal));
+                    todosLosEventosClick.push(delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]}, #${tipoOndaLFO.obtenerIDs[1]}`,actualizarTipoOndaLFOEnTiempoReal));                    
 
                     OsciladoresLFO1[i].connect(LFOgains1[i]);
                     LFOgains1[i].connect(Osciladores1[i].detune);
@@ -219,25 +245,12 @@ class NotaSintetizador{
                     let retrasoLFO = LFOKnobsValues.value[0];
                     
                     OsciladoresLFO1[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO); 
-                
-            }else{  //SI EL LFO NO CONTROLARA EL TONO
-
-                if(i==0){
-                    Osciladores1[i].detune.value = 0;
-                }else{
                     
-                    
-                    if(i%2!=0){
-                        Osciladores1[i].detune.value = desafinacionOscilador1;
-                    }else{
-                        Osciladores1[i].detune.value = -desafinacionOscilador1;
-                    }
-                    desafinacionOscilador1 = desafinacionOscilador1/2;
-                    
-                    
-                }    
                 
             }
+
+            //Asignando el detune para el oscilador            
+            Osciladores1[i].detune.value = asignadorDeDetuneParaOsciladores1.next().value;
 
             Osciladores1[i].start();
 
@@ -310,24 +323,10 @@ class NotaSintetizador{
                         
                         OsciladoresLFO2[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO);
 
-                }else{  //SI EL LFO NO CONTROLARA EL TONO
-
-                    if(i==0){
-                        Osciladores2[i].detune.value = 0;
-                    }else{
-                        
-                        
-                        if(i%2!=0){
-                            Osciladores2[i].detune.value = desafinacionOscilador2;
-                        }else{
-                            Osciladores2[i].detune.value = -desafinacionOscilador2;
-                        }
-                        desafinacionOscilador2 = desafinacionOscilador2/2;
-                        
-                        
-                    }    
-                    
                 }
+
+                console.log(asignadorDeDetuneParaOsciladores2.next().value);
+                Osciladores2[i].detune.value = asignadorDeDetuneParaOsciladores2.next().value;
 
                 Osciladores2[i].start();
 
@@ -869,6 +868,8 @@ function prendiendoNodosDeAudio(){
     var bufferLength = nodoAnalizador.frequencyBinCount;
     var datosAnalizador = new Uint8Array(bufferLength);
 }
+
+
 
 
 
