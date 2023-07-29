@@ -4,9 +4,6 @@ var ENTORNO_AUDIO = new AudioContext();
 var nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
 var nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
 
-
-var nodoADSR = ENTORNO_AUDIO.createGain();
-
 var nodoDeFiltro = ENTORNO_AUDIO.createBiquadFilter();
     const FRECUENCIA_MAXIMA_FILTRO = 15000;
 
