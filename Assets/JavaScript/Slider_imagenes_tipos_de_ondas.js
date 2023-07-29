@@ -80,7 +80,7 @@ function insertaDeslizadorDeImagenesEn(
     let tituloDeslizadorImagenes = document.createElement('div');
         tituloDeslizadorImagenes.innerText = tituloDeslizadorDeImagenes;
         tituloDeslizadorImagenes.style.fontSize = tamañoTituloDeslizadorDeImagenes;
-
+        
     let contenedorTotalFlechasMasDeslizador = document.createElement('div');
 
         //MODIFICANDO EL ESTILO DE NUESTRO CONTENEDOR DEL DESLIZADOR DE IMAGENES

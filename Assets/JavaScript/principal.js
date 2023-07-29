@@ -1,5 +1,5 @@
 const ELEMENTO_SUPERIOR = document.querySelector('body');
-const ENTORNO_AUDIO = new AudioContext();
+var ENTORNO_AUDIO = new AudioContext();
 
 var nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
 var nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
