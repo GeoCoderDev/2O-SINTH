@@ -1,7 +1,8 @@
 //===================================================================
 // SECUENCIADOR DE MELODIAS
 //==================================================================
-const SECUENCIADOR_DE_MELODIAS_MARCO = document.getElementById('secuenciador-melodias-marco');
+
+const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
 const PIANO_ROLL = document.getElementById('Piano-Roll');
 const TEMPO = document.getElementById('Tempo');
 var CANTIDAD_DE_COMPASES = 4
@@ -18,14 +19,14 @@ TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
 var Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
 
 //Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
-var primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
-var primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0);
+let primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
+let primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0);
 
-var todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
-var todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+let todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
+let todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
 
-var todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
-    return (cuadroSemicorchea.getBoundingClientRect().left-SECUENCIADOR_DE_MELODIAS_MARCO.getBoundingClientRect().left);
+let todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
+    return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
 });
 
 console.log(todasLasPosicionesRelativasAlMarco);
@@ -37,8 +38,10 @@ function actualizarCuadrosSemicorchea(){
     todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
     todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
     todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
-        return (cuadroSemicorchea.getBoundingClientRect().left-SECUENCIADOR_DE_MELODIAS_MARCO.getBoundingClientRect().left);
+        return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
     });
+    
+
 }
 
 
@@ -49,10 +52,10 @@ window.addEventListener('resize',()=>{
 // Este evento servira para que cuando estemos usando el rodillo 
 // en el secuenciador de melodias, no podamos hacer uso de las
 // barras de desplazamiento del navegador
-SECUENCIADOR_DE_MELODIAS_MARCO.addEventListener('wheel', (event) => {
+CONTENEDOR_SECUENCIADOR_DE_MELODIAS.addEventListener('wheel', (event) => {
     event.preventDefault(); // Evita el scroll predeterminado del navegador
     const scrollStep = 250; // Ajusta la cantidad de desplazamiento por rueda
-    SECUENCIADOR_DE_MELODIAS_MARCO.scrollTop += event.deltaY > 0 ? scrollStep : -scrollStep;
+    CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollTop += event.deltaY > 0 ? scrollStep : -scrollStep;
   });
 
 
@@ -201,7 +204,6 @@ class NotaSecuenciadorDeMelodias{
         let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
         let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
         let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
-        let alto_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetHeight;
         if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
             let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
             semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
@@ -294,8 +296,9 @@ class NotaSecuenciadorDeMelodias{
 // | REPRODUCCIÓN DE MELODIAS |      
 // ---------------------------- 
 
-const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
+
 const TRANSPORT_BAR = document.getElementById('Transport-Bar');
+let estiloParaEliminarBordes;
 
 function reproducirMelodias(){
 
@@ -338,6 +341,17 @@ function reproducirNotas() {
         }
     }
 
+    if(!estiloParaEliminarBordes){
+        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-1]+(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
+            estiloParaEliminarBordes = insertarReglasCSSAdicionales(`
+            #Transport-Bar::before{
+                border-right-width:0;
+            }`
+            )   
+            console.log(todasLasPosicionesRelativasAlMarco)
+        }
+    }
+
     if(ultimoIndiceX!=indiceCuadroSemicorchea){        
         NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias)=>{
             if(notaSecuenciadorDeMelodias.indiceTablaX==indiceCuadroSemicorchea){
@@ -359,17 +373,25 @@ function reproducirMelodias() {
   TRANSPORT_BAR.animate(
     [
       { transform: "translateX(0)" },
-      { transform: "translateX(calc(31.9vw*3))" }
+      { 
+        transform: `translateX(${pixelsToVWVH(PIANO_ROLL.clientWidth,'vw')-0.1}vw)`,
+        borderRightWidth:0
+    }
     ],
     {
       iterations: 1,
       easing: "linear",
       fill: "forwards",
-      duration: 7200
+      duration: duracionSemicorcheas*16*CANTIDAD_DE_COMPASES*1000
     }
-  );
+  );   
+
 
 }
+
+
+
+
 
 
 function pausarMelodia(){
@@ -381,8 +403,15 @@ function pararMelodia(){
 
 }
 
-delegarEvento('click','#boton-play',()=>{
+delegarEvento('click','#boton-play, #boton-play *',()=>{
+    
+    if(estiloParaEliminarBordes){
+        eliminarReglasCSSAdicionales(estiloParaEliminarBordes);
+        estiloParaEliminarBordes = undefined;
+    }
+    
     reproducirMelodias();
     reproducirNotas();
+
 })
 
