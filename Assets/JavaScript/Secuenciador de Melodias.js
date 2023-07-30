@@ -167,6 +167,9 @@ class NotaSecuenciadorDeMelodias{
             }                
             isResizing = false;
             document.removeEventListener('mousemove', onMouseMove);
+            //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
+            //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
+            this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador.slice().reverse()[this.indiceTablaY];
         }
         
         let onMouseMove = (e)=>{
@@ -220,9 +223,6 @@ class NotaSecuenciadorDeMelodias{
         this.elementoHTML.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaHorizontalPX,'vw')+'vw';
         this.elementoHTML.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaVerticalPX,'vw')+'vw';
     }   
-
-    
-
 
     static acomodarTodasLasNotas(){
         NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias)=>{
@@ -314,41 +314,40 @@ function reproducirMelodias(){
 
 // Obtiene la posición X del elemento relativa al contenedor a cada segundo
 const startTime = performance.now();
-const duration = 12000;
+const duration = 7200;
 const interval = 1000; // Intervalo de tiempo en milisegundos (1 segundo)
-let ultimoCuadroSemicorcheaPasado;
+let ultimoIndiceX;
 
 let lastAnimationTime = 0;
 
-function obtenerCuadroSemiCorchea() {
-  const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
-  const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
+function reproducirNotas() {
+    const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
+    const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
 
-  // Calcula la posición X relativa al contenedor incluyendo el scroll realizado
-  const posicionXRelativa = (transportBarRect.left - contenedorRect.left) + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
+    // Calcula la posición X relativa al contenedor incluyendo el scroll realizado
+    const posicionXRelativa = (transportBarRect.left - contenedorRect.left) + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
 
-  let indiceCuadroSemicorchea;
-  for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
-    if (
-      posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
-      posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
-    ) {
-      indiceCuadroSemicorchea = i;
-      break;
+    let indiceCuadroSemicorchea;
+    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
+        if (
+        posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
+        posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
+        ) {
+            indiceCuadroSemicorchea = i;
+            break;
+        }
     }
-  }
 
-  let cuadroSemicorcheaActual = Todos_los_cuadros_semicorchea.filter(
-    (element, indice) => (indice - indiceCuadroSemicorchea) % (16*CANTIDAD_DE_COMPASES) === 0
-  )[0];
+    if(ultimoIndiceX!=indiceCuadroSemicorchea){        
+        NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias)=>{
+            if(notaSecuenciadorDeMelodias.indiceTablaX==indiceCuadroSemicorchea){
+                notaSecuenciadorDeMelodias.notaSintetizador.hacerSonarNota(notaSecuenciadorDeMelodias.longitudSemicorcheas*duracionSemicorcheas);
+            }
+        })
+        ultimoIndiceX = indiceCuadroSemicorchea;
+    }
 
-  if (ultimoCuadroSemicorcheaPasado != cuadroSemicorcheaActual) {
-    cuadroSemicorcheaActual.style.backgroundColor = "red";
-    ultimoCuadroSemicorcheaPasado = cuadroSemicorcheaActual;
-  }
-
-  // Solicita la siguiente actualización
-  requestAnimationFrame(obtenerCuadroSemiCorchea);
+    requestAnimationFrame(reproducirNotas);
 
 }
 
@@ -366,18 +365,24 @@ function reproducirMelodias() {
       iterations: 1,
       easing: "linear",
       fill: "forwards",
-      duration: 12000
+      duration: 7200
     }
   );
 
-  // Reinicia el loop para obtener el cuadro semicorchea
-  lastAnimationTime = performance.now();
-  obtenerCuadroSemiCorchea();
 }
 
 
+function pausarMelodia(){
+
+}
 
 
-obtenerCuadroSemiCorchea();
-reproducirMelodias()
+function pararMelodia(){
+
+}
+
+delegarEvento('click','#boton-play',()=>{
+    reproducirMelodias();
+    reproducirNotas();
+})
 

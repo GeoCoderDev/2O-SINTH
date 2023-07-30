@@ -12,7 +12,6 @@ window.addEventListener('load',()=>{
         }
     }
 
-
     // EVENTO PARA LOS INPUT NUMBERS(ESTILO FL STUDIO)
     document.querySelectorAll('input[type="number"]').forEach((inputNumber)=>{
 
@@ -45,8 +44,23 @@ window.addEventListener('load',()=>{
         window.removeEventListener('mousedown', desactivarComportamientoClickConRodillo);
     })
 
+});
 
+
+function desplegarMensajeDePausa(){
     
+}
 
 
-})
+function revisarVisibilidad() {
+    if (document.visibilityState === 'hidden') {
+      pausarMelodia();
+      desplegarMensajeDePausa();
+    }
+  }
+  
+// Agregar el evento de visibilidad al documento
+document.addEventListener('visibilitychange', revisarVisibilidad);
+  
+// Ejecutar la función al cargar la página para determinar el estado inicial de visibilidad
+revisarVisibilidad();

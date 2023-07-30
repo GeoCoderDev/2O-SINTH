@@ -816,13 +816,14 @@ delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
 })    
 
 
-document.getElementById('boton-iniciar-sesion').addEventListener('click',()=>{    
-    apagarNodosDeAudio();
-})
 
 //----------------------------------------------------------
 // REINICIANDO EL ENTORNO DE AUDIO Y TODOS SUS COMPONENTES |
 //----------------------------------------------------------
+
+document.getElementById('boton-iniciar-sesion').addEventListener('click',()=>{    
+    apagarNodosDeAudio();
+})
 
 function apagarNodosDeAudio(){
     ENTORNO_AUDIO = null;
