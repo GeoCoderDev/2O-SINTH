@@ -553,7 +553,9 @@ window.addEventListener('keyup',(e)=>{
     teclasPulsadas.delete(e.keyCode);    
 })
 
+//===================================================================================================================
 // REALIZANDO CONEXIONES ENTRE NODOS
+
 nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 nodoCompresorSintetizador.connect(nodoDeFiltro);
 nodoDeFiltro.connect(nodoDistorsion);
@@ -570,7 +572,7 @@ nodoDeEco.connect(nodoPaneo);
 nodoMaster.connect(nodoPaneo);
 nodoPaneo.connect(nodoAnalizador);
 nodoPaneo.connect(ENTORNO_AUDIO.destination);
-
+//===================================================================================================================
 
 
 

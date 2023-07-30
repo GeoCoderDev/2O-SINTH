@@ -16,20 +16,16 @@ TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
 
 //Transformando la lista de nodos en un Array para poder usar todos los
 // metodos del prototipo array como slice
-var Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
+var Todos_los_cuadros_semicorchea;
 
 //Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
-let primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
-let primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0);
+let primeraFilaCuadrosSemicorchea;
+let primeraColumnaCuadrosSemicorchea;
 
-let todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
-let todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+let todosLosOffsetLeft;
+let todosLosOffsetTop;
 
-let todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
-    return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
-});
-
-console.log(todasLasPosicionesRelativasAlMarco);
+let todasLasPosicionesRelativasAlMarco;
 
 function actualizarCuadrosSemicorchea(){
     Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
@@ -40,10 +36,10 @@ function actualizarCuadrosSemicorchea(){
     todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
         return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
     });
-    
-
+    todasLasPosicionesRelativasAlMarco.push(primeraFilaCuadrosSemicorchea[primeraFilaCuadrosSemicorchea.length-1].getBoundingClientRect().right-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
 }
 
+actualizarCuadrosSemicorchea();
 
 window.addEventListener('resize',()=>{
     actualizarCuadrosSemicorchea();
@@ -298,40 +294,25 @@ class NotaSecuenciadorDeMelodias{
 
 
 const TRANSPORT_BAR = document.getElementById('Transport-Bar');
-let estiloParaEliminarBordes;
-
-function reproducirMelodias(){
-
-    TRANSPORT_BAR.animate([
-        {transform:"translateX(0)"},
-        {transform:"translateX(calc(31.8vw*2))"}
-    ],{
-        iterations:1,
-        easing: "linear",
-        fill:"forwards",
-        duration:4800
-    })
-    
-
-}   
+let estiloParaEliminarBordeDelTransportBar;
 
 // Obtiene la posición X del elemento relativa al contenedor a cada segundo
 const startTime = performance.now();
-const duration = 7200;
 const interval = 1000; // Intervalo de tiempo en milisegundos (1 segundo)
 let ultimoIndiceX;
-
+let animacionActual;
 let lastAnimationTime = 0;
+let ultimoRequestAnimate;
 
 function reproducirNotas() {
     const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
     const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
 
     // Calcula la posición X relativa al contenedor incluyendo el scroll realizado
-    const posicionXRelativa = (transportBarRect.left - contenedorRect.left) + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
+    const posicionXRelativa = transportBarRect.left - contenedorRect.left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
 
     let indiceCuadroSemicorchea;
-    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
+    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length-1; i++) {
         if (
         posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
         posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
@@ -341,14 +322,21 @@ function reproducirNotas() {
         }
     }
 
-    if(!estiloParaEliminarBordes){
-        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-1]+(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
-            estiloParaEliminarBordes = insertarReglasCSSAdicionales(`
+    if(!estiloParaEliminarBordeDelTransportBar){
+        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-1]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
+            estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
             #Transport-Bar::before{
                 border-right-width:0;
             }`
             )   
-            console.log(todasLasPosicionesRelativasAlMarco)
+
+            if(estiloParaEliminarBordeDelTransportBar){
+                eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+                estiloParaEliminarBordeDelTransportBar = undefined;
+            }
+
+            ultimoIndiceX = 0;
+            animacionActual = reproducirMelodiaAnimacion();
         }
     }
 
@@ -361,57 +349,103 @@ function reproducirNotas() {
         ultimoIndiceX = indiceCuadroSemicorchea;
     }
 
-    requestAnimationFrame(reproducirNotas);
+    ultimoRequestAnimate = requestAnimationFrame(reproducirNotas);
 
 }
 
+function reproducirMelodiaAnimacion(){
 
-function reproducirMelodias() {
-  // Reinicia la animación en cada llamada
-  TRANSPORT_BAR.style.transform = "translateX(0)";
+    let indiceInicialDeLaAnimacion = ((ultimoIndiceX)&&ultimoIndiceX!=0)?ultimoIndiceX+1:0;
 
-  TRANSPORT_BAR.animate(
+    return TRANSPORT_BAR.animate(
     [
-      { transform: "translateX(0)" },
-      { 
-        transform: `translateX(${pixelsToVWVH(PIANO_ROLL.clientWidth,'vw')-0.1}vw)`,
-        borderRightWidth:0
-    }
+        {transform: `translateX(${pixelsToVWVH(todasLasPosicionesRelativasAlMarco[indiceInicialDeLaAnimacion]-todasLasPosicionesRelativasAlMarco[0],'vw')}vw)`},
+        {transform: `translateX(${pixelsToVWVH(PIANO_ROLL.clientWidth,'vw')-0.1}vw)`}
     ],
     {
-      iterations: 1,
-      easing: "linear",
-      fill: "forwards",
-      duration: duracionSemicorcheas*16*CANTIDAD_DE_COMPASES*1000
+        iterations: 1,
+        easing: "linear",
+        fill: "forwards",
+        duration: duracionSemicorcheas*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
     }
-  );   
-
-
+    );   
 }
-
-
-
 
 
 
 function pausarMelodia(){
+    if(animacionActual){
+        animacionActual.pause();
+        nodoSalidaSintetizador.disconnect();
+        nodoSalidaSintetizador = undefined;
+        nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
+        nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
+    }
 
+    if(ultimoRequestAnimate){
+        cancelAnimationFrame(ultimoRequestAnimate);
+    }
 }
 
 
 function pararMelodia(){
+    if(animacionActual){
+        animacionActual.cancel();
+        animacionActual = undefined;
+        ultimoIndiceX = 0;
+        TRANSPORT_BAR.style.transform = 'translateX(0)';
+        nodoSalidaSintetizador.disconnect();
+        nodoSalidaSintetizador = undefined;
+        nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
+        nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
+    }
+
+    if(ultimoRequestAnimate){
+        cancelAnimationFrame(ultimoRequestAnimate);
+    }
 
 }
 
 delegarEvento('click','#boton-play, #boton-play *',()=>{
     
-    if(estiloParaEliminarBordes){
-        eliminarReglasCSSAdicionales(estiloParaEliminarBordes);
-        estiloParaEliminarBordes = undefined;
+
+    if(estiloParaEliminarBordeDelTransportBar){
+        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+        estiloParaEliminarBordeDelTransportBar = undefined;
     }
     
-    reproducirMelodias();
+
+    if(!animacionActual){
+        ultimoIndiceX = 0;
+    }
+
+    animacionActual = reproducirMelodiaAnimacion();
     reproducirNotas();
 
 })
+
+
+delegarEvento('click','#boton-pausa, #boton-pausa *',()=>{
+
+    if(estiloParaEliminarBordeDelTransportBar){
+        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+        estiloParaEliminarBordeDelTransportBar = undefined;
+    }
+    
+    pausarMelodia();
+    
+})
+
+
+delegarEvento('click','#boton-stop, #boton-stop *',()=>{
+    
+    if(estiloParaEliminarBordeDelTransportBar){
+        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+        estiloParaEliminarBordeDelTransportBar = undefined;
+    }
+    
+    pararMelodia();
+
+})
+
 
