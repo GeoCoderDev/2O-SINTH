@@ -292,7 +292,10 @@ class NotaSecuenciadorDeMelodias{
 // | REPRODUCCIÓN DE MELODIAS |      
 // ---------------------------- 
 
-
+const BTN_PLAY_PAUSA = document.getElementById('boton-play-pausa');
+    const TRIANGULO_PLAY = document.getElementById('triangulo-play');
+    const RECTANGULOS_PAUSA = document.querySelectorAll('.rectangulo-pausa');
+const BTN_STOP = document.getElementById('boton-stop');
 const TRANSPORT_BAR = document.getElementById('Transport-Bar');
 let estiloParaEliminarBordeDelTransportBar;
 
@@ -303,6 +306,9 @@ let ultimoIndiceX;
 let animacionActual;
 let lastAnimationTime = 0;
 let ultimoRequestAnimate;
+let seEstaReproduciendo = false;
+let estaPausado = true;
+let ultimaPosicionXRelativaTransportBarCuandoSeReprodujo=0;
 
 function reproducirNotas() {
     const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
@@ -314,8 +320,8 @@ function reproducirNotas() {
     let indiceCuadroSemicorchea;
     for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length-1; i++) {
         if (
-        posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
-        posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
+            posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
+            posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
         ) {
             indiceCuadroSemicorchea = i;
             break;
@@ -353,99 +359,141 @@ function reproducirNotas() {
 
 }
 
+//Esta funcion es para evitar que siga sonando la melodia al momento de pausar o parar la animacion
+let desconectarYcrearNuevaSalidaDeAudio = ()=>{
+    nodoSalidaSintetizador.disconnect();
+    nodoSalidaSintetizador = undefined;
+    nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
+    nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
+}
+
+let eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar = ()=>{
+    if(estiloParaEliminarBordeDelTransportBar){
+        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+        estiloParaEliminarBordeDelTransportBar = undefined;
+    }    
+}
+
+
+RECTANGULOS_PAUSA.forEach((rectanguloPausa)=>{
+    rectanguloPausa.classList.toggle('no-desplegado');
+});
+
+let cambiarBotonAPlayOPausa = ()=>{
+    TRIANGULO_PLAY.classList.toggle('no-desplegado');
+    RECTANGULOS_PAUSA.forEach((rectanguloPausa)=>{
+        rectanguloPausa.classList.toggle('no-desplegado');
+    });
+    BTN_PLAY_PAUSA.classList.toggle('boton-reproduccion-pulsado');
+}
+
 function reproducirMelodiaAnimacion(){
 
     let indiceInicialDeLaAnimacion = ((ultimoIndiceX)&&ultimoIndiceX!=0)?ultimoIndiceX+1:0;
 
+    let posicionDeInicio = todasLasPosicionesRelativasAlMarco[indiceInicialDeLaAnimacion]-todasLasPosicionesRelativasAlMarco[0];
+    ultimaPosicionXRelativaTransportBarCuandoSeReprodujo = posicionDeInicio;
+
     return TRANSPORT_BAR.animate(
-    [
-        {transform: `translateX(${pixelsToVWVH(todasLasPosicionesRelativasAlMarco[indiceInicialDeLaAnimacion]-todasLasPosicionesRelativasAlMarco[0],'vw')}vw)`},
-        {transform: `translateX(${pixelsToVWVH(PIANO_ROLL.clientWidth,'vw')-0.1}vw)`}
-    ],
-    {
-        iterations: 1,
-        easing: "linear",
-        fill: "forwards",
-        duration: duracionSemicorcheas*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
-    }
+        [
+            {transform: `translateX(${pixelsToVWVH(posicionDeInicio,'vw')}vw)`},
+            {transform: `translateX(${pixelsToVWVH(PIANO_ROLL.clientWidth,'vw')-0.1}vw)`}
+        ],
+        {
+            iterations: 1,
+            easing: "linear",
+            fill: "forwards",
+            duration: duracionSemicorcheas*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
+        }
     );   
+}
+
+function volverTransportBarAPosicionInicial(){
+    TRANSPORT_BAR.animate(
+        [
+            {transform: 'translateX(0)'}
+        ],
+        {
+            iterations:1,
+            easing:"linear",
+            fill: "forwards",
+            duration:0
+        }
+    )
 }
 
 
 
+/**
+ * 
+ * @returns un valor booleano que indica si se llego a pausar o no, lo cual quedria decir que ya estaba pausado
+ */
 function pausarMelodia(){
-    if(animacionActual){
-        animacionActual.pause();
-        nodoSalidaSintetizador.disconnect();
-        nodoSalidaSintetizador = undefined;
-        nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
-        nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
+
+    if(seEstaReproduciendo){
+
+        if(animacionActual){
+            animacionActual.pause();
+            desconectarYcrearNuevaSalidaDeAudio();
+        }
+    
+        if(ultimoRequestAnimate){
+            cancelAnimationFrame(ultimoRequestAnimate);
+        }
+
+        cambiarBotonAPlayOPausa();  
+        seEstaReproduciendo = false;
+        estaPausado = true;
     }
 
-    if(ultimoRequestAnimate){
-        cancelAnimationFrame(ultimoRequestAnimate);
-    }
 }
 
 
 function pararMelodia(){
-    if(animacionActual){
-        animacionActual.cancel();
-        animacionActual = undefined;
-        ultimoIndiceX = 0;
-        TRANSPORT_BAR.style.transform = 'translateX(0)';
-        nodoSalidaSintetizador.disconnect();
-        nodoSalidaSintetizador = undefined;
-        nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
-        nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
-    }
+    
+    if(seEstaReproduciendo||estaPausado){
 
-    if(ultimoRequestAnimate){
-        cancelAnimationFrame(ultimoRequestAnimate);
+        if(ultimoRequestAnimate){
+            cancelAnimationFrame(ultimoRequestAnimate);
+        }
+    
+        if(animacionActual){
+            animacionActual.cancel();
+            animacionActual = undefined;
+            ultimoIndiceX = 0;
+            volverTransportBarAPosicionInicial();
+            desconectarYcrearNuevaSalidaDeAudio();        
+        }
+        
+        cambiarBotonAPlayOPausa();
+        seEstaReproduciendo = false;
     }
-
 }
 
-delegarEvento('click','#boton-play, #boton-play *',()=>{
-    
 
-    if(estiloParaEliminarBordeDelTransportBar){
-        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
-        estiloParaEliminarBordeDelTransportBar = undefined;
-    }
-    
-
-    if(!animacionActual){
-        ultimoIndiceX = 0;
-    }
-
+function reproducirMelodia(){
     animacionActual = reproducirMelodiaAnimacion();
     reproducirNotas();
+    seEstaReproduciendo = true;
+    estaPausado = false;
+    cambiarBotonAPlayOPausa();  
+}
 
-})
-
-
-delegarEvento('click','#boton-pausa, #boton-pausa *',()=>{
-
-    if(estiloParaEliminarBordeDelTransportBar){
-        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
-        estiloParaEliminarBordeDelTransportBar = undefined;
-    }
-    
-    pausarMelodia();
-    
+delegarEvento('click','#boton-play-pausa, #boton-play-pausa *',()=>{
+    if(!seEstaReproduciendo){
+        reproducirMelodia();
+    }else{
+        // PAUSAR
+        pausarMelodia();    
+    }   
+    eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar()   
 })
 
 
 delegarEvento('click','#boton-stop, #boton-stop *',()=>{
     
-    if(estiloParaEliminarBordeDelTransportBar){
-        eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
-        estiloParaEliminarBordeDelTransportBar = undefined;
-    }
-    
+    eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar()
     pararMelodia();
 
 })
-
 

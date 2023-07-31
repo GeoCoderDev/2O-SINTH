@@ -7,6 +7,7 @@
     --color-boton-play: rgb(71, 58, 79);
     --color-boton-pausa: rgb(71, 58, 79);
     --color-boton-stop: rgb(71, 58, 79);
+    --color-boton-grabar: rgb(71, 58, 79);;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -989,6 +990,7 @@ ANIMACIONES
         border-right: 1vw solid transparent;
         z-index: 2;
         content: "";
+        cursor: grab;
     }
 
     #Transport-Bar::after{
@@ -1241,30 +1243,23 @@ ANIMACIONES
         height: 90%;
         border-radius: 1vw;
         cursor: pointer;
+    
     }
 
-    #boton-play{
+    #boton-play-pausa{
         border: 0.25vw solid var(--color-boton-play);  
         display: flex;      
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
     }
 
-    #triangulo-boton-reproduccion{
+    #triangulo-play{
         width: 0;
         height: 0;
         border-top: 2.35vh solid transparent;
         border-bottom: 2.35vh solid transparent;
         border-left: 3vh solid var(--color-boton-play); /* Puedes cambiar el color según tus necesidades */
-        margin-left: 0.2vw;        
-    }
-
-    #boton-pausa{
-        border: 0.25vw solid var(--color-boton-pausa);
-        display: flex;      
-        align-items: center;
-        justify-content: space-evenly;
-        padding: 0 0.1vw;
+        margin-left: 0.2vw;  
     }
 
     .rectangulo-pausa{
@@ -1272,6 +1267,24 @@ ANIMACIONES
         height: 60%;
         background-color: var(--color-boton-pausa);
         border-radius: 0.2vw;
+    }
+
+    #boton-grabar{
+        border: 0.25vw solid var(--color-boton-pausa);
+        display: flex;      
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 4.1vw;
+        height: 4.1vw;
+    }
+
+    #circulo-grabar{
+        border-radius: 50%;
+        width: 50%;
+        height: 50%;
+        background-color: var(--color-boton-pausa);
+        padding: 0;
     }
 
     #boton-stop{
@@ -1339,14 +1352,24 @@ ANIMACIONES
     }
 
     .botones-reproduccion, #Tempo,#Cantidad-Compases{
-        box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2) inset;
-        transition: all 0.1s;
+        box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2);        
+        /* transition: all 0.1s; */
     }
 
     .botones-reproduccion:hover, #Tempo:hover, #Cantidad-Compases:hover{
-        box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2);
-        transform: scale(1.05);
+        /* box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2) inset; */
+
     }
+
+    .boton-reproduccion-pulsado{
+        box-shadow: 0 0 0.7vw 0.3vw rgba(0, 0, 0, 0.3) inset;
+        transform: scale(0.95);
+    }
+
+    .no-desplegado{
+        display: none;
+    }
+
 
     /*=================================================================================================================
     PIE DE PAGINA
@@ -1378,7 +1401,7 @@ ANIMACIONES
         transition: all 0.2s ease-out;
         transform: rotateZ(-370deg) scale(1.2);
     }
-    
+
 
 }
 

@@ -49,18 +49,36 @@ window.addEventListener('load',()=>{
 
 function desplegarMensajeDePausa(){
     
+    desplegarMensajeEnTodaLaPantalla(
+        "Para evitar el gasto innecesario de recursos, al salir de la pagina se pauso el secuenciador de melodias.\n\n¿Desea continuar reproduciendo la melodia?",
+        2,
+        ["SI","NO"],
+        [
+            ()=>{
+                reproducirMelodia();
+            },
+            undefined
+        ],
+        ["blue","red"],
+        "1vw",
+        true,
+        "rgb(235,235,235)"
+    )
 }
 
 
 function revisarVisibilidad() {
-    if (document.visibilityState === 'hidden') {
-      pausarMelodia();
-      desplegarMensajeDePausa();
+    if (document.visibilityState === 'hidden') {      
+        // Si se llego a pausar la melodia entonces desplegamos mensaje de pausa automatica
+        if(!estaPausado){
+            pausarMelodia();
+            desplegarMensajeDePausa();
+        }
     }
   }
   
-// Agregar el evento de visibilidad al documento
+//Evento de Visibilidad
 document.addEventListener('visibilitychange', revisarVisibilidad);
   
-// Ejecutar la función al cargar la página para determinar el estado inicial de visibilidad
+//Ejecutando la funcion para determinar el estado inicial de visibilidad
 revisarVisibilidad();

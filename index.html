@@ -11,7 +11,7 @@
     <script src="config.js"></script>
 </head>
 <body ondragstart='return false'>
-    <header id="f">
+    <header>
         <div id="seccion-header-left">
             <div id="logo"></div>
             <div id="texto-2o-sinth">2O SINTH</div>
@@ -3214,21 +3214,29 @@
                     
                     <div id="contenedor-botones-reproduccion">
                 
-                        <div id="boton-play" class="botones-reproduccion">
-                            <div id="triangulo-boton-reproduccion">
+                        <div id="boton-play-pausa" class="botones-reproduccion">
+
+                            <div id="triangulo-play">
 
                             </div>
-                        </div>
-                        
-                        <div id="boton-pausa" class="botones-reproduccion">
+
                             <div class="rectangulo-pausa"></div>
                             <div class="rectangulo-pausa"></div>
+
                         </div>
                         
+
                         <div id="boton-stop" class="botones-reproduccion">
                             <div id="cuadrado-stop"></div>
                         </div>
                         
+                        <div id="boton-grabar" class="botones-reproduccion">
+                            <div id="circulo-grabar">
+
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div id="contenedor-tempo-cantidad-compases">
@@ -3265,17 +3273,30 @@
         <a href="https://github.com/Juanito3500" target="_blank" class="icon-github" id="Icono-Github"></a>
     </footer>
 
+    <!--==================================================================================-->
+    <!--|                                 MENSAJES                                       |-->   
+    <!--==================================================================================-->
+
     <div id="Mensaje-portrait">
         <h1 id="Mensaje-portrait-text">POR FAVOR GIRE LA PANTALLA</h1>
         <div id="Imagen-voltear"></div>        
     </div>
     
+    <div id="Mensaje-Pausa-Por-Salir-De-La-Pagina">
+
+        <div></div>
+    
+    </div>
+
+    <!--========================================================================-->
+    <!--|                            SCRIPTS                                   |-->   
+    <!--========================================================================-->
+    <script src="./Assets/JavaScript/principal.js"></script>
+    <script src="Assets/JavaScript/delegacionDeEventos.js"></script>
     <script src="./Assets/JavaScript/Funciones.js"></script>
     <script src="Assets/JavaScript/animacionesJavaScript.js"></script>
-    <script src="Assets/JavaScript/delegacionDeEventos.js"></script>
     <script src="Assets/JavaScript/waitEvent.js"></script>
     <script src="Assets/JavaScript/waitChangeValue.js"></script>
-    <script src="./Assets/JavaScript/principal.js"></script>
     <script src="./Assets/JavaScript/Observadores.js"></script>            
     <script src="./Assets/JavaScript/Slider_imagenes_tipos_de_ondas.js"></script>
     <script src="./Assets/JavaScript/Knobs_Giratorios.js"></script>

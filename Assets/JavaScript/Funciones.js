@@ -117,3 +117,92 @@ function roundToDecimals(number, decimals) {
     return Math.round(number * factor) / factor;
   }
   
+function desplegarMensajeEnTodaLaPantalla(
+    mensaje,
+    cantidadDeBotones,
+    textosBotones,
+    callbacks,
+    coloresBotones,
+    bordeRedondeadoCaja,
+    cajaConSombraInset = false,
+    colorCajaMensaje = "white",
+    tamañoLetra="0.9vw",
+    colorFondoRGBA = "rgba(67, 67, 67,0.7)",
+    colorLetra = "black",
+){
+
+    let MensajeContenedor = document.createElement('div');
+    MensajeContenedor.style.position = "fixed" ;
+    MensajeContenedor.style.top = 0;
+    MensajeContenedor.style.left = 0;
+    MensajeContenedor.style.width = "100%";
+    MensajeContenedor.style.height = "100vh";
+    MensajeContenedor.style.backgroundColor = colorFondoRGBA;
+    MensajeContenedor.style.display = "flex";
+    MensajeContenedor.style.alignItems = "center"
+    MensajeContenedor.style.justifyContent = "center";
+    MensajeContenedor.style.zIndex = 101;
+
+        let CajaDeMensaje = document.createElement('div');
+        CajaDeMensaje.style.width = "30%";
+        CajaDeMensaje.style.height = "30%";
+        CajaDeMensaje.style.backgroundColor = colorCajaMensaje;
+        CajaDeMensaje.style.display = "flex";
+        CajaDeMensaje.style.flexDirection = "column";
+        CajaDeMensaje.style.alignItems = "center"
+        CajaDeMensaje.style.justifyContent = "center";
+        CajaDeMensaje.style.padding = "0 2vw"        
+        if(bordeRedondeadoCaja) CajaDeMensaje.style.borderRadius = bordeRedondeadoCaja;
+        if(cajaConSombraInset) CajaDeMensaje.style.boxShadow = "0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408)";
+
+            let ContenedorDelMensaje = document.createElement('div');
+            ContenedorDelMensaje.style.width = "100%"
+            // ContenedorDelMensaje.style.height = "60%";
+            ContenedorDelMensaje.style.fontFamily = 'Verdana';
+            ContenedorDelMensaje.style.fontStyle = 'italic';
+            ContenedorDelMensaje.style.fontSize = tamañoLetra;
+            ContenedorDelMensaje.style.textAlign = "left";
+            ContenedorDelMensaje.style.color = colorLetra;
+            ContenedorDelMensaje.innerText = mensaje;
+            ContenedorDelMensaje.style.margin = "1vw 0 1.5vw 0"
+
+            let ContenedorDeBotones = document.createElement('div');
+            ContenedorDeBotones.style.width = "100%"
+            ContenedorDeBotones.style.height = "20%";
+            ContenedorDeBotones.style.display = "flex";
+            ContenedorDeBotones.style.alignItems = "center"
+            ContenedorDeBotones.style.justifyContent = "space-evenly";
+            let eventosClick = [];
+
+            for(let i=0;i<cantidadDeBotones;i++){
+                let boton = document.createElement('div');
+                boton.innerText = textosBotones[i];
+                boton.style.fontFamily = 'Verdana';
+                boton.style.fontSize = tamañoLetra;
+                boton.style.fontStyle = 'italic';
+                boton.style.margin = '0 1vw'
+                boton.style.cursor = "pointer";
+                boton.style.height = "100%";
+                boton.style.display = "flex";
+                boton.style.flexDirection = "column";
+                boton.style.alignItems = "center"
+                boton.style.justifyContent = "center";
+
+                boton.style.color = (coloresBotones[i])?coloresBotones[i]:"black";
+
+                eventosClick[i] = delegarEvento('click',boton,()=>{
+                    BODY.removeChild(MensajeContenedor);
+                    eliminarEventoDelegado('click',eventosClick[i]);
+                    if(callbacks[i]) callbacks[i]();
+                })
+
+                ContenedorDeBotones.appendChild(boton);
+            }
+        
+    CajaDeMensaje.appendChild(ContenedorDelMensaje);
+    CajaDeMensaje.appendChild(ContenedorDeBotones);
+    MensajeContenedor.appendChild(CajaDeMensaje);
+
+    BODY.insertAdjacentElement('afterbegin',MensajeContenedor);
+
+}
