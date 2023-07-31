@@ -28,6 +28,8 @@ let todosLosOffsetTop;
 
 let todasLasPosicionesRelativasAlMarco;
 
+Todos_los_cuadros_semicorchea = document.querySelectorAll('.Cuadro-Semicorchea');
+
 function actualizarCuadrosSemicorchea(){
     Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
     primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
@@ -162,19 +164,19 @@ class NotaSecuenciadorDeMelodias{
             PIANO_ROLL.style.cursor = 'default';
             this.elementoHTML.style.cursor = 'grab';
             if(this.elementoHTML==currentDraggingNote){
-                this.#actualizarLongitudNota()
                 currentDraggingNote = null;
             }                
             isResizing = false;
             document.removeEventListener('mousemove', onMouseMove);
-            //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
-            //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
-            this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador.slice().reverse()[this.indiceTablaY];
         }
         
         let onMouseMove = (e)=>{
             if (!isDraggingNote && !isResizing) return;
-            moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e,this.elementoHTML);            
+            moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e,this.elementoHTML,this);            
+            this.#actualizarIndices();
+            //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
+            //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
+            this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador.slice().reverse()[this.indiceTablaY];
         }
         
         this.elementoHTML.addEventListener('mousedown', onMouseDown);
@@ -189,33 +191,13 @@ class NotaSecuenciadorDeMelodias{
     }
 
 
-    #actualizarLongitudNota(){
-        let lefClient = this.elementoHTML.getBoundingClientRect().left;
-        // Para obtener las coordenadas derechas quitaremos 5 pixeles para asegurar que tomaremos
-        // el elemento Cuadro-Semicorchea correcto y no el siguiente adyacente
-        let rightClient = this.elementoHTML.getBoundingClientRect().right - 5;
-        let topClient = this.elementoHTML.getBoundingClientRect().top;
-
-        let elementosDebajoDelLadoIzquierdo = document.elementsFromPoint(lefClient,topClient);
-        let elementosDebajoDelLadoDerecho = document.elementsFromPoint(rightClient,topClient);
-        let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
-        let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
-        let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
-        if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
-            let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
-            semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
-            
-            this.longitudSemicorcheas = Math.round(longitud);
-            //Seteando la ultima longitud para las nuevas notas
-            Cantidad_Semicorcheas_Foco = this.longitudSemicorcheas;
-        }
-
+    #actualizarIndices(){
+        // OBTENIENDO LOS NUEVOS INDICES Y EL CUADRO SEMICORCHEA POR DEBAJO
         this.indiceTablaX = todosLosOffsetLeft.indexOf(this.elementoHTML.offsetLeft);
         this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
         // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
         // y no otro adyacente no deseado
         this.CuadroSemicorcheaDebajo = Todos_los_cuadros_semicorchea[(16*CANTIDAD_DE_COMPASES*this.indiceTablaY)+this.indiceTablaX]
-        
     }    
 
     ajustarNotaAGrilla(){
@@ -235,7 +217,7 @@ class NotaSecuenciadorDeMelodias{
 // |  FUNCION DE POSICIONAMIENTO PARA LA CLASE    |      
 // ------------------------------------------------
     // Funcion para mousemove y mousedown de las Notas
-    function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e, divArrastrado){
+    function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e, divArrastrado, notaAsociada){
 
         if(isResizing){
             
@@ -260,6 +242,29 @@ class NotaSecuenciadorDeMelodias{
                 let anchoObedienteAGrilla = ultimoCuadroSemicorchea.getBoundingClientRect().right - divArrastrado.getBoundingClientRect().left;
                 divArrastrado.style.width = `${pixelsToVWVH(anchoObedienteAGrilla,'vw')}vw`;
             }
+            
+            //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+
+            let lefClient = notaAsociada.elementoHTML.getBoundingClientRect().left;
+            // Para obtener las coordenadas derechas quitaremos 5 pixeles para asegurar que tomaremos
+            // el elemento Cuadro-Semicorchea correcto y no el siguiente adyacente
+            let rightClient = notaAsociada.elementoHTML.getBoundingClientRect().right - 5;
+            let topClient = notaAsociada.elementoHTML.getBoundingClientRect().top;
+    
+            let elementosDebajoDelLadoIzquierdo = document.elementsFromPoint(lefClient,topClient);
+            let elementosDebajoDelLadoDerecho = document.elementsFromPoint(rightClient,topClient);
+            let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+            let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+            let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
+            if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
+                let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
+                semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
+                
+                notaAsociada.longitudSemicorcheas = Math.round(longitud);
+                //Seteando la ultima longitud para las nuevas notas
+                Cantidad_Semicorcheas_Foco = notaAsociada.longitudSemicorcheas;
+            }            
+
         }else{            
             let x = e.clientX - PIANO_ROLL.getBoundingClientRect().left - offsetX;
             let y = e.clientY - PIANO_ROLL.getBoundingClientRect().top - offsetY;
@@ -284,7 +289,8 @@ class NotaSecuenciadorDeMelodias{
             }else{
                 divArrastrado.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaHorizontalPX,'vw')[0] + "vw"
                 divArrastrado.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaVerticalPX,'vw')[0] + "vw"
-            }            
+            }       
+
         }  
     }
 

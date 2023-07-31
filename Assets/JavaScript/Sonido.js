@@ -519,16 +519,8 @@ window.addEventListener('keydown',(e)=>{
 
     //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
     //para agregarla
-    if(teclasPulsadas.has(e.keyCode)||(!notasSintetizadorPorTeclasDelTeclado[e.keyCode])){
-     
-        if(e.keyCode==107){
-            NotaSintetizador.subirOctavaAlSintetizador();
-        }else if(e.keyCode==109){
-            NotaSintetizador.bajarOctavaAlSintetizador();
-        }
+    if(teclasPulsadas.has(e.keyCode)||(!notasSintetizadorPorTeclasDelTeclado[e.keyCode])) return false;
 
-        return false;
-    }
 
     if(seccion_en_vista!=4){
 
@@ -545,7 +537,14 @@ window.addEventListener('keydown',(e)=>{
 
 window.addEventListener('keyup',(e)=>{
 
-    if(!teclasPulsadas.has(e.keyCode)) return false;
+    if(!teclasPulsadas.has(e.keyCode)){
+        if(e.keyCode==107){
+            NotaSintetizador.subirOctavaAlSintetizador();
+        }else if(e.keyCode==109){
+            NotaSintetizador.bajarOctavaAlSintetizador();
+        }
+        return false;
+    } 
 
     let resolveRecibido = teclasPulsadas.get(e.keyCode);
     resolveRecibido();
