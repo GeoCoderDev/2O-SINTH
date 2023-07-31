@@ -9,10 +9,11 @@ var CANTIDAD_DE_COMPASES = 4
 let duracionSemicorcheas = 60/(TEMPO.value*4)
 
 function actualizarDurationSemicorcheas(){ 
-    duracionSemicorcheas = 60/(TEMPO.value*4)
+    duracionSemicorcheas = 60/(TEMPO.value*4);
 }
 
 TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
+TEMPO.addEventListener('wheel',actualizarDurationSemicorcheas);
 
 //Transformando la lista de nodos en un Array para poder usar todos los
 // metodos del prototipo array como slice
@@ -405,7 +406,10 @@ function reproducirMelodiaAnimacion(){
             fill: "forwards",
             duration: duracionSemicorcheas*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
         }
-    );   
+    );  
+    
+    
+
 }
 
 function volverTransportBarAPosicionInicial(){
@@ -443,7 +447,7 @@ function pausarMelodia(){
 
         cambiarBotonAPlayOPausa();  
         seEstaReproduciendo = false;
-        estaPausado = true;
+        estaPausado = true
     }
 
 }
@@ -465,8 +469,11 @@ function pararMelodia(){
             desconectarYcrearNuevaSalidaDeAudio();        
         }
         
-        cambiarBotonAPlayOPausa();
+        if(!estaPausado){
+            cambiarBotonAPlayOPausa();
+        }
         seEstaReproduciendo = false;
+        estaPausado = true;
     }
 }
 
