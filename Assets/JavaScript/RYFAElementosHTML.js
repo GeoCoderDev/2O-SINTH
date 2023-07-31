@@ -70,7 +70,6 @@ function desplegarMensajeDePausa(){
 
 
 function revisarVisibilidad() {
-    console.log(document.visibilityState)
     if (document.visibilityState === 'hidden') {    
         NotaSintetizador.pausarTodasLasNotasQueEstanSonandoConTecla();
         // Si se llego a pausar la melodia entonces desplegamos mensaje de pausa automatica

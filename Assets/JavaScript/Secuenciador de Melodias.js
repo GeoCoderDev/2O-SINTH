@@ -5,15 +5,11 @@
 const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
 const PIANO_ROLL = document.getElementById('Piano-Roll');
 const TEMPO = document.getElementById('Tempo');
-var CANTIDAD_DE_COMPASES = 4
+const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
+const duracionSemicorcheaINICIAL = 60/(TEMPO_AL_CARGAR_LA_PAGINA*4);
+let CANTIDAD_DE_COMPASES = 4;
 let duracionSemicorcheas = 60/(TEMPO.value*4)
 
-function actualizarDurationSemicorcheas(){ 
-    duracionSemicorcheas = 60/(TEMPO.value*4);
-}
-
-TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
-TEMPO.addEventListener('wheel',actualizarDurationSemicorcheas);
 
 //Transformando la lista de nodos en un Array para poder usar todos los
 // metodos del prototipo array como slice
@@ -321,6 +317,7 @@ let ultimoRequestAnimate;
 let seEstaReproduciendo = false;
 let estaPausado = true;
 let ultimaPosicionXRelativaTransportBar=0;
+let tempoDeLaAnimacion;
 
 function reproducirNotas() {
     const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
@@ -350,6 +347,7 @@ function reproducirNotas() {
 
             ultimoIndiceX = 0;
             animacionActual = reproducirMelodiaAnimacion();
+            actualizarDurationSemicorcheas()
         }
     }else{
         if(ultimoIndiceX==0){
@@ -401,7 +399,7 @@ let cambiarBotonAPlayOPausa = ()=>{
 function reproducirMelodiaAnimacion(){
 
     let indiceInicialDeLaAnimacion = ((ultimoIndiceX)&&ultimoIndiceX!=0)?ultimoIndiceX+1:0;
-
+    
     let posicionDeInicio = todasLasPosicionesRelativasAlMarco[indiceInicialDeLaAnimacion]-todasLasPosicionesRelativasAlMarco[0];
 
     return TRANSPORT_BAR.animate(
@@ -413,7 +411,7 @@ function reproducirMelodiaAnimacion(){
             iterations: 1,
             easing: "linear",
             fill: "forwards",
-            duration: duracionSemicorcheas*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
+            duration: duracionSemicorcheaINICIAL*((16*CANTIDAD_DE_COMPASES)-indiceInicialDeLaAnimacion)*1000
         }
     );  
     
@@ -494,9 +492,10 @@ function pararMelodia(){
 
 
 function reproducirMelodia(){
+    seEstaReproduciendo = true;
     animacionActual = reproducirMelodiaAnimacion();
     reproducirNotas();
-    seEstaReproduciendo = true;
+    actualizarDurationSemicorcheas();
     estaPausado = false;
     cambiarBotonAPlayOPausa();  
 }
@@ -595,3 +594,19 @@ delegarEvento('mousemove',TRANSPORT_BAR,(e)=>{
         TRANSPORT_BAR.style.cursor = "initial";
     };
 })
+
+
+function actualizarDurationSemicorcheas(){ 
+
+    if(seEstaReproduciendo){
+        animacionActual.playbackRate = TEMPO.value/TEMPO_AL_CARGAR_LA_PAGINA;
+    }
+
+    duracionSemicorcheas = 60/(TEMPO.value*4);
+    
+
+}
+
+TEMPO.addEventListener('mousemove',actualizarDurationSemicorcheas);
+TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
+TEMPO.addEventListener('wheel',actualizarDurationSemicorcheas);
