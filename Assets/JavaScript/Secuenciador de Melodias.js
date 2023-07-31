@@ -40,6 +40,7 @@ function actualizarCuadrosSemicorchea(){
         return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
     });
     todasLasPosicionesRelativasAlMarco.push(primeraFilaCuadrosSemicorchea[primeraFilaCuadrosSemicorchea.length-1].getBoundingClientRect().right-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
+    todasLasPosicionesRelativasAlMarco.push(Infinity);
 }
 
 actualizarCuadrosSemicorchea();
@@ -168,6 +169,10 @@ class NotaSecuenciadorDeMelodias{
             }                
             isResizing = false;
             document.removeEventListener('mousemove', onMouseMove);
+            this.#actualizarIndices();
+            //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
+            //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
+            this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador.slice().reverse()[this.indiceTablaY];
         }
         
         let onMouseMove = (e)=>{
@@ -315,7 +320,7 @@ let lastAnimationTime = 0;
 let ultimoRequestAnimate;
 let seEstaReproduciendo = false;
 let estaPausado = true;
-let ultimaPosicionXRelativaTransportBarCuandoSeReprodujo=0;
+let ultimaPosicionXRelativaTransportBar=0;
 
 function reproducirNotas() {
     const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
@@ -323,9 +328,9 @@ function reproducirNotas() {
 
     // Calcula la posición X relativa al contenedor incluyendo el scroll realizado
     const posicionXRelativa = transportBarRect.left - contenedorRect.left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
-
+    ultimaPosicionXRelativaTransportBar = posicionXRelativa;
     let indiceCuadroSemicorchea;
-    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length-1; i++) {
+    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length-2; i++) {
         if (
             posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
             posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
@@ -336,20 +341,19 @@ function reproducirNotas() {
     }
 
     if(!estiloParaEliminarBordeDelTransportBar){
-        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-1]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
+        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-2]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
             estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
             #Transport-Bar::before{
                 border-right-width:0;
             }`
             )   
 
-            if(estiloParaEliminarBordeDelTransportBar){
-                eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
-                estiloParaEliminarBordeDelTransportBar = undefined;
-            }
-
             ultimoIndiceX = 0;
             animacionActual = reproducirMelodiaAnimacion();
+        }else{
+            if(estiloParaEliminarBordeDelTransportBar){
+                eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+            }
         }
     }
 
@@ -399,7 +403,6 @@ function reproducirMelodiaAnimacion(){
     let indiceInicialDeLaAnimacion = ((ultimoIndiceX)&&ultimoIndiceX!=0)?ultimoIndiceX+1:0;
 
     let posicionDeInicio = todasLasPosicionesRelativasAlMarco[indiceInicialDeLaAnimacion]-todasLasPosicionesRelativasAlMarco[0];
-    ultimaPosicionXRelativaTransportBarCuandoSeReprodujo = posicionDeInicio;
 
     return TRANSPORT_BAR.animate(
         [
@@ -418,10 +421,10 @@ function reproducirMelodiaAnimacion(){
 
 }
 
-function volverTransportBarAPosicionInicial(){
+function volverTransportBarAPosicion(posicionPX){
     TRANSPORT_BAR.animate(
         [
-            {transform: 'translateX(0)'}
+            {transform: `translateX(${posicionPX}px)`}
         ],
         {
             iterations:1,
@@ -433,12 +436,7 @@ function volverTransportBarAPosicionInicial(){
 }
 
 
-
-/**
- * 
- * @returns un valor booleano que indica si se llego a pausar o no, lo cual quedria decir que ya estaba pausado
- */
-function pausarMelodia(){
+function pausarMelodia(moviendoTransportBar=false){
 
     if(seEstaReproduciendo){
 
@@ -451,14 +449,20 @@ function pausarMelodia(){
             cancelAnimationFrame(ultimoRequestAnimate);
         }
 
-        cambiarBotonAPlayOPausa();  
+        if(!moviendoTransportBar){
+            cambiarBotonAPlayOPausa();  
+        }
+
         seEstaReproduciendo = false;
         estaPausado = true
     }
 
 }
 
-
+/**
+ * 
+ * @returns devuelve true si cuando se paro no estaba pausado, y false si esta pausado.
+ */
 function pararMelodia(){
     
     if(seEstaReproduciendo||estaPausado){
@@ -471,16 +475,23 @@ function pararMelodia(){
             animacionActual.cancel();
             animacionActual = undefined;
             ultimoIndiceX = 0;
-            volverTransportBarAPosicionInicial();
+            volverTransportBarAPosicion(0);
             desconectarYcrearNuevaSalidaDeAudio();        
         }
         
+        seEstaReproduciendo = false;
+
         if(!estaPausado){
             cambiarBotonAPlayOPausa();
+            return true;
         }
-        seEstaReproduciendo = false;
+        
         estaPausado = true;
+
     }
+
+    return false;
+
 }
 
 
@@ -510,3 +521,80 @@ delegarEvento('click','#boton-stop, #boton-stop *',()=>{
 
 })
 
+function arrastrarTransportBar(eventoMouseDown){
+
+    
+
+    if(eventoMouseDown.target==TRANSPORT_BAR){
+        if(!(eventoMouseDown.offsetY<=VWVHTopixels("vh",3.3)[0])){
+            return false;
+        }
+    }
+    
+    let cambioDeCursor = cambiarCursorParaTodaLaPagina('grabbing');
+    let stopExitosamente;
+    
+
+    let empezarArrastrarTransportBar = (e)=>{        
+        if(stopExitosamente) stopExitosamente = pararMelodia(); 
+    
+        let posicionNueva = e.clientX - PIANO_ROLL.getBoundingClientRect().left;
+
+        posicionNueva = Math.max(0,Math.min(posicionNueva,PIANO_ROLL.getBoundingClientRect().right+CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft))
+
+        for(let i=0;i<todasLasPosicionesRelativasAlMarco.length;i++){
+            if((posicionNueva>=(todasLasPosicionesRelativasAlMarco[i] - todasLasPosicionesRelativasAlMarco[0]))&&
+                (posicionNueva<=(todasLasPosicionesRelativasAlMarco[i+1] - todasLasPosicionesRelativasAlMarco[0]))){
+                
+                    posicionNueva = todasLasPosicionesRelativasAlMarco[i] - todasLasPosicionesRelativasAlMarco[0];
+                    if(i==64) {
+                        if(!estiloParaEliminarBordeDelTransportBar){
+                            estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
+                            #Transport-Bar::before{
+                                border-right-width:0;
+                            }`
+                        )   
+                        }
+            
+                    }else{
+                        if(estiloParaEliminarBordeDelTransportBar){
+                            eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
+                            estiloParaEliminarBordeDelTransportBar = undefined;
+                        }
+                    }
+                    ultimoIndiceX = i-1;
+                    break;
+            }
+        }
+
+        volverTransportBarAPosicion(posicionNueva);        
+
+    }
+
+    //FORZANDO ARRASTRE CON UN SOLO MOUSEDOWN SIN NECESIDAD DE DISPARAR EL EVENTO MOUSEMOVE, 
+    // PORQUE LAMENTABLEMENTE AVECES EL USUARIO NO LA DISPARARA CON SOLO HACER CLICK
+    empezarArrastrarTransportBar(eventoMouseDown);
+
+    let eventoMouseMove = delegarEvento('mousemove',`*`,empezarArrastrarTransportBar)
+    
+    let eventoMouseUp = delegarEvento('mouseup',`*`,()=>{
+        if(stopExitosamente) reproducirMelodia();
+        eliminarEventoDelegado('mousemove',eventoMouseMove);
+        eliminarEventoDelegado('mouseup',eventoMouseUp);
+        cambioDeCursor.volverAlCursorOriginal();   
+        stopExitosamente = false;            
+    })
+
+}
+
+delegarEvento('mousedown',TRANSPORT_BAR,arrastrarTransportBar);
+delegarEvento('mousedown',`#NUMEROS-COMPASS, #NUMEROS-COMPASS *`,arrastrarTransportBar);
+
+// EVENTO DE CURSOR GRAB SOLO EN TRIANGULO DEL TRANSPORT BAR
+delegarEvento('mousemove',TRANSPORT_BAR,(e)=>{
+    if(e.offsetY<=VWVHTopixels("vh",3.3)[0]){
+        TRANSPORT_BAR.style.cursor = "grab";
+    }else{        
+        TRANSPORT_BAR.style.cursor = "initial";
+    };
+})

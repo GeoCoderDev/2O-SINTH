@@ -980,23 +980,24 @@ ANIMACIONES
     #Transport-Bar::before{
         position:absolute;
         opacity: 0.8;
-        left: -0.8vw;
+        left: -0.85vw;
         right: 0;
         width: 0;
         height: 0;
         opacity: 1;
-        border-top: 1vw solid orange;
+        border-top: 3.3vh solid orange;
         border-left: 1vw solid transparent;
         border-right: 1vw solid transparent;
         z-index: 2;
         content: "";
-        cursor: grab;
     }
+    
+
 
     #Transport-Bar::after{
         position:absolute;
         opacity: 0.8;
-        left: 0vw;
+        left: 0;
         right: 0;
         width: 0.2vw;
         height: 70vh;

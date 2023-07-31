@@ -206,3 +206,29 @@ function desplegarMensajeEnTodaLaPantalla(
     BODY.insertAdjacentElement('afterbegin',MensajeContenedor);
 
 }
+
+
+
+function cambiarCursorParaTodaLaPagina(tipoDeCursor = "pointer"){
+    
+    let volverAlCursorOriginal;
+    
+    let reglasDeCursor = insertarReglasCSSAdicionales(`
+    
+        *{
+            cursor: ${tipoDeCursor} !important;
+        }
+
+    `)
+
+    let promesa = new Promise((resolve,reject)=>{
+        volverAlCursorOriginal = resolve;
+    })
+
+    promesa.then((value)=>{
+        eliminarReglasCSSAdicionales(reglasDeCursor);
+    });
+    
+    return {volverAlCursorOriginal};
+
+}
