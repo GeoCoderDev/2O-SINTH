@@ -57,7 +57,7 @@ const encontrando_secciones = (entradas, observador) => {
             INDICADOR.style.top = (32.5 + ((seccion_en_vista-1)*12.9)) + "vh";
             INDICADOR.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";             
             if(seccion_en_vista==3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="none"){
-                console.log("appear")
+                
                 if(ultimaAnimacionParaCantidadCompasContenedor){                    
                     ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
                         ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
@@ -68,7 +68,7 @@ const encontrando_secciones = (entradas, observador) => {
                     CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
                 }               
             }else if(seccion_en_vista!=3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="flex"){
-                console.log("disapear")
+                
                 if(ultimaAnimacionParaCantidadCompasContenedor){                    
                     ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
                         ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true,true)

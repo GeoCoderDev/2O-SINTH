@@ -350,10 +350,10 @@ function reproducirNotas() {
 
             ultimoIndiceX = 0;
             animacionActual = reproducirMelodiaAnimacion();
-        }else{
-            if(estiloParaEliminarBordeDelTransportBar){
-                eliminarReglasCSSAdicionales(estiloParaEliminarBordeDelTransportBar);
-            }
+        }
+    }else{
+        if(ultimoIndiceX==0){
+            eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
         }
     }
 
@@ -474,24 +474,22 @@ function pararMelodia(){
         if(animacionActual){
             animacionActual.cancel();
             animacionActual = undefined;
-            ultimoIndiceX = 0;
-            volverTransportBarAPosicion(0);
-            desconectarYcrearNuevaSalidaDeAudio();        
         }
         
+        ultimoIndiceX = 0;                              
+        volverTransportBarAPosicion(0);
+        desconectarYcrearNuevaSalidaDeAudio();  
+
         seEstaReproduciendo = false;
 
         if(!estaPausado){
-            cambiarBotonAPlayOPausa();
-            return true;
+            cambiarBotonAPlayOPausa();  
+            return true;          
+        }else{
+            return false; 
         }
         
-        estaPausado = true;
-
     }
-
-    return false;
-
 }
 
 
@@ -523,7 +521,6 @@ delegarEvento('click','#boton-stop, #boton-stop *',()=>{
 
 function arrastrarTransportBar(eventoMouseDown){
 
-    
 
     if(eventoMouseDown.target==TRANSPORT_BAR){
         if(!(eventoMouseDown.offsetY<=VWVHTopixels("vh",3.3)[0])){
@@ -532,11 +529,11 @@ function arrastrarTransportBar(eventoMouseDown){
     }
     
     let cambioDeCursor = cambiarCursorParaTodaLaPagina('grabbing');
+
     let stopExitosamente;
-    
 
     let empezarArrastrarTransportBar = (e)=>{        
-        if(stopExitosamente) stopExitosamente = pararMelodia(); 
+        if(!stopExitosamente) stopExitosamente = pararMelodia(); 
     
         let posicionNueva = e.clientX - PIANO_ROLL.getBoundingClientRect().left;
 
@@ -582,7 +579,7 @@ function arrastrarTransportBar(eventoMouseDown){
         eliminarEventoDelegado('mousemove',eventoMouseMove);
         eliminarEventoDelegado('mouseup',eventoMouseUp);
         cambioDeCursor.volverAlCursorOriginal();   
-        stopExitosamente = false;            
+          
     })
 
 }

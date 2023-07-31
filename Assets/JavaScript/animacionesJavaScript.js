@@ -6,8 +6,6 @@ function desvanecerElemento(HTMLelement,duracionSegundos,horizontalmente=false,p
         let anchoOriginal = HTMLelement.offsetWidth;
         let anchoOriginalEnPorcentaje = roundToDecimals((anchoOriginal/HTMLelement.parentNode.clientWidth)*100,2);
 
-        console.log(`${anchoOriginalEnPorcentaje}%`)
-
         const FADE_HORIZONTAL = HTMLelement.animate([
             {opacity:1}, //0%
             {}, //25%
