@@ -24,3 +24,5 @@ var nodoAnalizador = ENTORNO_AUDIO.createAnalyser();
     var bufferLength = nodoAnalizador.frequencyBinCount;
     var datosAnalizador = new Uint8Array(bufferLength);
 
+// // ALTO / ANCHO
+// const ESCALA_MINIMA = 1/2;

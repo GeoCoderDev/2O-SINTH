@@ -132,6 +132,14 @@ class NotaSintetizador{
         })
     }
 
+    static pausarTodasLasNotasQueEstanSonandoConTecla(){
+
+        for(let [clave,valor] of teclasPulsadas){
+            valor();
+            teclasPulsadas.delete(clave);
+        }
+    }
+
     /**
      * @description Esta funcion inicia la frecuencia de cierta nota durante el tiempo que se le pasa al parametro duracion
      * @param {*} duracionOPromesa Este parametro pide la duracion en segundos que se hara sonar la nota o bien una promesa para parar el sonido
@@ -507,6 +515,7 @@ class NotaSintetizador{
         
     }
 
+
 }
 
 NotaSintetizador.todasLasNotasSintetizador = [];
@@ -551,6 +560,9 @@ window.addEventListener('keyup',(e)=>{
 
     teclasPulsadas.delete(e.keyCode);    
 })
+
+
+
 
 //===================================================================================================================
 // REALIZANDO CONEXIONES ENTRE NODOS

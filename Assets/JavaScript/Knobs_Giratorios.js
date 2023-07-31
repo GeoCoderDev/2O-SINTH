@@ -96,6 +96,7 @@ function insertaKnobsEn
             //CREACION DE LOS KNOBS
             Knobs[i] = document.createElement('div');
             // Knobs[i].id = idKnobs[i];
+            Knobs[i].classList.add('Knob-Giratorio')
             Knobs[i].style.display = "flex";
             Knobs[i].style.alignItems = "start";            
             Knobs[i].style.justifyContent = "space-evenly";            

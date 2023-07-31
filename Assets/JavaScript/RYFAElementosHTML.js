@@ -46,6 +46,7 @@ window.addEventListener('load',()=>{
 
 });
 
+let seDesplegoMensaje = false;
 
 function desplegarMensajeDePausa(){
     
@@ -56,6 +57,7 @@ function desplegarMensajeDePausa(){
         [
             ()=>{
                 reproducirMelodia();
+                seDesplegoMensaje = false;
             },
             undefined
         ],
@@ -63,16 +65,21 @@ function desplegarMensajeDePausa(){
         "1vw",
         true,
         "rgb(235,235,235)"
-    )
+    );
 }
 
 
 function revisarVisibilidad() {
-    if (document.visibilityState === 'hidden') {      
+    console.log(document.visibilityState)
+    if (document.visibilityState === 'hidden') {    
+        NotaSintetizador.pausarTodasLasNotasQueEstanSonandoConTecla();
         // Si se llego a pausar la melodia entonces desplegamos mensaje de pausa automatica
         if(!estaPausado){
             pausarMelodia();
-            desplegarMensajeDePausa();
+            if(!seDesplegoMensaje){
+                desplegarMensajeDePausa();
+                seDesplegoMensaje = true;
+            }
         }
     }
   }

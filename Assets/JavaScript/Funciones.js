@@ -232,3 +232,26 @@ function cambiarCursorParaTodaLaPagina(tipoDeCursor = "pointer"){
     return {volverAlCursorOriginal};
 
 }
+
+/**
+ * 
+ * @param {*} cantidad cantidad de vh, (solo puedes ingresar VHs) a causa de que casi todo esta en VH,porque nuestra app web esta diseñada para LANDSCAPE
+ * @param {*} medidaParaConversion cantidad a la que se convertira, en este caso seria para VWs
+ */
+function obtenerMedidaParaEscalaMayorQueLaMinima(cantidad,medidaParaConversion='vw'){
+
+    if(ESCALA_MINIMA<1){
+        // ANCHO MAYOR QUE ALTO(LANSCAPE)
+
+
+
+    }else{
+        // ALTO MAYOR QUE ANCHO(PORTRAIT)
+
+
+
+
+    }
+
+}
+

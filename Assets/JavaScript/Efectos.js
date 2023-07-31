@@ -10,11 +10,11 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
     "Onda\\ Cuadrada\\ Icon\\ Verde\\ Oscuro.png",
     "Onda\\ diente\\ de\\ sierra\\ icon\\ Verde\\ Oscuro.png"],
     "Tipo de Onda:",
-    "2.1vh",
+    "min(2.1vh,1vw)",
     ["LeftButtonTipoOndaLFO","RightButtonTipoOndaLFO"],
     "fila",
-    "3.2vh",
-    "0.2vw",
+    "min(3.2vh,1.5vw)",
+    "max(0.2vw,0.3vh)",
     "rgb(106, 146, 106)"
 );
 
@@ -22,8 +22,8 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
 var LFOKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-lfo'),
-    "5.9vh",
-    "2.1vh",
+    "min(5.9vh,3vw)",
+    "min(2.1vh,1vw)",
     3,
     3,
     ["RETRASO","AMPLITUD","VELOCIDAD"],
@@ -51,11 +51,11 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
     'Filtro\\ highshelf\\ icon\\ Morado\\ Oscuro.png',
     'Filtro\\ peaking\\ icon\\ Morado\\ Oscuro.png'],
     "TIPO DE FILTRO",
-    "2.55vh",
+    "min(2.55vh,1.4vw)",
     ["LeftButtonTipoFiltro","RightButtonTipoFiltro"],
     "columna",
-    "6.2vh",
-    "0.22vw",
+    "min(6.2vh,3vw)",
+    "max(0.22vw,0.30vh)",
     "rgb(146, 106, 139)"
 );
 
@@ -63,8 +63,8 @@ var tipoDeFiltro = insertaDeslizadorDeImagenesEn
 var FiltroKnobsValues = insertaKnobsEn
 (
     document.getElementById('cont-knobs-filtro'),
-    "6.4vh",
-    "2.15vh",
+    "min(6.4vh,3vw)",
+    "min(2.15vh,1vw)",
     3,
     3,
     ["FACTOR Q","FRECUENCIA","GANANCIA"],
@@ -92,8 +92,8 @@ var barrasDistorsion = insertarGraficoDeBarrasInteractiva
 //CREANDO KNOBS PARA EL EFECTO DE REBERB
 var knobsReverb = insertaKnobsEn(
     document.getElementById('cont-knobs-reverb'),
-    "9.5vh",
-    "3vh",
+    "min(9.5vh,7vw)",
+    "min(3vh,1.4vw)",
     1,
     1,
     ["DURACION"],
@@ -106,8 +106,8 @@ var knobsReverb = insertaKnobsEn(
 
 var knobsEco = insertaKnobsEn(
     document.getElementById('controles-eco'),
-    "5.8vh",
-    "2.1vh",
+    "min(5.8vh,4vw)",
+    "min(2.1vh,1.2vw)",
     2,
     1,
     ["TIEMPO ENTRE REPETICIONES","FEEDBACK"],
@@ -120,8 +120,8 @@ var knobsEco = insertaKnobsEn(
 
 var panSintetizador = insertaKnobsEn(
     document.getElementById('cont-pan'),
-    "5.9vh",
-    "2.5vh",
+    "min(5.9vh,3vw)",
+    "min(2.5vh,1.4vw)",
     1,
     1,
     ["PAN"],
