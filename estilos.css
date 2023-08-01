@@ -952,7 +952,7 @@ ANIMACIONES
 
     #Ocultador-Espacio-Blanco{
         overflow: hidden;
-        min-height: 80vh;
+        display: flex;
         min-width: 134vw;
         position: absolute;
         top: 3.2vh;
@@ -1040,9 +1040,10 @@ ANIMACIONES
 
     #Piano-Roll{
         position:relative;
-        width: 128vw;
+        min-width: 128vw;
         min-height: 118.4vh;
         left: 6vw;
+        
         /* border: 1px solid aqua; */
     }
 
@@ -1053,6 +1054,7 @@ ANIMACIONES
         max-width: 128vw;
         margin-left: 1vw;
         z-index: 1;
+        display: flex;
     }
     
     .numeros_compas_cabecera{

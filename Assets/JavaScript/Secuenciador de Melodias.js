@@ -3,19 +3,22 @@
 //==================================================================
 
 const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById('secuenciador-melodias-marco');
+const CONTENEDOR_PIANO_ROLL = document.getElementById('Ocultador-Espacio-Blanco');
 const PIANO_ROLL = document.getElementById('Piano-Roll');
 const TEMPO = document.getElementById('Tempo');
+const CABECERA_DE_COMPASES = document.getElementById('NUMEROS-COMPASS');
+const CANTIDAD_COMPASES_HTML = document.getElementById('Cantidad-Compases');
 const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
 const duracionSemicorcheaINICIAL = 60/(TEMPO_AL_CARGAR_LA_PAGINA*4);
-let CANTIDAD_DE_COMPASES = 4;
+const CANTIDAD_DE_COMPASES_MINIMA = 4;
+let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60/(TEMPO.value*4)
 
 
-//Transformando la lista de nodos en un Array para poder usar todos los
-// metodos del prototipo array como slice
+
 var Todos_los_cuadros_semicorchea;
 
-//Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
+
 let primeraFilaCuadrosSemicorchea;
 let primeraColumnaCuadrosSemicorchea;
 
@@ -24,27 +27,8 @@ let todosLosOffsetTop;
 
 let todasLasPosicionesRelativasAlMarco;
 
-Todos_los_cuadros_semicorchea = document.querySelectorAll('.Cuadro-Semicorchea');
 
-function actualizarCuadrosSemicorchea(){
-    Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
-    primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
-    primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0)
-    todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
-    todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
-    todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
-        return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
-    });
-    todasLasPosicionesRelativasAlMarco.push(primeraFilaCuadrosSemicorchea[primeraFilaCuadrosSemicorchea.length-1].getBoundingClientRect().right-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
-    todasLasPosicionesRelativasAlMarco.push(Infinity);
-}
 
-actualizarCuadrosSemicorchea();
-
-window.addEventListener('resize',()=>{
-    actualizarCuadrosSemicorchea();
-    NotaSecuenciadorDeMelodias.acomodarTodasLasNotas();
-})
 // Este evento servira para que cuando estemos usando el rodillo 
 // en el secuenciador de melodias, no podamos hacer uso de las
 // barras de desplazamiento del navegador
@@ -196,12 +180,10 @@ class NotaSecuenciadorDeMelodias{
         // OBTENIENDO LOS NUEVOS INDICES Y EL CUADRO SEMICORCHEA POR DEBAJO
         this.indiceTablaX = todosLosOffsetLeft.indexOf(this.elementoHTML.offsetLeft);
         this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
-        // Se suman 2 pixeles para asegurar que se tomen las coordenadas del elemento Cuadro-Semicorchea correcto
-        // y no otro adyacente no deseado
-        this.CuadroSemicorcheaDebajo = Todos_los_cuadros_semicorchea[(16*CANTIDAD_DE_COMPASES*this.indiceTablaY)+this.indiceTablaX]
     }    
 
     ajustarNotaAGrilla(){
+        this.CuadroSemicorcheaDebajo = Todos_los_cuadros_semicorchea[(16*CANTIDAD_DE_COMPASES*this.indiceTablaY)+this.indiceTablaX]
         this.elementoHTML.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaHorizontalPX,'vw')+'vw';
         this.elementoHTML.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,this.CuadroSemicorcheaDebajo).distanciaVerticalPX,'vw')+'vw';
     }   
@@ -217,84 +199,201 @@ class NotaSecuenciadorDeMelodias{
 // ------------------------------------------------
 // |  FUNCION DE POSICIONAMIENTO PARA LA CLASE    |      
 // ------------------------------------------------
-    // Funcion para mousemove y mousedown de las Notas
-    function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e, divArrastrado, notaAsociada){
+// Funcion para mousemove y mousedown de las Notas
+function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(e, divArrastrado, notaAsociada){
 
-        if(isResizing){
+    if(isResizing){
+        
+        divArrastrado.style.cursor = 'ew-resize';
+        PIANO_ROLL.style.cursor = 'ew-resize';
+
+        const deltaX = e.clientX - lastX;
+        const newWidth = originalWidth + deltaX; // Cambiamos aquí para que el elemento se redimensione hacia la derecha
+        divArrastrado.style.width = `${pixelsToVWVH(Math.max(newWidth, 0),'vw')}vw`;
+        
+        let coordernadaDraggingNoteX = divArrastrado.getBoundingClientRect().right;
+        let coordernadaDraggingNoteY = divArrastrado.getBoundingClientRect().top;
+        // Obteniendo el elemento 'Cuadro-Semicorchea' que se encuentra debajo del elemento arrastrado
+        let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
+        let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0];
+
+        if(elementUnderCursorGrilla){
+            let anchoObedienteAGrilla = elementUnderCursorGrilla.getBoundingClientRect().right - divArrastrado.getBoundingClientRect().left;
+            divArrastrado.style.width = `${pixelsToVWVH(anchoObedienteAGrilla,'vw')}vw`;
+            ultimoCuadroSemicorchea = elementUnderCursorGrilla;
+        }else{
+            let anchoObedienteAGrilla = ultimoCuadroSemicorchea.getBoundingClientRect().right - divArrastrado.getBoundingClientRect().left;
+            divArrastrado.style.width = `${pixelsToVWVH(anchoObedienteAGrilla,'vw')}vw`;
+        }
+        
+        //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+
+        let lefClient = notaAsociada.elementoHTML.getBoundingClientRect().left;
+        // Para obtener las coordenadas derechas quitaremos 5 pixeles para asegurar que tomaremos
+        // el elemento Cuadro-Semicorchea correcto y no el siguiente adyacente
+        let rightClient = notaAsociada.elementoHTML.getBoundingClientRect().right - 5;
+        let topClient = notaAsociada.elementoHTML.getBoundingClientRect().top;
+
+        let elementosDebajoDelLadoIzquierdo = document.elementsFromPoint(lefClient,topClient);
+        let elementosDebajoDelLadoDerecho = document.elementsFromPoint(rightClient,topClient);
+        let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+        let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
+        let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
+        if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
+            let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
+            semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
             
-            divArrastrado.style.cursor = 'ew-resize';
-            PIANO_ROLL.style.cursor = 'ew-resize';
+            notaAsociada.longitudSemicorcheas = Math.round(longitud);
+            //Seteando la ultima longitud para las nuevas notas
+            Cantidad_Semicorcheas_Foco = notaAsociada.longitudSemicorcheas;
+        }            
 
-            const deltaX = e.clientX - lastX;
-            const newWidth = originalWidth + deltaX; // Cambiamos aquí para que el elemento se redimensione hacia la derecha
-            divArrastrado.style.width = `${pixelsToVWVH(Math.max(newWidth, 0),'vw')}vw`;
-            
-            let coordernadaDraggingNoteX = divArrastrado.getBoundingClientRect().right;
-            let coordernadaDraggingNoteY = divArrastrado.getBoundingClientRect().top;
-            // Obteniendo el elemento 'Cuadro-Semicorchea' que se encuentra debajo del elemento arrastrado
-            let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
-            let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0];
+    }else{            
+        let x = e.clientX - PIANO_ROLL.getBoundingClientRect().left - offsetX;
+        let y = e.clientY - PIANO_ROLL.getBoundingClientRect().top - offsetY;
+        
+        // Verificar que el nuevo div no se salga del contenedor
+        let maxX = PIANO_ROLL.clientWidth - divArrastrado.clientWidth;
+        let maxY = PIANO_ROLL.clientHeight - divArrastrado.clientHeight;
+        divArrastrado.style.left = `${pixelsToVWVH(Math.max(0, Math.min(x, maxX)),'vw')[0]}vw`;
+        divArrastrado.style.top = `${pixelsToVWVH(Math.max(0, Math.min(y, maxY)),'vh')[0]}vh`;
+        
+        let coordernadaDraggingNoteX = divArrastrado.getBoundingClientRect().left;
+        let coordernadaDraggingNoteY = divArrastrado.getBoundingClientRect().top;
+        // Obteniendo el elemento 'Cuadro-Semicorchea' que se encuentra debajo del elemento arrastrado
+        let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
+        let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0];
 
-            if(elementUnderCursorGrilla){
-                let anchoObedienteAGrilla = elementUnderCursorGrilla.getBoundingClientRect().right - divArrastrado.getBoundingClientRect().left;
-                divArrastrado.style.width = `${pixelsToVWVH(anchoObedienteAGrilla,'vw')}vw`;
-                ultimoCuadroSemicorchea = elementUnderCursorGrilla;
-            }else{
-                let anchoObedienteAGrilla = ultimoCuadroSemicorchea.getBoundingClientRect().right - divArrastrado.getBoundingClientRect().left;
-                divArrastrado.style.width = `${pixelsToVWVH(anchoObedienteAGrilla,'vw')}vw`;
-            }
-            
-            //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+        //Obligando a obedecer la grilla formada por los elementos 'Cuadro-Semicorchea'
+        if(elementUnderCursorGrilla){
+            divArrastrado.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,elementUnderCursorGrilla).distanciaHorizontalPX,'vw')[0] + "vw"
+            divArrastrado.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,elementUnderCursorGrilla).distanciaVerticalPX,'vw')[0] + "vw"
+            ultimoCuadroSemicorchea = elementUnderCursorGrilla;
+        }else{
+            divArrastrado.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaHorizontalPX,'vw')[0] + "vw"
+            divArrastrado.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaVerticalPX,'vw')[0] + "vw"
+        }       
 
-            let lefClient = notaAsociada.elementoHTML.getBoundingClientRect().left;
-            // Para obtener las coordenadas derechas quitaremos 5 pixeles para asegurar que tomaremos
-            // el elemento Cuadro-Semicorchea correcto y no el siguiente adyacente
-            let rightClient = notaAsociada.elementoHTML.getBoundingClientRect().right - 5;
-            let topClient = notaAsociada.elementoHTML.getBoundingClientRect().top;
+    }  
+}
+
+
+function actualizarCuadrosSemicorcheaYacomodarNotas(){
+    //Transformando la lista de nodos en un Array para poder usar todos los
+    // metodos del prototipo array como slice
+    Todos_los_cuadros_semicorchea = [...document.querySelectorAll('.Cuadro-Semicorchea')];
+    //Obteniendo la primera fila y la primera columna de la tabla PIANO_ROLL
+    primeraFilaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.slice(0,16*CANTIDAD_DE_COMPASES);
+    primeraColumnaCuadrosSemicorchea = Todos_los_cuadros_semicorchea.filter((elemento,indice)=>indice%(16*CANTIDAD_DE_COMPASES)==0);
     
-            let elementosDebajoDelLadoIzquierdo = document.elementsFromPoint(lefClient,topClient);
-            let elementosDebajoDelLadoDerecho = document.elementsFromPoint(rightClient,topClient);
-            let semicorcheaDebajoDelLadoIzquierdo = elementosDebajoDelLadoIzquierdo.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
-            let semicorcheaDebajoDelLadoIDerecho = elementosDebajoDelLadoDerecho.filter((elemento)=>elemento.classList.contains('Cuadro-Semicorchea'))[0];
-            let ancho_de_una_semicorchea_actual = semicorcheaDebajoDelLadoIDerecho.offsetWidth;
-            if(semicorcheaDebajoDelLadoIzquierdo&&semicorcheaDebajoDelLadoIDerecho){
-                let longitud = (semicorcheaDebajoDelLadoIDerecho.getBoundingClientRect().right - 
-                semicorcheaDebajoDelLadoIzquierdo.getBoundingClientRect().left)/ancho_de_una_semicorchea_actual;
-                
-                notaAsociada.longitudSemicorcheas = Math.round(longitud);
-                //Seteando la ultima longitud para las nuevas notas
-                Cantidad_Semicorcheas_Foco = notaAsociada.longitudSemicorcheas;
-            }            
+    todosLosOffsetLeft = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetLeft);
+    todosLosOffsetTop = primeraColumnaCuadrosSemicorchea.map((cuadroSemicorchea)=>cuadroSemicorchea.offsetTop);
+    todasLasPosicionesRelativasAlMarco = primeraFilaCuadrosSemicorchea.map((cuadroSemicorchea)=>{
+        return (cuadroSemicorchea.getBoundingClientRect().left-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
+    });
+    todasLasPosicionesRelativasAlMarco.push(primeraFilaCuadrosSemicorchea[primeraFilaCuadrosSemicorchea.length-1].getBoundingClientRect().right-CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect().left + CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft);
+    todasLasPosicionesRelativasAlMarco.push(Infinity);
+    NotaSecuenciadorDeMelodias.acomodarTodasLasNotas();
+}
 
-        }else{            
-            let x = e.clientX - PIANO_ROLL.getBoundingClientRect().left - offsetX;
-            let y = e.clientY - PIANO_ROLL.getBoundingClientRect().top - offsetY;
+// INICIALIZANDO LOS ARRAYS
+actualizarCuadrosSemicorcheaYacomodarNotas();
+
+window.addEventListener('resize',actualizarCuadrosSemicorcheaYacomodarNotas);
+
+
+let establecerElMinimoDeCorcheas = ()=>{
+
+    let indiceMayor = CANTIDAD_DE_COMPASES_MINIMA * 16;
+
+    NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias)=>{
+        if((notaSecuenciadorDeMelodias.indiceTablaX + notaSecuenciadorDeMelodias.longitudSemicorcheas)>indiceMayor){
+            indiceMayor = notaSecuenciadorDeMelodias.indiceTablaX + 1;
+        }
+    })
+
+    let limiteMinimoDeCompases = (Math.ceil(indiceMayor/32))*2;
+
+    CANTIDAD_COMPASES_HTML.min = limiteMinimoDeCompases;
+}
+
+
+let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
+    
+    establecerElMinimoDeCorcheas()
+
+    if(CANTIDAD_COMPASES_HTML.value==CANTIDAD_DE_COMPASES) return;
+
+    let todasLasFilasDeNotas = document.querySelectorAll('.fila-nota-secuenciador-de-melodias');
+
+    // OBTENIENDO LA CANTIDAD DE SEMICORCHEAS DE UNA DE LAS FILAS
+    let longitudActualDeCadaFilaSemicorcheas = todasLasFilasDeNotas[0].childElementCount;
+    let longitudNuevaEnSemicorcheasDeCadaFila = CANTIDAD_COMPASES_HTML.value*16;
+    CANTIDAD_DE_COMPASES = CANTIDAD_COMPASES_HTML.value;
+
+    CABECERA_DE_COMPASES.style.width = `${32*CANTIDAD_DE_COMPASES}vw`;
+    PIANO_ROLL.style.minWidth = `${32*CANTIDAD_DE_COMPASES}vw`;
+    CONTENEDOR_PIANO_ROLL.style.minWidth = `${(32*CANTIDAD_DE_COMPASES)+6}vw`
+
+    if(longitudActualDeCadaFilaSemicorcheas<longitudNuevaEnSemicorcheasDeCadaFila){
+
+        for(let i=longitudActualDeCadaFilaSemicorcheas;i<=longitudNuevaEnSemicorcheasDeCadaFila;i++){
             
-            // Verificar que el nuevo div no se salga del contenedor
-            let maxX = PIANO_ROLL.clientWidth - divArrastrado.clientWidth;
-            let maxY = PIANO_ROLL.clientHeight - divArrastrado.clientHeight;
-            divArrastrado.style.left = `${pixelsToVWVH(Math.max(0, Math.min(x, maxX)),'vw')[0]}vw`;
-            divArrastrado.style.top = `${pixelsToVWVH(Math.max(0, Math.min(y, maxY)),'vh')[0]}vh`;
-            
-            let coordernadaDraggingNoteX = divArrastrado.getBoundingClientRect().left;
-            let coordernadaDraggingNoteY = divArrastrado.getBoundingClientRect().top;
-            // Obteniendo el elemento 'Cuadro-Semicorchea' que se encuentra debajo del elemento arrastrado
-            let elementsUnderCursor = document.elementsFromPoint(coordernadaDraggingNoteX, coordernadaDraggingNoteY);
-            let elementUnderCursorGrilla = elementsUnderCursor.filter((element) => element.className=='Cuadro-Semicorchea')[0];
+            if((i-1)%16==0){
+                let nuevaCabeceraCompas = document.createElement('td');
+                nuevaCabeceraCompas.classList.add('numeros_compas_cabecera');
+                nuevaCabeceraCompas.innerText = ((i-1)/16)+1;
+                CABECERA_DE_COMPASES.appendChild(nuevaCabeceraCompas);
+            }
+        }
 
-            //Obligando a obedecer la grilla formada por los elementos 'Cuadro-Semicorchea'
-            if(elementUnderCursorGrilla){
-                divArrastrado.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,elementUnderCursorGrilla).distanciaHorizontalPX,'vw')[0] + "vw"
-                divArrastrado.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,elementUnderCursorGrilla).distanciaVerticalPX,'vw')[0] + "vw"
-                ultimoCuadroSemicorchea = elementUnderCursorGrilla;
-            }else{
-                divArrastrado.style.left = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaHorizontalPX,'vw')[0] + "vw"
-                divArrastrado.style.top = pixelsToVWVH(distanciaRelativaEntreElementos(PIANO_ROLL,ultimoCuadroSemicorchea).distanciaVerticalPX,'vw')[0] + "vw"
-            }       
+    }else if(longitudActualDeCadaFilaSemicorcheas>longitudNuevaEnSemicorcheasDeCadaFila){
 
-        }  
+        for(let i=longitudActualDeCadaFilaSemicorcheas;i>=longitudNuevaEnSemicorcheasDeCadaFila;i--){
+
+            if((i+1)%16==0){
+                let ultimaCabeceraCompas = CABECERA_DE_COMPASES.lastChild;
+                CABECERA_DE_COMPASES.removeChild(ultimaCabeceraCompas);
+            }
+
+        }
+
     }
 
+
+    todasLasFilasDeNotas.forEach((filaNotaSecuenciador)=>{
+        
+        if(longitudActualDeCadaFilaSemicorcheas<longitudNuevaEnSemicorcheasDeCadaFila){
+
+            for(let i=longitudActualDeCadaFilaSemicorcheas;i<longitudNuevaEnSemicorcheasDeCadaFila;i++){
+                
+                let nuevoTD = document.createElement('td');
+                nuevoTD.classList.add('Cuadro-Semicorchea');
+                filaNotaSecuenciador.appendChild(nuevoTD);
+            
+            }
+
+        }else if(longitudActualDeCadaFilaSemicorcheas>longitudNuevaEnSemicorcheasDeCadaFila){
+
+            for(let i=longitudActualDeCadaFilaSemicorcheas;i>longitudNuevaEnSemicorcheasDeCadaFila;i--){
+                let ultimoTD = filaNotaSecuenciador.lastChild;                
+                filaNotaSecuenciador.removeChild(ultimoTD);
+
+            }
+
+        }
+        
+    })
+
+    actualizarCuadrosSemicorcheaYacomodarNotas();
+
+}
+
+CANTIDAD_COMPASES_HTML.addEventListener('change',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
+CANTIDAD_COMPASES_HTML.addEventListener('mousemove',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+CANTIDAD_COMPASES_HTML.addEventListener('mouseover',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+CANTIDAD_COMPASES_HTML.addEventListener('wheel',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+CANTIDAD_COMPASES_HTML.addEventListener('mousedown',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
 
 // ----------------------------
 // | REPRODUCCIÓN DE MELODIAS |      
@@ -433,7 +532,6 @@ function volverTransportBarAPosicion(posicionPX){
     )
 }
 
-
 function pausarMelodia(moviendoTransportBar=false){
 
     if(seEstaReproduciendo){
@@ -489,7 +587,6 @@ function pararMelodia(){
         
     }
 }
-
 
 function reproducirMelodia(){
     seEstaReproduciendo = true;
