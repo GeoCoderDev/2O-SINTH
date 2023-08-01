@@ -392,7 +392,16 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
 CANTIDAD_COMPASES_HTML.addEventListener('change',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
 CANTIDAD_COMPASES_HTML.addEventListener('mousemove',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
 CANTIDAD_COMPASES_HTML.addEventListener('mouseover',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
-CANTIDAD_COMPASES_HTML.addEventListener('wheel',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+CANTIDAD_COMPASES_HTML.addEventListener('wheel',(e)=>{
+    e.preventDefault();
+    if (e.deltaY > 0) {
+        CANTIDAD_COMPASES_HTML.stepDown();
+    } else {
+        CANTIDAD_COMPASES_HTML.stepUp();
+    }
+    establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas();
+});
+
 CANTIDAD_COMPASES_HTML.addEventListener('mousedown',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
 
 // ----------------------------

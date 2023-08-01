@@ -1,3 +1,7 @@
+
+const FRECUENCIA_MAXIMA = 16745;
+const FRECUENCIA_MINIMA = 16.35;
+
 let resolveDePromesasDeTeclado = [];
 let notasSintetizadorPorTeclasDelTeclado = []
 let frecuenciasPorTecla = [];
@@ -115,18 +119,25 @@ class NotaSintetizador{
     }
 
     static subirOctavaAlSintetizador(){
+        // SI LA DIFERENCIA ENTRE LA NOTA CON FRECUENCIA MAS ALTA Y LA FRECUENCIA MAXIMA ES MENOR QUE 1000 NO PODEMOS SUBIR LA OCTAVA.
+        if((FRECUENCIA_MAXIMA - NotaSintetizador.todasLasNotasSintetizador[NotaSintetizador.todasLasNotasSintetizador.length-1].frecuencia)<1000) return;
+
         NotaSintetizador.todasLasNotasSintetizador.forEach((unaNotaSintetizador)=>{
             unaNotaSintetizador.subirOctava();
         })
+
     }
 
-    bajarOctava(){
+    bajarOctava(){        
         this.octava = this.octava - 1;
         this.frecuencia = FRECUENCIAS_12NOTAS_OCTAVA0.get(this.nombreNota)*(2**this.octava);
         frecuenciasPorTecla[this.codigoTecla] = this.frecuencia; 
     }
 
     static bajarOctavaAlSintetizador(){
+        // SI LA DIFERENCIA ENTRE LA NOTA CON FRECUENCIA MAS BAJA Y LA FRECUENCIA MINIMA ES MENOR QUE 10 NO PODEMOS BAJAR LA OCTAVA.
+        if((NotaSintetizador.todasLasNotasSintetizador[0].frecuencia-FRECUENCIA_MINIMA)<10) return;
+
         NotaSintetizador.todasLasNotasSintetizador.forEach((unaNotaSintetizador)=>{
             unaNotaSintetizador.bajarOctava();
         })
@@ -608,25 +619,25 @@ let D5 = new NotaSintetizador("D",5,document.getElementById('D5'),document.getEl
 let Dsos5 = new NotaSintetizador("Dsos",5,document.getElementById('Dsos5'),document.getElementById('Dsos5Roll'),48);
 let E5 = new NotaSintetizador("E",5,document.getElementById('E5'),document.getElementById('E5Roll'),80);
 let F5 = new NotaSintetizador("F",5,document.getElementById('F5'),document.getElementById('F5Roll'),186);
-let Fsos5 = new NotaSintetizador("Fsos",5,document.getElementById('Fsos5'),document.getElementById('Fsos5Roll'),221);
-let G5 = new NotaSintetizador("G",5,document.getElementById('G5'),document.getElementById('G5Roll'),90);
+let Fsos5 = new NotaSintetizador("Fsos",5,document.getElementById('Fsos5'),document.getElementById('Fsos5Roll'),65);
+let G5 = new NotaSintetizador("G",5,document.getElementById('G5'),document.getElementById('G5Roll'),187);
 let Gsos5 = new NotaSintetizador("Gsos",5,document.getElementById('Gsos5'),document.getElementById('Gsos5Roll'),83);
-let A5 = new NotaSintetizador("A",5,document.getElementById('A5'),document.getElementById('A5Roll'),88);
+let A5 = new NotaSintetizador("A",5,document.getElementById('A5'),document.getElementById('A5Roll'),90);
 let Asos5 = new NotaSintetizador("Asos",5,document.getElementById('Asos5'),document.getElementById('Asos5Roll'),68);
-let B5 = new NotaSintetizador("B",5,document.getElementById('B5'),document.getElementById('B5Roll'),67);
-let C6 = new NotaSintetizador("C",6,document.getElementById('C6'),document.getElementById('C6Roll'),86);
+let B5 = new NotaSintetizador("B",5,document.getElementById('B5'),document.getElementById('B5Roll'),88);
+let C6 = new NotaSintetizador("C",6,document.getElementById('C6'),document.getElementById('C6Roll'),67);
 let Csos6 = new NotaSintetizador("Csos",6,document.getElementById('Csos6'),document.getElementById('Csos6Roll'),71);
-let D6 = new NotaSintetizador("D",6,document.getElementById('D6'),document.getElementById('D6Roll'),66);
+let D6 = new NotaSintetizador("D",6,document.getElementById('D6'),document.getElementById('D6Roll'),86);
 let Dsos6 = new NotaSintetizador("Dsos",6,document.getElementById('Dsos6'),document.getElementById('Dsos6Roll'),72);
-let E6 = new NotaSintetizador("E",6,document.getElementById('E6'),document.getElementById('E6Roll'),78);
-let F6 = new NotaSintetizador("F",6,document.getElementById('F6'),document.getElementById('F6Roll'),77);
+let E6 = new NotaSintetizador("E",6,document.getElementById('E6'),document.getElementById('E6Roll'),66);
+let F6 = new NotaSintetizador("F",6,document.getElementById('F6'),document.getElementById('F6Roll'),78);
 let Fsos6 = new NotaSintetizador("Fsos",6,document.getElementById('Fsos6'),document.getElementById('Fsos6Roll'),75);
-let G6 = new NotaSintetizador("G",6,document.getElementById('G6'),document.getElementById('G6Roll'),188);
+let G6 = new NotaSintetizador("G",6,document.getElementById('G6'),document.getElementById('G6Roll'),77);
 let Gsos6 = new NotaSintetizador("Gsos",6,document.getElementById('Gsos6'),document.getElementById('Gsos6Roll'),76);
-let A6 = new NotaSintetizador("A",6,document.getElementById('A6'),document.getElementById('A6Roll'),190);
+let A6 = new NotaSintetizador("A",6,document.getElementById('A6'),document.getElementById('A6Roll'),188);
 let Asos6 = new NotaSintetizador("Asos",6,document.getElementById('Asos6'),document.getElementById('Asos6Roll'),192);
-let B6 = new NotaSintetizador("B",6,document.getElementById('B6'),document.getElementById('B6Roll'),189);
-let C7 = new NotaSintetizador("C",7,document.getElementById('C7'),document.getElementById('C7Roll'),16);
+let B6 = new NotaSintetizador("B",6,document.getElementById('B6'),document.getElementById('B6Roll'),190);
+let C7 = new NotaSintetizador("C",7,document.getElementById('C7'),document.getElementById('C7Roll'),189);
 
 /*===================================================================================================================
 ANALIZADOR

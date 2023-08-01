@@ -12,7 +12,7 @@ window.addEventListener('load',()=>{
         }
     }
 
-    // EVENTO PARA LOS INPUT NUMBERS(ESTILO FL STUDIO)
+    // EVENTO PARA LOS INPUT NUMBERS(ESTILO FL STUDIO) a excepcion del input number Cantidad de compases, selector util => input[type="number"]:not(#Cantidad-Compases)
     document.querySelectorAll('input[type="number"]').forEach((inputNumber)=>{
 
         // Evento para no dejar escribir 
@@ -22,6 +22,7 @@ window.addEventListener('load',()=>{
 
         // Evento para poder manipular el valor del input con la rueda del mouse
         inputNumber.addEventListener('wheel', (e) => {
+            if(e.target==CANTIDAD_COMPASES_HTML) return;
             e.preventDefault();
             if (e.deltaY > 0) {
               inputNumber.stepDown();
