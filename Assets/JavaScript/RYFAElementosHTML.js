@@ -22,7 +22,8 @@ window.addEventListener('load',()=>{
 
         // Evento para poder manipular el valor del input con la rueda del mouse
         inputNumber.addEventListener('wheel', (e) => {
-            if(e.target==CANTIDAD_COMPASES_HTML) return;
+            if(e.target==CANTIDAD_COMPASES_HTML) return; //INPUT NUMBERs EXCEPCION
+            if(e.target==TEMPO) return;
             e.preventDefault();
             if (e.deltaY > 0) {
               inputNumber.stepDown();
@@ -34,6 +35,9 @@ window.addEventListener('load',()=>{
         // Evento para poder hacer click con el rodillo del mouse y volver al valor inicial
         inputNumber.addEventListener('mousedown',(e)=>{
             window.addEventListener('mousedown', desactivarComportamientoClickConRodillo);
+            if(e.target==CANTIDAD_COMPASES_HTML) return; //INPUT NUMBERs EXCEPCION
+            if(e.target==TEMPO) return; 
+
             if(e.button==1){
                 inputNumber.value = inputNumber.defaultValue;
             }

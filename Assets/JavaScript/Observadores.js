@@ -4,9 +4,10 @@ const seccion_secuenciador_melodias = document.getElementById('contenedor-secuen
 const seccion_secuenciador_de_ritmos = document.getElementById('contenedor-secuenciador-ritmos');
 const INDICADOR= document.getElementById('indicador');
 const CANTIDAD_COMPASES_CONTENEDOR = document.getElementById('cantidad-compases-contenedor');
-const CANTIDAD_COMPASES_INPUT = document.getElementById('Cantidad-Compases');
+const LETRAS_GUIA_CONTENEDOR = document.getElementById('contenedor-letras-guia');
 var seccion_en_vista;
 let ultimaAnimacionParaCantidadCompasContenedor;
+let ultimaAnimacionParaLetrasGuia;
 
 function getUnidadVhEnPX(){
     return window.matchMedia('screen and (orientation:landscape)').matches? window.innerHeight/100:window.innerWidth/100;
@@ -16,6 +17,7 @@ function getUnidadVhEnPX(){
 
 if(window.scrollY>=0&&window.scrollY<80 * getUnidadVhEnPX()){
     seccion_en_vista = 1;
+    LETRAS_GUIA_CONTENEDOR.style.display = "flex";
 }else if(window.scrollY>=(80 * getUnidadVhEnPX())&&window.scrollY<(72 * getUnidadVhEnPX()*1.8)){
     seccion_en_vista = 2;
 }else if(window.scrollY>=(72 * getUnidadVhEnPX()*1.8)&&window.scrollY<(93 * getUnidadVhEnPX()*3)){
@@ -26,7 +28,8 @@ if(window.scrollY>=0&&window.scrollY<80 * getUnidadVhEnPX()){
 }
 
 // Para que se pueda hacer hacer click sobre el indicador
-INDICADOR.addEventListener('mousedown',()=>{
+
+delegarEvento('mousedown',INDICADOR,()=>{
     switch (seccion_en_vista) {
         case "1":
             window.scroll(0,0)
@@ -56,16 +59,41 @@ const encontrando_secciones = (entradas, observador) => {
             seccion_en_vista = entrada.target.dataset.numero_seccion;            
             INDICADOR.style.top = (32.5 + ((seccion_en_vista-1)*12.9)) + "vh";
             INDICADOR.style.marginBottom = (55 - ((seccion_en_vista-1)*12.9)) + "vh";             
+
+            //LOGICA PARA MOSTRAR EL CONTENEDOR DE LETRAS GUIA
+            if(seccion_en_vista==1&&window.getComputedStyle(LETRAS_GUIA_CONTENEDOR).display=="none"){
+                
+                if(ultimaAnimacionParaLetrasGuia){                    
+                    ultimaAnimacionParaLetrasGuia.animacionFinalizada.then((resolve)=>{
+                        ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,40,"flex",true,true);
+                        
+                    })               
+                }else{
+                    ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,40,"flex",true,true);                    
+                }               
+            }else if(seccion_en_vista!=1&&window.getComputedStyle(LETRAS_GUIA_CONTENEDOR).display=="flex"){
+                
+                if(ultimaAnimacionParaLetrasGuia){                    
+                    ultimaAnimacionParaLetrasGuia.animacionFinalizada.then((resolve)=>{
+                        ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true,true)
+                    })                         
+                }else{
+                    ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true,true)
+                }               
+            } 
+
+
+            // LOGICA PARA MOSTRAR EL CONTENEDOR DE CANTIDAD DE CAMPASES
             if(seccion_en_vista==3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="none"){
                 
                 if(ultimaAnimacionParaCantidadCompasContenedor){                    
                     ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
                         ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
-                        CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
+                        
                     })               
                 }else{
                     ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
-                    CANTIDAD_COMPASES_CONTENEDOR.style.display = "flex";
+                    
                 }               
             }else if(seccion_en_vista!=3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="flex"){
                 

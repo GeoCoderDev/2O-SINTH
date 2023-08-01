@@ -1198,6 +1198,7 @@ ANIMACIONES
         align-items: center;
         justify-content: space-evenly;
         transition: all 0.4s;
+        overflow: hidden;
     }        
         
     #controles-y-botones-de-guardado-contenedor .sub-secciones{
@@ -1327,10 +1328,11 @@ ANIMACIONES
         /* border: 1px solid black; */
         width: 100%;
         height: 40%;
+        overflow: hidden;
     }
 
 
-    #contenedor-tempo,#cantidad-compases-contenedor{
+    #contenedor-tempo,#cantidad-compases-contenedor,#contenedor-letras-guia{
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -1346,7 +1348,11 @@ ANIMACIONES
         display: none;
     }
 
-    #Tempo,#Cantidad-Compases{
+    #contenedor-letras-guia{
+        display: none;
+    }
+
+    #Tempo,#Cantidad-Compases,#letras-guia-teclas{
         background-color: transparent;
         height: 60%;
         width: 80%;
@@ -1360,7 +1366,20 @@ ANIMACIONES
         padding-left: 0.9vw;
     }
     
-    #texto-tempo,#texto-Cantidad-Compases{
+    #letras-guia-teclas{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: normal;
+        padding: 0;
+        
+        /* text-decoration: line-through !important; */
+    }
+
+
+
+
+    #texto-tempo,#texto-Cantidad-Compases,#texto-letras{
         font-size: min(2.1vh,0.8vw);
         font-family: 'Square Block';
         font-style: italic;
@@ -1387,6 +1406,12 @@ ANIMACIONES
         display: none;
     }
 
+    #letras-guia-teclas{
+
+        font-size: 2vw;
+        text-decoration: wavy;
+    
+    }
 
     /*=================================================================================================================
     PIE DE PAGINA

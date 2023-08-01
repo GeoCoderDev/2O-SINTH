@@ -43,6 +43,7 @@ var NOTAS_SECUENCIADOR_DE_MELODIAS = [];
 var acumuladorParaNotasIDs = 0;
 
 // Evento de mousedown en PIANO_ROLL, para que cuando se haga click se cree una nueva Nota
+
 PIANO_ROLL.addEventListener('mousedown',(e)=>{
     if(e.button==0){
         let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(e)
@@ -319,8 +320,6 @@ let establecerElMinimoDeCorcheas = ()=>{
 
 
 let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
-    
-    establecerElMinimoDeCorcheas()
 
     if(CANTIDAD_COMPASES_HTML.value==CANTIDAD_DE_COMPASES) return;
 
@@ -389,8 +388,8 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
 
 }
 
-CANTIDAD_COMPASES_HTML.addEventListener('change',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
-CANTIDAD_COMPASES_HTML.addEventListener('mousemove',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+CANTIDAD_COMPASES_HTML.addEventListener('change',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
+delegarEvento('mousemove',CANTIDAD_COMPASES_HTML,establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
 CANTIDAD_COMPASES_HTML.addEventListener('mouseover',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
 CANTIDAD_COMPASES_HTML.addEventListener('wheel',(e)=>{
     e.preventDefault();
@@ -402,7 +401,12 @@ CANTIDAD_COMPASES_HTML.addEventListener('wheel',(e)=>{
     establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas();
 });
 
-CANTIDAD_COMPASES_HTML.addEventListener('mousedown',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas)
+CANTIDAD_COMPASES_HTML.addEventListener('mousedown',(e)=>{
+    if(e.button==1){
+        CANTIDAD_COMPASES_HTML.value = CANTIDAD_COMPASES_HTML.defaultValue;
+        establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas();
+    }
+})
 
 // ----------------------------
 // | REPRODUCCIÓN DE MELODIAS |      
@@ -713,6 +717,23 @@ function actualizarDurationSemicorcheas(){
 
 }
 
-TEMPO.addEventListener('mousemove',actualizarDurationSemicorcheas);
+delegarEvento('mousemove',TEMPO,actualizarDurationSemicorcheas);
 TEMPO.addEventListener('change',actualizarDurationSemicorcheas);
-TEMPO.addEventListener('wheel',actualizarDurationSemicorcheas);
+TEMPO.addEventListener('wheel',(e)=>{
+    e.preventDefault();
+    if (e.deltaY > 0) {
+        TEMPO.stepDown();
+    } else {
+        TEMPO.stepUp();
+    }
+    actualizarDurationSemicorcheas();
+});
+
+TEMPO.addEventListener('mousedown',(e)=>{
+    if(e.button==1){
+        TEMPO.value = TEMPO.defaultValue;
+        actualizarDurationSemicorcheas();
+    }
+})
+
+

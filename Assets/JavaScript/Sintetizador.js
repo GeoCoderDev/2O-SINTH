@@ -60,3 +60,55 @@ var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
 var datosOscilador1 = [tipoOndaOSC1,document.getElementById('Cantidad_voces_osc_1'),document.getElementById('Cantidad_desafinacion_osc_1')];
 var datosOscilador2 = [tipoOndaOSC2,document.getElementById('Cantidad_voces_osc_2'),document.getElementById('Cantidad_desafinacion_osc_2')];
 
+
+let letrasEstanMostradas = false;
+let estilosParaLetras;
+
+let mostrarLetras = ()=>{
+
+    if(estilosParaLetras){
+        eliminarReglasCSSAdicionales(estilosParaLetras);    
+        estilosParaLetras = undefined;
+        letrasEstanMostradas = true;
+    }
+
+}
+
+let ocultarLetras = ()=>{
+
+    if(!estilosParaLetras){
+        
+        estilosParaLetras = insertarReglasCSSAdicionales(`
+        
+        .tecla_blanca,.tecla_negra{
+            font-size: 0;
+        }
+        
+        #letras-guia-teclas{
+            text-decoration: line-through !important;
+            box-shadow: 0 0 0.7vw 0.3vw rgba(0, 0, 0, 0.3) inset;
+            transform: scale(0.95);
+        }
+        
+        `)
+    }
+    
+    letrasEstanMostradas = false;
+
+}
+
+ocultarLetras();
+
+delegarEvento('click',"#letras-guia-teclas",()=>{
+    
+    if(!letrasEstanMostradas){
+
+        mostrarLetras();
+
+    }else{
+
+        ocultarLetras();
+
+    }
+
+})
