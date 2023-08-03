@@ -166,8 +166,7 @@ function agregarEventoTouchStart(querySelectorOElementoHTML,callback){
     return eventosTouchStartID++;
 }
 
-document.addEventListener('touchstart',(e)=>{
-
+document.addEventListener('touchstart',(e)=>{    
     mapaDeEventosTouchStart.forEach((Evento)=>{
         if(e.target.matches(((typeof Evento.selectorOElementoHTML==="string")?Evento.selectorOElementoHTML:"body"))
             ||e.target==Evento.selectorOElementoHTML){

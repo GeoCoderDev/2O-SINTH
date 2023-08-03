@@ -41,5 +41,7 @@ function isKeyboardConnected() {
 const TECLADO_CONECTADO = isKeyboardConnected(); 
 const MOUSE_ACTIVO = window.matchMedia('(pointer:fine)').matches;
 // ESTE SI ESTA BIEN 
-const PANTALLA_TACTIL = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+const PANTALLA_TACTIL = 'ontouchstart' in window || (navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
+console.log(PANTALLA_TACTIL)
+
 
