@@ -13,18 +13,18 @@ let adsrActivado = true;
 
 
 const FRECUENCIAS_12NOTAS_OCTAVA0 = new Map([
-                                            ["C", 16.35],  //C0
+                                            ["C", 16.35],    //C0
                                             ["Csos", 17.32], //C#0
-                                            ["D", 18.35],  //D0
+                                            ["D", 18.35],    //D0
                                             ["Dsos", 19.45], //D#0
-                                            ["E", 20.60],  //E0
-                                            ["F", 21.83],  //F0
+                                            ["E", 20.60],    //E0
+                                            ["F", 21.83],    //F0
                                             ["Fsos", 23.12], //F#0
-                                            ["G", 24.50],  //G0
+                                            ["G", 24.50],    //G0
                                             ["Gsos", 25.96], //G#0
-                                            ["A", 27.50],  //A0
+                                            ["A", 27.50],    //A0
                                             ["Asos", 29.14], //A#0
-                                            ["B", 30.87]   //B0
+                                            ["B", 30.87]     //B0
                                         ])
 
 document.getElementById('Control-a-controlar-LFO').addEventListener('change',()=>{
@@ -106,9 +106,27 @@ class NotaSintetizador{
             this.hacerSonarNota(promesaParaParar);
         }
 
-        delegarEvento('mousedown',this.elementoHTML,ejecutarHacerSonarNotaMetodo)
-        delegarEvento('mousedown',this.teclaPianoRoll,ejecutarHacerSonarNotaMetodo)
+        delegarEvento('mousedown',this.elementoHTML,ejecutarHacerSonarNotaMetodo);
+        delegarEvento('mousedown',this.teclaPianoRoll,ejecutarHacerSonarNotaMetodo);
         
+        if(PANTALLA_TACTIL){
+
+            let ejecutarHacerSonarNotaMetodoTactil = (e)=>{
+            
+                let promesaParaParar = new Promise((resolve,reject)=>{
+                    delegarEvento('touchend',e.target,()=>{
+                        resolve();
+                    })
+                })
+    
+                this.hacerSonarNota(promesaParaParar);
+            }
+
+
+            delegarEvento('touchstart',this.elementoHTML,ejecutarHacerSonarNotaMetodoTactil);
+            delegarEvento('touchstart',this.teclaPianoRoll,ejecutarHacerSonarNotaMetodoTactil);
+        }
+
         notasSintetizadorPorTeclasDelTeclado[this.codigoTecla] = this;
     }
 

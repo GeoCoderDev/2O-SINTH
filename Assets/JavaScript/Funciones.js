@@ -191,7 +191,7 @@ function desplegarMensajeEnTodaLaPantalla(
                 boton.style.color = (coloresBotones[i])?coloresBotones[i]:"black";
 
                 eventosClick[i] = delegarEvento('click',boton,()=>{
-                    BODY.removeChild(MensajeContenedor);
+                    CONTENEDOR_TODO.removeChild(MensajeContenedor);
                     eliminarEventoDelegado('click',eventosClick[i]);
                     if(callbacks[i]) callbacks[i]();
                 })
@@ -203,7 +203,7 @@ function desplegarMensajeEnTodaLaPantalla(
     CajaDeMensaje.appendChild(ContenedorDeBotones);
     MensajeContenedor.appendChild(CajaDeMensaje);
 
-    BODY.insertAdjacentElement('afterbegin',MensajeContenedor);
+    CONTENEDOR_TODO.insertAdjacentElement('beforeend',MensajeContenedor);
 
 }
 
@@ -230,28 +230,6 @@ function cambiarCursorParaTodaLaPagina(tipoDeCursor = "pointer"){
     });
     
     return {volverAlCursorOriginal};
-
-}
-
-/**
- * 
- * @param {*} cantidad cantidad de vh, (solo puedes ingresar VHs) a causa de que casi todo esta en VH,porque nuestra app web esta diseñada para LANDSCAPE
- * @param {*} medidaParaConversion cantidad a la que se convertira, en este caso seria para VWs
- */
-function obtenerMedidaParaEscalaMayorQueLaMinima(cantidad,medidaParaConversion='vw'){
-
-    if(ESCALA_MINIMA<1){
-        // ANCHO MAYOR QUE ALTO(LANSCAPE)
-
-
-
-    }else{
-        // ALTO MAYOR QUE ANCHO(PORTRAIT)
-
-
-
-
-    }
 
 }
 
