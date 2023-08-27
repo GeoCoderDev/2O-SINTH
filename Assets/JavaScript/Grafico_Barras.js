@@ -51,13 +51,13 @@ function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
 
 /**
  * @description esta funcion genera cierta cantidad de barras verticales en un elemento html
- * @param {*} contenedor elemento HTML que contendra las barras
- * @param {*} cantidadDeBarras numero de barras
- * @param {*} valorLimiteInferiorBarras valor que reperesentaran las barra cuando estean en 0
- * @param {*} valorLimiteSuperiorBarras valor que reperesentaran las barra cuando estean en 100
- * @param {*} colorContornos color de los bordes de cada barra
- * @param {*} colorFondo color de fondo de las barras
- * @param {*} NombreDeClaseDeLasBarras clase css que tendran las barras(no util por el momento)
+ * @param {HTMLElement} contenedor elemento HTML que contendra las barras
+ * @param {Number} cantidadDeBarras numero de barras
+ * @param {Number} valorLimiteInferiorBarras valor que reperesentaran las barra cuando estean en 0
+ * @param {Number} valorLimiteSuperiorBarras valor que reperesentaran las barra cuando estean en 100
+ * @param {String} colorContornos color de los bordes de cada barra
+ * @param {String} colorFondo color de fondo de las barras
+ * @param {String} NombreDeClaseDeLasBarras clase css que tendran las barras(no util por el momento)
  * @returns retorna un objeto con el que puedes acceder a una matriz con los valores de todas las barras
  * y un metodo para establecer valores a cada barra
  */
@@ -92,7 +92,7 @@ function insertarGraficoDeBarrasInteractiva
     contenedor.style.border = `0.15vw solid ${colorContornos}`;
     contenedor.style.borderRadius = "0.5vw";
 
-    let anchoContenedor = contenedor.getBoundingClientRect().right - contenedor.getBoundingClientRect().left; 
+    let anchoContenedor = contenedor.clientWidth; 
     let mascarasDeArrastre = [];
     let funcionesParaCambiarValorDeUnaSolaBarra = [];
     let eventosMouseMoveIDs = [];
