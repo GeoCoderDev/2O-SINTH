@@ -10,7 +10,7 @@ const CABECERA_DE_COMPASES = document.getElementById('NUMEROS-COMPASS');
 const CANTIDAD_COMPASES_HTML = document.getElementById('Cantidad-Compases');
 const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
 const duracionSemicorcheaINICIAL = 60/(TEMPO_AL_CARGAR_LA_PAGINA*4);
-const CANTIDAD_DE_COMPASES_MINIMA = 4;
+const CANTIDAD_DE_COMPASES_MINIMA = 2;
 let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60/(TEMPO.value*4)
 
@@ -180,7 +180,7 @@ class NotaSecuenciadorDeMelodias{
     #actualizarIndices(){
         // OBTENIENDO LOS NUEVOS INDICES Y EL CUADRO SEMICORCHEA POR DEBAJO
         this.indiceTablaX = todosLosOffsetLeft.indexOf(this.elementoHTML.offsetLeft);
-        this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);
+        this.indiceTablaY = todosLosOffsetTop.indexOf(distanciaRelativaEntreElementos(PIANO_ROLL,this.elementoHTML).distanciaVerticalPX);                
     }    
 
     ajustarNotaAGrilla(){
@@ -305,21 +305,32 @@ window.addEventListener('resize',actualizarCuadrosSemicorcheaYacomodarNotas);
 
 let establecerElMinimoDeCorcheas = ()=>{
 
-    let indiceMayor = CANTIDAD_DE_COMPASES_MINIMA * 16;
+    if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0) return CANTIDAD_COMPASES_HTML.min=CANTIDAD_DE_COMPASES_MINIMA;
 
-    NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias)=>{
-        if((notaSecuenciadorDeMelodias.indiceTablaX + notaSecuenciadorDeMelodias.longitudSemicorcheas)>indiceMayor){
-            indiceMayor = notaSecuenciadorDeMelodias.indiceTablaX + 1;
+    let notaConMayorIndiceXFinal = NOTAS_SECUENCIADOR_DE_MELODIAS.reduce((maxNota,nextNota)=>{
+        if((nextNota.indiceTablaX + nextNota.longitudSemicorcheas)>=(maxNota.indiceTablaX + maxNota.longitudSemicorcheas)){
+            return nextNota;
+        }else{
+            return maxNota;
         }
-    })
+    });
 
-    let limiteMinimoDeCompases = (Math.ceil(indiceMayor/32))*2;
+    let mayorIndiceXFinalDeLaMelodiaActual = notaConMayorIndiceXFinal.indiceTablaX + notaConMayorIndiceXFinal.longitudSemicorcheas;
 
-    CANTIDAD_COMPASES_HTML.min = limiteMinimoDeCompases;
+    let minimaCantidadDeSemicorcheas = (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))
+                                       ?((Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)%2==0)
+                                            ?Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)+2
+                                            :Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)+1)
+                                       :mayorIndiceXFinalDeLaMelodiaActual/16;
+
+    
+    CANTIDAD_COMPASES_HTML.min = minimaCantidadDeSemicorcheas;
 }
 
 
 let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
+
+    establecerElMinimoDeCorcheas();
 
     if(CANTIDAD_COMPASES_HTML.value==CANTIDAD_DE_COMPASES) return;
 
@@ -334,6 +345,7 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
     PIANO_ROLL.style.minWidth = `${32*CANTIDAD_DE_COMPASES}vw`;
     CONTENEDOR_PIANO_ROLL.style.minWidth = `${(32*CANTIDAD_DE_COMPASES)+6}vw`
 
+    // AGREGANDO LAS CABECERAS
     if(longitudActualDeCadaFilaSemicorcheas<longitudNuevaEnSemicorcheasDeCadaFila){
 
         for(let i=longitudActualDeCadaFilaSemicorcheas;i<=longitudNuevaEnSemicorcheasDeCadaFila;i++){
@@ -359,7 +371,7 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
 
     }
 
-
+    // AGREGANDO LOS CUADROS SEMICORCHEA PARA CADA FILA
     todasLasFilasDeNotas.forEach((filaNotaSecuenciador)=>{
         
         if(longitudActualDeCadaFilaSemicorcheas<longitudNuevaEnSemicorcheasDeCadaFila){
@@ -369,7 +381,7 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
                 let nuevoTD = document.createElement('td');
                 nuevoTD.classList.add('Cuadro-Semicorchea');
                 filaNotaSecuenciador.appendChild(nuevoTD);
-            
+                
             }
 
         }else if(longitudActualDeCadaFilaSemicorcheas>longitudNuevaEnSemicorcheasDeCadaFila){
@@ -403,7 +415,8 @@ CANTIDAD_COMPASES_HTML.addEventListener('wheel',(e)=>{
 
 CANTIDAD_COMPASES_HTML.addEventListener('mousedown',(e)=>{
     if(e.button==1){
-        CANTIDAD_COMPASES_HTML.value = CANTIDAD_COMPASES_HTML.defaultValue;
+
+        CANTIDAD_COMPASES_HTML.value = CANTIDAD_COMPASES_HTML.min;
         establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas();
     }
 })
