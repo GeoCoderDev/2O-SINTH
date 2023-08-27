@@ -734,6 +734,6 @@ TEMPO.addEventListener('mousedown',(e)=>{
         TEMPO.value = TEMPO.defaultValue;
         actualizarDurationSemicorcheas();
     }
-})
+});
 
 
