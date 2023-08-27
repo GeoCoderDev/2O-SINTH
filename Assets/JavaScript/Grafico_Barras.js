@@ -75,7 +75,7 @@ function insertarGraficoDeBarrasInteractiva
     insertarReglasCSSAdicionales(
     `
         #${contenedor.id} .barra-valor-Grafica-barras{
-
+            
         }    
 
         #${contenedor.id} .barra-valor-Grafica-barras:hover{
@@ -92,7 +92,6 @@ function insertarGraficoDeBarrasInteractiva
     contenedor.style.border = `0.15vw solid ${colorContornos}`;
     contenedor.style.borderRadius = "0.5vw";
 
-    let anchoContenedor = contenedor.clientWidth; 
     let mascarasDeArrastre = [];
     let funcionesParaCambiarValorDeUnaSolaBarra = [];
     let eventosMouseMoveIDs = [];
@@ -103,7 +102,7 @@ function insertarGraficoDeBarrasInteractiva
 
         //Creacion de una barra contenedora
         barrasContenedoras[i] = document.createElement("div");
-        barrasContenedoras[i].style.width = pixelsToVWVH(anchoContenedor/cantidadDeBarras,"vw")[0] + "vw";
+        barrasContenedoras[i].style.width = (100/cantidadDeBarras) + "%";
         barrasContenedoras[i].style.height = "100%";
         barrasContenedoras[i].style.borderRight = (i==cantidadDeBarras-1)?"none":`0.2vw solid ${colorContornos}`;
 
