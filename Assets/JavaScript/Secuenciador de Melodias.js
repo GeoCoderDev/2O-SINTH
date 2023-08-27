@@ -302,10 +302,16 @@ actualizarCuadrosSemicorcheaYacomodarNotas();
 
 window.addEventListener('resize',actualizarCuadrosSemicorcheaYacomodarNotas);
 
-
+/**
+ * 
+ * @returns Esta funcion devuelve el compass en el que se encuentra la nota con maximo indice X de tabla final
+ */
 let establecerElMinimoDeCorcheas = ()=>{
 
-    if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0) return CANTIDAD_COMPASES_HTML.min=CANTIDAD_DE_COMPASES_MINIMA;
+    if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0){
+        CANTIDAD_COMPASES_HTML.min = CANTIDAD_DE_COMPASES_MINIMA
+        return;
+    } 
 
     let notaConMayorIndiceXFinal = NOTAS_SECUENCIADOR_DE_MELODIAS.reduce((maxNota,nextNota)=>{
         if((nextNota.indiceTablaX + nextNota.longitudSemicorcheas)>=(maxNota.indiceTablaX + maxNota.longitudSemicorcheas)){
@@ -325,6 +331,8 @@ let establecerElMinimoDeCorcheas = ()=>{
 
     
     CANTIDAD_COMPASES_HTML.min = minimaCantidadDeSemicorcheas;
+
+    return (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))?(mayorIndiceXFinalDeLaMelodiaActual/16)+1:mayorIndiceXFinalDeLaMelodiaActual/16;
 }
 
 
@@ -401,7 +409,6 @@ let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
 }
 
 CANTIDAD_COMPASES_HTML.addEventListener('change',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
-delegarEvento('mousemove',CANTIDAD_COMPASES_HTML,establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
 CANTIDAD_COMPASES_HTML.addEventListener('mouseover',establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas);
 CANTIDAD_COMPASES_HTML.addEventListener('wheel',(e)=>{
     e.preventDefault();
