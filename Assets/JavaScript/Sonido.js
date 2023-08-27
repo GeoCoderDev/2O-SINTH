@@ -171,7 +171,7 @@ class NotaSintetizador{
 
     /**
      * @description Esta funcion inicia la frecuencia de cierta nota durante el tiempo que se le pasa al parametro duracion
-     * @param {*} duracionOPromesa Este parametro pide la duracion en segundos que se hara sonar la nota o bien una promesa para parar el sonido
+     * @param {} duracionOPromesa Este parametro pide la duracion en segundos que se hara sonar la nota o bien una promesa para parar el sonido
      */
     hacerSonarNota(duracionOPromesa,releaseValido=true){
         

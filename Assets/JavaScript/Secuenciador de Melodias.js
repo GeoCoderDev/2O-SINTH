@@ -15,7 +15,6 @@ let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60/(TEMPO.value*4)
 
 
-
 var Todos_los_cuadros_semicorchea;
 
 
@@ -109,8 +108,12 @@ class NotaSecuenciadorDeMelodias{
         // Se estan usando arrowFunctions para poder usar la palabra clave this dentro de funciones que estan 
         // dentro de metodos de una clase como en este caso la funcion onMouseDown que se encuentra dentro del metodo
         // constructor
-        let onMouseDown = (e,forzado=false)=>{    
-                    
+        /**
+         * 
+         * @param {Event} e 
+         * @param {boolean} forzado 
+         */
+        let onMouseDown = (e,forzado=false)=>{                        
             if(e.button==0){
                 // Solo se podra arrastrar si esta fuera del area sensible a redimensionamiento o si 
                 // el evento esta siendo forzado
@@ -302,15 +305,12 @@ actualizarCuadrosSemicorcheaYacomodarNotas();
 
 window.addEventListener('resize',actualizarCuadrosSemicorcheaYacomodarNotas);
 
-/**
- * 
- * @returns Esta funcion devuelve el compass en el que se encuentra la nota con maximo indice X de tabla final
- */
-let establecerElMinimoDeCorcheas = ()=>{
+
+
+let obtenerElMayorIndiceXFinal = ()=>{
 
     if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0){
-        CANTIDAD_COMPASES_HTML.min = CANTIDAD_DE_COMPASES_MINIMA
-        return;
+        return 32;
     } 
 
     let notaConMayorIndiceXFinal = NOTAS_SECUENCIADOR_DE_MELODIAS.reduce((maxNota,nextNota)=>{
@@ -321,24 +321,52 @@ let establecerElMinimoDeCorcheas = ()=>{
         }
     });
 
-    let mayorIndiceXFinalDeLaMelodiaActual = notaConMayorIndiceXFinal.indiceTablaX + notaConMayorIndiceXFinal.longitudSemicorcheas;
+    return (notaConMayorIndiceXFinal.indiceTablaX + notaConMayorIndiceXFinal.longitudSemicorcheas);
 
-    let minimaCantidadDeSemicorcheas = (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))
+}
+
+
+let devolverCompassEnElQueSeEncuentraElMaximoIndiceXFinal = ()=>{
+
+    if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0){
+        return 32;
+    } 
+
+    let mayorIndiceXFinalDeLaMelodiaActual = obtenerElMayorIndiceXFinal();
+
+    return (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))?(Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)+1):mayorIndiceXFinalDeLaMelodiaActual/16;
+
+}
+
+
+let devolverCantidadDeCompassesMinimaActual = ()=>{
+
+    if(NOTAS_SECUENCIADOR_DE_MELODIAS.length==0) return 2;
+    
+
+    let mayorIndiceXFinalDeLaMelodiaActual = obtenerElMayorIndiceXFinal();
+
+    let minimaCantidadDeCompasses = (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))
                                        ?((Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)%2==0)
                                             ?Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)+2
                                             :Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16)+1)
                                        :mayorIndiceXFinalDeLaMelodiaActual/16;
+    return minimaCantidadDeCompasses;                                       
+}
 
+
+
+
+let establecerElMinimoCompases = ()=>{
     
-    CANTIDAD_COMPASES_HTML.min = minimaCantidadDeSemicorcheas;
+    CANTIDAD_COMPASES_HTML.min = devolverCantidadDeCompassesMinimaActual();
 
-    return (mayorIndiceXFinalDeLaMelodiaActual/16 > Math.floor(mayorIndiceXFinalDeLaMelodiaActual/16))?(mayorIndiceXFinalDeLaMelodiaActual/16)+1:mayorIndiceXFinalDeLaMelodiaActual/16;
 }
 
 
 let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = ()=>{
 
-    establecerElMinimoDeCorcheas();
+    establecerElMinimoCompases();
 
     if(CANTIDAD_COMPASES_HTML.value==CANTIDAD_DE_COMPASES) return;
 
@@ -439,9 +467,7 @@ const BTN_STOP = document.getElementById('boton-stop');
 const TRANSPORT_BAR = document.getElementById('Transport-Bar');
 let estiloParaEliminarBordeDelTransportBar;
 
-// Obtiene la posición X del elemento relativa al contenedor a cada segundo
-const startTime = performance.now();
-const interval = 1000; // Intervalo de tiempo en milisegundos (1 segundo)
+
 let ultimoIndiceX;
 let animacionActual;
 let lastAnimationTime = 0;
@@ -470,17 +496,26 @@ function reproducirNotas() {
     }
 
     if(!estiloParaEliminarBordeDelTransportBar){
-        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-2]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
-            estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
-            #Transport-Bar::before{
-                border-right-width:0;
-            }`
-            )   
 
-            ultimoIndiceX = 0;
-            animacionActual = reproducirMelodiaAnimacion();
-            actualizarDurationSemicorcheas()
+        if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[(devolverCantidadDeCompassesMinimaActual()*16)-1])){
+
+            setTimeout(()=>{
+                if(animacionActual) animacionActual.pause();
+                ultimoIndiceX = 0;
+                animacionActual = reproducirMelodiaAnimacion();
+                actualizarDurationSemicorcheas();
+            },duracionSemicorcheas*1000)
+
+            if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-2]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
+                estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
+                    #Transport-Bar::before{
+                        border-right-width:0;
+                    }`
+                )       
+            }
+            
         }
+
     }else{
         if(ultimoIndiceX==0){
             eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
@@ -490,6 +525,7 @@ function reproducirNotas() {
     if(ultimoIndiceX!=indiceCuadroSemicorchea){        
         NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias)=>{
             if(notaSecuenciadorDeMelodias.indiceTablaX==indiceCuadroSemicorchea){
+                // AQUI ESTA LA CLAVE PARA HACER QUE SE REPRODUZCAN LAS NOTAS CON LONGITUD VARIABLE EN TIEMPO REAL
                 notaSecuenciadorDeMelodias.notaSintetizador.hacerSonarNota(notaSecuenciadorDeMelodias.longitudSemicorcheas*duracionSemicorcheas);
             }
         })
