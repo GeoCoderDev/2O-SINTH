@@ -476,6 +476,7 @@ let seEstaReproduciendo = false;
 let estaPausado = true;
 let ultimaPosicionXRelativaTransportBar=0;
 let tempoDeLaAnimacion;
+let TimeOutParaEmpezarAReproducirMelodiaDeNuevo;
 
 function reproducirNotas() {
     const contenedorRect = CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
@@ -493,18 +494,22 @@ function reproducirNotas() {
             indiceCuadroSemicorchea = i;
             break;
         }
-    }
+    }    
 
     if(!estiloParaEliminarBordeDelTransportBar){
 
         if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[(devolverCantidadDeCompassesMinimaActual()*16)-1])){
-
-            setTimeout(()=>{
-                if(animacionActual) animacionActual.pause();
-                ultimoIndiceX = 0;
-                animacionActual = reproducirMelodiaAnimacion();
-                actualizarDurationSemicorcheas();
-            },duracionSemicorcheas*1000)
+            
+            if(!TimeOutParaEmpezarAReproducirMelodiaDeNuevo){                
+                TimeOutParaEmpezarAReproducirMelodiaDeNuevo = setTimeout(()=>{                    
+                    ultimoIndiceX = 0;
+                    if(estaPausado) return;
+                    // Si esta pausado no tiene porque reproducirse la melodia
+                    animacionActual = reproducirMelodiaAnimacion();                
+                    actualizarDurationSemicorcheas();
+                    TimeOutParaEmpezarAReproducirMelodiaDeNuevo = undefined;
+                },duracionSemicorcheas*1000);
+            }
 
             if(posicionXRelativa>=(todasLasPosicionesRelativasAlMarco[todasLasPosicionesRelativasAlMarco.length-2]-(Todos_los_cuadros_semicorchea[0].offsetWidth/2))){
                 estiloParaEliminarBordeDelTransportBar = insertarReglasCSSAdicionales(`
@@ -619,7 +624,9 @@ function pausarMelodia(moviendoTransportBar=false){
         }
 
         seEstaReproduciendo = false;
-        estaPausado = true
+        estaPausado = true;
+        NotaSintetizador.quitarTodasLasPulsaciones();
+        NotaSintetizador.pausarTodasLasNotasQueEstanSonandoConTecla();
     }
 
 }
@@ -646,14 +653,16 @@ function pararMelodia(){
         desconectarYcrearNuevaSalidaDeAudio();  
 
         seEstaReproduciendo = false;
+        NotaSintetizador.quitarTodasLasPulsaciones();
 
         if(!estaPausado){
             cambiarBotonAPlayOPausa();  
             return true;          
         }else{
             return false; 
-        }
+        }        
         
+
     }
 }
 
@@ -764,12 +773,12 @@ delegarEvento('mousemove',TRANSPORT_BAR,(e)=>{
 
 function actualizarDurationSemicorcheas(){ 
 
-    if(seEstaReproduciendo){
+    // if(seEstaReproduciendo)
+    if(animacionActual){
         animacionActual.playbackRate = TEMPO.value/TEMPO_AL_CARGAR_LA_PAGINA;
     }
 
     duracionSemicorcheas = 60/(TEMPO.value*4);
-    
 
 }
 

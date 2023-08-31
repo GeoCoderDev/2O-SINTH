@@ -117,6 +117,24 @@ function roundToDecimals(number, decimals) {
     return Math.round(number * factor) / factor;
   }
   
+
+
+
+/**
+ * 
+ * @param {String} mensaje 
+ * @param {Number} cantidadDeBotones 
+ * @param {string[]} textosBotones 
+ * @param {Function} callbacks 
+ * @param {string[]} coloresBotones 
+ * @param {String} bordeRedondeadoCaja 
+ * @param {boolean} cajaConSombraInset 
+ * @param {string} colorCajaMensaje 
+ * @param {string} tamañoLetra 
+ * @param {string} colorFondoRGBA 
+ * @param {string} colorLetra 
+ */  
+
 function desplegarMensajeEnTodaLaPantalla(
     mensaje,
     cantidadDeBotones,

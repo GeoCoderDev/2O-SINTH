@@ -497,21 +497,6 @@ class NotaSintetizador{
 
         }
 
-        let quitarClasesDePulsacion = ()=>{
-            if (this.elementoHTML.id.match(/sos/g)){
-                if(seccion_en_vista==1){
-                    this.elementoHTML.classList.remove('tecla_negra_pulsada');
-                }else if(seccion_en_vista==3){
-                    this.teclaPianoRoll.classList.remove('Tecla-Negra-Piano-Roll-pulsada');
-                }
-            }else{
-                if(seccion_en_vista==1){
-                    this.elementoHTML.classList.remove('tecla_blanca_pulsada');
-                }else if(seccion_en_vista==3){
-                    this.teclaPianoRoll.classList.remove('Tecla-Blanca-Piano-Roll-pulsada');
-                }
-            }
-        }
 
         //Comprobando si el parametro es una promesa
         if((duracionOPromesa instanceof Promise)){
@@ -522,7 +507,7 @@ class NotaSintetizador{
                     pasarADSRaRelease();                    
                 }
                     
-                quitarClasesDePulsacion();
+                this.quitarClasesDePulsacion();
 
                 setTimeout(parandoSonido,(((nodoADSRNota)&&releaseValido)?duracionRelease:0)*1000)
             })
@@ -535,7 +520,7 @@ class NotaSintetizador{
                     pasarADSRaRelease();                    
                 }
                 
-                quitarClasesDePulsacion();
+                this.quitarClasesDePulsacion();
             
             },duracionOPromesa*990)
         
@@ -544,6 +529,32 @@ class NotaSintetizador{
         
     }
 
+    quitarClasesDePulsacion(){
+
+        if (this.elementoHTML.id.match(/sos/g)){
+            if(seccion_en_vista==1){
+                this.elementoHTML.classList.remove('tecla_negra_pulsada');
+            }else if(seccion_en_vista==3){
+                this.teclaPianoRoll.classList.remove('Tecla-Negra-Piano-Roll-pulsada');
+            }
+        }else{
+            if(seccion_en_vista==1){
+                this.elementoHTML.classList.remove('tecla_blanca_pulsada');
+            }else if(seccion_en_vista==3){
+                this.teclaPianoRoll.classList.remove('Tecla-Blanca-Piano-Roll-pulsada');
+            }
+        }
+
+    }
+
+
+    static quitarTodasLasPulsaciones(){
+
+        NotaSintetizador.todasLasNotasSintetizador.forEach((notaSintetizador)=>{
+            notaSintetizador.quitarClasesDePulsacion();
+        })
+
+    }
 
 }
 

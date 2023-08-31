@@ -62,9 +62,16 @@ function desplegarMensajeDePausa(){
         [
             ()=>{
                 reproducirMelodia();
-                seDesplegoMensaje = false;
+
+                // ACTIVA ESTOS COMENTARIOS SI QUIERES QUE CADA VEZ QUE EL USUARIO 
+                // SALGA DE LA PAGINA LE APAREZCA EL MENSAJE, SI QUIERES QUE SOLO APAREZCA UNA VEZ 
+                // NO LOS DESCOMENTES
+
+                // seDesplegoMensaje = false;
             },
-            undefined
+            ()=>{
+                // seDesplegoMensaje = false;
+            }
         ],
         ["blue","red"],
         "1vw",
@@ -75,10 +82,9 @@ function desplegarMensajeDePausa(){
 
 
 function revisarVisibilidad() {
-    if (document.visibilityState === 'hidden') {    
-        NotaSintetizador.pausarTodasLasNotasQueEstanSonandoConTecla();
+    if (document.visibilityState === 'hidden') {            
         // Si se llego a pausar la melodia entonces desplegamos mensaje de pausa automatica
-        if(!estaPausado){
+        if(!estaPausado&&seEstaReproduciendo){
             pausarMelodia();
             if(!seDesplegoMensaje){
                 desplegarMensajeDePausa();
