@@ -682,7 +682,7 @@ delegarEvento('click','#boton-play-pausa, #boton-play-pausa *',()=>{
         // PAUSAR
         pausarMelodia();    
     }   
-    eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar()   
+    eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();   
 })
 
 

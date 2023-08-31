@@ -532,17 +532,15 @@ class NotaSintetizador{
     quitarClasesDePulsacion(){
 
         if (this.elementoHTML.id.match(/sos/g)){
-            if(seccion_en_vista==1){
-                this.elementoHTML.classList.remove('tecla_negra_pulsada');
-            }else if(seccion_en_vista==3){
-                this.teclaPianoRoll.classList.remove('Tecla-Negra-Piano-Roll-pulsada');
-            }
+
+            this.elementoHTML.classList.remove('tecla_negra_pulsada');
+            this.teclaPianoRoll.classList.remove('Tecla-Negra-Piano-Roll-pulsada');
+
         }else{
-            if(seccion_en_vista==1){
-                this.elementoHTML.classList.remove('tecla_blanca_pulsada');
-            }else if(seccion_en_vista==3){
-                this.teclaPianoRoll.classList.remove('Tecla-Blanca-Piano-Roll-pulsada');
-            }
+        
+            this.elementoHTML.classList.remove('tecla_blanca_pulsada');            
+            this.teclaPianoRoll.classList.remove('Tecla-Blanca-Piano-Roll-pulsada');
+                        
         }
 
     }

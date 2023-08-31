@@ -99,3 +99,30 @@ document.addEventListener('visibilitychange', revisarVisibilidad);
   
 //Ejecutando la funcion para determinar el estado inicial de visibilidad
 revisarVisibilidad();
+
+
+window.addEventListener('keydown',(e)=>{
+    if(e.keyCode==32){
+        e.preventDefault();
+    }
+})
+
+window.addEventListener('keyup',(e)=>{
+
+    if(e.keyCode==32){
+        
+        e.preventDefault();
+
+        if(!seEstaReproduciendo){
+            reproducirMelodia();
+        }else{
+            // PAUSAR
+            pausarMelodia();    
+        }   
+        eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();   
+
+    }
+
+});
+
+
