@@ -99,6 +99,8 @@ let ocultarLetras = ()=>{
 
 ocultarLetras();
 
+
+
 delegarEvento('click',"#letras-guia-teclas",()=>{
     
     if(!letrasEstanMostradas){
