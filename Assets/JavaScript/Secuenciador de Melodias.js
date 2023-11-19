@@ -15,10 +15,11 @@ const CANTIDAD_COMPASES_HTML = document.getElementById("Cantidad-Compases");
 const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
 const duracionSemicorcheaINICIAL = 60 / (TEMPO_AL_CARGAR_LA_PAGINA * 4);
 const CANTIDAD_DE_COMPASES_MINIMA = 2;
+
 let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60 / (TEMPO.value * 4);
 
-var Todos_los_cuadros_semicorchea;
+let Todos_los_cuadros_semicorchea = [];
 
 let primeraFilaCuadrosSemicorchea;
 let primeraColumnaCuadrosSemicorchea;
@@ -38,14 +39,25 @@ CONTENEDOR_SECUENCIADOR_DE_MELODIAS.addEventListener("wheel", (event) => {
     event.deltaY > 0 ? scrollStep : -scrollStep;
 });
 
-var NOTAS_SECUENCIADOR_DE_MELODIAS = [];
-var acumuladorParaNotasIDs = 0;
+let NOTAS_SECUENCIADOR_DE_MELODIAS = [];
+let acumuladorParaNotasIDs = 0;
 
 // SELECCION MULTIPLE
 
 let pulsandoControl = false;
 let areaDeSeleccion;
 let originX, originY;
+let metodoVolverAlCursorOriginal;
+let NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS = [];
+let indiceInicialX, indiceInicialY, indiceFinalX, indiceFinalY;
+
+let seleccionarNotas = () => {
+  NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias) => {
+    if (notaSecuenciadorDeMelodias.testearAreaDeSeleccion()) {
+      notaSecuenciadorDeMelodias.seleccionarODeseleccionar();
+    }
+  });
+};
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 17) {
@@ -56,19 +68,59 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
   // Si se suelta la tecla control
   if (e.keyCode == 17) {
-    cambiarCursorParaTodaLaPagina("default");
     pulsandoControl = false;
+    // Si areaDeSeleccion no esta definida quiere decir que ya se elimino y
+    // antes de soltar la tecla control se solto la el click del mouse
+    if (!areaDeSeleccion) return;
+    if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
     if (areaDeSeleccion) areaDeSeleccion.remove();
     PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
+
+    indiceFinalX =
+      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+        (notaSecuenciadorDeMelodias) =>
+          notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
+      )?.indiceTablaX ??
+      todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft);
+
+    indiceFinalY =
+      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+        (notaSecuenciadorDeMelodias) =>
+          notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
+      )?.indiceTablaY ??
+      todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop);
+
+    seleccionarNotas();
   }
 });
 
-PIANO_ROLL.addEventListener("mouseup", (e) => {
-  if (e.button == 0) {
+PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
+  if (eventoMouseUp.button == 0) {
     if (pulsandoControl) {
-      cambiarCursorParaTodaLaPagina("default");
-      if (areaDeSeleccion) areaDeSeleccion.remove();
+      if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
+
       PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
+
+      indiceFinalX =
+        NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+          (notaSecuenciadorDeMelodias) =>
+            notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
+        )?.indiceTablaX ??
+        todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft);
+
+      indiceFinalY =
+        NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+          (notaSecuenciadorDeMelodias) =>
+            notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
+        )?.indiceTablaY ??
+        todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop);
+
+      if (areaDeSeleccion) {
+        areaDeSeleccion.remove();
+        areaDeSeleccion = undefined;
+      }
+
+      seleccionarNotas();
     }
   }
 });
@@ -85,7 +137,8 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
         NOTAS_SECUENCIADOR_DE_MELODIAS.push(nuevaNotaSecuenciadorMelodias);
     } else {
       // EN CASO SE ESTEA PULSANDO CONTROL
-      cambiarCursorParaTodaLaPagina("crosshair");
+      metodoVolverAlCursorOriginal =
+        cambiarCursorParaTodaLaPagina("crosshair").volverAlCursorOriginal;
 
       areaDeSeleccion = document.createElement("div");
       areaDeSeleccion.style.position = "absolute";
@@ -96,10 +149,24 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
         eventoMouseDown.clientY - PIANO_ROLL.getBoundingClientRect().top;
       areaDeSeleccion.style.top = originY + "px";
       areaDeSeleccion.style.backgroundColor = "rgba(255, 165, 0,0.35)";
-      areaDeSeleccion.style.border = "min(0.35vh,0.35vw) solid orange";
-      areaDeSeleccion.style.borderRadius = "1vw";
+      areaDeSeleccion.style.border = "0.4vh solid orange";
+      areaDeSeleccion.style.borderRadius = "0.5vw";
       PIANO_ROLL.appendChild(areaDeSeleccion);
       PIANO_ROLL.addEventListener("mousemove", obteniendoDimensiones);
+
+      indiceInicialX =
+        NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+          (notaSecuenciadorDeMelodias) =>
+            notaSecuenciadorDeMelodias.elementoHTML == eventoMouseDown.target
+        )?.indiceTablaX ??
+        todosLosOffsetLeft.indexOf(eventoMouseDown.target.offsetLeft);
+
+      indiceInicialY =
+        NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+          (notaSecuenciadorDeMelodias) =>
+            notaSecuenciadorDeMelodias.elementoHTML == eventoMouseDown.target
+        )?.indiceTablaY ??
+        todosLosOffsetTop.indexOf(eventoMouseDown.target.offsetTop);
     }
   }
 });
@@ -136,7 +203,7 @@ let obteniendoDimensiones = (eventoMouseMove) => {
     areaDeSeleccion.style.left = originX - Math.abs(coordX - originX) + "px";
     areaDeSeleccion.style.top = originY - Math.abs(coordY - originY) + "px";
   } else {
-    console.log("Error 139, Secuenciador Melodias");
+    console.log("Error 147, Secuenciador Melodias");
   }
 };
 
@@ -169,7 +236,6 @@ insertarReglasCSSAdicionales(`
         width: ${pixelsToVWVH(PIXELES_DE_SENSIBILIDAD, "vw")}vw; 
         cursor: ew-resize;
     }
-
 `);
 
 class NotaSecuenciadorDeMelodias {
@@ -181,10 +247,9 @@ class NotaSecuenciadorDeMelodias {
     )
       return;
 
-    let newDiv = document.createElement("div");
-    this.elementoHTML = newDiv;
+    this.elementoHTML = document.createElement("div");
     this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
-    this.elementoHTML.className = Nombre_Clase_para_las_notas;
+    this.elementoHTML.classList.add(Nombre_Clase_para_las_notas);
     this.elementoHTML.style.width = `${1.98 * this.longitudSemicorcheas}vw`;
     this.elementoHTML.style.height = "3.2vh";
     this.elementoHTML.style.backgroundColor = "rgb(205, 104, 255)";
@@ -199,6 +264,7 @@ class NotaSecuenciadorDeMelodias {
     // Se estan usando arrowFunctions para poder usar la palabra clave this dentro de funciones que estan
     // dentro de metodos de una clase como en este caso la funcion onMouseDown que se encuentra dentro del metodo
     // constructor
+
     /**
      *
      * @param {Event} e
@@ -234,17 +300,11 @@ class NotaSecuenciadorDeMelodias {
 
         document.addEventListener("mousemove", onMouseMove);
       } else {
-        if (e.target.className == Nombre_Clase_para_las_notas) {
-          // Eliminando de la matriz la notaSecuenciadorDeMelodias donde se hizo click izquierdo
-          NOTAS_SECUENCIADOR_DE_MELODIAS.splice(
-            // Obteniendo el index de la notaSecuenciadorDeMelodias que tenga el mismo elementoHTML que e.target
-            NOTAS_SECUENCIADOR_DE_MELODIAS.findIndex(
-              (notaSecuenciadorDeMelodias) =>
-                notaSecuenciadorDeMelodias.elementoHTML == e.target
-            ),
-            1
-          );
+        if (e.target.classList.contains(Nombre_Clase_para_las_notas)) {
+          // Eliminando de la matriz la notaSecuenciadorDeMelodias donde se hizo click derecho
+          NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
           e.target.remove();
+          NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
         }
       }
     };
@@ -299,6 +359,25 @@ class NotaSecuenciadorDeMelodias {
       distanciaRelativaEntreElementos(PIANO_ROLL, this.elementoHTML)
         .distanciaVerticalPX
     );
+
+    this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas;
+  }
+
+  testearAreaDeSeleccion() {
+    let minAreaX = Math.min(indiceInicialX, indiceFinalX);
+    let maxAreaX = Math.max(indiceInicialX, indiceFinalX);
+
+    let maxAreaY = Math.max(indiceInicialY, indiceFinalY);
+    let minAreaY = Math.min(indiceInicialY, indiceFinalY);
+
+    let dentroX =
+      (this.indiceTablaX >= minAreaX && this.indiceTablaX <= maxAreaX) ||
+      (this.indiceFinalTablaX >= minAreaX &&
+        this.indiceFinalTablaX <= maxAreaX);
+    let dentroY =
+      this.indiceTablaY >= minAreaY && this.indiceTablaY <= maxAreaY;
+
+    return dentroX && dentroY;
   }
 
   ajustarNotaAGrilla() {
@@ -324,6 +403,17 @@ class NotaSecuenciadorDeMelodias {
       ) + "vw";
   }
 
+  seleccionarODeseleccionar() {
+    if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.indexOf(this) == -1) {
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.push(this);
+    } else {
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
+    }
+    return this.elementoHTML.classList.toggle(
+      "nota-secuenciador-melodias-seleccionada"
+    );
+  }
+
   static acomodarTodasLasNotas() {
     NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias) => {
       notaSecuenciadorMelodias.ajustarNotaAGrilla();
@@ -340,6 +430,7 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
   divArrastrado,
   notaAsociada
 ) {
+  if (pulsandoControl) return;
   if (isResizing) {
     divArrastrado.style.cursor = "ew-resize";
     PIANO_ROLL.style.cursor = "ew-resize";

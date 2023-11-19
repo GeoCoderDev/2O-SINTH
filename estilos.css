@@ -1124,6 +1124,10 @@ ANIMACIONES
         background-image: linear-gradient(to right,rgb(255, 158, 2) 65% ,white 65%) !important;
     }
 
+    .nota-secuenciador-melodias-seleccionada{
+        background-color: rgb(232, 67, 67) !important;
+    }
+
     /*==================================================================================================
     SECUENCIADOR DE RITMOS
     ==================================================================================================*/
