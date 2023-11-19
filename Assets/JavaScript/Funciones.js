@@ -249,10 +249,11 @@ function cambiarCursorParaTodaLaPagina(tipoDeCursor = "pointer") {
 /**
  *
  * @param {Number} n
- * @returns {Boolean | Number} retorna false si n es -1, de lo contrario devuelve el valor de n simplemente
+ * @param {any} devolucion en este parametro debes ingresar el valor que quieres que se devuelva en caso si se trate de un -1
+ * @returns {any | Number} retorna la devolucion que especifiques en el segundo parametro
  */
-function esUnUnoNegativo(n) {
-  if (n == -1) return false;
+function esUnUnoNegativo(n, devolucion) {
+  if (n == -1) return (devolucion===undefined)? undefined: devolucion;
   return n;
 }
 

@@ -50,6 +50,7 @@ let originX, originY;
 let metodoVolverAlCursorOriginal;
 let NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS = [];
 let indiceInicialX, indiceInicialY, indiceFinalX, indiceFinalY;
+let notaPulsadaUsandoControlMasClick;
 
 let seleccionarNotas = () => {
   NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias) => {
@@ -81,16 +82,28 @@ window.addEventListener("keyup", (e) => {
         (notaSecuenciadorDeMelodias) =>
           notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
       )?.indiceTablaX ??
-      todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft);
+      esUnUnoNegativo(
+        todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft),
+        undefined
+      ) ??
+      indiceInicialX ??
+      undefined;
 
     indiceFinalY =
       NOTAS_SECUENCIADOR_DE_MELODIAS.find(
         (notaSecuenciadorDeMelodias) =>
           notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
       )?.indiceTablaY ??
-      todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop);
+      esUnUnoNegativo(
+        todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop),
+        undefined
+      ) ??
+      indiceInicialY ??
+      undefined;
 
     seleccionarNotas();
+
+    notaPulsadaUsandoControlMasClick = undefined;
   }
 });
 
@@ -106,14 +119,24 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
           (notaSecuenciadorDeMelodias) =>
             notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
         )?.indiceTablaX ??
-        todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft);
+        esUnUnoNegativo(
+          todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft),
+          undefined
+        ) ??
+        indiceInicialX ??
+        undefined;
 
       indiceFinalY =
         NOTAS_SECUENCIADOR_DE_MELODIAS.find(
           (notaSecuenciadorDeMelodias) =>
             notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
         )?.indiceTablaY ??
-        todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop);
+        esUnUnoNegativo(
+          todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop),
+          undefined
+        ) ??
+        indiceInicialY ??
+        undefined;
 
       if (areaDeSeleccion) {
         areaDeSeleccion.remove();
@@ -121,6 +144,8 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
       }
 
       seleccionarNotas();
+
+      notaPulsadaUsandoControlMasClick = undefined;
     }
   }
 });
@@ -137,6 +162,7 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
         NOTAS_SECUENCIADOR_DE_MELODIAS.push(nuevaNotaSecuenciadorMelodias);
     } else {
       // EN CASO SE ESTEA PULSANDO CONTROL
+
       metodoVolverAlCursorOriginal =
         cambiarCursorParaTodaLaPagina("crosshair").volverAlCursorOriginal;
 
@@ -272,33 +298,38 @@ class NotaSecuenciadorDeMelodias {
      */
     let onMouseDown = (e, forzado = false) => {
       if (e.button == 0) {
-        // Solo se podra arrastrar si esta fuera del area sensible a redimensionamiento o si
-        // el evento esta siendo forzado
-        currentDraggingNote = this.elementoHTML;
-        if (
-          !(
-            e.offsetX >=
-            this.elementoHTML.offsetWidth - PIXELES_DE_SENSIBILIDAD
-          ) ||
-          forzado
-        ) {
-          // Solo en el borde derecho
-          isDraggingNote = true;
-          offsetX = e.offsetX;
-          offsetY = e.offsetY;
-          this.elementoHTML.style.cursor = "grabbing";
-          PIANO_ROLL.style.cursor = "grabbing";
-          moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
-            e,
-            this.elementoHTML
-          );
-        } else {
-          isResizing = true;
-          lastX = e.clientX;
-          originalWidth = this.elementoHTML.offsetWidth;
-        }
+        if (!pulsandoControl) {
+          // Solo se podra arrastrar si esta fuera del area sensible a redimensionamiento o si
+          // el evento esta siendo forzado
+          currentDraggingNote = this.elementoHTML;
+          if (
+            !(
+              e.offsetX >=
+              this.elementoHTML.offsetWidth - PIXELES_DE_SENSIBILIDAD
+            ) ||
+            forzado
+          ) {
+            // Solo en el borde derecho
+            isDraggingNote = true;
+            offsetX = e.offsetX;
+            offsetY = e.offsetY;
+            this.elementoHTML.style.cursor = "grabbing";
+            PIANO_ROLL.style.cursor = "grabbing";
+            moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
+              e,
+              this.elementoHTML
+            );
+          } else {
+            isResizing = true;
+            lastX = e.clientX;
+            originalWidth = this.elementoHTML.offsetWidth;
+          }
 
-        document.addEventListener("mousemove", onMouseMove);
+          document.addEventListener("mousemove", onMouseMove);
+        } else {
+          notaPulsadaUsandoControlMasClick = this;
+          this.seleccionarODeseleccionar();
+        }
       } else {
         if (e.target.classList.contains(Nombre_Clase_para_las_notas)) {
           // Eliminando de la matriz la notaSecuenciadorDeMelodias donde se hizo click derecho
@@ -364,6 +395,9 @@ class NotaSecuenciadorDeMelodias {
   }
 
   testearAreaDeSeleccion() {
+    // Si esta nota fue sobre la que se hizo click con control
+    // entonces no se deseleccionara o seleccionara
+    if (notaPulsadaUsandoControlMasClick == this) return false;
     let minAreaX = Math.min(indiceInicialX, indiceFinalX);
     let maxAreaX = Math.max(indiceInicialX, indiceFinalX);
 
