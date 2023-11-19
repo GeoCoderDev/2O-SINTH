@@ -63,8 +63,10 @@ let seleccionarNotas = () => {
 
 window.addEventListener("keydown", (e) => {
   console.log(e.key);
+  // Tecla Control
   if (e.keyCode == 17) {
     pulsandoControl = true;
+    // Tecla Suprimir o Delete
   } else if (e.key === "Delete") {
     if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length == 0) {
       while (NOTAS_SECUENCIADOR_DE_MELODIAS.length > 0) {
@@ -78,6 +80,9 @@ window.addEventListener("keydown", (e) => {
         notaSecuenciadorDeMelodiasSeleccionada.remove();
       }
     }
+    // Tecla Espacio
+  } else if (e.key === " ") {
+    e.preventDefault();
   }
 });
 
@@ -167,7 +172,6 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
       notaPulsadaUsandoControlMasClick = undefined;
 
       pulsandoClick = false;
-
     }
   }
 });
@@ -177,6 +181,15 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
 PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
   if (eventoMouseDown.button == 0) {
     if (!pulsandoControl) {
+      if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0){
+        
+        while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
+          let notaSecuenciadorDeMelodiasSeleccionada =
+            NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
+          notaSecuenciadorDeMelodiasSeleccionada.seleccionarODeseleccionar();
+        }
+      }
+
       let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(
         eventoMouseDown
       );
@@ -289,7 +302,13 @@ insertarReglasCSSAdicionales(`
 `);
 
 class NotaSecuenciadorDeMelodias {
-  constructor(evento) {
+  /**
+   *
+   * @param {MouseEvent} evento en caso la Nota se cree con un Evento de Click
+   * @param {Object} dataNote especifica este segundo parametro en caso quieras crear una nota apartir de sus datos
+   * @returns
+   */
+  constructor(evento, dataNote) {
     // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
     if (
       !evento.target.classList.contains("Cuadro-Semicorchea") ||
@@ -398,7 +417,11 @@ class NotaSecuenciadorDeMelodias {
     PIANO_ROLL.appendChild(this.elementoHTML);
 
     // Iniciar arrastre automáticamente
-    onMouseDown(evento, true);
+    if (evento) {
+      onMouseDown(evento, true);
+    } else {
+      let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = dataNote;
+    }
   }
 
   #actualizarIndices() {
