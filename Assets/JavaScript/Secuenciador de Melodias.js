@@ -45,6 +45,7 @@ let acumuladorParaNotasIDs = 0;
 // SELECCION MULTIPLE
 
 let pulsandoControl = false;
+let pulsandoClick = false;
 let areaDeSeleccion;
 let originX, originY;
 let metodoVolverAlCursorOriginal;
@@ -61,8 +62,22 @@ let seleccionarNotas = () => {
 };
 
 window.addEventListener("keydown", (e) => {
+  console.log(e.key);
   if (e.keyCode == 17) {
     pulsandoControl = true;
+  } else if (e.key === "Delete") {
+    if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length == 0) {
+      while (NOTAS_SECUENCIADOR_DE_MELODIAS.length > 0) {
+        let notaSecuenciadorDeMelodias = NOTAS_SECUENCIADOR_DE_MELODIAS[0];
+        notaSecuenciadorDeMelodias.remove();
+      }
+    } else {
+      while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
+        let notaSecuenciadorDeMelodiasSeleccionada =
+          NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
+        notaSecuenciadorDeMelodiasSeleccionada.remove();
+      }
+    }
   }
 });
 
@@ -70,13 +85,17 @@ window.addEventListener("keyup", (e) => {
   // Si se suelta la tecla control
   if (e.keyCode == 17) {
     pulsandoControl = false;
+
+    return;
+
+    // NO NECESARIO AL PARECER LO DE ABAJO
+
     // Si areaDeSeleccion no esta definida quiere decir que ya se elimino y
     // antes de soltar la tecla control se solto la el click del mouse
     if (!areaDeSeleccion) return;
     if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
     if (areaDeSeleccion) areaDeSeleccion.remove();
     PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
-
     indiceFinalX =
       NOTAS_SECUENCIADOR_DE_MELODIAS.find(
         (notaSecuenciadorDeMelodias) =>
@@ -109,7 +128,7 @@ window.addEventListener("keyup", (e) => {
 
 PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
   if (eventoMouseUp.button == 0) {
-    if (pulsandoControl) {
+    if (pulsandoClick) {
       if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
 
       PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
@@ -146,6 +165,9 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
       seleccionarNotas();
 
       notaPulsadaUsandoControlMasClick = undefined;
+
+      pulsandoClick = false;
+
     }
   }
 });
@@ -179,6 +201,8 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
       areaDeSeleccion.style.borderRadius = "0.5vw";
       PIANO_ROLL.appendChild(areaDeSeleccion);
       PIANO_ROLL.addEventListener("mousemove", obteniendoDimensiones);
+
+      pulsandoClick = true;
 
       indiceInicialX =
         NOTAS_SECUENCIADOR_DE_MELODIAS.find(
@@ -331,12 +355,8 @@ class NotaSecuenciadorDeMelodias {
           this.seleccionarODeseleccionar();
         }
       } else {
-        if (e.target.classList.contains(Nombre_Clase_para_las_notas)) {
-          // Eliminando de la matriz la notaSecuenciadorDeMelodias donde se hizo click derecho
-          NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
-          e.target.remove();
-          NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
-        }
+        // Evento de boton derecho de teclado
+        this.remove();
       }
     };
 
@@ -391,7 +411,7 @@ class NotaSecuenciadorDeMelodias {
         .distanciaVerticalPX
     );
 
-    this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas;
+    this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas - 1;
   }
 
   testearAreaDeSeleccion() {
@@ -435,6 +455,12 @@ class NotaSecuenciadorDeMelodias {
         ).distanciaVerticalPX,
         "vw"
       ) + "vw";
+  }
+
+  remove() {
+    NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
+    this.elementoHTML.remove();
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
   }
 
   seleccionarODeseleccionar() {

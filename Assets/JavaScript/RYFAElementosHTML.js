@@ -100,16 +100,6 @@ document.addEventListener("visibilitychange", revisarVisibilidad);
 //Ejecutando la funcion para determinar el estado inicial de visibilidad
 revisarVisibilidad();
 
-window.addEventListener("keydown", (e) => {
-  // EVENTO TECLA ESPACIO
-  if (e.keyCode == 32) {
-    e.preventDefault();
-  }
-
-  if (e.ctrlKey) {
-  }
-});
-
 // EVENTO DE DOBLE TOQUE A LA TECLA ESPACIO
 // Y EVENTO DE TECLA ESPACIO PARA PAUSAR Y REPRODUCIR
 

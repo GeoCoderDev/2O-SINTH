@@ -1126,6 +1126,7 @@ ANIMACIONES
 
     .nota-secuenciador-melodias-seleccionada{
         background-color: rgb(232, 67, 67) !important;
+        border-color: rgb(183, 14, 14) !important;
     }
 
     /*==================================================================================================
