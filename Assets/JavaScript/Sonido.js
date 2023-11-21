@@ -174,7 +174,7 @@ class NotaSintetizador{
      * @param {} duracionOPromesa Este parametro pide la duracion en segundos que se hara sonar la nota o bien una promesa para parar el sonido
      */
     hacerSonarNota(duracionOPromesa,releaseValido=true){
-        
+
         let nodoADSRNota;
 
         if(adsrActivado) nodoADSRNota = ENTORNO_AUDIO.createGain();
@@ -564,6 +564,7 @@ let teclasPulsadas = new Map();
 
 window.addEventListener('keydown',(e)=>{
 
+    if(e.ctrlKey || e.shiftKey || e.altKey) return;
     //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
     //para agregarla
     if(teclasPulsadas.has(e.keyCode)||(!notasSintetizadorPorTeclasDelTeclado[e.keyCode])) return false;

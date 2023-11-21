@@ -15,6 +15,9 @@ const CANTIDAD_COMPASES_HTML = document.getElementById("Cantidad-Compases");
 const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
 const duracionSemicorcheaINICIAL = 60 / (TEMPO_AL_CARGAR_LA_PAGINA * 4);
 const CANTIDAD_DE_COMPASES_MINIMA = 2;
+const Nombre_Clase_para_las_notas = "Secuenciador-Melodias-NOTA";
+const Nombre_Clase_para_las_notas_seleccionadas =
+  "nota-secuenciador-melodias-seleccionada";
 
 let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60 / (TEMPO.value * 4);
@@ -44,14 +47,24 @@ let acumuladorParaNotasIDs = 0;
 
 // SELECCION MULTIPLE
 
+// Variables para crear el cuadro de seleccion
 let pulsandoControl = false;
 let pulsandoClick = false;
 let areaDeSeleccion;
 let originX, originY;
 let metodoVolverAlCursorOriginal;
+// Array  que contendra las notas seleccionadas
 let NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS = [];
+// Variables que contendran el rango de el cuadro de seleccion
 let indiceInicialX, indiceInicialY, indiceFinalX, indiceFinalY;
+// Variables para mover todas las notas seleccionadas
+
+let indiceOrigenMovimientoMultipleX, indiceOrigenMovimientoMultipleY;
+// Variables adicionales
 let notaPulsadaUsandoControlMasClick;
+let margenIzquierdo, margenDerecho, margenSuperior, margenInferior;
+// Array para guardar los indices de cada Nota que este seleccionada en un instante
+let indicesNotasSeleccionadas = [];
 
 let seleccionarNotas = () => {
   NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias) => {
@@ -144,11 +157,19 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
 PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
   if (eventoMouseDown.button == 0) {
     if (!pulsandoControl) {
-      if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
-        while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
-          let notaSecuenciadorDeMelodiasSeleccionada =
-            NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
-          notaSecuenciadorDeMelodiasSeleccionada.seleccionarODeseleccionar();
+      // Deseleccionando notas seleccionadas si se pulsa en algun
+      // lugar que no sea una nota seleccionada
+      if (
+        !eventoMouseDown.target.classList.contains(
+          Nombre_Clase_para_las_notas_seleccionadas
+        )
+      ) {
+        if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
+          while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
+            let notaSecuenciadorDeMelodiasSeleccionada =
+              NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
+            notaSecuenciadorDeMelodiasSeleccionada.seleccionarODeseleccionar();
+          }
         }
       }
 
@@ -232,7 +253,6 @@ let obteniendoDimensiones = (eventoMouseMove) => {
 
 // Variables que seran de uso compartido entre instancias de la clase NotaSecuenciadorDeMelodias
 var Cantidad_Semicorcheas_Foco = 1; //Cantidad de semicorcheas en la que nos quedamos
-const Nombre_Clase_para_las_notas = "Secuenciador-Melodias-NOTA";
 let isDraggingNote = false;
 let offsetX, offsetY;
 let currentDraggingNote;
@@ -280,7 +300,7 @@ class NotaSecuenciadorDeMelodias {
     this.elementoHTML = document.createElement("div");
     this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
     this.elementoHTML.classList.add(Nombre_Clase_para_las_notas);
-    this.elementoHTML.style.width = `${1.98 * this.longitudSemicorcheas}vw`;
+    this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
     this.elementoHTML.style.height = "3.2vh";
     this.elementoHTML.style.backgroundColor = "rgb(205, 104, 255)";
     this.elementoHTML.style.position = "absolute";
@@ -313,17 +333,81 @@ class NotaSecuenciadorDeMelodias {
             ) ||
             forzado
           ) {
-            // Solo en el borde derecho
-            isDraggingNote = true;
-            offsetX = e.offsetX;
-            offsetY = e.offsetY;
-            this.elementoHTML.style.cursor = "grabbing";
-            PIANO_ROLL.style.cursor = "grabbing";
-            moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
-              e,
-              this.elementoHTML,
-              this
-            );
+            if (
+              !this.elementoHTML.classList.contains(
+                Nombre_Clase_para_las_notas_seleccionadas
+              )
+            ) {
+              // Solo en el borde derecho
+              isDraggingNote = true;
+              offsetX = e.offsetX;
+              offsetY = e.offsetY;
+              this.elementoHTML.style.cursor = "grabbing";
+              PIANO_ROLL.style.cursor = "grabbing";
+              moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
+                e,
+                this.elementoHTML,
+                this
+              );
+            } else {
+              // Se estan moviendo todas las notas seleccionadas
+
+              // Capturando indices
+              indiceOrigenMovimientoMultipleX = this.indiceTablaX;
+              indiceOrigenMovimientoMultipleY = this.indiceTablaY;
+
+              let grupoNotasIndiceMinX =
+                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+                  (acumulador, currenValue) => {
+                    return Math.min(acumulador, currenValue.indiceTablaX);
+                  },
+                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaX
+                );
+
+              let grupoNotasIndiceMinY =
+                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+                  (acumulador, currenValue) => {
+                    return Math.min(acumulador, currenValue.indiceTablaY);
+                  },
+                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
+                );
+
+              let grupoNotasIndiceMaxX =
+                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+                  (acumulador, currenValue) => {
+                    return Math.max(acumulador, currenValue.indiceFinalTablaX);
+                  },
+                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0]
+                    .indiceFinalTablaX
+                );
+
+              let grupoNotasIndiceMaxY =
+                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+                  (acumulador, currenValue) => {
+                    return Math.max(acumulador, currenValue.indiceTablaY);
+                  },
+                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
+                );
+
+              margenSuperior =
+                indiceOrigenMovimientoMultipleY - grupoNotasIndiceMinY;
+
+              margenDerecho =
+                grupoNotasIndiceMaxX - indiceOrigenMovimientoMultipleX;
+
+              margenInferior =
+                grupoNotasIndiceMaxY - indiceOrigenMovimientoMultipleY;
+
+              margenIzquierdo =
+                indiceOrigenMovimientoMultipleX - grupoNotasIndiceMinX;
+
+              indicesNotasSeleccionadas =
+                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.map(
+                  ({ indiceTablaX, indiceTablaY }) => {
+                    return { indiceTablaX, indiceTablaY };
+                  }
+                );
+            }
           } else {
             isResizing = true;
             lastX = e.clientX;
@@ -350,22 +434,33 @@ class NotaSecuenciadorDeMelodias {
       }
       isResizing = false;
       document.removeEventListener("mousemove", onMouseMove);
-      this.#actualizarIndices();
+
       //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
       //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
       this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador
         .slice()
         .reverse()[this.indiceTablaY];
+
+      if (indicesNotasSeleccionadas) indicesNotasSeleccionadas = undefined;
     };
 
     let onMouseMove = (e) => {
-      if (!isDraggingNote && !isResizing) return;
+      if (
+        !isDraggingNote &&
+        !isResizing &&
+        !this.elementoHTML.classList.contains(
+          Nombre_Clase_para_las_notas_seleccionadas
+        )
+      )
+        return;
       moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
         e,
         this.elementoHTML,
-        this
+        this,
+        this.elementoHTML.classList.contains(
+          Nombre_Clase_para_las_notas_seleccionadas
+        ) //Si esta seleccionada delvolvera True
       );
-      this.#actualizarIndices();
       //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
       //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
       this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador
@@ -389,34 +484,17 @@ class NotaSecuenciadorDeMelodias {
       this.longitudSemicorcheas = longitudSemicorcheas;
       this.indiceFinalTablaX = indiceTablaX + longitudSemicorcheas;
 
-      // let elementoBajoGrilla =
-
-      // this.elementoHTML.style.left =
-      //   pixelsToVWVH(
-      //     distanciaRelativaEntreElementos(PIANO_ROLL, elementUnderCursorGrilla)
-      //       .distanciaHorizontalPX,
-      //     "vw"
-      //   )[0] + "vw";
-
-      // this.elementoHTML.style.top =
-      //   pixelsToVWVH(
-      //     distanciaRelativaEntreElementos(PIANO_ROLL, elementUnderCursorGrilla)
-      //       .distanciaVerticalPX,
-      //     "vw"
-      //   )[0] + "vw";
-
       this.elementoHTML.style.left =
         todosLosOffsetLeft[this.indiceTablaX] + "px";
       this.elementoHTML.style.top = todosLosOffsetTop[this.indiceTablaY] + "px";
-      this.elementoHTML.style.width = `${1.98 * this.longitudSemicorcheas}vw`;
+      this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
       onMouseUp();
     }
 
     NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);
-
   }
 
-  #actualizarIndices() {
+  actualizarIndices() {
     // OBTENIENDO LOS NUEVOS INDICES Y EL CUADRO SEMICORCHEA POR DEBAJO
     this.indiceTablaX = todosLosOffsetLeft.indexOf(
       this.elementoHTML.offsetLeft
@@ -473,6 +551,20 @@ class NotaSecuenciadorDeMelodias {
       ) + "vw";
   }
 
+  /**
+   *
+   * @param {Number} indiceTablaX
+   * @param {Number} indiceTablaY
+   */
+  moveTo(indiceTablaX, indiceTablaY) {
+    this.indiceTablaX = indiceTablaX;
+    this.indiceTablaY = indiceTablaY;
+    this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas - 1;
+
+    this.elementoHTML.style.left = todosLosOffsetLeft[this.indiceTablaX] + "px";
+    this.elementoHTML.style.top = todosLosOffsetTop[this.indiceTablaY] + "px";
+  }
+
   remove() {
     NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
     this.elementoHTML.remove();
@@ -486,7 +578,7 @@ class NotaSecuenciadorDeMelodias {
       NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
     }
     return this.elementoHTML.classList.toggle(
-      "nota-secuenciador-melodias-seleccionada"
+      Nombre_Clase_para_las_notas_seleccionadas
     );
   }
 
@@ -501,10 +593,19 @@ class NotaSecuenciadorDeMelodias {
 // |  FUNCION DE POSICIONAMIENTO PARA LA CLASE    |
 // ------------------------------------------------
 // Funcion para mousemove y mousedown de las Notas
+/**
+ *
+ * @param {MouseEvent} e
+ * @param {HTMLElement} divArrastrado
+ * @param {NotaSecuenciadorDeMelodias} notaAsociada
+ * @param {Boolean} movimientoMultiple
+ * @returns
+ */
 function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
   e,
   divArrastrado,
-  notaAsociada
+  notaAsociada,
+  movimientoMultiple = false
 ) {
   if (pulsandoControl) return;
   if (isResizing) {
@@ -584,6 +685,8 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
       //Seteando la ultima longitud para las nuevas notas
       Cantidad_Semicorcheas_Foco = notaAsociada.longitudSemicorcheas;
     }
+
+    notaAsociada.actualizarIndices();
   } else {
     let x = e.clientX - PIANO_ROLL.getBoundingClientRect().left - offsetX;
     let y = e.clientY - PIANO_ROLL.getBoundingClientRect().top - offsetY;
@@ -605,9 +708,57 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
       coordernadaDraggingNoteX,
       coordernadaDraggingNoteY
     );
+
     let elementUnderCursorGrilla = elementsUnderCursor.filter(
       (element) => element.className == "Cuadro-Semicorchea"
     )[0];
+
+    // En caso que se trate de un movimiento multiple interceptaremos
+    // elementUnderCursorGrilla para que no se pueda mover en caso
+    // no se cumpla la condicion de los margenes o se opte
+    // por reemplazarla por otro cuadro semicorchea cercano que si cumpla
+    if (movimientoMultiple && elementUnderCursorGrilla) {
+      let indiceXElementUnderCursor = todosLosOffsetLeft.indexOf(
+        elementUnderCursorGrilla.offsetLeft
+      );
+      let indiceYElementUnderCursor = todosLosOffsetTop.indexOf(
+        elementUnderCursorGrilla.offsetTop
+      );
+
+      let optionalElementsUnderCursor;
+      if (
+        indiceXElementUnderCursor + margenDerecho >
+          primeraFilaCuadrosSemicorchea.length - 1 ||
+        indiceXElementUnderCursor - margenIzquierdo < 0 ||
+        indiceYElementUnderCursor - margenSuperior < 0 ||
+        indiceYElementUnderCursor + margenInferior >
+          primeraColumnaCuadrosSemicorchea.length - 1
+      ) {
+        let indiceXOptionalElementsUnderCursor = !(
+          indiceXElementUnderCursor + margenDerecho >
+            primeraFilaCuadrosSemicorchea.length - 1 ||
+          indiceXElementUnderCursor - margenIzquierdo < 0
+        )
+          ? indiceXElementUnderCursor
+          : notaAsociada.indiceTablaX;
+
+        let indiceYOptionalElementsUnderCursor = !(
+          indiceYElementUnderCursor - margenSuperior < 0 ||
+          indiceYElementUnderCursor + margenInferior >
+            primeraColumnaCuadrosSemicorchea.length - 1
+        )
+          ? indiceYElementUnderCursor
+          : notaAsociada.indiceTablaY;
+
+        optionalElementsUnderCursor =
+          Todos_los_cuadros_semicorchea[
+            indiceYOptionalElementsUnderCursor *
+              primeraFilaCuadrosSemicorchea.length +
+              indiceXOptionalElementsUnderCursor
+          ];
+        elementUnderCursorGrilla = optionalElementsUnderCursor;
+      }
+    }
 
     //Obligando a obedecer la grilla formada por los elementos 'Cuadro-Semicorchea'
     if (elementUnderCursorGrilla) {
@@ -625,6 +776,7 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
         )[0] + "vw";
       ultimoCuadroSemicorchea = elementUnderCursorGrilla;
     } else {
+      // En caso no este definido elementUnderCursorGrilla
       divArrastrado.style.left =
         pixelsToVWVH(
           distanciaRelativaEntreElementos(PIANO_ROLL, ultimoCuadroSemicorchea)
@@ -637,6 +789,26 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
             .distanciaVerticalPX,
           "vw"
         )[0] + "vw";
+    }
+
+    // Obteniendo los indices
+    notaAsociada.actualizarIndices();
+
+    if (movimientoMultiple) {
+      let diferenciaX =
+        notaAsociada.indiceTablaX - indiceOrigenMovimientoMultipleX;
+      let diferenciaY =
+        notaAsociada.indiceTablaY - indiceOrigenMovimientoMultipleY;
+
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.forEach(
+        (notaSecuenciadorDeMelodiasSeleccionada, index) => {
+          if (notaSecuenciadorDeMelodiasSeleccionada === notaAsociada) return;
+          notaSecuenciadorDeMelodiasSeleccionada.moveTo(
+            indicesNotasSeleccionadas[index].indiceTablaX + diferenciaX,
+            indicesNotasSeleccionadas[index].indiceTablaY + diferenciaY
+          );
+        }
+      );
     }
   }
 }
@@ -851,9 +1023,9 @@ CANTIDAD_COMPASES_HTML.addEventListener("mousedown", (e) => {
   }
 });
 
-// ----------------------------
-// | REPRODUCCIÓN DE MELODIAS |
-// ----------------------------
+// ---------------------------------------------------------------
+// |                 REPRODUCCIÓN DE MELODIAS                    |
+// ---------------------------------------------------------------
 
 const BTN_PLAY_PAUSA = document.getElementById("boton-play-pausa");
 const TRIANGULO_PLAY = document.getElementById("triangulo-play");
@@ -1211,3 +1383,12 @@ TEMPO.addEventListener("mousedown", (e) => {
   }
 });
 
+let i = new NotaSecuenciadorDeMelodias(undefined, {
+  indiceTablaX: 5,
+  indiceTablaY: 1,
+  longitudSemicorcheas: 7,
+});
+
+setTimeout(() => {
+  i.remove();
+}, 3000);
