@@ -62,7 +62,6 @@ let seleccionarNotas = () => {
 };
 
 window.addEventListener("keydown", (e) => {
-  console.log(e.key);
   // Tecla Control
   if (e.keyCode == 17) {
     pulsandoControl = true;
@@ -92,42 +91,6 @@ window.addEventListener("keyup", (e) => {
     pulsandoControl = false;
 
     return;
-
-    // NO NECESARIO AL PARECER LO DE ABAJO
-
-    // Si areaDeSeleccion no esta definida quiere decir que ya se elimino y
-    // antes de soltar la tecla control se solto la el click del mouse
-    if (!areaDeSeleccion) return;
-    if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
-    if (areaDeSeleccion) areaDeSeleccion.remove();
-    PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
-    indiceFinalX =
-      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
-        (notaSecuenciadorDeMelodias) =>
-          notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
-      )?.indiceTablaX ??
-      esUnUnoNegativo(
-        todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft),
-        undefined
-      ) ??
-      indiceInicialX ??
-      undefined;
-
-    indiceFinalY =
-      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
-        (notaSecuenciadorDeMelodias) =>
-          notaSecuenciadorDeMelodias.elementoHTML == eventoMouseUp.target
-      )?.indiceTablaY ??
-      esUnUnoNegativo(
-        todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop),
-        undefined
-      ) ??
-      indiceInicialY ??
-      undefined;
-
-    seleccionarNotas();
-
-    notaPulsadaUsandoControlMasClick = undefined;
   }
 });
 
@@ -181,8 +144,7 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
 PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
   if (eventoMouseDown.button == 0) {
     if (!pulsandoControl) {
-      if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0){
-        
+      if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
         while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
           let notaSecuenciadorDeMelodiasSeleccionada =
             NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
@@ -193,8 +155,6 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
       let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(
         eventoMouseDown
       );
-      if (nuevaNotaSecuenciadorMelodias.elementoHTML)
-        NOTAS_SECUENCIADOR_DE_MELODIAS.push(nuevaNotaSecuenciadorMelodias);
     } else {
       // EN CASO SE ESTEA PULSANDO CONTROL
 
@@ -305,16 +265,17 @@ class NotaSecuenciadorDeMelodias {
   /**
    *
    * @param {MouseEvent} evento en caso la Nota se cree con un Evento de Click
-   * @param {Object} dataNote especifica este segundo parametro en caso quieras crear una nota apartir de sus datos
+   * @param {{indiceTablaX, indiceTablaY, longitudSemicorcheas}} dataNote especifica este segundo parametro en caso quieras crear una nota apartir de sus datos
    * @returns
    */
   constructor(evento, dataNote) {
     // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
     if (
-      !evento.target.classList.contains("Cuadro-Semicorchea") ||
-      evento.target.classList.contains(Nombre_Clase_para_las_notas)
-    )
-      return;
+      !evento?.target?.classList?.contains("Cuadro-Semicorchea") ||
+      evento?.target?.classList?.contains(Nombre_Clase_para_las_notas)
+    ) {
+      if (!dataNote) return;
+    }
 
     this.elementoHTML = document.createElement("div");
     this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
@@ -360,7 +321,8 @@ class NotaSecuenciadorDeMelodias {
             PIANO_ROLL.style.cursor = "grabbing";
             moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
               e,
-              this.elementoHTML
+              this.elementoHTML,
+              this
             );
           } else {
             isResizing = true;
@@ -420,8 +382,38 @@ class NotaSecuenciadorDeMelodias {
     if (evento) {
       onMouseDown(evento, true);
     } else {
+      //   En caso se quiera crear una nota apartir del objeto dataNote
       let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = dataNote;
+      this.indiceTablaX = indiceTablaX;
+      this.indiceTablaY = indiceTablaY;
+      this.longitudSemicorcheas = longitudSemicorcheas;
+      this.indiceFinalTablaX = indiceTablaX + longitudSemicorcheas;
+
+      // let elementoBajoGrilla =
+
+      // this.elementoHTML.style.left =
+      //   pixelsToVWVH(
+      //     distanciaRelativaEntreElementos(PIANO_ROLL, elementUnderCursorGrilla)
+      //       .distanciaHorizontalPX,
+      //     "vw"
+      //   )[0] + "vw";
+
+      // this.elementoHTML.style.top =
+      //   pixelsToVWVH(
+      //     distanciaRelativaEntreElementos(PIANO_ROLL, elementUnderCursorGrilla)
+      //       .distanciaVerticalPX,
+      //     "vw"
+      //   )[0] + "vw";
+
+      this.elementoHTML.style.left =
+        todosLosOffsetLeft[this.indiceTablaX] + "px";
+      this.elementoHTML.style.top = todosLosOffsetTop[this.indiceTablaY] + "px";
+      this.elementoHTML.style.width = `${1.98 * this.longitudSemicorcheas}vw`;
+      onMouseUp();
     }
+
+    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);
+
   }
 
   #actualizarIndices() {
@@ -450,7 +442,8 @@ class NotaSecuenciadorDeMelodias {
     let dentroX =
       (this.indiceTablaX >= minAreaX && this.indiceTablaX <= maxAreaX) ||
       (this.indiceFinalTablaX >= minAreaX &&
-        this.indiceFinalTablaX <= maxAreaX);
+        this.indiceFinalTablaX <= maxAreaX) ||
+      (this.indiceTablaX < minAreaX && this.indiceFinalTablaX > maxAreaX);
     let dentroY =
       this.indiceTablaY >= minAreaY && this.indiceTablaY <= maxAreaY;
 
@@ -1217,3 +1210,4 @@ TEMPO.addEventListener("mousedown", (e) => {
     actualizarDurationSemicorcheas();
   }
 });
+
