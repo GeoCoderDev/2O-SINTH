@@ -63,6 +63,7 @@ let indiceOrigenMovimientoMultipleX, indiceOrigenMovimientoMultipleY;
 // Variables adicionales
 let notaPulsadaUsandoControlMasClick;
 let margenIzquierdo, margenDerecho, margenSuperior, margenInferior;
+let ultimoElementoAntesDeSalirDelPianoRoll;
 // Array para guardar los indices de cada Nota que este seleccionada en un instante
 let indicesNotasSeleccionadas = [];
 
@@ -152,6 +153,49 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
   }
 });
 
+PIANO_ROLL.addEventListener("mouseleave",()=>{
+  if (pulsandoClick) {
+    if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
+
+    PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
+
+    indiceFinalX =
+      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+        (notaSecuenciadorDeMelodias) =>
+          notaSecuenciadorDeMelodias.elementoHTML == ultimoElementoAntesDeSalirDelPianoRoll
+      )?.indiceTablaX ??
+      esUnUnoNegativo(
+        todosLosOffsetLeft.indexOf(ultimoElementoAntesDeSalirDelPianoRoll.offsetLeft),
+        undefined
+      ) ??
+      indiceInicialX ??
+      undefined;
+
+    indiceFinalY =
+      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
+        (notaSecuenciadorDeMelodias) =>
+          notaSecuenciadorDeMelodias.elementoHTML == ultimoElementoAntesDeSalirDelPianoRoll
+      )?.indiceTablaY ??
+      esUnUnoNegativo(
+        todosLosOffsetTop.indexOf(ultimoElementoAntesDeSalirDelPianoRoll.offsetTop),
+        undefined
+      ) ??
+      indiceInicialY ??
+      undefined;
+
+    if (areaDeSeleccion) {
+      areaDeSeleccion.remove();
+      areaDeSeleccion = undefined;
+    }
+
+    seleccionarNotas();
+
+    notaPulsadaUsandoControlMasClick = undefined;
+
+    pulsandoClick = false;
+  }
+})
+
 // Evento de mousedown en PIANO_ROLL, para que cuando se haga click se cree una nueva Nota
 
 PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
@@ -215,6 +259,11 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
   }
 });
 
+/**
+ * 
+ * @param {MouseEvent} eventoMouseMove 
+ * @returns 
+ */
 let obteniendoDimensiones = (eventoMouseMove) => {
   const coordX =
     eventoMouseMove.clientX - PIANO_ROLL.getBoundingClientRect().left;
@@ -249,6 +298,9 @@ let obteniendoDimensiones = (eventoMouseMove) => {
   } else {
     console.log("Error 147, Secuenciador Melodias");
   }
+
+  ultimoElementoAntesDeSalirDelPianoRoll = eventoMouseMove.target;
+
 };
 
 // Variables que seran de uso compartido entre instancias de la clase NotaSecuenciadorDeMelodias
