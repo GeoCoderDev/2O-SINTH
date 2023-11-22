@@ -607,6 +607,18 @@ class NotaSecuenciadorDeMelodias {
     this.elementoHTML.style.top = todosLosOffsetTop[this.indiceTablaY] + "px";
   }
 
+  /**
+   * 
+   * @param {Number} newLength 
+   */
+  semicorcheasLengthTo(newLength){
+    if(newLength==0) return;
+    if(this.indiceTablaX + newLength - 1 > primeraFilaCuadrosSemicorchea.length-1) return;
+    this.longitudSemicorcheas = newLength;
+    this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
+    this.indiceFinalTablaX = this.indiceTablaX + newLength - 1;
+  }
+
   remove() {
     NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
     this.elementoHTML.remove();
