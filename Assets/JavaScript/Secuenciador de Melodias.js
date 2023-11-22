@@ -162,6 +162,9 @@ document.addEventListener("mouseup", (eventoMouseUp) => {
 
       pulsandoClick = false;
     }
+  } else if (eventoMouseUp.button == 2) {
+    PIANO_ROLL.removeEventListener("mousemove", eliminadoNotasContinuamente);
+    if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
   }
 });
 
@@ -190,9 +193,15 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
           eventoMouseDown
         );
       }
+
+      if (eventoMouseDown.button == 2) {
+        metodoVolverAlCursorOriginal =
+          cambiarCursorParaTodaLaPagina("no-drop").volverAlCursorOriginal;
+        PIANO_ROLL.addEventListener("mousemove", eliminadoNotasContinuamente);
+      }
     } else {
       // EN CASO SE ESTEA PULSANDO CONTROL
-
+      if (eventoMouseDown.button == 2) return;
       metodoVolverAlCursorOriginal =
         cambiarCursorParaTodaLaPagina("crosshair").volverAlCursorOriginal;
 
@@ -270,6 +279,18 @@ let obteniendoDimensiones = (eventoMouseMove) => {
   }
 
   ultimoElementoAntesDeSalirDelPianoRoll = eventoMouseMove.target;
+};
+
+/**
+ *
+ * @param {MouseEvent} eventoMouseMove
+ */
+let eliminadoNotasContinuamente = (eventoMouseMove) => {
+  if (eventoMouseMove.target.classList.contains(Nombre_Clase_para_las_notas)) {
+    NOTAS_SECUENCIADOR_DE_MELODIAS.find((notaSecuenciadorDeMelodias) => {
+      return notaSecuenciadorDeMelodias.elementoHTML === eventoMouseMove.target;
+    }).remove();
+  }
 };
 
 // Variables que seran de uso compartido entre instancias de la clase NotaSecuenciadorDeMelodias

@@ -224,6 +224,11 @@ function desplegarMensajeEnTodaLaPantalla(
   CONTENEDOR_TODO.insertAdjacentElement("beforeend", MensajeContenedor);
 }
 
+/**
+ * 
+ * @param {String} tipoDeCursor 
+ * @returns 
+ */
 function cambiarCursorParaTodaLaPagina(tipoDeCursor = "pointer") {
   let volverAlCursorOriginal;
 
