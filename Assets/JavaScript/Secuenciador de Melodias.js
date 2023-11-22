@@ -108,7 +108,7 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
-PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
+document.addEventListener("mouseup", (eventoMouseUp) => {
   if (eventoMouseUp.button == 0) {
     if (pulsandoClick) {
       if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
@@ -124,6 +124,12 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
           todosLosOffsetLeft.indexOf(eventoMouseUp.target.offsetLeft),
           undefined
         ) ??
+        esUnUnoNegativo(
+          todosLosOffsetLeft.indexOf(
+            ultimoElementoAntesDeSalirDelPianoRoll.offsetLeft
+          ),
+          undefined
+        ) ??
         indiceInicialX ??
         undefined;
 
@@ -134,6 +140,12 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
         )?.indiceTablaY ??
         esUnUnoNegativo(
           todosLosOffsetTop.indexOf(eventoMouseUp.target.offsetTop),
+          undefined
+        ) ??
+        esUnUnoNegativo(
+          todosLosOffsetTop.indexOf(
+            ultimoElementoAntesDeSalirDelPianoRoll.offsetTop
+          ),
           undefined
         ) ??
         indiceInicialY ??
@@ -153,53 +165,9 @@ PIANO_ROLL.addEventListener("mouseup", (eventoMouseUp) => {
   }
 });
 
-PIANO_ROLL.addEventListener("mouseleave",()=>{
-  if (pulsandoClick) {
-    if (metodoVolverAlCursorOriginal) metodoVolverAlCursorOriginal();
-
-    PIANO_ROLL.removeEventListener("mousemove", obteniendoDimensiones);
-
-    indiceFinalX =
-      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
-        (notaSecuenciadorDeMelodias) =>
-          notaSecuenciadorDeMelodias.elementoHTML == ultimoElementoAntesDeSalirDelPianoRoll
-      )?.indiceTablaX ??
-      esUnUnoNegativo(
-        todosLosOffsetLeft.indexOf(ultimoElementoAntesDeSalirDelPianoRoll.offsetLeft),
-        undefined
-      ) ??
-      indiceInicialX ??
-      undefined;
-
-    indiceFinalY =
-      NOTAS_SECUENCIADOR_DE_MELODIAS.find(
-        (notaSecuenciadorDeMelodias) =>
-          notaSecuenciadorDeMelodias.elementoHTML == ultimoElementoAntesDeSalirDelPianoRoll
-      )?.indiceTablaY ??
-      esUnUnoNegativo(
-        todosLosOffsetTop.indexOf(ultimoElementoAntesDeSalirDelPianoRoll.offsetTop),
-        undefined
-      ) ??
-      indiceInicialY ??
-      undefined;
-
-    if (areaDeSeleccion) {
-      areaDeSeleccion.remove();
-      areaDeSeleccion = undefined;
-    }
-
-    seleccionarNotas();
-
-    notaPulsadaUsandoControlMasClick = undefined;
-
-    pulsandoClick = false;
-  }
-})
-
 // Evento de mousedown en PIANO_ROLL, para que cuando se haga click se cree una nueva Nota
-
 PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
-  if (eventoMouseDown.button == 0) {
+  if (eventoMouseDown.button == 0 || eventoMouseDown.button == 2) {
     if (!pulsandoControl) {
       // Deseleccionando notas seleccionadas si se pulsa en algun
       // lugar que no sea una nota seleccionada
@@ -217,9 +185,11 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
         }
       }
 
-      let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(
-        eventoMouseDown
-      );
+      if (eventoMouseDown.button == 0) {
+        let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(
+          eventoMouseDown
+        );
+      }
     } else {
       // EN CASO SE ESTEA PULSANDO CONTROL
 
@@ -260,9 +230,9 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
 });
 
 /**
- * 
- * @param {MouseEvent} eventoMouseMove 
- * @returns 
+ *
+ * @param {MouseEvent} eventoMouseMove
+ * @returns
  */
 let obteniendoDimensiones = (eventoMouseMove) => {
   const coordX =
@@ -300,7 +270,6 @@ let obteniendoDimensiones = (eventoMouseMove) => {
   }
 
   ultimoElementoAntesDeSalirDelPianoRoll = eventoMouseMove.target;
-
 };
 
 // Variables que seran de uso compartido entre instancias de la clase NotaSecuenciadorDeMelodias
