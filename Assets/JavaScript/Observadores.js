@@ -65,20 +65,20 @@ const encontrando_secciones = (entradas, observador) => {
                 
                 if(ultimaAnimacionParaLetrasGuia){                    
                     ultimaAnimacionParaLetrasGuia.animacionFinalizada.then((resolve)=>{
-                        ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,40,"flex",true,true);
+                        ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,"40%","flex",true);
                         
                     })               
                 }else{
-                    ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,40,"flex",true,true);                    
+                    ultimaAnimacionParaLetrasGuia = aparecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,"40%","flex",true);                    
                 }               
             }else if(seccion_en_vista!=1&&window.getComputedStyle(LETRAS_GUIA_CONTENEDOR).display=="flex"){
                 
                 if(ultimaAnimacionParaLetrasGuia){                    
                     ultimaAnimacionParaLetrasGuia.animacionFinalizada.then((resolve)=>{
-                        ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true,true)
+                        ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true)
                     })                         
                 }else{
-                    ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true,true)
+                    ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true)
                 }               
             } 
 
@@ -88,21 +88,21 @@ const encontrando_secciones = (entradas, observador) => {
                 
                 if(ultimaAnimacionParaCantidadCompasContenedor){                    
                     ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
-                        ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
+                        ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,"30%","flex",true);
                         
                     })               
                 }else{
-                    ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,30,"flex",true,true);
+                    ultimaAnimacionParaCantidadCompasContenedor = aparecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,"30%","flex",true);
                     
                 }               
             }else if(seccion_en_vista!=3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="flex"){
                 
                 if(ultimaAnimacionParaCantidadCompasContenedor){                    
                     ultimaAnimacionParaCantidadCompasContenedor.animacionFinalizada.then((resolve)=>{
-                        ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true,true)
+                        ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true)
                     })                         
                 }else{
-                    ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true,true)
+                    ultimaAnimacionParaCantidadCompasContenedor = desvanecerElemento(CANTIDAD_COMPASES_CONTENEDOR,0.7,true)
                 }               
             }           
         }

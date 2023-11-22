@@ -18,6 +18,7 @@ const CANTIDAD_DE_COMPASES_MINIMA = 2;
 const Nombre_Clase_para_las_notas = "Secuenciador-Melodias-NOTA";
 const Nombre_Clase_para_las_notas_seleccionadas =
   "nota-secuenciador-melodias-seleccionada";
+const DURACION_SEGUNDOS_ANIMACION_ELIMINACION_NOTAS = 0.2;
 
 let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
 let duracionSemicorcheas = 60 / (TEMPO.value * 4);
@@ -196,7 +197,7 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
 
       if (eventoMouseDown.button == 2) {
         metodoVolverAlCursorOriginal =
-          cambiarCursorParaTodaLaPagina("no-drop").volverAlCursorOriginal;
+          cambiarCursorParaTodaLaPagina("alias").volverAlCursorOriginal;
         PIANO_ROLL.addEventListener("mousemove", eliminadoNotasContinuamente);
       }
     } else {
@@ -608,21 +609,30 @@ class NotaSecuenciadorDeMelodias {
   }
 
   /**
-   * 
-   * @param {Number} newLength 
+   *
+   * @param {Number} newLength
    */
-  semicorcheasLengthTo(newLength){
-    if(newLength==0) return;
-    if(this.indiceTablaX + newLength - 1 > primeraFilaCuadrosSemicorchea.length-1) return;
+  semicorcheasLengthTo(newLength) {
+    if (newLength == 0) return;
+    if (
+      this.indiceTablaX + newLength - 1 >
+      primeraFilaCuadrosSemicorchea.length - 1
+    )
+      return;
     this.longitudSemicorcheas = newLength;
     this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
     this.indiceFinalTablaX = this.indiceTablaX + newLength - 1;
   }
 
   remove() {
-    NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
-    this.elementoHTML.remove();
-    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
+    eliminacionRapidaAlEstiloFLStudio(
+      this.elementoHTML,
+      DURACION_SEGUNDOS_ANIMACION_ELIMINACION_NOTAS
+    ).then(() => {
+      NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
+      this.elementoHTML.remove();
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
+    });
   }
 
   seleccionarODeseleccionar() {
