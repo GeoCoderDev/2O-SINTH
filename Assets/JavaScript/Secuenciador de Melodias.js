@@ -68,6 +68,47 @@ let ultimoElementoAntesDeSalirDelPianoRoll;
 // Array para guardar los indices de cada Nota que este seleccionada en un instante
 let indicesNotasSeleccionadas = [];
 
+let obtenerIndicesDeAreaTotalDeNotasSeleccionadas = () => {
+  let grupoNotasIndiceMinX =
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+      (acumulador, currenValue) => {
+        return Math.min(acumulador, currenValue.indiceTablaX);
+      },
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaX
+    );
+
+  let grupoNotasIndiceMinY =
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+      (acumulador, currenValue) => {
+        return Math.min(acumulador, currenValue.indiceTablaY);
+      },
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
+    );
+
+  let grupoNotasIndiceMaxX =
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+      (acumulador, currenValue) => {
+        return Math.max(acumulador, currenValue.indiceFinalTablaX);
+      },
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceFinalTablaX
+    );
+
+  let grupoNotasIndiceMaxY =
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
+      (acumulador, currenValue) => {
+        return Math.max(acumulador, currenValue.indiceTablaY);
+      },
+      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
+    );
+
+  return {
+    grupoNotasIndiceMinX,
+    grupoNotasIndiceMinY,
+    grupoNotasIndiceMaxX,
+    grupoNotasIndiceMaxY,
+  };
+};
+
 let seleccionarNotas = () => {
   NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias) => {
     if (notaSecuenciadorDeMelodias.testearAreaDeSeleccion()) {
@@ -76,22 +117,66 @@ let seleccionarNotas = () => {
   });
 };
 
+let duplicarNotas = () => {
+  if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length === 0) return;
+
+  let {
+    grupoNotasIndiceMaxX,
+    grupoNotasIndiceMinX
+  } = obtenerIndicesDeAreaTotalDeNotasSeleccionadas();
+
+  // SI HAY ALGUNA NOTA QUE NO CUMPLA CON EL TESTEO DE DUPLICACION
+  if (
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.some(
+      (notaSecuenciadorDeMelodiasSeleccionada) => {
+        return !notaSecuenciadorDeMelodiasSeleccionada.testearDuplicado(
+          grupoNotasIndiceMaxX + (notaSecuenciadorDeMelodiasSeleccionada.indiceTablaX - grupoNotasIndiceMinX)
+        );
+      }
+    )
+  )
+    return;
+
+  if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length == 1) {
+    return NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].duplicate();
+  }
+
+  let CopiaNotasSeleccionadas = [
+    ...NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS,
+  ];
+
+  CopiaNotasSeleccionadas.forEach((notaSecuenciadorDeMelodiasSeleccionada) => {
+    notaSecuenciadorDeMelodiasSeleccionada.duplicate(grupoNotasIndiceMaxX - grupoNotasIndiceMinX + 1);
+  });
+};
+
 window.addEventListener("keydown", (e) => {
   // Tecla Control
-  if (e.keyCode == 17) {
+  if (e.ctrlKey) {
     pulsandoControl = true;
+
+    if (e.key === "d" || e.key === "D") {
+      e.preventDefault();
+      duplicarNotas();
+    }
+
     // Tecla Suprimir o Delete
   } else if (e.key === "Delete") {
     if (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length == 0) {
       while (NOTAS_SECUENCIADOR_DE_MELODIAS.length > 0) {
-        let notaSecuenciadorDeMelodias = NOTAS_SECUENCIADOR_DE_MELODIAS[0];
-        notaSecuenciadorDeMelodias.remove();
+        NOTAS_SECUENCIADOR_DE_MELODIAS[0].remove();
+      }
+
+      for (
+        let index = 0;
+        index < NOTAS_SECUENCIADOR_DE_MELODIAS.length;
+        index++
+      ) {
+        NOTAS_SECUENCIADOR_DE_MELODIAS[0].remove();
       }
     } else {
       while (NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.length > 0) {
-        let notaSecuenciadorDeMelodiasSeleccionada =
-          NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0];
-        notaSecuenciadorDeMelodiasSeleccionada.remove();
+        NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].remove();
       }
     }
     // Tecla Espacio
@@ -102,10 +187,8 @@ window.addEventListener("keydown", (e) => {
 
 window.addEventListener("keyup", (e) => {
   // Si se suelta la tecla control
-  if (e.keyCode == 17) {
+  if (e.keyCode === 17) {
     pulsandoControl = false;
-
-    return;
   }
 });
 
@@ -290,7 +373,7 @@ let eliminadoNotasContinuamente = (eventoMouseMove) => {
   if (eventoMouseMove.target.classList.contains(Nombre_Clase_para_las_notas)) {
     NOTAS_SECUENCIADOR_DE_MELODIAS.find((notaSecuenciadorDeMelodias) => {
       return notaSecuenciadorDeMelodias.elementoHTML === eventoMouseMove.target;
-    }).remove();
+    })?.remove();
   }
 };
 
@@ -399,38 +482,12 @@ class NotaSecuenciadorDeMelodias {
               indiceOrigenMovimientoMultipleX = this.indiceTablaX;
               indiceOrigenMovimientoMultipleY = this.indiceTablaY;
 
-              let grupoNotasIndiceMinX =
-                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
-                  (acumulador, currenValue) => {
-                    return Math.min(acumulador, currenValue.indiceTablaX);
-                  },
-                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaX
-                );
-
-              let grupoNotasIndiceMinY =
-                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
-                  (acumulador, currenValue) => {
-                    return Math.min(acumulador, currenValue.indiceTablaY);
-                  },
-                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
-                );
-
-              let grupoNotasIndiceMaxX =
-                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
-                  (acumulador, currenValue) => {
-                    return Math.max(acumulador, currenValue.indiceFinalTablaX);
-                  },
-                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0]
-                    .indiceFinalTablaX
-                );
-
-              let grupoNotasIndiceMaxY =
-                NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.reduce(
-                  (acumulador, currenValue) => {
-                    return Math.max(acumulador, currenValue.indiceTablaY);
-                  },
-                  NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
-                );
+              let {
+                grupoNotasIndiceMinX,
+                grupoNotasIndiceMinY,
+                grupoNotasIndiceMaxX,
+                grupoNotasIndiceMaxY,
+              } = obtenerIndicesDeAreaTotalDeNotasSeleccionadas();
 
               margenSuperior =
                 indiceOrigenMovimientoMultipleY - grupoNotasIndiceMinY;
@@ -525,7 +582,7 @@ class NotaSecuenciadorDeMelodias {
       this.indiceTablaX = indiceTablaX;
       this.indiceTablaY = indiceTablaY;
       this.longitudSemicorcheas = longitudSemicorcheas;
-      this.indiceFinalTablaX = indiceTablaX + longitudSemicorcheas;
+      this.indiceFinalTablaX = indiceTablaX + longitudSemicorcheas - 1;
 
       this.elementoHTML.style.left =
         todosLosOffsetLeft[this.indiceTablaX] + "px";
@@ -629,10 +686,39 @@ class NotaSecuenciadorDeMelodias {
       this.elementoHTML,
       DURACION_SEGUNDOS_ANIMACION_ELIMINACION_NOTAS
     ).then(() => {
-      NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
       this.elementoHTML.remove();
-      NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
     });
+
+    NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
+    NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
+  }
+
+  testearDuplicado(inicioIndiceX = this.indiceFinalTablaX) {
+    
+    if (
+      inicioIndiceX + this.longitudSemicorcheas>
+      primeraFilaCuadrosSemicorchea.length - 1
+    )
+      return false;
+
+    return true;
+  }
+
+  /**
+   * 
+   * @param {Number} indicesAdelante 
+   */
+  duplicate(
+    indicesAdelante = 1
+  ) {
+    let notaDuplicada = new NotaSecuenciadorDeMelodias(undefined, {
+      indiceTablaX: this.indiceFinalTablaX + indicesAdelante,
+      indiceTablaY: this.indiceTablaY,
+      longitudSemicorcheas: this.longitudSemicorcheas,
+    });
+
+    this.seleccionarODeseleccionar();
+    notaDuplicada.seleccionarODeseleccionar();
   }
 
   seleccionarODeseleccionar() {
