@@ -12,7 +12,7 @@ window.addEventListener("resize", actualizarMedidadRelativas);
 /**
  *
  * @param {*} pixeles cantidad en pixeles
- * @param {*} medida medida relativa vw o vh
+ * @param {'vw'|'vh'} medida medida relativa vw o vh
  * @returns devuelve la cantidad de pixeles ingresadas en vw o vh
  */
 function pixelsToVWVH(pixeles, medida) {
