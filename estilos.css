@@ -1317,6 +1317,10 @@ ANIMACIONES
         align-items: center;
         justify-content: space-evenly;
     }
+
+    #boton-stop:active{
+        transform: scale(0.95);
+    }
     
     #cuadrado-stop{
         width: 55%;

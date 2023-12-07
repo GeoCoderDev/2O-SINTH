@@ -103,6 +103,13 @@ let obtenerIndicesDeAreaTotalDeNotasSeleccionadas = () => {
       NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS[0].indiceTablaY
     );
 
+  console.log(
+    grupoNotasIndiceMinX,
+    grupoNotasIndiceMinY,
+    grupoNotasIndiceMaxX,
+    grupoNotasIndiceMaxY
+  );
+
   return {
     grupoNotasIndiceMinX,
     grupoNotasIndiceMinY,
@@ -435,7 +442,7 @@ class NotaSecuenciadorDeMelodias {
     this.elementoHTML.style.backgroundColor = "rgb(205, 104, 255)";
     this.elementoHTML.style.position = "absolute";
     this.elementoHTML.style.cursor = "grab";
-    this.elementoHTML.style.borderRadius = "0.3vw";
+    this.elementoHTML.style.borderRadius = "0.25vw";
     this.elementoHTML.style.boxShadow =
       "0px 0px 0.9vw 0.4vw rgba(0, 0, 0, .5) inset";
     this.elementoHTML.style.border = "0.1vw solid rgb(185, 84, 235)";
@@ -484,7 +491,7 @@ class NotaSecuenciadorDeMelodias {
 
               // Capturando indices
               indiceOrigenMovimientoMultipleX = this.indiceTablaX;
-              indiceOrigenMovimientoMultipleY = this.indiceTablaY;              
+              indiceOrigenMovimientoMultipleY = this.indiceTablaY;
 
               let {
                 grupoNotasIndiceMinX,
@@ -513,7 +520,11 @@ class NotaSecuenciadorDeMelodias {
                 );
             }
           } else {
-            if(this.elementoHTML.classList.contains(Nombre_Clase_para_las_notas_seleccionadas)){
+            if (
+              this.elementoHTML.classList.contains(
+                Nombre_Clase_para_las_notas_seleccionadas
+              )
+            ) {
               longitudInicialCambioLongitudMultiple = this.longitudSemicorcheas;
             }
             isResizing = true;
@@ -712,6 +723,11 @@ class NotaSecuenciadorDeMelodias {
     NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
   }
 
+  /**
+   *
+   * @param {Number} inicioIndiceX
+   * @returns
+   */
   testearDuplicado(inicioIndiceX = this.indiceFinalTablaX) {
     if (
       inicioIndiceX + this.longitudSemicorcheas >
@@ -726,9 +742,9 @@ class NotaSecuenciadorDeMelodias {
    *
    * @param {Number} indicesAdelante
    */
-  duplicate(indicesAdelante = 1) {
+  duplicate(indicesAdelante = this.indiceFinalTablaX + 1) {
     let notaDuplicada = new NotaSecuenciadorDeMelodias(undefined, {
-      indiceTablaX: this.indiceFinalTablaX + indicesAdelante,
+      indiceTablaX: this.indiceTablaX + indicesAdelante,
       indiceTablaY: this.indiceTablaY,
       longitudSemicorcheas: this.longitudSemicorcheas,
     });
@@ -775,6 +791,8 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
 ) {
   if (pulsandoControl) return;
   if (isResizing) {
+    let todosDisponiblesParaCambiarLongitud;
+
     divArrastrado.style.cursor = "ew-resize";
     PIANO_ROLL.style.cursor = "ew-resize";
 
@@ -796,22 +814,19 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
       (element) => element.className == "Cuadro-Semicorchea"
     )[0];
 
-    let anchoObedienteAGrilla;
-
     if (elementUnderCursorGrilla) {
-      anchoObedienteAGrilla =
-        elementUnderCursorGrilla.getBoundingClientRect().right -
-        divArrastrado.getBoundingClientRect().left;
-
-      ultimoCuadroSemicorchea = elementUnderCursorGrilla;
-    } else {
-      elementUnderCursorGrilla = ultimoCuadroSemicorchea;
       anchoObedienteAGrilla =
         elementUnderCursorGrilla.getBoundingClientRect().right -
         divArrastrado.getBoundingClientRect().left;
     }
 
-    let todosDisponiblesParaCambiarLongitud;
+    //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+    let indiceXUltimoCuadroSemicorchea = todosLosOffsetLeft.indexOf(
+      elementUnderCursorGrilla.offsetLeft
+    );
+
+    let longitudPosible =
+      indiceXUltimoCuadroSemicorchea - notaAsociada.indiceTablaX + 1;
 
     if (movimientoMultiple) {
       todosDisponiblesParaCambiarLongitud =
@@ -819,30 +834,56 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
           (notaSecuenciadorDeMelodiasSeleccionada) => {
             return (
               notaSecuenciadorDeMelodiasSeleccionada.longitudSemicorcheas +
-                (notaAsociada.longitudSemicorcheas -
-                  longitudInicialCambioLongitudMultiple) < 1              
+                (longitudPosible - longitudInicialCambioLongitudMultiple) <
+              1
             );
           }
         );
-      if(!todosDisponiblesParaCambiarLongitud){
-        
-      }
+
+      if (todosDisponiblesParaCambiarLongitud)
+        ultimoCuadroSemicorchea = elementUnderCursorGrilla;
+
+      //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+      indiceXUltimoCuadroSemicorchea = todosLosOffsetLeft.indexOf(
+        ultimoCuadroSemicorchea.offsetLeft
+      );
+
+      notaAsociada.indiceFinalTablaX = indiceXUltimoCuadroSemicorchea;
+      notaAsociada.longitudSemicorcheas =
+        notaAsociada.indiceFinalTablaX - notaAsociada.indiceTablaX + 1;
+
+      //Estableciendo el ancho
+      let anchoObedienteAGrilla =
+        ultimoCuadroSemicorchea.getBoundingClientRect().right -
+        divArrastrado.getBoundingClientRect().left;
+
+      divArrastrado.style.width = `${pixelsToVWVH(
+        anchoObedienteAGrilla,
+        "vw"
+      )}vw`;
+    } else {
+      ultimoCuadroSemicorchea = elementUnderCursorGrilla;
+
+      //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
+
+      indiceXUltimoCuadroSemicorchea = todosLosOffsetLeft.indexOf(
+        ultimoCuadroSemicorchea.offsetLeft
+      );
+
+      notaAsociada.indiceFinalTablaX = indiceXUltimoCuadroSemicorchea;
+      notaAsociada.longitudSemicorcheas =
+        notaAsociada.indiceFinalTablaX - notaAsociada.indiceTablaX + 1;
+
+      //Estableciendo el ancho
+      let anchoObedienteAGrilla =
+        ultimoCuadroSemicorchea.getBoundingClientRect().right -
+        divArrastrado.getBoundingClientRect().left;
+
+      divArrastrado.style.width = `${pixelsToVWVH(
+        anchoObedienteAGrilla,
+        "vw"
+      )}vw`;
     }
-
-    //Estableciendo el ancho
-    divArrastrado.style.width = `${pixelsToVWVH(
-      anchoObedienteAGrilla,
-      "vw"
-    )}vw`;
-
-    //OBTENIENDO LA NUEVA LONGITUD A CAUSA DEL RESIZE
-    let indiceXUltimoCuadroSemicorchea = todosLosOffsetLeft.indexOf(
-      elementUnderCursorGrilla.offsetLeft
-    );
-
-    notaAsociada.indiceFinalTablaX = indiceXUltimoCuadroSemicorchea;
-    notaAsociada.longitudSemicorcheas =
-      notaAsociada.indiceFinalTablaX - notaAsociada.indiceTablaX + 1;
 
     //Seteando la ultima longitud para las nuevas notas
     Cantidad_Semicorcheas_Foco = notaAsociada.longitudSemicorcheas;
@@ -851,8 +892,6 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
       NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.forEach(
         (notaSecuenciadorDeMelodiasSeleccionada) => {
           if (notaSecuenciadorDeMelodiasSeleccionada === notaAsociada) return;
-          console.log(notaSecuenciadorDeMelodiasSeleccionada.longitudSemicorcheas, notaAsociada.longitudSemicorcheas, longitudInicialCambioLongitudMultiple);
-          console.log(notaSecuenciadorDeMelodiasSeleccionada.longitudSemicorcheas + (notaAsociada.longitudSemicorcheas -longitudInicialCambioLongitudMultiple))
           notaSecuenciadorDeMelodiasSeleccionada.semicorcheasLengthTo(
             notaSecuenciadorDeMelodiasSeleccionada.longitudSemicorcheas +
               (notaAsociada.longitudSemicorcheas -
@@ -860,6 +899,7 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
           );
         }
       );
+
       longitudInicialCambioLongitudMultiple = notaAsociada.longitudSemicorcheas;
     }
   } else {
