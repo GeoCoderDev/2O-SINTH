@@ -62,7 +62,7 @@ function desplegarMensajeDePausa() {
     ["SI", "NO"],
     [
       () => {
-        reproducirMelodia();
+        reproducirTodo();
 
         // ACTIVA ESTOS COMENTARIOS SI QUIERES QUE CADA VEZ QUE EL USUARIO
         // SALGA DE LA PAGINA LE APAREZCA EL MENSAJE, SI QUIERES QUE SOLO APAREZCA UNA VEZ
@@ -85,7 +85,7 @@ function revisarVisibilidad() {
   if (document.visibilityState === "hidden") {
     // Si se llego a pausar la melodia entonces desplegamos mensaje de pausa automatica
     if (!estaPausado && seEstaReproduciendo) {
-      pausarMelodia();
+      pausarTodo();
       if (!seDesplegoMensaje) {
         desplegarMensajeDePausa();
         seDesplegoMensaje = true;
@@ -117,17 +117,17 @@ window.addEventListener("keyup", (e) => {
       spaceKeyPressCount += 1;
 
       if (spaceKeyPressCount === 2) {
-        pararMelodia();
+        pararTodo();
         spaceKeyPressCount = 0;
       }
     } else {
       spaceKeyPressCount = 1;
 
       if (!seEstaReproduciendo) {
-        reproducirMelodia();
+        reproducirTodo();
       } else {
         // PAUSAR
-        pausarMelodia();
+        pausarTodo();
       }
       eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
     }

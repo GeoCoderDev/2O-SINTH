@@ -1,40 +1,27 @@
-// const DRUMS = document.querySelectorAll("audio.drum");
+/**
+ * Reproduce el sonido de un tambor.
+ * @param {keyof typeof DRUMS_RUTAS} drumName - El nombre del Drum a reproducir.
+ */
+function reproducirDrum(drumName) {
+  if (!DRUMS_DATA_DISPONIBLE) return console.error(`Los audios aun no cargan`);
+  if (AUDIO_BUFFER_DRUMS.hasOwnProperty(drumName)) {
+    const audioBufferSourceNode = ENTORNO_AUDIO_DRUMS.createBufferSource();
+    audioBufferSourceNode.buffer = AUDIO_BUFFER_DRUMS[drumName];
+    audioBufferSourceNode.connect(ENTORNO_AUDIO_DRUMS.destination);
+    audioBufferSourceNode.start();
+  } else {
+    console.error(`Nombre de tambor no válido: ${drumName}`);
+  }
+}
 
-// let audioBuffer;
+function reproducirRitmo(){
 
-// fetch("Assets/Wav/Kick.wav")
-//   .then((response) => response.arrayBuffer())
-//   .then((data) => ENTORNO_AUDIO.decodeAudioData(data))
-//   .then((decodedBuffer) => {
-//     audioBuffer = decodedBuffer;
-//   })
-//   .then(() => {
+}
 
-//         const audioBufferSourceNode = ENTORNO_AUDIO.createBufferSource();
-//         audioBufferSourceNode.buffer = audioBuffer;
-//         audioBufferSourceNode.play();
+function pausarRitmo(){
 
-//   });
+}
 
-const DRUMS = document.querySelectorAll("audio.drum");
+function pararRitmo(){
 
-const ctx = new AudioContext();
-
-fetch("Assets/Wav/Snare.wav")
-  .then((response) => response.arrayBuffer())
-  .then((data) => {
-    console.log(data);
-    return ctx.decodeAudioData(data);
-  })
-  .then((audioBuffer) => {
-    setInterval(() => {
-      const audioBufferSourceNode = ctx.createBufferSource();
-      audioBufferSourceNode.buffer = audioBuffer;
-      // Now, audioBufferSourceNode will have the play function
-      audioBufferSourceNode.connect(ctx.destination); // Connect to the audio context destination
-      audioBufferSourceNode.start(); // Use start instead of play
-    }, 450);
-  })
-  .catch((error) => {
-    console.error("Error loading audio:", error);
-  });
+}

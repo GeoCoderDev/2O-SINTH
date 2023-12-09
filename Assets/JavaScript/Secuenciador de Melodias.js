@@ -1263,8 +1263,6 @@ let ultimoIndiceX;
 let animacionActual;
 let lastAnimationTime = 0;
 let ultimoRequestAnimate;
-let seEstaReproduciendo = false;
-let estaPausado = true;
 let ultimaPosicionXRelativaTransportBar = 0;
 let tempoDeLaAnimacion;
 let TimeOutParaEmpezarAReproducirMelodiaDeNuevo;
@@ -1347,7 +1345,7 @@ function reproducirNotas() {
 let desconectarYcrearNuevaSalidaDeAudio = () => {
   nodoSalidaSintetizador.disconnect();
   nodoSalidaSintetizador = undefined;
-  nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
+  nodoSalidaSintetizador = ENTORNO_AUDIO_SINTH.createGain();
   nodoSalidaSintetizador.connect(nodoCompresorSintetizador);
 };
 
@@ -1470,106 +1468,7 @@ function reproducirMelodia() {
   cambiarBotonAPlayOPausa();
 }
 
-delegarEvento("click", "#boton-play-pausa, #boton-play-pausa *", () => {
-  if (!seEstaReproduciendo) {
-    reproducirMelodia();
-  } else {
-    // PAUSAR
-    pausarMelodia();
-  }
-  eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
-});
 
-delegarEvento("click", "#boton-stop, #boton-stop *", () => {
-  eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
-  pararMelodia();
-});
-
-function arrastrarTransportBar(eventoMouseDown) {
-  if (eventoMouseDown.target == TRANSPORT_BAR) {
-    if (!(eventoMouseDown.offsetY <= VWVHTopixels("vh", 3.3)[0])) {
-      return false;
-    }
-  }
-
-  let cambioDeCursor = cambiarCursorParaTodaLaPagina("grabbing");
-
-  let stopExitosamente;
-
-  let empezarArrastrarTransportBar = (e) => {
-    if (!stopExitosamente) stopExitosamente = pararMelodia();
-
-    let posicionNueva = e.clientX - PIANO_ROLL.getBoundingClientRect().left;
-
-    posicionNueva = Math.max(
-      0,
-      Math.min(
-        posicionNueva,
-        PIANO_ROLL.getBoundingClientRect().right +
-          CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft
-      )
-    );
-
-    for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
-      if (
-        posicionNueva >=
-          todasLasPosicionesRelativasAlMarco[i] -
-            todasLasPosicionesRelativasAlMarco[0] &&
-        posicionNueva <=
-          todasLasPosicionesRelativasAlMarco[i + 1] -
-            todasLasPosicionesRelativasAlMarco[0]
-      ) {
-        posicionNueva =
-          todasLasPosicionesRelativasAlMarco[i] -
-          todasLasPosicionesRelativasAlMarco[0];
-        if (i == 64) {
-          if (!estiloParaEliminarBordeDelTransportBar) {
-            estiloParaEliminarBordeDelTransportBar =
-              insertarReglasCSSAdicionales(`
-                            #Transport-Bar::before{
-                                border-right-width:0;
-                            }`);
-          }
-        } else {
-          if (estiloParaEliminarBordeDelTransportBar) {
-            eliminarReglasCSSAdicionales(
-              estiloParaEliminarBordeDelTransportBar
-            );
-            estiloParaEliminarBordeDelTransportBar = undefined;
-          }
-        }
-        ultimoIndiceX = i - 1;
-        break;
-      }
-    }
-
-    volverTransportBarAPosicion(posicionNueva);
-  };
-
-  //FORZANDO ARRASTRE CON UN SOLO MOUSEDOWN SIN NECESIDAD DE DISPARAR EL EVENTO MOUSEMOVE,
-  // PORQUE LAMENTABLEMENTE AVECES EL USUARIO NO LA DISPARARA CON SOLO HACER CLICK
-  empezarArrastrarTransportBar(eventoMouseDown);
-
-  let eventoMouseMove = delegarEvento(
-    "mousemove",
-    `*`,
-    empezarArrastrarTransportBar
-  );
-
-  let eventoMouseUp = delegarEvento("mouseup", `*`, () => {
-    if (stopExitosamente) reproducirMelodia();
-    eliminarEventoDelegado("mousemove", eventoMouseMove);
-    eliminarEventoDelegado("mouseup", eventoMouseUp);
-    cambioDeCursor.volverAlCursorOriginal();
-  });
-}
-
-delegarEvento("mousedown", TRANSPORT_BAR, arrastrarTransportBar);
-delegarEvento(
-  "mousedown",
-  `#NUMEROS-COMPASS, #NUMEROS-COMPASS *`,
-  arrastrarTransportBar
-);
 
 // EVENTO DE CURSOR GRAB SOLO EN TRIANGULO DEL TRANSPORT BAR
 delegarEvento("mousemove", TRANSPORT_BAR, (e) => {
@@ -1608,12 +1507,10 @@ TEMPO.addEventListener("mousedown", (e) => {
   }
 });
 
-let i = new NotaSecuenciadorDeMelodias(undefined, {
-  indiceTablaX: 5,
-  indiceTablaY: 1,
-  longitudSemicorcheas: 7,
-});
 
-// setTimeout(() => {
-//   i.remove();
-// }, 3000);
+
+// let i = new NotaSecuenciadorDeMelodias(undefined, {
+//   indiceTablaX: 5,
+//   indiceTablaY: 1,
+//   longitudSemicorcheas: 7,
+// });

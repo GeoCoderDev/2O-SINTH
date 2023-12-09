@@ -67,9 +67,9 @@ var impulse;
 
 
 function impulseResponse(duration,decay) {
-    var length = ENTORNO_AUDIO.sampleRate * duration;
+    var length = ENTORNO_AUDIO_SINTH.sampleRate * duration;
 
-    impulse = ENTORNO_AUDIO.createBuffer(2,length,ENTORNO_AUDIO.sampleRate);
+    impulse = ENTORNO_AUDIO_SINTH.createBuffer(2,length,ENTORNO_AUDIO_SINTH.sampleRate);
     var IR = impulse.getChannelData(0);
     for (var i=0;i<length;i++) IR[i] = (2*Math.random()-1)*Math.pow(1-i/length,decay);
     return impulse;
@@ -177,7 +177,7 @@ class NotaSintetizador{
 
         let nodoADSRNota;
 
-        if(adsrActivado) nodoADSRNota = ENTORNO_AUDIO.createGain();
+        if(adsrActivado) nodoADSRNota = ENTORNO_AUDIO_SINTH.createGain();
 
         let todosLosEventosClick = [];
         let todosLosEventosMouseMove = [];
@@ -223,7 +223,7 @@ class NotaSintetizador{
 
         for(let i=0; i<datosOscilador1[1].value;i++){
             
-            Osciladores1[i] = ENTORNO_AUDIO.createOscillator();
+            Osciladores1[i] = ENTORNO_AUDIO_SINTH.createOscillator();
             Osciladores1[i].frequency.value = this.frecuencia;
             Osciladores1[i].type = datosOscilador1[0].obtenerValor();
 
@@ -242,7 +242,7 @@ class NotaSintetizador{
             if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
 
                 //Creando un nodo de ganancia por Oscilador LFO
-                LFOgains1[i] = ENTORNO_AUDIO.createGain();
+                LFOgains1[i] = ENTORNO_AUDIO_SINTH.createGain();
 
                     LFOgains1[i].gain.value = LFOKnobsValues.value[1]; //Inicializando la Amplitud
                     
@@ -253,7 +253,7 @@ class NotaSintetizador{
                         }    
                     }));
                                           
-                OsciladoresLFO1[i] = ENTORNO_AUDIO.createOscillator();
+                OsciladoresLFO1[i] = ENTORNO_AUDIO_SINTH.createOscillator();
 
                     OsciladoresLFO1[i].frequency.value = LFOKnobsValues.value[2];
 
@@ -281,7 +281,7 @@ class NotaSintetizador{
 
                     let retrasoLFO = LFOKnobsValues.value[0];
                     
-                    OsciladoresLFO1[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO); 
+                    OsciladoresLFO1[i].start(ENTORNO_AUDIO_SINTH.currentTime + retrasoLFO); 
                     
                 
             }
@@ -302,7 +302,7 @@ class NotaSintetizador{
 
         for(let i=0; i<datosOscilador2[1].value;i++){
                 
-                Osciladores2[i] = ENTORNO_AUDIO.createOscillator();
+                Osciladores2[i] = ENTORNO_AUDIO_SINTH.createOscillator();
                 Osciladores2[i].frequency.value = this.frecuencia;
                 Osciladores2[i].type = datosOscilador2[0].obtenerValor();
 
@@ -319,7 +319,7 @@ class NotaSintetizador{
                 if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
 
                     //Creando un nodo de ganancia por Oscilador LFO
-                    LFOgains2[i] = ENTORNO_AUDIO.createGain();
+                    LFOgains2[i] = ENTORNO_AUDIO_SINTH.createGain();
 
                         LFOgains2[i].gain.value = LFOKnobsValues.value[1]; //Inicializando la Amplitud
                         
@@ -330,7 +330,7 @@ class NotaSintetizador{
                             }    
                         }));
                                             
-                    OsciladoresLFO2[i] = ENTORNO_AUDIO.createOscillator();
+                    OsciladoresLFO2[i] = ENTORNO_AUDIO_SINTH.createOscillator();
 
                         OsciladoresLFO2[i].frequency.value = LFOKnobsValues.value[2];
 
@@ -358,7 +358,7 @@ class NotaSintetizador{
 
                         let retrasoLFO = LFOKnobsValues.value[0];
                         
-                        OsciladoresLFO2[i].start(ENTORNO_AUDIO.currentTime + retrasoLFO);
+                        OsciladoresLFO2[i].start(ENTORNO_AUDIO_SINTH.currentTime + retrasoLFO);
 
                 }
 
@@ -379,8 +379,8 @@ class NotaSintetizador{
 //==================================================================================
 
         let iniciarADSR = ()=>{
-            nodoADSRNota.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
-            let horaInicioPresionDeUnaNota = ENTORNO_AUDIO.currentTime;
+            nodoADSRNota.gain.cancelScheduledValues(ENTORNO_AUDIO_SINTH.currentTime);
+            let horaInicioPresionDeUnaNota = ENTORNO_AUDIO_SINTH.currentTime;
             let duracionAtaque = (getADSRvalues("A")/100)* MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
             let finalAtaque = horaInicioPresionDeUnaNota + duracionAtaque;
             let duracionDecay = (getADSRvalues("D")/100)*MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR;
@@ -489,8 +489,8 @@ class NotaSintetizador{
 
             let volumenAntesDeSoltar = nodoADSRNota.gain.value;
                     
-            nodoADSRNota.gain.cancelScheduledValues(ENTORNO_AUDIO.currentTime);
-            let horaFinalPresionDeUnaNota = ENTORNO_AUDIO.currentTime;            
+            nodoADSRNota.gain.cancelScheduledValues(ENTORNO_AUDIO_SINTH.currentTime);
+            let horaFinalPresionDeUnaNota = ENTORNO_AUDIO_SINTH.currentTime;            
             let finalRelease = horaFinalPresionDeUnaNota + duracionRelease;
             nodoADSRNota.gain.setValueAtTime(volumenAntesDeSoltar,horaFinalPresionDeUnaNota);
             nodoADSRNota.gain.linearRampToValueAtTime(0,finalRelease);
@@ -621,7 +621,7 @@ nodoDeEco.connect(nodoPaneo);
 
 nodoMaster.connect(nodoPaneo);
 nodoPaneo.connect(nodoAnalizador);
-nodoPaneo.connect(ENTORNO_AUDIO.destination);
+nodoPaneo.connect(ENTORNO_AUDIO_SINTH.destination);
 //===================================================================================================================
 
 
@@ -717,14 +717,14 @@ const comboBoxLFO = document.getElementById('Control-a-controlar-LFO');
 let requestAnimationFrameLFO;
 let LFO;
 
-let LFOgain = ENTORNO_AUDIO.createGain();
+let LFOgain = ENTORNO_AUDIO_SINTH.createGain();
 LFOgain.gain.value = LFOKnobsValues.value[1]/100;
 
 delegarEvento('mousemove',`#${LFOKnobsValues.obtenerIDs[1]}`,()=>{
     LFOgain.gain.value = LFOKnobsValues.value[1]/100;
 })
 
-let LFOAnalizador = ENTORNO_AUDIO.createAnalyser();
+let LFOAnalizador = ENTORNO_AUDIO_SINTH.createAnalyser();
 LFOAnalizador.fftSize = 2048;
 let dataLFO = new Uint8Array(2048);
 
@@ -744,7 +744,7 @@ function(){
 
     if(comboBoxLFO.value!="tono"&&comboBoxLFO.value!="none"){
 
-        LFO = ENTORNO_AUDIO.createOscillator();
+        LFO = ENTORNO_AUDIO_SINTH.createOscillator();
         LFO.type = tipoOndaLFO.obtenerValor();
         delegarEvento('click',`#${tipoOndaLFO.obtenerIDs[0]},#${tipoOndaLFO.obtenerIDs[1]}`,()=>{
             setTimeout(()=>{
@@ -762,7 +762,7 @@ function(){
 
         LFO.connect(LFOgain);
         LFOgain.connect(LFOAnalizador);
-        LFO.start(ENTORNO_AUDIO.currentTime + retrasoLFO);
+        LFO.start(ENTORNO_AUDIO_SINTH.currentTime + retrasoLFO);
 
         
 
@@ -868,7 +868,6 @@ delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
 })    
 
 
-
 //----------------------------------------------------------
 // REINICIANDO EL ENTORNO DE AUDIO Y TODOS SUS COMPONENTES |
 //----------------------------------------------------------
@@ -878,7 +877,7 @@ document.getElementById('boton-iniciar-sesion').addEventListener('click',()=>{
 })
 
 function apagarNodosDeAudio(){
-    ENTORNO_AUDIO = null;
+    ENTORNO_AUDIO_SINTH = null;
     nodoSalidaSintetizador.disconnect();
     nodoSalidaSintetizador = null;
     nodoCompresorSintetizador.disconnect();
@@ -902,21 +901,21 @@ function apagarNodosDeAudio(){
     nodoAnalizador.disconnect();
     nodoAnalizador = null;
 
-    ENTORNO_AUDIO = new AudioContext();
+    ENTORNO_AUDIO_SINTH = new AudioContext();
 }
 
 function prendiendoNodosDeAudio(){
-    var nodoSalidaSintetizador = ENTORNO_AUDIO.createGain();
-    var nodoCompresorSintetizador = ENTORNO_AUDIO.createDynamicsCompressor();
-    var nodoADSR = ENTORNO_AUDIO.createGain();
-    var nodoDeFiltro = ENTORNO_AUDIO.createBiquadFilter();
-    var nodoDistorsion = ENTORNO_AUDIO.createWaveShaper();
-    var nodoDeConvolucion = ENTORNO_AUDIO.createConvolver();
-    var nodoDeEco = ENTORNO_AUDIO.createDelay();
-    var nodoFeedbackEco = ENTORNO_AUDIO.createGain();
-    var nodoMaster = ENTORNO_AUDIO.createGain();
-    var nodoPaneo = ENTORNO_AUDIO.createStereoPanner();
-    var nodoAnalizador = ENTORNO_AUDIO.createAnalyser();
+    var nodoSalidaSintetizador = ENTORNO_AUDIO_SINTH.createGain();
+    var nodoCompresorSintetizador = ENTORNO_AUDIO_SINTH.createDynamicsCompressor();
+    var nodoADSR = ENTORNO_AUDIO_SINTH.createGain();
+    var nodoDeFiltro = ENTORNO_AUDIO_SINTH.createBiquadFilter();
+    var nodoDistorsion = ENTORNO_AUDIO_SINTH.createWaveShaper();
+    var nodoDeConvolucion = ENTORNO_AUDIO_SINTH.createConvolver();
+    var nodoDeEco = ENTORNO_AUDIO_SINTH.createDelay();
+    var nodoFeedbackEco = ENTORNO_AUDIO_SINTH.createGain();
+    var nodoMaster = ENTORNO_AUDIO_SINTH.createGain();
+    var nodoPaneo = ENTORNO_AUDIO_SINTH.createStereoPanner();
+    var nodoAnalizador = ENTORNO_AUDIO_SINTH.createAnalyser();
     nodoAnalizador.fftSize = 2048;
     var bufferLength = nodoAnalizador.frequencyBinCount;
     var datosAnalizador = new Uint8Array(bufferLength);
