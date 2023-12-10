@@ -71,6 +71,13 @@ function openLastData() {
     let lastRhythm = JSON.parse(localStorage.getItem(KEY_LAST_RHYTHM));
     openRhythm(lastRhythm.rhythm);
   }
+
+
+  if (KEY_LAST_PRESET in localStorage){
+    let lastPreset = JSON.parse(localStorage.getItem(KEY_LAST_PRESET));
+    openPreset(lastPreset);
+  }
+
 }
 
 window.addEventListener("load", openLastData);
