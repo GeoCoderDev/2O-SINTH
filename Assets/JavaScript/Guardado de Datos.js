@@ -11,6 +11,7 @@ function getCurrentMelody() {
 }
 
 function getCurrentRhythm() {
+  if(document.querySelectorAll(".Semicorchea-Ritmo-Activa").length===0) return "";
   return Array.from(Todos_los_cuadros_semicorchea_ritmos).map(
     (cuadroSemicorcheaRitmo) => {
       return cuadroSemicorcheaRitmo.classList.contains(
@@ -33,7 +34,7 @@ const KEY_LAST_RHYTHM = "lastRhythm";
 
 // Guardando Melodia + Eventos
 function setMelodyInLocalStorage() {
-  const CURRENT_MELODY = { melody: getCurrentMelody() };
+  const CURRENT_MELODY = { melody: getCurrentMelody(), compasesUsados: CANTIDAD_COMPASES_HTML.value };
   localStorage.setItem("lastMelody", JSON.stringify(CURRENT_MELODY));
 }
 

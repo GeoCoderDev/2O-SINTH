@@ -723,13 +723,10 @@ class NotaSecuenciadorDeMelodias {
     NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
   }
 
-  getDataNote(){
-
-    const {indiceTablaX, indiceTablaY, longitudSemicorcheas} = this;
-    return {indiceTablaX, indiceTablaY, longitudSemicorcheas};
-
+  getDataNote() {
+    const { indiceTablaX, indiceTablaY, longitudSemicorcheas } = this;
+    return { indiceTablaX, indiceTablaY, longitudSemicorcheas };
   }
-
 
   /**
    *
@@ -1148,8 +1145,10 @@ let establecerElMinimoCompases = () => {
   CANTIDAD_COMPASES_HTML.min = devolverCantidadDeCompassesMinimaActual();
 };
 
-let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = () => {
-  establecerElMinimoCompases();
+let establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas = (
+  noIgnorarMinimo
+) => {
+  if (noIgnorarMinimo) establecerElMinimoCompases();
 
   if (CANTIDAD_COMPASES_HTML.value == CANTIDAD_DE_COMPASES) return;
 
@@ -1256,6 +1255,19 @@ CANTIDAD_COMPASES_HTML.addEventListener("mousedown", (e) => {
   }
 });
 
+/**
+ *
+ * @param {Number} cantidadCompases
+ */
+function setCantidadCompasesEnSecuenciadorMelodias(cantidadCompases) {
+  if (
+    !(cantidadCompases % 2 == 0)||
+    CANTIDAD_COMPASES_HTML.value == cantidadCompases
+  )
+    return;
+  CANTIDAD_COMPASES_HTML.value = cantidadCompases;
+  establecerLimiteMinimoCompases_Columnas_Y_Acomodar_Notas(false);
+}
 
 // let i = new NotaSecuenciadorDeMelodias(undefined, {
 //   indiceTablaX: 5,

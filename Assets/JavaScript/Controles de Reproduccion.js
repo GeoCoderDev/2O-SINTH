@@ -101,11 +101,9 @@ function reproducirNotas() {
       // Eliminando borde de la columna anterior
       Todos_los_cuadros_semicorchea_ritmos[(index%32===0)?index + (CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS*16) - 1:index - 1].style.border = "";      
     })
-    console.log(indiceCuadroSemicorchea);
+
     ultimoIndiceX = indiceCuadroSemicorchea;
   }
-
-
 
   ultimoRequestAnimate = requestAnimationFrame(reproducirNotas);
 }
