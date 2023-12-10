@@ -282,9 +282,63 @@ document.addEventListener("touchend", (e) => {
   });
 });
 
+//EVENTO CHANGE
+var mapaDeEventosChange = new Map();
+var eventosChangeID = 0;
+
+function agregarEventoChange(querySelectorOElementoHTML, callback) {
+  mapaDeEventosChange.set(eventosChangeID, {
+    selectorOElementoHTML: querySelectorOElementoHTML,
+    callback: callback,
+  });
+  return eventosChangeID++;
+}
+
+document.addEventListener("change", (e) => {
+  mapaDeEventosChange.forEach((Evento) => {
+    if (
+      e.target.matches(
+        typeof Evento.selectorOElementoHTML === "string"
+          ? Evento.selectorOElementoHTML
+          : "body"
+      ) ||
+      e.target == Evento.selectorOElementoHTML
+    ) {
+      Evento.callback(e);
+    }
+  });
+});
+
+//EVENTO INPUT
+var mapaDeEventosInput = new Map();
+var eventosInputID = 0;
+
+function agregarEventoInput(querySelectorOElementoHTML, callback) {
+  mapaDeEventosInput.set(eventosInputID, {
+    selectorOElementoHTML: querySelectorOElementoHTML,
+    callback: callback,
+  });
+  return eventosInputID++;
+}
+
+document.addEventListener("input", (e) => {
+  mapaDeEventosInput.forEach((Evento) => {
+    if (
+      e.target.matches(
+        typeof Evento.selectorOElementoHTML === "string"
+          ? Evento.selectorOElementoHTML
+          : "body"
+      ) ||
+      e.target == Evento.selectorOElementoHTML
+    ) {
+      Evento.callback(e);
+    }
+  });
+});
+
 /**
  *
- * @param {'click' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mouseenter' | 'mouseover' | 'touchstart' | 'touchmove' | 'touchend'} typeEvent aqui escoges que tipo de evento quieres agregar, ejemplo: click,mousemove,etc
+ * @param {'click' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mouseenter' | 'mouseover' | 'touchstart' | 'touchmove' | 'touchend' | 'change' | 'input'} typeEvent aqui escoges que tipo de evento quieres agregar, ejemplo: click,mousemove,etc
  * @param {String | HTMLElement} querySelectorOrElement este parametro solicita un selector css para el/los elemento(s) que quieres que se aplique el evento
  * @param {Function} callback funcion que se ejecutara cada vez que se dispare el evento
  * @returns devuelve un Id del evento que añadiste, con el cual podras eliminar el evento mediante la funcion eliminarEventoDelegado
@@ -321,6 +375,12 @@ function delegarEvento(typeEvent, querySelectorOrElement, callback) {
     case "touchend":
       return agregarEventoTouchEnd(querySelectorOrElement, callback);
 
+    case "change":
+      return agregarEventoChange(querySelectorOrElement, callback);
+
+    case "input":
+      return agregarEventoInput(querySelectorOrElement, callback);
+
     default:
       console.log("Error 132, delegacionDeEvento.js");
       break;
@@ -329,7 +389,7 @@ function delegarEvento(typeEvent, querySelectorOrElement, callback) {
 
 /**
  *
- * @param {'click' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mouseenter' | 'mouseover' | 'touchstart' | 'touchmove' | 'touchend'} typeEvent
+ * @param {'click' | 'mousemove' | 'mouseout' | 'mousedown' | 'mouseup' | 'mouseenter' | 'mouseover' | 'touchstart' | 'touchmove' | 'touchend' | 'change' | 'input'} typeEvent
  * @param {Number} idEvento
  */
 function eliminarEventoDelegado(typeEvent, idEvento) {
@@ -373,6 +433,12 @@ function eliminarEventoDelegado(typeEvent, idEvento) {
     case "touchend":
       mapaDeEventosTouchEnd.delete(idEvento);
       break;
+
+    case "change":
+      return mapaDeEventosChange(idEvento);
+
+    case "input":
+      return mapaDeEventosInput(idEvento);
 
     default:
       console.log("Error 231, delegacionDeEvento.js");

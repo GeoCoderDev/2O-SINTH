@@ -2,6 +2,31 @@
 // |                   FUNCIONES DE OBTENCION                    |
 // ---------------------------------------------------------------
 
+// PRESET
+function getCurrentPreset() {
+
+  const OSC1 = {
+    tipoOnda: tipoOndaOSC1.obtenerValor(),
+    cantidadVoces: CANTIDAD_VOCES_1_HTML.value,
+    desfinacion: DESAFINACION_1_HTML.value
+  }
+
+  const OSC2 = {
+    tipoOnda: tipoOndaOSC2.obtenerValor(),
+    cantidadVoces: CANTIDAD_VOCES_2_HTML.value,
+    desfinacion: DESAFINACION_2_HTML.value
+  }
+
+  return {OSC1, OSC2};
+
+}
+
+// FXs
+
+function getCurrentFXs(){
+
+}
+
 // MELODIAS
 function getCurrentMelody() {
   if(NOTAS_SECUENCIADOR_DE_MELODIAS.length===0) return [];
@@ -23,14 +48,22 @@ function getCurrentRhythm() {
   ).join("");
 }
 
-function getCurrentPreset() {}
 
 // ---------------------------------------------------------------
 // |                   LOCAL STORAGE(DEFAULT)                    |
 // ---------------------------------------------------------------
 const KEY_LAST_PRESET = "lastPreset";
+const KEY_LAST_FXs = "lastFXs";
 const KEY_LAST_MELODY = "lastMelody";
 const KEY_LAST_RHYTHM = "lastRhythm";
+
+// Guardando Preset + Eventos
+function setPresetInLocalStorage(){
+  const CURRENT_PRESET = getCurrentPreset();
+  localStorage.setItem(KEY_LAST_PRESET, JSON.stringify(CURRENT_PRESET));
+}
+
+delegarEvento("change","#Cont-tipos-onda-OSC1, #Cont-tipos-onda-OSC2,#Cantidad_voces_osc_1, #Cantidad_voces_osc_2, #Cantidad_desafinacion_osc_1, #Cantidad_desafinacion_osc_2",setPresetInLocalStorage);
 
 // Guardando Melodia + Eventos
 function setMelodyInLocalStorage() {
@@ -50,3 +83,4 @@ function setRhythmInLocalStorage() {
 
 delegarEvento("mousemove", `.Semicorchea-Ritmo`, setRhythmInLocalStorage);
 delegarEvento("mouseup", ".Semicorchea-Ritmo", setRhythmInLocalStorage);
+

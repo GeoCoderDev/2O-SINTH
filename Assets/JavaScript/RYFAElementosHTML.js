@@ -28,6 +28,9 @@ window.addEventListener("load", () => {
       } else {
         inputNumber.stepUp();
       }
+      // Disparando evento change
+      e.target.dispatchEvent(new Event("change",{bubbles:true}))
+
     });
 
     // Evento para poder hacer click con el rodillo del mouse y volver al valor inicial

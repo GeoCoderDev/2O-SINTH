@@ -331,7 +331,7 @@ ANIMACIONES
         height: 45%;
     }
 
-    .Cont_voces_y_Desafinacion_1,.Cont_voces_y_Desafinacion_2{
+    .Cont_voces_y_Desafinacion{
         width: 90%;
         height: 40%;
         display: grid;

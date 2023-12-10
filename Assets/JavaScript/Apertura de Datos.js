@@ -4,10 +4,23 @@
 
 // PRESET
 /**
- *
- * @param {Object} preset
+ * @param {{ OSC1: {tipoOnda: string, cantidadVoces: number, desfinacion: number}, OSC2: {tipoOnda: string, cantidadVoces: number, desfinacion: number} }} preset
  */
-function openPreset(preset) {}
+
+function openPreset({ OSC1, OSC2 }) {
+  if (!OSC1 || !OSC2) return;
+  // Seteando tipos de onda
+  tipoOndaOSC1.go(OSC1.tipoOnda);
+  tipoOndaOSC2.go(OSC2.tipoOnda);
+
+  // Seteando cantidad de voces
+  CANTIDAD_VOCES_1_HTML.value = OSC1.cantidadVoces;
+  CANTIDAD_VOCES_2_HTML.value = OSC2.cantidadVoces;
+
+  // Seteando desafinacion
+  DESAFINACION_1_HTML.value = OSC1.desfinacion;
+  DESAFINACION_2_HTML.value = OSC2.desfinacion;
+}
 // MELODIA
 /**
  *

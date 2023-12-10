@@ -1,3 +1,15 @@
+// ELEMENTOS HTML
+const SLIDER_TIPO_ONDA_1_HTML = document.getElementById("Cont-tipos-onda-OSC1");
+const SLIDER_TIPO_ONDA_2_HTML = document.getElementById("Cont-tipos-onda-OSC2");
+const CANTIDAD_VOCES_1_HTML = document.getElementById('Cantidad_voces_osc_1');
+const CANTIDAD_VOCES_2_HTML = document.getElementById('Cantidad_voces_osc_2');
+const DESAFINACION_1_HTML = document.getElementById('Cantidad_desafinacion_osc_1');
+const DESAFINACION_2_HTML = document.getElementById('Cantidad_desafinacion_osc_2');
+
+// VALORES NECESARIOS
+const TIPOS_ONDA_DISPONIBLES = ["sine","triangle","square","sawtooth"];
+
+
 // EVENTO PARA CONTROLAR EL VOLUMEN DE SALIDA DEL SINTETIZADOR
 let volumenSliderSintetizador = document.getElementById('Slider-Vol-Sintetizador');
 
@@ -22,7 +34,7 @@ nodoCompresorSintetizador.threshold.value = -21;
 var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('Cont-tipos-onda-OSC1'),
-    ["sine","triangle","square","sawtooth"],
+    TIPOS_ONDA_DISPONIBLES,
     ["Senoidal","Triangular","Cuadrada","Diente de Sierra"],
     "./Assets/Imagenes",
     ["Onda\\ Senoidal\\ icon.png",
@@ -42,7 +54,7 @@ var tipoOndaOSC1 = insertaDeslizadorDeImagenesEn
 var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
 (
     document.getElementById('Cont-tipos-onda-OSC2'),
-    ["sine","triangle","square","sawtooth"],
+    TIPOS_ONDA_DISPONIBLES,
     ["Senoidal","Triangular","Cuadrada","Diente de Sierra"],
     "./Assets/Imagenes",
     ["Onda\\ Senoidal\\ icon.png",
@@ -57,9 +69,8 @@ var tipoOndaOSC2 = insertaDeslizadorDeImagenesEn
     "0.2vw"
 );
 
-var datosOscilador1 = [tipoOndaOSC1,document.getElementById('Cantidad_voces_osc_1'),document.getElementById('Cantidad_desafinacion_osc_1')];
-var datosOscilador2 = [tipoOndaOSC2,document.getElementById('Cantidad_voces_osc_2'),document.getElementById('Cantidad_desafinacion_osc_2')];
-
+let datosOscilador1 = [tipoOndaOSC1,CANTIDAD_VOCES_1_HTML,DESAFINACION_1_HTML];
+let datosOscilador2 = [tipoOndaOSC2,CANTIDAD_VOCES_2_HTML,DESAFINACION_2_HTML];
 
 let letrasEstanMostradas = false;
 let estilosParaLetras;

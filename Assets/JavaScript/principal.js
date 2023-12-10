@@ -77,7 +77,7 @@ const AUDIO_BUFFER_DRUMS = {};
 
 // Object.entries() => [KEY, VALUE]
 
-(async function getAudioBuffers() {
+(async function() {
   for (const [drumName, ruta] of Object.entries(DRUMS_RUTAS)) {
     try {
       const response = await fetch(ruta);
