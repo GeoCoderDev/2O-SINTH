@@ -1136,34 +1136,43 @@ ANIMACIONES
     #Secuenciador-Ritmos{
         padding: 3vw 1.5vw;
 
-        width: 85%;
+        width: 90%;
         height: 75%;
         border-radius: 1vw;
         display: grid;
-        grid-template-columns: 3fr repeat(32,1fr);
+        grid-template-columns: 3.2fr repeat(32,1fr);
         grid-template-rows: repeat(8,1fr);
         text-align: center;
-        grid-column-gap: 0.5vw;
+        grid-column-gap: 0.6vw;
         grid-row-gap: 0.5vw;
-        background-color: rgb(52, 78, 208);
-        box-shadow: 0 0 0.7vw 0.4vw inset rgba(53, 36, 148, 0.844),
+        background-color: rgb(83, 83, 83);
+        box-shadow: 0 0 0.7vw 0.5vw inset rgba(0, 0, 0, 0.6),
         1vh 1vh 2vh rgba(73, 71, 71, 0.408);
     }
 
     .Semicorchea-Ritmo{
-        border: 0.2vw solid black;    
+        /* border: 0.2vw solid black;     */
         border-radius: 0.5vw;
-        background-image: radial-gradient(white,#1b299f);
+        /* background-image: radial-gradient(rgb(73, 71, 71),#1b299f); */
+        background-color: rgb(68, 64, 64);
+        box-shadow: 0 0 0.5vw 0.2vw inset rgba(0, 0, 0, 0.7);
     }
 
-    .Semicorchea-Ritmo:hover{
-        border-color: greenyellow ;        
-        opacity: 0.8;
+    /* .Semicorchea-Ritmo:active{
+        background-image: radial-gradient(white 80%,#1b299f);
+    } */
+
+    .Semicorchea-Ritmo-Activa{
+        /* background-image: radial-gradient(white,#6a6a6a); */
+        background-color: rgb(167, 167, 167);
+        filter: brightness(1.8);
     }
 
+    .Semicorchea-Ritmo:hover{    
+        opacity: 0.5;
+    }
     
     .Cuadro_semicorchea_patron_activado{
-
         background-image: radial-gradient(var(--color-fondo-notas-activadas),rgb(0, 0, 0), transparent);
     } 
     
@@ -1174,9 +1183,15 @@ ANIMACIONES
         align-items: center;
         justify-content: center;
         font-size: 1.65vh;
-        border: 0.2vw solid black;   
+        /* border: 0.2vw solid black;    */
         border-radius: 0.5vw;
-        background-image: radial-gradient(white ,rgb(52, 78, 208) 95%);
+        /* background-image: radial-gradient(white ,rgb(52, 78, 208) 95%); */
+        background-color: rgb(83, 83, 83);
+        box-shadow: 0 0 0.7vw 0.5vw inset rgba(0, 0, 0, 0.6);
+        color: white;
+        font-weight: 100;
+        letter-spacing: 0.05vw;
+        cursor: pointer;
     }
     /*=================================================================================================================
     CONTENEDOR DE CONTROLES Y BOTONES DE GUARDADO

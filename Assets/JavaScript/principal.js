@@ -66,10 +66,10 @@ const DRUMS_RUTAS = {
   kick: "Assets/Wav/Kick.wav",
   snare: "Assets/Wav/Snare.wav",
   snare2: "Assets/Wav/Snare 2.wav",
-  closedHat: "Assets/Wav/Closed Hit Hat.wav",
-  openHat: "Assets/Wav/Open Hit Hat.wav",
+  closedHitHat: "Assets/Wav/Closed Hit Hat.wav",
+  openHitHat: "Assets/Wav/Open Hit Hat.wav",
   clap: "Assets/Wav/Clap.wav",
-  shakers: "Assets/Wav/Shaker.wav",
+  shaker: "Assets/Wav/Shaker.wav",
   crash: "Assets/Wav/Crash.wav",
 };
 
@@ -92,9 +92,3 @@ const AUDIO_BUFFER_DRUMS = {};
     DRUMS_DATA_DISPONIBLE = true;
 });
 
-//=============================================================================
-//                    VARIABLES GLOBALES DE REPRODUCCION                      |
-// ============================================================================
-
-let seEstaReproduciendo = false;
-let estaPausado = true;
