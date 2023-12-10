@@ -403,3 +403,4 @@ delegarEvento(
   `#NUMEROS-COMPASS, #NUMEROS-COMPASS *`,
   arrastrarTransportBar
 );
+
