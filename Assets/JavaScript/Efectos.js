@@ -1,3 +1,37 @@
+// MAXIMO TIEMPO DURACION POR PARAMETRO EN SEGUNDOS
+const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
+
+// DESLIZADORES DEL AMPLIFICADOR ADSR
+let ataqueSlider = document.getElementById('Amp-Ataque-Slider');
+let decaySlider = document.getElementById('Amp-Decay-Slider');
+let sustainSlider = document.getElementById('Amp-Sustain-Slider');
+let releaseSlider = document.getElementById('Amp-Release-Slider');
+
+/**
+ * 
+ * @param {'A'|'D'|'S'|'R'} elementoADSR 
+ * @returns
+ */
+function getADSRvalues(elementoADSR){
+    switch (elementoADSR) {
+        case "A":
+            return parseFloat(ataqueSlider.value);
+    
+        case "D":
+            return parseFloat(decaySlider.value);
+
+        case "S":
+            return parseFloat(sustainSlider.value);
+
+        case "R":
+            return parseFloat(releaseSlider.value)/2;
+
+        default:
+            console.log("Error 34, sonido.js")
+            break;
+    }
+}
+
 //CREANDO DESLIZADOR DE IMAGENES PARA EL LFO 
 var tipoOndaLFO = insertaDeslizadorDeImagenesEn
 (
@@ -17,6 +51,8 @@ var tipoOndaLFO = insertaDeslizadorDeImagenesEn
     "max(0.2vw,0.3vh)",
     "rgb(106, 146, 106)"
 );
+
+let CONTROL_A_CONTROLAR_LFO = document.getElementById('Control-a-controlar-LFO');
 
 //CREANDO KNOBS PARA EL LFO 
 var LFOKnobsValues = insertaKnobsEn
@@ -156,16 +192,18 @@ var panSintetizador = insertaKnobsEn(
 
 
 // CONFIGURANDO EL VOLUMEN DEL MASTER
-let volumenSliderMaster = document.getElementById('volumenMaster');
+let VOLUMEN_SLIDER_MASTER = document.getElementById('volumenMaster');
 
-nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
+nodoMaster.gain.value = (VOLUMEN_SLIDER_MASTER.value/100)/0.8;
 
-delegarEvento('mousemove',volumenSliderMaster,()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
+delegarEvento('mousemove',VOLUMEN_SLIDER_MASTER,()=>{
+    nodoMaster.gain.value = (VOLUMEN_SLIDER_MASTER.value/100)/0.8;
 })
 
-volumenSliderMaster.addEventListener('keyup',()=>{
-    nodoMaster.gain.value = (volumenSliderMaster.value/100)/0.8;
+VOLUMEN_SLIDER_MASTER.addEventListener('keyup',()=>{
+    nodoMaster.gain.value = (VOLUMEN_SLIDER_MASTER.value/100)/0.8;
 })
+
+
 
 

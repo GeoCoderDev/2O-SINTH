@@ -21,6 +21,46 @@ function openPreset({ OSC1, OSC2 }) {
   DESAFINACION_1_HTML.value = OSC1.desfinacion;
   DESAFINACION_2_HTML.value = OSC2.desfinacion;
 }
+
+//FXs
+/**
+ * 
+ * @param {{amplificador: {A: number, D: number, S: number, R: number}, lfo: { tipoOnda: string, controlLFO: string, knobValues: number[] }, filtro: { tipoFiltro: string, knobValues: number[] }, distorsion: number[], reverberacion: number[], eco: number[], pan: number[], volumenMaster: number}} fx 
+ */
+function openFXs({amplificador, lfo, filtro, distorsion, reverberacion, eco,  pan, volumenMaster}){
+  // Seteando valores del amplificador
+  ataqueSlider.value = amplificador.A;
+  decaySlider.value = amplificador.D;
+  sustainSlider.value = amplificador.S;
+  releaseSlider.value = amplificador.R;
+
+  //Seteando valores del LFO
+  tipoOndaLFO.go(lfo.tipoOnda);
+  CONTROL_A_CONTROLAR_LFO.value = lfo.controlLFO;
+  LFOKnobsValues.setValues(lfo.knobValues);
+
+  //Seteando valores del Filtro
+  tipoDeFiltro.go(filtro.tipoFiltro);
+  FiltroKnobsValues.setValues(filtro.knobValues);
+
+  //Seteando valores de la distorsion
+  barrasDistorsion.setValues(distorsion);
+
+  //Seteando valor de la reverberacion
+  knobsReverb.setValues(reverberacion);
+
+  //Setenado valores del eco
+  knobsEco.setValues(eco);
+
+  //Seteando valor del pan
+  panSintetizador.setValues(pan);
+
+  //Seteando valor del volumen master
+  VOLUMEN_SLIDER_MASTER.value = volumenMaster;
+
+}
+
+
 // MELODIA
 /**
  *
@@ -59,6 +99,17 @@ function openRhythm(ritmo) {
 function openLastData() {
   // OPENING THE PRESET
 
+  if (KEY_LAST_PRESET in localStorage){
+    let lastPreset = JSON.parse(localStorage.getItem(KEY_LAST_PRESET));
+    openPreset(lastPreset);
+  }
+
+  // OPENING THE FXs
+  if(KEY_LAST_FXs in localStorage){
+    let lastFXs = JSON.parse(localStorage.getItem(KEY_LAST_FXs));
+    openFXs(lastFXs);
+  }
+
   // OPENING THE MELODY
   if (KEY_LAST_MELODY in localStorage) {
     let lastMelody = JSON.parse(localStorage.getItem(KEY_LAST_MELODY));
@@ -70,12 +121,6 @@ function openLastData() {
   if (KEY_LAST_RHYTHM in localStorage) {
     let lastRhythm = JSON.parse(localStorage.getItem(KEY_LAST_RHYTHM));
     openRhythm(lastRhythm.rhythm);
-  }
-
-
-  if (KEY_LAST_PRESET in localStorage){
-    let lastPreset = JSON.parse(localStorage.getItem(KEY_LAST_PRESET));
-    openPreset(lastPreset);
   }
 
 }

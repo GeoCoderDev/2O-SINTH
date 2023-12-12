@@ -7,7 +7,6 @@ let notasSintetizadorPorTeclasDelTeclado = []
 let frecuenciasPorTecla = [];
 let teclaHTMLPorTecla = [];
 let teclaRollHTMLPorTecla = [];
-let controlLFO = document.getElementById('Control-a-controlar-LFO').value;
 
 let adsrActivado = true;
 
@@ -27,37 +26,8 @@ const FRECUENCIAS_12NOTAS_OCTAVA0 = new Map([
                                             ["B", 30.87]     //B0
                                         ])
 
-document.getElementById('Control-a-controlar-LFO').addEventListener('change',()=>{
-    controlLFO = document.getElementById('Control-a-controlar-LFO').value;
-})
 
-const MAXIMO_TIEMPO_DURACION_PARAMETROS_ADSR = 4;
 
-// DESLIZADORES DEL AMPLIFICADOR ADSR
-let ataqueSlider = document.getElementById('Amp-Ataque-Slider');
-let decaySlider = document.getElementById('Amp-Decay-Slider');
-let sustainSlider = document.getElementById('Amp-Sustain-Slider');
-let releaseSlider = document.getElementById('Amp-Release-Slider');
-
-function getADSRvalues(elementoADSR){
-    switch (elementoADSR) {
-        case "A":
-            return parseFloat(ataqueSlider.value);
-    
-        case "D":
-            return parseFloat(decaySlider.value);
-
-        case "S":
-            return parseFloat(sustainSlider.value);
-
-        case "R":
-            return parseFloat(releaseSlider.value)/2;
-
-        default:
-            console.log("Error 34, sonido.js")
-            break;
-    }
-}
 
 //===========================================================================================================
 // REVERBERACION
@@ -239,7 +209,7 @@ class NotaSintetizador{
 
             // Para practicar funciones generadoras sobre todo jejej
 
-            if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
+            if(CONTROL_A_CONTROLAR_LFO.value=="tono"){ //SI EL LFO CONTROLARA EL TONO
 
                 //Creando un nodo de ganancia por Oscilador LFO
                 LFOgains1[i] = ENTORNO_AUDIO_SINTH.createGain();
@@ -316,7 +286,7 @@ class NotaSintetizador{
 
                     todosLosEventosClick.push(delegarEvento('click',`#${tipoOndaOSC2.obtenerIDs[0]}, #${tipoOndaOSC2.obtenerIDs[1]}`,actualizarTipoOndaEnTiempoReal));
 
-                if(controlLFO=="tono"){ //SI EL LFO CONTROLARA EL TONO
+                if(CONTROL_A_CONTROLAR_LFO.value=="tono"){ //SI EL LFO CONTROLARA EL TONO
 
                     //Creando un nodo de ganancia por Oscilador LFO
                     LFOgains2[i] = ENTORNO_AUDIO_SINTH.createGain();

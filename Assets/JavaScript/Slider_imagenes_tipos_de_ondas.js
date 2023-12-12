@@ -1,3 +1,21 @@
+const CLASE_CONTENEDOR_SLIDER_IMAGENES = "CONT-SLIDER-IMAGES";
+
+/**
+ *
+ * @param {HTMLElement} contenedorDeslizadorSuperior
+ * @param {string[]} valoresParaCadaImagen
+ * @param {string[]} titulosImagenes
+ * @param {string} rutaCarpetaContenedoraDeImagenesRelativaAlArchivoHTML
+ * @param {string[]} nombresDeImagenesIncluidoFormato
+ * @param {string} tituloDeslizadorDeImagenes
+ * @param {string} tamañoTituloDeslizadorDeImagenes
+ * @param {string[]} flechasIDs
+ * @param {'columna'|'fila'} ORIENTACIONcolumnaOfila
+ * @param {string} tamanoFlechas
+ * @param {string} grosorContornosFlecha
+ * @param {string} colorDeControles
+ * @returns
+ */
 function insertaDeslizadorDeImagenesEn(
   contenedorDeslizadorSuperior,
   valoresParaCadaImagen,
@@ -19,6 +37,7 @@ function insertaDeslizadorDeImagenesEn(
     ORIENTACIONcolumnaOfila == "columna" ? "column" : "row";
   contenedorDeslizadorSuperior.style.alignItems = "center";
   contenedorDeslizadorSuperior.style.justifyContent = "space-evenly";
+  contenedorDeslizadorSuperior.classList.add(CLASE_CONTENEDOR_SLIDER_IMAGENES);
 
   let cantidadDeImagenes = nombresDeImagenesIncluidoFormato.length;
 
@@ -149,7 +168,9 @@ function insertaDeslizadorDeImagenesEn(
   //por si se pulsa el boton hacia la izquierda primero
 
   function emitiendoEventoChangeEnElContenedor() {
-    contenedorDeslizadorSuperior.dispatchEvent(new Event("change", {bubbles:true}));
+    contenedorDeslizadorSuperior.dispatchEvent(
+      new Event("change", { bubbles: true })
+    );
   }
 
   function anteriorImagen() {
@@ -168,6 +189,7 @@ function insertaDeslizadorDeImagenesEn(
       contenedorImagenes.style.marginLeft = "-100%";
       emitiendoEventoChangeEnElContenedor();
     }, 400);
+
   }
 
   function siguienteImagen() {
@@ -187,6 +209,8 @@ function insertaDeslizadorDeImagenesEn(
       contenedorImagenes.style.marginLeft = "-100%";
       emitiendoEventoChangeEnElContenedor();
     }, 400);
+
+
   }
 
   delegarEvento("click", boton_izquierda, anteriorImagen);

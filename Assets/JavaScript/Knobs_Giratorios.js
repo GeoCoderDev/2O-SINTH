@@ -47,6 +47,24 @@ function ValorKnobAGradosCSS(valorKnob,limiteInferior,limiteSuperior){
     return ((((valorKnob-limiteInferior)*270)/(limiteSuperior-limiteInferior))-135);
 }
 
+const CLASE_CONTENEDOR_KNOBS = "CONT-KNOBS";
+
+/**
+ * 
+ * @param {HTMLElement} contenedorDeKnobs 
+ * @param {string} tamanoDeKnobs 
+ * @param {string} tamanoTextos 
+ * @param {number} cantidadKnobs 
+ * @param {number} cantidadKnobsPorFila 
+ * @param {string[]} textoKnobs 
+ * @param {string[]} idKnobs 
+ * @param {number[]} limitesInferiores 
+ * @param {number[]} limitesSuperiores 
+ * @param {number[]} valoresPorDefecto 
+ * @param {string} colorControles 
+ * @param {Function} callBacks 
+ * @returns 
+ */
 function insertaKnobsEn
 (
     contenedorDeKnobs,
@@ -66,6 +84,7 @@ function insertaKnobsEn
     contenedorDeKnobs.style.flexWrap = "wrap";
     contenedorDeKnobs.style.alignItems = "center"
     contenedorDeKnobs.style.justifyContent = "space-evenly";
+    contenedorDeKnobs.classList.add(CLASE_CONTENEDOR_KNOBS);
 
     let textosKnobs =  [];
     let contenedoresKnobs = [];
@@ -166,7 +185,8 @@ function insertaKnobsEn
 
             eventosMouseUpIDs[i]=delegarEvento("mouseup",mascarasDeArrastre[i],function(){
                 eliminarEventoDelegado('mousemove',eventosMouseDownIDs[i]);
-                contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);   
+                contenedorDeKnobs.removeChild(mascarasDeArrastre[i]);
+                contenedorDeKnobs.dispatchEvent(new Event("change",{bubbles:true}))   
             })                
 
         }
@@ -198,7 +218,7 @@ function insertaKnobsEn
         obtenerIDs: idKnobs
     }
 
-}; 
+};
 
 
 

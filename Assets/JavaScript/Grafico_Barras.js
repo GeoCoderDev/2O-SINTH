@@ -20,6 +20,8 @@ function calcularValorBarra(e,barraPosYBaja,altoBarra,limiteInferior,limiteSuper
     return valorCalculado;
 }
 
+
+
 //FUNCION PARA OBTENER EL VALOR DE UNA BARRA A PARTIR
 //DE LA PROPIEDAD CSS backgroundImage MEDIANTE EXPRESIONES 
 //REGULARES
@@ -48,6 +50,8 @@ function setValueBarra(barra,valor,limiteInferior,limiteSuperior,colorFondo){
     barra.style.backgroundImage = `linear-gradient(to top,${colorFondo} 0%,${colorFondo} ${porcentajeApintar}%,transparent ${porcentajeApintar}%)`;
 
 }
+
+const CLASE_CONTENEDOR_BARRAS = "CONT-BARRAS";
 
 /**
  * @description esta funcion genera cierta cantidad de barras verticales en un elemento html
@@ -91,7 +95,8 @@ function insertarGraficoDeBarrasInteractiva
     contenedor.style.justifyContent = "none";
     contenedor.style.border = `0.15vw solid ${colorContornos}`;
     contenedor.style.borderRadius = "0.5vw";
-
+    contenedor.classList.add(CLASE_CONTENEDOR_BARRAS);
+    
     let mascarasDeArrastre = [];
     let funcionesParaCambiarValorDeUnaSolaBarra = [];
     let eventosMouseMoveIDs = [];
@@ -150,6 +155,7 @@ function insertarGraficoDeBarrasInteractiva
             eventosMouseMoveIDs[i] = delegarEvento('mousemove', mascarasDeArrastre[i],funcionesParaCambiarValorDeUnaSolaBarra[i]);
 
             mascarasDeArrastre[i].addEventListener('mouseup',function(){
+                contenedor.dispatchEvent(new Event("change",{bubbles:true}));
                 contenedor.removeChild(mascarasDeArrastre[i]);
                 eliminarEventoDelegado('mousemove',eventosMouseMoveIDs[i])
             })
