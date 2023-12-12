@@ -1190,6 +1190,7 @@ ANIMACIONES
         font-weight: 100;
         letter-spacing: 0.05vw;
         cursor: pointer;    
+        position: relative;
     }
 
 

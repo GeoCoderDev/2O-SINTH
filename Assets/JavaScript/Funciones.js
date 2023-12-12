@@ -16,6 +16,7 @@ window.addEventListener("resize", actualizarMedidadRelativas);
  * @returns devuelve la cantidad de pixeles ingresadas en vw o vh
  */
 function pixelsToVWVH(pixeles, medida) {
+  if(typeof pixeles!=="number") pixeles = parseFloat(pixeles);
   if (medida == "vw") {
     return [(pixeles * 100) / medidasRelativas[0]];
   } else {
