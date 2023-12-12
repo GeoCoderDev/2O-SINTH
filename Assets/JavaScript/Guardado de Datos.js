@@ -48,10 +48,13 @@ function getCurrentFXs() {
 
 // MELODIAS
 function getCurrentMelody() {
-  if (NOTAS_SECUENCIADOR_DE_MELODIAS.length === 0) return [];
-  return NOTAS_SECUENCIADOR_DE_MELODIAS.map((notaSecuenciadorMelodias) => {
-    return notaSecuenciadorMelodias.getDataNote();
-  });
+  return {
+    melody: NOTAS_SECUENCIADOR_DE_MELODIAS.map((notaSecuenciadorMelodias) => {
+      return notaSecuenciadorMelodias.getDataNote();
+    }),
+    compasesUsados: CANTIDAD_COMPASES_HTML.value,
+    tempo: TEMPO.value,
+  };
 }
 
 function getCurrentRhythm() {
@@ -102,10 +105,7 @@ delegarEvento(
 
 // Guardando Melodia + Eventos
 function setMelodyInLocalStorage() {
-  const CURRENT_MELODY = {
-    melody: getCurrentMelody(),
-    compasesUsados: CANTIDAD_COMPASES_HTML.value,
-  };
+  const CURRENT_MELODY = getCurrentMelody();
   localStorage.setItem("lastMelody", JSON.stringify(CURRENT_MELODY));
 }
 
@@ -119,6 +119,7 @@ delegarEvento(
   `.Cuadro-Semicorchea, .${Nombre_Clase_para_las_notas}`,
   setMelodyInLocalStorage
 );
+delegarEvento("change","#Tempo",setMelodyInLocalStorage);
 
 // Guardando ritmo + Eventos
 function setRhythmInLocalStorage() {

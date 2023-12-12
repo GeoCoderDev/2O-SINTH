@@ -1175,8 +1175,6 @@ ANIMACIONES
     .Cuadro_semicorchea_patron_activado{
         background-image: radial-gradient(var(--color-fondo-notas-activadas),rgb(0, 0, 0), transparent);
     } 
-    
-
 
     .Percusion-Ritmo{
         display: flex;
@@ -1191,8 +1189,11 @@ ANIMACIONES
         color: white;
         font-weight: 100;
         letter-spacing: 0.05vw;
-        cursor: pointer;
+        cursor: pointer;    
     }
+
+
+
     /*=================================================================================================================
     CONTENEDOR DE CONTROLES Y BOTONES DE GUARDADO
     ================================================================================================================= */

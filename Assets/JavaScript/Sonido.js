@@ -781,26 +781,20 @@ function(){
 //===========================================================================================================
 
 nodoDeFiltro.type = tipoDeFiltro.obtenerValor();
-delegarEvento('click',`#${tipoDeFiltro.obtenerIDs[0]},#${tipoDeFiltro.obtenerIDs[1]}`,()=>{
+delegarEvento('change',`#cont-filtro .${CLASE_CONTENEDOR_SLIDER_IMAGENES}`,()=>{
     setTimeout(()=>{
         nodoDeFiltro.type = tipoDeFiltro.obtenerValor();
     },400)        
 })
 
-nodoDeFiltro.Q.value = FiltroKnobsValues.value[0]/100;
-delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[0]}`,()=>{
+const actualizarValoresNodoFiltro = ()=>{
     nodoDeFiltro.Q.value = FiltroKnobsValues.value[0]/100;
-})
-
-nodoDeFiltro.frequency.value = FiltroKnobsValues.value[1];
-delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[1]}`,()=>{
     nodoDeFiltro.frequency.value = FiltroKnobsValues.value[1];
-})
-
-nodoDeFiltro.gain.value = FiltroKnobsValues.value[2]/100;
-delegarEvento('mousemove',`#${FiltroKnobsValues.obtenerIDs[2]}`,()=>{
     nodoDeFiltro.gain.value = FiltroKnobsValues.value[2]/100;
-})
+}
+
+delegarEvento('change', `#cont-filtro .${CLASE_CONTENEDOR_KNOBS}`,actualizarValoresNodoFiltro);
+
 
 //===========================================================================================================
 // DISTORSION
@@ -813,8 +807,7 @@ for(let i = 0;i<datosCurvaDistorsion.length;i++){
 }
 nodoDistorsion.curve = datosCurvaDistorsion;
 
-delegarEvento('mousemove',`.${barrasDistorsion.claseBarras}`,()=>{
-    
+delegarEvento('change',`#cont-Distorsion .${CLASE_CONTENEDOR_BARRAS}`,()=>{
     for(let i = 0;i<datosCurvaDistorsion.length;i++){
         datosCurvaDistorsion[i] = barrasDistorsion.value[i];
     }
@@ -826,16 +819,12 @@ delegarEvento('mousemove',`.${barrasDistorsion.claseBarras}`,()=>{
 // ECO
 //===========================================================================================================
 nodoDeEco.delayTime.value = knobsEco.value[0];
-
-delegarEvento('mousemove',`#${knobsEco.obtenerIDs[0]}`,()=>{
-    nodoDeEco.delayTime.value = knobsEco.value[0];
-})
-
 nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
 
-delegarEvento('mousemove',`#${knobsEco.obtenerIDs[1]}`,()=>{
+delegarEvento('change',`#cont-eco .${CLASE_CONTENEDOR_KNOBS}`,()=>{
+    nodoDeEco.delayTime.value = knobsEco.value[0];
     nodoFeedbackEco.gain.value = knobsEco.value[1]/100;
-})    
+})
 
 
 //----------------------------------------------------------

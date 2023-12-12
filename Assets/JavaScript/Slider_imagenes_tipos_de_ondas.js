@@ -189,7 +189,6 @@ function insertaDeslizadorDeImagenesEn(
       contenedorImagenes.style.marginLeft = "-100%";
       emitiendoEventoChangeEnElContenedor();
     }, 400);
-
   }
 
   function siguienteImagen() {
@@ -209,8 +208,6 @@ function insertaDeslizadorDeImagenesEn(
       contenedorImagenes.style.marginLeft = "-100%";
       emitiendoEventoChangeEnElContenedor();
     }, 400);
-
-
   }
 
   delegarEvento("click", boton_izquierda, anteriorImagen);
@@ -278,6 +275,7 @@ function insertaDeslizadorDeImagenesEn(
         contenedorImagenes.style.marginLeft = "-100%";
       }
     }
+    emitiendoEventoChangeEnElContenedor();
   };
 
   datosDeslizadorImagenes.obtenerIDs = flechasIDs;

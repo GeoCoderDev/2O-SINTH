@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
 
     // Evento para poder manipular el valor del input con la rueda del mouse
     inputNumber.addEventListener("wheel", (e) => {
+      e.target.dispatchEvent(new Event("change",{bubbles:true}))
       if (e.target == CANTIDAD_COMPASES_HTML) return; //INPUT NUMBERs EXCEPCION
       if (e.target == TEMPO) return;
       e.preventDefault();
@@ -29,7 +30,7 @@ window.addEventListener("load", () => {
         inputNumber.stepUp();
       }
       // Disparando evento change
-      e.target.dispatchEvent(new Event("change",{bubbles:true}))
+      
 
     });
 
@@ -113,6 +114,7 @@ window.addEventListener("keyup", (e) => {
   const currentTime = new Date().getTime();
 
   if (e.keyCode == 32) {
+
     e.preventDefault();
 
     if (currentTime - lastKeyPressTime < 300) {

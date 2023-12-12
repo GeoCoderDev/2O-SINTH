@@ -24,10 +24,19 @@ function openPreset({ OSC1, OSC2 }) {
 
 //FXs
 /**
- * 
- * @param {{amplificador: {A: number, D: number, S: number, R: number}, lfo: { tipoOnda: string, controlLFO: string, knobValues: number[] }, filtro: { tipoFiltro: string, knobValues: number[] }, distorsion: number[], reverberacion: number[], eco: number[], pan: number[], volumenMaster: number}} fx 
+ *
+ * @param {{amplificador: {A: number, D: number, S: number, R: number}, lfo: { tipoOnda: string, controlLFO: string, knobValues: number[] }, filtro: { tipoFiltro: string, knobValues: number[] }, distorsion: number[], reverberacion: number[], eco: number[], pan: number[], volumenMaster: number}} fx
  */
-function openFXs({amplificador, lfo, filtro, distorsion, reverberacion, eco,  pan, volumenMaster}){
+function openFXs({
+  amplificador,
+  lfo,
+  filtro,
+  distorsion,
+  reverberacion,
+  eco,
+  pan,
+  volumenMaster,
+}) {
   // Seteando valores del amplificador
   ataqueSlider.value = amplificador.A;
   decaySlider.value = amplificador.D;
@@ -57,23 +66,24 @@ function openFXs({amplificador, lfo, filtro, distorsion, reverberacion, eco,  pa
 
   //Seteando valor del volumen master
   VOLUMEN_SLIDER_MASTER.value = volumenMaster;
-
 }
-
 
 // MELODIA
 /**
  *
- * @param {{object[], compasesUsados}} melodyData
+ * @param {{melody: object[], compasesUsados: number, tempo: number}} melodyData
  */
-function openMelody({ melody, compasesUsados }) {
-  if (melody.length === 0) return;
+function openMelody({ melody, compasesUsados, tempo }) {
+
+  melody.forEach(
+    (dataNote) => new NotaSecuenciadorDeMelodias(undefined, dataNote)
+  );
 
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
+  
+  TEMPO.value = (tempo==="")? TEMPO_AL_CARGAR_LA_PAGINA: tempo;
+  // TEMPO.dispatchEvent(new Event("change"));
 
-  melody.forEach((dataNote) => {
-    new NotaSecuenciadorDeMelodias(undefined, dataNote);
-  });
 }
 
 //RITMO
@@ -99,13 +109,13 @@ function openRhythm(ritmo) {
 function openLastData() {
   // OPENING THE PRESET
 
-  if (KEY_LAST_PRESET in localStorage){
+  if (KEY_LAST_PRESET in localStorage) {
     let lastPreset = JSON.parse(localStorage.getItem(KEY_LAST_PRESET));
     openPreset(lastPreset);
   }
 
   // OPENING THE FXs
-  if(KEY_LAST_FXs in localStorage){
+  if (KEY_LAST_FXs in localStorage) {
     let lastFXs = JSON.parse(localStorage.getItem(KEY_LAST_FXs));
     openFXs(lastFXs);
   }
@@ -122,7 +132,6 @@ function openLastData() {
     let lastRhythm = JSON.parse(localStorage.getItem(KEY_LAST_RHYTHM));
     openRhythm(lastRhythm.rhythm);
   }
-
 }
 
 window.addEventListener("load", openLastData);
