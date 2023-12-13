@@ -76,7 +76,7 @@ class PercusionContextMenu {
     menuContextual.style.justifyContent = "space-evenly";
     menuContextual.style.paddingLeft = "0.5vw";
     menuContextual.style.zIndex = 50;
-    menuContextual.style.borderRadius = "1vw";
+    menuContextual.style.borderRadius = "0.75vw";
     menuContextual.classList.add(CLASE_PERCUSION_CONTEXT_MENU);
 
     opcionesContextuales.forEach((opcionContextual, index) => {

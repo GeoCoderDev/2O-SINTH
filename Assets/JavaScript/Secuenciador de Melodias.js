@@ -1,7 +1,6 @@
 //===================================================================
 // SECUENCIADOR DE MELODIAS
 //==================================================================
-const PORCION_SEMICORCHEA_POR_GRABACION = 8;
 const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById(
   "secuenciador-melodias-marco"
 );
@@ -9,12 +8,9 @@ const CONTENEDOR_PIANO_ROLL = document.getElementById(
   "Ocultador-Espacio-Blanco"
 );
 const PIANO_ROLL = document.getElementById("Piano-Roll");
-const TEMPO = document.getElementById("Tempo");
 const CABECERA_DE_COMPASES = document.getElementById("NUMEROS-COMPASS");
 const CANTIDAD_COMPASES_HTML = document.getElementById("Cantidad-Compases");
-const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
 const LONGITUD_UNA_SEMICORCHEA_VW = 1.99;
-const duracionSemicorcheaINICIAL = 60 / (TEMPO_AL_CARGAR_LA_PAGINA * 4);
 const CANTIDAD_DE_COMPASES_MINIMA = 2;
 const Nombre_Clase_para_las_notas = "Secuenciador-Melodias-NOTA";
 const Nombre_Clase_para_las_notas_seleccionadas =
@@ -22,7 +18,6 @@ const Nombre_Clase_para_las_notas_seleccionadas =
 const DURACION_SEGUNDOS_ANIMACION_ELIMINACION_NOTAS = 0.2;
 
 let CANTIDAD_DE_COMPASES = CANTIDAD_DE_COMPASES_MINIMA;
-let duracionSemicorcheas = 60 / (TEMPO.value * 4);
 
 let Todos_los_cuadros_semicorchea = [];
 
@@ -542,7 +537,6 @@ class NotaSecuenciadorDeMelodias {
         // Evento de boton derecho de teclado
         this.remove();
       }
-      
     };
 
     let onMouseUp = () => {
@@ -593,14 +587,13 @@ class NotaSecuenciadorDeMelodias {
     PIANO_ROLL.appendChild(this.elementoHTML);
 
     if (inicializador instanceof Promise) {
-
-
       let { indiceInicioX, indiceInicioY } = indicesInicio;
 
       this.indiceTablaX = indiceInicioX;
       this.indiceTablaY = indiceInicioY;
       this.longitudSemicorcheas = 0;
-      this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas - 1;
+      this.indiceFinalTablaX =
+        this.indiceTablaX + this.longitudSemicorcheas - 1;
 
       this.CuadroSemicorcheaDebajo =
         Todos_los_cuadros_semicorchea[
@@ -621,18 +614,20 @@ class NotaSecuenciadorDeMelodias {
       onMouseUp();
 
       let dibujandoNota = setInterval(() => {
-        this.semicorcheasLengthTo(this.longitudSemicorcheas + (1/PORCION_SEMICORCHEA_POR_GRABACION))
-      }, (duracionSemicorcheas / PORCION_SEMICORCHEA_POR_GRABACION)*990);
+        this.semicorcheasLengthTo(
+          this.longitudSemicorcheas + 1 / PORCION_SEMICORCHEA_POR_GRABACION
+        );
+      }, (duracionSemicorcheas / PORCION_SEMICORCHEA_POR_GRABACION) * 990);
 
       inicializador.then(() => {
         clearInterval(dibujandoNota);
       });
 
       NotaSecuenciadorDeMelodias.emitirEventoCambio();
-
+      
     } else if (inicializador instanceof MouseEvent) {
       // Iniciar arrastre automáticamente
-      onMouseDown(inicializador, true);      
+      onMouseDown(inicializador, true);
     } else {
       //   En caso se quiera crear una nota apartir del objeto dataNote
       let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = inicializador;
@@ -660,8 +655,7 @@ class NotaSecuenciadorDeMelodias {
       onMouseUp();
     }
 
-    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);    
-    
+    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);
   }
 
   actualizarIndices() {
@@ -677,7 +671,6 @@ class NotaSecuenciadorDeMelodias {
 
     //Seteando la ultima longitud para las nuevas notas
     Cantidad_Semicorcheas_Foco = this.longitudSemicorcheas;
-    
   }
 
   testearAreaDeSeleccion() {
@@ -824,8 +817,8 @@ class NotaSecuenciadorDeMelodias {
     });
   }
 
-  static emitirEventoCambio(){
-    PIANO_ROLL.dispatchEvent(new Event("change",{bubbles:true}))
+  static emitirEventoCambio() {
+    PIANO_ROLL.dispatchEvent(new Event("change", { bubbles: true }));
   }
 }
 

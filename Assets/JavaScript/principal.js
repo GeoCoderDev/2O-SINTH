@@ -102,3 +102,8 @@ let estaPausado = true;
 let seEstaGrabando = false;
 let ultimoIndiceX;
 let indiceCuadroSemicorcheaEnReproduccion;
+const TEMPO = document.getElementById("Tempo");
+const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
+const duracionSemicorcheaINICIAL = 60 / (TEMPO_AL_CARGAR_LA_PAGINA * 4);
+let duracionSemicorcheas = 60 / (TEMPO.value * 4);
+const PORCION_SEMICORCHEA_POR_GRABACION = 8;

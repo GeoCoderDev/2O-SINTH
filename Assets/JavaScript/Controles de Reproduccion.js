@@ -411,6 +411,18 @@ delegarEvento(
 // |                 EVENTO DE TECLADO PARA LAS NOTAS + GRABACION                 |
 // --------------------------------------------------------------------------------
 
+// EVENTO DE BOTON GRABAR
+
+const BOTON_GRABAR = document.getElementById("boton-grabar");
+const CLASE_BOTON_EN_GRABACION = "grabando"
+
+let grabarOPararGrabacion = ()=>{  
+  seEstaGrabando = BOTON_GRABAR.classList.toggle(CLASE_BOTON_EN_GRABACION);
+  BOTON_GRABAR.title = seEstaGrabando? "Parar Grabacion": "Grabar Notas";
+}
+
+delegarEvento("click","#boton-grabar, #boton-grabar *",grabarOPararGrabacion)
+
 //EVENTO DE TECLADO PARA SINTETIZADOR DE VARIAS TECLAS CON UN OBJETO MAP
 
 let teclasPulsadas = new Map();
@@ -433,7 +445,7 @@ window.addEventListener("keydown", (e) => {
     PromesaParaTerminarDeTocarNota
   );
 
-  // if (!seEstaReproduciendo || !seEstaGrabando) return;
+  if (!seEstaReproduciendo || !seEstaGrabando) return;
 
   new NotaSecuenciadorDeMelodias(PromesaParaTerminarDeTocarNota, {
     indiceInicioX: indiceCuadroSemicorcheaEnReproduccion,

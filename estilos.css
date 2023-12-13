@@ -1079,7 +1079,8 @@ ANIMACIONES
         top: 0;
         max-height: 3.2vh;
         min-width: 32vw;
-        font-size: 2vh
+        font-size: 2vh;
+        cursor: pointer;
     }
     
     td{
@@ -1320,6 +1321,7 @@ ANIMACIONES
         height: 90%;
     }
 
+
     #circulo-grabar{
         border-radius: 50%;
         width: 50%;
@@ -1327,6 +1329,18 @@ ANIMACIONES
         background-color: var(--color-boton-pausa);
         padding: 0;
     }
+
+
+    .grabando{
+        border-color: rgb(222, 59, 59) !important;
+    }
+
+    .grabando #circulo-grabar{
+        border-radius: 0;
+        background-color: rgb(222, 59, 59) !important;
+        border-radius: 0.3vw;
+    }
+
 
     #boton-stop{
         border: 0.25vw solid var(--color-boton-stop);

@@ -1,4 +1,7 @@
-const EVENTOS_USADOS = [];
+const EVENTOS_USADOS = [
+  "mousemove",
+  "change",  
+];
 
 // EL "BODY" SIRVE COMO CHIVO EXPIATORIO PARA QUE NO HAGA MATCH EN CASO LO QUE SEA EL PRIMER PARAMETRO SEA UN
 // ELEMENTO HTML , ASI QUE DARA FALSO SIEMPRE QUE SE DEA ESTE CASO YA QUE NUNCA SE PASARIA BODY COMO SELECTOR
@@ -6,7 +9,9 @@ const EVENTOS_USADOS = [];
 
 // EVENTO CLICK
 
-EventoClick: var mapaDeEventosClick = new Map();
+
+EventoClick: 
+var mapaDeEventosClick = new Map();
 var eventosClickID = 0;
 
 function agregarEventoClick(querySelectorOElementoHTML, callback) {
@@ -34,7 +39,9 @@ document.addEventListener("click", (e) => {
 
 // EVENTO MOUSEMOVE
 
-EventoMouseMove: var mapaDeEventosMouseMove = new Map();
+EventoMouseMove: 
+
+var mapaDeEventosMouseMove = new Map();
 var eventosMouseMoveID = 0;
 
 function agregarEventoMouseMove(querySelectorOElementoHTML, callback) {

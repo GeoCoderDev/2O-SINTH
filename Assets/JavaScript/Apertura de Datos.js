@@ -75,14 +75,14 @@ function openFXs({
  */
 function openMelody({ melody, compasesUsados, tempo }) {
 
-  melody.forEach(
-    (dataNote) => new NotaSecuenciadorDeMelodias(dataNote)
-  );
-
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
   
   TEMPO.value = (tempo==="")? TEMPO_AL_CARGAR_LA_PAGINA: tempo;
   // TEMPO.dispatchEvent(new Event("change"));
+
+  melody.forEach(
+    (dataNote) => new NotaSecuenciadorDeMelodias(dataNote)
+  );
 
 }
 
@@ -134,4 +134,4 @@ function openLastData() {
   }
 }
 
-window.addEventListener("load", openLastData);
+document.addEventListener("DOMContentLoaded", openLastData);
