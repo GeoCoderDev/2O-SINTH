@@ -45,6 +45,7 @@ window.addEventListener("load", () => {
 
       if (e.button == 1) {
         inputNumber.value = inputNumber.defaultValue;
+        inputNumber.dispatchEvent(new Event("change",{bubbles:true}))
       }
     });
   });

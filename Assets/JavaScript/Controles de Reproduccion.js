@@ -240,16 +240,6 @@ TEMPO.addEventListener("mousedown", (e) => {
 });
 
 
-
-
-
-//============================================================
-//            VARIABLES GLOBALES DE REPRODUCCION             |
-// ===========================================================
-
-let seEstaReproduciendo = false;
-let estaPausado = true;
-
 let cambiarBotonAPlayOPausa = () => {
   TRIANGULO_PLAY.classList.toggle("no-desplegado");
   RECTANGULOS_PAUSA.forEach((rectanguloPausa) => {
@@ -401,4 +391,54 @@ delegarEvento(
   `#NUMEROS-COMPASS, #NUMEROS-COMPASS *`,
   arrastrarTransportBar
 );
+
+
+// --------------------------------------------------------------------------------
+// |                 EVENTO DE TECLADO PARA LAS NOTAS + GRABACION                 |
+// --------------------------------------------------------------------------------
+
+
+
+
+//EVENTO DE TECLADO PARA SINTETIZADOR DE VARIAS TECLAS CON UN OBJETO MAP
+
+let teclasPulsadas = new Map();
+
+window.addEventListener('keydown',(e)=>{
+
+    if(e.ctrlKey || e.shiftKey || e.altKey) return;
+    //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
+    //para agregarla
+    if(teclasPulsadas.has(e.keyCode)||(!notasSintetizadorPorTeclasDelTeclado[e.keyCode])) return false;
+
+
+    if(seccion_en_vista!=4){
+
+        let codigoDeTecla = e.keyCode;
+
+        notasSintetizadorPorTeclasDelTeclado[codigoDeTecla].hacerSonarNota(new Promise((resolve,reject)=>{
+            teclasPulsadas.set(codigoDeTecla,resolve);
+        }));
+        
+    }       
+
+})
+
+
+window.addEventListener('keyup',(e)=>{
+
+    if(!teclasPulsadas.has(e.keyCode)){
+        if(e.keyCode==107){
+            NotaSintetizador.subirOctavaAlSintetizador();
+        }else if(e.keyCode==109){
+            NotaSintetizador.bajarOctavaAlSintetizador();
+        }
+        return false;
+    } 
+
+    let resolveRecibido = teclasPulsadas.get(e.keyCode);
+    resolveRecibido();
+
+    teclasPulsadas.delete(e.keyCode);    
+})
 

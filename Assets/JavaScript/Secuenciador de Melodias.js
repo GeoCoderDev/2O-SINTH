@@ -421,18 +421,18 @@ insertarReglasCSSAdicionales(`
 class NotaSecuenciadorDeMelodias {
   /**
    *
-   * @param {MouseEvent} evento en caso la Nota se cree con un Evento de Click
-   * @param {{indiceTablaX, indiceTablaY, longitudSemicorcheas}} dataNote especifica este segundo parametro en caso quieras crear una nota apartir de sus datos
-   * @returns
+   * @param {MouseEvent | {indiceTablaX: number, indiceTablaY: number, longitudSemicorcheas: number} | Promise} inicializador
+   * @param {{indiceInicioX: number,indiceInicioY: number}} indicesInicio Cuando el inicializador es una Promesa debes indicar los indices donde se empezara a dibujar la nota
+   * @returns {NotaSecuenciadorDeMelodias}
    */
-  constructor(evento, dataNote) {
+  constructor(inicializador, indiceInicio) {
     // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
     if (
-      !evento?.target?.classList?.contains("Cuadro-Semicorchea") ||
-      evento?.target?.classList?.contains(Nombre_Clase_para_las_notas)
-    ) {
-      if (!dataNote) return;
-    }
+      inicializador instanceof MouseEvent &&
+      (!inicializador?.target?.classList?.contains("Cuadro-Semicorchea") ||
+        inicializador?.target?.classList?.contains(Nombre_Clase_para_las_notas))
+    )
+      return;
 
     this.elementoHTML = document.createElement("div");
     this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
@@ -591,12 +591,13 @@ class NotaSecuenciadorDeMelodias {
 
     PIANO_ROLL.appendChild(this.elementoHTML);
 
-    // Iniciar arrastre automáticamente
-    if (evento) {
-      onMouseDown(evento, true);
+    if (inicializador instanceof Promise) {
+    } else if (inicializador instanceof MouseEvent) {
+      // Iniciar arrastre automáticamente
+      onMouseDown(inicializador, true);
     } else {
       //   En caso se quiera crear una nota apartir del objeto dataNote
-      let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = dataNote;
+      let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = inicializador;
       this.indiceTablaX = indiceTablaX;
       this.indiceTablaY = indiceTablaY;
       this.longitudSemicorcheas = longitudSemicorcheas;
@@ -1261,7 +1262,7 @@ CANTIDAD_COMPASES_HTML.addEventListener("mousedown", (e) => {
  */
 function setCantidadCompasesEnSecuenciadorMelodias(cantidadCompases) {
   if (
-    !(cantidadCompases % 2 == 0)||
+    !(cantidadCompases % 2 == 0) ||
     CANTIDAD_COMPASES_HTML.value == cantidadCompases
   )
     return;

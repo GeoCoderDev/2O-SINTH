@@ -92,3 +92,11 @@ const AUDIO_BUFFER_DRUMS = {};
     DRUMS_DATA_DISPONIBLE = true;
 });
 
+
+//============================================================
+//            VARIABLES GLOBALES DE REPRODUCCION             |
+// ===========================================================
+
+let seEstaReproduciendo = false;
+let estaPausado = true;
+let seEstaGrabando = false;

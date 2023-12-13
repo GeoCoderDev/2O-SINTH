@@ -76,7 +76,7 @@ function openFXs({
 function openMelody({ melody, compasesUsados, tempo }) {
 
   melody.forEach(
-    (dataNote) => new NotaSecuenciadorDeMelodias(undefined, dataNote)
+    (dataNote) => new NotaSecuenciadorDeMelodias(dataNote)
   );
 
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
