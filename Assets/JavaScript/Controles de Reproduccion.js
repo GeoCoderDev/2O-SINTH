@@ -9,7 +9,6 @@ const BTN_STOP = document.getElementById("boton-stop");
 const TRANSPORT_BAR = document.getElementById("Transport-Bar");
 let estiloParaEliminarBordeDelTransportBar;
 
-let ultimoIndiceX;
 let animacionActual;
 let lastAnimationTime = 0;
 let ultimoRequestAnimate;
@@ -19,8 +18,7 @@ let TimeOutParaEmpezarAReproducirMelodiaDeNuevo;
 // MOdificar esta variable con un input number
 let CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS = 2;
 
-
-function reproducirNotas() {
+function reproducirNotasYRitmos() {
   const contenedorRect =
     CONTENEDOR_SECUENCIADOR_DE_MELODIAS.getBoundingClientRect();
   const transportBarRect = TRANSPORT_BAR.getBoundingClientRect();
@@ -31,13 +29,13 @@ function reproducirNotas() {
     contenedorRect.left +
     CONTENEDOR_SECUENCIADOR_DE_MELODIAS.scrollLeft;
   ultimaPosicionXRelativaTransportBar = posicionXRelativa;
-  let indiceCuadroSemicorchea;
+
   for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length - 2; i++) {
     if (
       posicionXRelativa > todasLasPosicionesRelativasAlMarco[i] &&
       posicionXRelativa <= todasLasPosicionesRelativasAlMarco[i + 1]
     ) {
-      indiceCuadroSemicorchea = i;
+      indiceCuadroSemicorcheaEnReproduccion = i;
       break;
     }
   }
@@ -79,9 +77,12 @@ function reproducirNotas() {
     }
   }
 
-  if (ultimoIndiceX != indiceCuadroSemicorchea) {
+  if (ultimoIndiceX != indiceCuadroSemicorcheaEnReproduccion) {
     NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorDeMelodias) => {
-      if (notaSecuenciadorDeMelodias.indiceTablaX == indiceCuadroSemicorchea) {
+      if (
+        notaSecuenciadorDeMelodias.indiceTablaX ==
+        indiceCuadroSemicorcheaEnReproduccion
+      ) {
         // AQUI ESTA LA CLAVE PARA HACER QUE SE REPRODUZCAN LAS NOTAS CON LONGITUD VARIABLE EN TIEMPO REAL
         notaSecuenciadorDeMelodias.notaSintetizador.hacerSonarNota(
           notaSecuenciadorDeMelodias.longitudSemicorcheas * duracionSemicorcheas
@@ -89,23 +90,38 @@ function reproducirNotas() {
       }
     });
 
-    Todos_los_cuadros_semicorchea_ritmos.forEach((cuadroSemicorcheaRitmo, index)=>{
-      if((index-(indiceCuadroSemicorchea%(16*CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS)))%32!==0) return;
-      // Agregando Borde
-      cuadroSemicorcheaRitmo.style.border = `0.2vw solid blue`;
-      
-      if(cuadroSemicorcheaRitmo.classList.contains("Semicorchea-Ritmo-Activa")){
-        reproducirDrum(Object.keys(DRUMS_RUTAS)[Math.floor(index/32)]);
+    Todos_los_cuadros_semicorchea_ritmos.forEach(
+      (cuadroSemicorcheaRitmo, index) => {
+        if (
+          (index -
+            (indiceCuadroSemicorcheaEnReproduccion %
+              (16 * CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS))) %
+            32 !==
+          0
+        )
+          return;
+        // Agregando Borde
+        cuadroSemicorcheaRitmo.style.border = `0.2vw solid blue`;
+
+        if (
+          cuadroSemicorcheaRitmo.classList.contains("Semicorchea-Ritmo-Activa")
+        ) {
+          reproducirDrum(Object.keys(DRUMS_RUTAS)[Math.floor(index / 32)]);
+        }
+
+        // Eliminando borde de la columna anterior
+        Todos_los_cuadros_semicorchea_ritmos[
+          index % 32 === 0
+            ? index + CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS * 16 - 1
+            : index - 1
+        ].style.border = "";
       }
+    );
 
-      // Eliminando borde de la columna anterior
-      Todos_los_cuadros_semicorchea_ritmos[(index%32===0)?index + (CANTIDAD_COMPASSES_SECUENCIADOR_RITMOS*16) - 1:index - 1].style.border = "";      
-    })
-
-    ultimoIndiceX = indiceCuadroSemicorchea;
+    ultimoIndiceX = indiceCuadroSemicorcheaEnReproduccion;
   }
 
-  ultimoRequestAnimate = requestAnimationFrame(reproducirNotas);
+  ultimoRequestAnimate = requestAnimationFrame(reproducirNotasYRitmos);
 }
 
 //Esta funcion es para evitar que siga sonando la melodia al momento de pausar o parar la animacion
@@ -196,9 +212,9 @@ function pararMelodia() {
   NotaSintetizador.quitarTodasLasPulsaciones();
 }
 
-function reproducirMelodia() {
+function reproducirMelodiaYRitmo() {
   animacionActual = reproducirMelodiaAnimacion();
-  reproducirNotas();
+  reproducirNotasYRitmos();
   actualizarDurationSemicorcheas();
 }
 
@@ -239,7 +255,6 @@ TEMPO.addEventListener("mousedown", (e) => {
   }
 });
 
-
 let cambiarBotonAPlayOPausa = () => {
   TRIANGULO_PLAY.classList.toggle("no-desplegado");
   RECTANGULOS_PAUSA.forEach((rectanguloPausa) => {
@@ -251,7 +266,7 @@ let cambiarBotonAPlayOPausa = () => {
 function reproducirTodo() {
   seEstaReproduciendo = true;
   estaPausado = false;
-  reproducirMelodia();
+  reproducirMelodiaYRitmo();
   cambiarBotonAPlayOPausa();
 }
 
@@ -269,9 +284,9 @@ function pausarTodo() {
  * @returns devuelve true si cuando se paro no estaba pausado, y false si esta pausado.
  */
 function pararTodo() {
-  Todos_los_cuadros_semicorchea_ritmos.forEach((cuadroSemicorcheaRitmo)=>{
+  Todos_los_cuadros_semicorchea_ritmos.forEach((cuadroSemicorcheaRitmo) => {
     cuadroSemicorcheaRitmo.style.border = "";
-  })
+  });
   eliminarEstilosDeEliminacionDelBordeDerechoDelTranportBar();
   if (seEstaReproduciendo || estaPausado) {
     pararMelodia();
@@ -392,53 +407,56 @@ delegarEvento(
   arrastrarTransportBar
 );
 
-
 // --------------------------------------------------------------------------------
 // |                 EVENTO DE TECLADO PARA LAS NOTAS + GRABACION                 |
 // --------------------------------------------------------------------------------
-
-
-
 
 //EVENTO DE TECLADO PARA SINTETIZADOR DE VARIAS TECLAS CON UN OBJETO MAP
 
 let teclasPulsadas = new Map();
 
-window.addEventListener('keydown',(e)=>{
+window.addEventListener("keydown", (e) => {
+  if (e.ctrlKey || e.shiftKey || e.altKey) return;
+  //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
+  //para agregarla
+  if (
+    teclasPulsadas.has(e.keyCode) ||
+    !notasSintetizadorPorTeclasDelTeclado[e.keyCode]
+  )
+    return false;
 
-    if(e.ctrlKey || e.shiftKey || e.altKey) return;
-    //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
-    //para agregarla
-    if(teclasPulsadas.has(e.keyCode)||(!notasSintetizadorPorTeclasDelTeclado[e.keyCode])) return false;
+  let PromesaParaTerminarDeTocarNota = new Promise((resolve) => {
+    teclasPulsadas.set(e.keyCode, resolve);
+  });
 
+  notasSintetizadorPorTeclasDelTeclado[e.keyCode].hacerSonarNota(
+    PromesaParaTerminarDeTocarNota
+  );
 
-    if(seccion_en_vista!=4){
+  // if (!seEstaReproduciendo || !seEstaGrabando) return;
 
-        let codigoDeTecla = e.keyCode;
+  new NotaSecuenciadorDeMelodias(PromesaParaTerminarDeTocarNota, {
+    indiceInicioX: indiceCuadroSemicorcheaEnReproduccion,
+    indiceInicioY: NotaSintetizador.todasLasNotasSintetizador.findIndex(
+      (notaSintetizador) => {
+        return notaSintetizador.codigoTecla === e.keyCode;
+      }
+    ),
+  });
+});
 
-        notasSintetizadorPorTeclasDelTeclado[codigoDeTecla].hacerSonarNota(new Promise((resolve,reject)=>{
-            teclasPulsadas.set(codigoDeTecla,resolve);
-        }));
-        
-    }       
+window.addEventListener("keyup", (e) => {
+  if (!teclasPulsadas.has(e.keyCode)) {
+    if (e.keyCode == 107) {
+      NotaSintetizador.subirOctavaAlSintetizador();
+    } else if (e.keyCode == 109) {
+      NotaSintetizador.bajarOctavaAlSintetizador();
+    }
+    return false;
+  }
 
-})
+  let resolveRecibido = teclasPulsadas.get(e.keyCode);
+  resolveRecibido();
 
-
-window.addEventListener('keyup',(e)=>{
-
-    if(!teclasPulsadas.has(e.keyCode)){
-        if(e.keyCode==107){
-            NotaSintetizador.subirOctavaAlSintetizador();
-        }else if(e.keyCode==109){
-            NotaSintetizador.bajarOctavaAlSintetizador();
-        }
-        return false;
-    } 
-
-    let resolveRecibido = teclasPulsadas.get(e.keyCode);
-    resolveRecibido();
-
-    teclasPulsadas.delete(e.keyCode);    
-})
-
+  teclasPulsadas.delete(e.keyCode);
+});

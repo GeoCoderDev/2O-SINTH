@@ -1,7 +1,7 @@
 //===================================================================
 // SECUENCIADOR DE MELODIAS
 //==================================================================
-
+const PORCION_SEMICORCHEA_POR_GRABACION = 8;
 const CONTENEDOR_SECUENCIADOR_DE_MELODIAS = document.getElementById(
   "secuenciador-melodias-marco"
 );
@@ -13,6 +13,7 @@ const TEMPO = document.getElementById("Tempo");
 const CABECERA_DE_COMPASES = document.getElementById("NUMEROS-COMPASS");
 const CANTIDAD_COMPASES_HTML = document.getElementById("Cantidad-Compases");
 const TEMPO_AL_CARGAR_LA_PAGINA = TEMPO.value;
+const LONGITUD_UNA_SEMICORCHEA_VW = 1.99;
 const duracionSemicorcheaINICIAL = 60 / (TEMPO_AL_CARGAR_LA_PAGINA * 4);
 const CANTIDAD_DE_COMPASES_MINIMA = 2;
 const Nombre_Clase_para_las_notas = "Secuenciador-Melodias-NOTA";
@@ -284,9 +285,7 @@ PIANO_ROLL.addEventListener("mousedown", (eventoMouseDown) => {
       }
 
       if (eventoMouseDown.button == 0) {
-        let nuevaNotaSecuenciadorMelodias = new NotaSecuenciadorDeMelodias(
-          eventoMouseDown
-        );
+        new NotaSecuenciadorDeMelodias(eventoMouseDown);
       }
 
       if (eventoMouseDown.button == 2) {
@@ -422,10 +421,10 @@ class NotaSecuenciadorDeMelodias {
   /**
    *
    * @param {MouseEvent | {indiceTablaX: number, indiceTablaY: number, longitudSemicorcheas: number} | Promise} inicializador
-   * @param {{indiceInicioX: number,indiceInicioY: number}} indicesInicio Cuando el inicializador es una Promesa debes indicar los indices donde se empezara a dibujar la nota
+   * @param {{indiceInicioX: number, indiceInicioY: number}} indicesInicio Cuando el inicializador es una Promesa debes indicar los indices donde se empezara a dibujar la nota
    * @returns {NotaSecuenciadorDeMelodias}
    */
-  constructor(inicializador, indiceInicio) {
+  constructor(inicializador, indicesInicio) {
     // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
     if (
       inicializador instanceof MouseEvent &&
@@ -437,7 +436,9 @@ class NotaSecuenciadorDeMelodias {
     this.elementoHTML = document.createElement("div");
     this.longitudSemicorcheas = Cantidad_Semicorcheas_Foco;
     this.elementoHTML.classList.add(Nombre_Clase_para_las_notas);
-    this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
+    this.elementoHTML.style.width = `${
+      LONGITUD_UNA_SEMICORCHEA_VW * this.longitudSemicorcheas
+    }vw`;
     this.elementoHTML.style.height = "3.2vh";
     this.elementoHTML.style.backgroundColor = "rgb(205, 104, 255)";
     this.elementoHTML.style.position = "absolute";
@@ -541,6 +542,7 @@ class NotaSecuenciadorDeMelodias {
         // Evento de boton derecho de teclado
         this.remove();
       }
+      
     };
 
     let onMouseUp = () => {
@@ -555,11 +557,11 @@ class NotaSecuenciadorDeMelodias {
 
       //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
       //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
-      this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador
-        .slice()
-        .reverse()[this.indiceTablaY];
+      this.notaSintetizador =
+        NotaSintetizador.todasLasNotasSintetizador[this.indiceTablaY];
 
       if (indicesNotasSeleccionadas) indicesNotasSeleccionadas = undefined;
+      NotaSecuenciadorDeMelodias.emitirEventoCambio();
     };
 
     let onMouseMove = (e) => {
@@ -581,9 +583,8 @@ class NotaSecuenciadorDeMelodias {
       );
       //Asignando la nota segun el indiceY de la tabla en el que se encuentra ahora la nota en base al array de todas las notas
       //del sintetizador, que estan en un orden invertido, por eso hacemos una copia con slice y luego lo revertimos
-      this.notaSintetizador = NotaSintetizador.todasLasNotasSintetizador
-        .slice()
-        .reverse()[this.indiceTablaY];
+      this.notaSintetizador =
+        NotaSintetizador.todasLasNotasSintetizador[this.indiceTablaY];
     };
 
     this.elementoHTML.addEventListener("mousedown", onMouseDown);
@@ -592,9 +593,46 @@ class NotaSecuenciadorDeMelodias {
     PIANO_ROLL.appendChild(this.elementoHTML);
 
     if (inicializador instanceof Promise) {
+
+
+      let { indiceInicioX, indiceInicioY } = indicesInicio;
+
+      this.indiceTablaX = indiceInicioX;
+      this.indiceTablaY = indiceInicioY;
+      this.longitudSemicorcheas = 0;
+      this.indiceFinalTablaX = this.indiceTablaX + this.longitudSemicorcheas - 1;
+
+      this.CuadroSemicorcheaDebajo =
+        Todos_los_cuadros_semicorchea[
+          this.indiceTablaY * todosLosOffsetLeft.length + this.indiceTablaX
+        ];
+
+      this.elementoHTML.style.left =
+        pixelsToVWVH(todosLosOffsetLeft[this.indiceTablaX], "vw")[0] -
+        0.05 +
+        "vw";
+      this.elementoHTML.style.top =
+        pixelsToVWVH(todosLosOffsetTop[this.indiceTablaY], "vw")[0] -
+        0.03 +
+        "vw";
+      this.elementoHTML.style.width = `${
+        LONGITUD_UNA_SEMICORCHEA_VW * this.longitudSemicorcheas
+      }vw`;
+      onMouseUp();
+
+      let dibujandoNota = setInterval(() => {
+        this.semicorcheasLengthTo(this.longitudSemicorcheas + (1/PORCION_SEMICORCHEA_POR_GRABACION))
+      }, (duracionSemicorcheas / PORCION_SEMICORCHEA_POR_GRABACION)*990);
+
+      inicializador.then(() => {
+        clearInterval(dibujandoNota);
+      });
+
+      NotaSecuenciadorDeMelodias.emitirEventoCambio();
+
     } else if (inicializador instanceof MouseEvent) {
       // Iniciar arrastre automáticamente
-      onMouseDown(inicializador, true);
+      onMouseDown(inicializador, true);      
     } else {
       //   En caso se quiera crear una nota apartir del objeto dataNote
       let { indiceTablaX, indiceTablaY, longitudSemicorcheas } = inicializador;
@@ -616,11 +654,14 @@ class NotaSecuenciadorDeMelodias {
         pixelsToVWVH(todosLosOffsetTop[this.indiceTablaY], "vw")[0] -
         0.03 +
         "vw";
-      this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
+      this.elementoHTML.style.width = `${
+        LONGITUD_UNA_SEMICORCHEA_VW * this.longitudSemicorcheas
+      }vw`;
       onMouseUp();
     }
 
-    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);
+    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);    
+    
   }
 
   actualizarIndices() {
@@ -636,6 +677,7 @@ class NotaSecuenciadorDeMelodias {
 
     //Seteando la ultima longitud para las nuevas notas
     Cantidad_Semicorcheas_Foco = this.longitudSemicorcheas;
+    
   }
 
   testearAreaDeSeleccion() {
@@ -694,6 +736,7 @@ class NotaSecuenciadorDeMelodias {
 
     this.elementoHTML.style.left = todosLosOffsetLeft[this.indiceTablaX] + "px";
     this.elementoHTML.style.top = todosLosOffsetTop[this.indiceTablaY] + "px";
+    NotaSecuenciadorDeMelodias.emitirEventoCambio();
   }
 
   /**
@@ -708,8 +751,11 @@ class NotaSecuenciadorDeMelodias {
     )
       return;
     this.longitudSemicorcheas = newLength;
-    this.elementoHTML.style.width = `${1.99 * this.longitudSemicorcheas}vw`;
+    this.elementoHTML.style.width = `${
+      LONGITUD_UNA_SEMICORCHEA_VW * this.longitudSemicorcheas
+    }vw`;
     this.indiceFinalTablaX = this.indiceTablaX + newLength - 1;
+    NotaSecuenciadorDeMelodias.emitirEventoCambio();
   }
 
   remove() {
@@ -722,6 +768,7 @@ class NotaSecuenciadorDeMelodias {
 
     NOTAS_SECUENCIADOR_DE_MELODIAS.remove(this);
     NOTAS_SECUENCIADOR_DE_MELODIAS_SELECCIONADAS.remove(this);
+    NotaSecuenciadorDeMelodias.emitirEventoCambio();
   }
 
   getDataNote() {
@@ -757,6 +804,7 @@ class NotaSecuenciadorDeMelodias {
 
     this.seleccionarODeseleccionar();
     notaDuplicada.seleccionarODeseleccionar();
+    NotaSecuenciadorDeMelodias.emitirEventoCambio();
   }
 
   seleccionarODeseleccionar() {
@@ -774,6 +822,10 @@ class NotaSecuenciadorDeMelodias {
     NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias) => {
       notaSecuenciadorMelodias.ajustarNotaAGrilla();
     });
+  }
+
+  static emitirEventoCambio(){
+    PIANO_ROLL.dispatchEvent(new Event("change",{bubbles:true}))
   }
 }
 
@@ -1042,6 +1094,7 @@ function moverPosicionDelElementoAPosicionDelCursorRespetandoGrilla(
       );
     }
   }
+  NotaSecuenciadorDeMelodias.emitirEventoCambio();
 }
 
 function actualizarCuadrosSemicorcheaYacomodarNotas() {

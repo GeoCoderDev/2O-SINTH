@@ -109,17 +109,7 @@ function setMelodyInLocalStorage() {
   localStorage.setItem("lastMelody", JSON.stringify(CURRENT_MELODY));
 }
 
-delegarEvento(
-  "mousemove",
-  `.Cuadro-Semicorchea, .${Nombre_Clase_para_las_notas}`,
-  setMelodyInLocalStorage
-);
-delegarEvento(
-  "mouseup",
-  `.Cuadro-Semicorchea, .${Nombre_Clase_para_las_notas}`,
-  setMelodyInLocalStorage
-);
-delegarEvento("change","#Tempo",setMelodyInLocalStorage);
+delegarEvento("change", "#Piano-Roll ,#Tempo", setMelodyInLocalStorage);
 
 // Guardando ritmo + Eventos
 function setRhythmInLocalStorage() {

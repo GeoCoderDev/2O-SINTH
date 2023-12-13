@@ -100,3 +100,5 @@ const AUDIO_BUFFER_DRUMS = {};
 let seEstaReproduciendo = false;
 let estaPausado = true;
 let seEstaGrabando = false;
+let ultimoIndiceX;
+let indiceCuadroSemicorcheaEnReproduccion;
