@@ -492,9 +492,9 @@ class NotaSintetizador{
                 
                 this.quitarClasesDePulsacion();
             
-            },duracionOPromesa*990)
+            },duracionOPromesa*1000)
         
-            setTimeout(parandoSonido,(duracionOPromesa*990)+(((releaseValido)?duracionRelease:0)*1000))
+            setTimeout(parandoSonido,(duracionOPromesa*1000)+(((releaseValido)?duracionRelease:0)*1000))
         }
         
     }

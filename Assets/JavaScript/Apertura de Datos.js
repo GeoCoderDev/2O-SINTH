@@ -78,7 +78,7 @@ function openMelody({ melody, compasesUsados, tempo }) {
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
   
   TEMPO.value = (tempo==="")? TEMPO_AL_CARGAR_LA_PAGINA: tempo;
-  // TEMPO.dispatchEvent(new Event("change"));
+  TEMPO.dispatchEvent(new Event("change"));
 
   melody.forEach(
     (dataNote) => new NotaSecuenciadorDeMelodias(dataNote)
