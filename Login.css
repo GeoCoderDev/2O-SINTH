@@ -8,6 +8,14 @@
     background-size: cover;
 }
 
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+}
+
 #background{
     background-image: url("./Assets/Imagenes/Login-Fondo.png");
     height: 100vh;  
@@ -50,7 +58,7 @@
 
 @media screen and (width<400px) {
     #background{
-        height: max-content;
+        height: 100%;
     }
     .wrapper{
         width: 300px;
