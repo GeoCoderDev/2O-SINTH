@@ -49,6 +49,9 @@
 }
 
 @media screen and (width<400px) {
+    #background{
+        height: auto;
+    }
     .wrapper{
         width: 300px;
     }
