@@ -37,7 +37,7 @@
 .wrapper{
     position: relative;
     width: 400px;
-    height: 440px;
+    height: 70%;
     background-color: transparent;
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 20px;
@@ -50,7 +50,7 @@
 
 @media screen and (width<400px) {
     #background{
-        height: auto;
+        height: max-content;
     }
     .wrapper{
         width: 300px;
