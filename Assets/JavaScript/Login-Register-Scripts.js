@@ -28,7 +28,7 @@ LOGIN_FORM.addEventListener("submit", (e) => {
   let urlActual = new URL(window.location.href);
 
   // Obtiene la URL base (eliminando la ruta y el nombre del archivo)
-  let urlBase = urlActual.protocol + "//" + urlActual.host;
+  let urlBase = urlActual.protocol + "//" + urlActual.host + "/2O-SINTH";
 
   // Redirige a la URL base
   window.location.href = urlBase;
