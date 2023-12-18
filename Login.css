@@ -197,6 +197,35 @@ body{
     font-size: 1em;
     color: #fff;
     font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1px;
+}
+
+.btn img{
+    display: none;
+}
+
+.btn.loading img{
+    display: inline-block;
+    width: 22px;
+    height: 20px;
+    padding-left: 2px;
+    /* border: 1px solid #eee; */
+}
+
+.btn span{
+    margin-top: -2.5px;
+    height: 20px;
+    /* border: 1px solid #eee; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:active{
+    scale: 0.95;
 }
 
 .login-register{
@@ -215,3 +244,4 @@ body{
 .login-register p a:hover{
     text-decoration: underline;
 }
+

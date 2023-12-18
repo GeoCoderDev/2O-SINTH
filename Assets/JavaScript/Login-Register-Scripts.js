@@ -30,7 +30,12 @@ loginLink.addEventListener("click", () => {
 const LOGIN_FORM = document.forms.Login_Form;
 
 LOGIN_FORM.addEventListener("submit", async (e) => {
+  
   e.preventDefault();
+  
+  if(LOGIN_FORM.submit.classList.contains("loading")) return;
+
+  LOGIN_FORM.submit.classList.add("loading");
 
   const usernameOrEmail = LOGIN_FORM.Username_Or_Email.value;
   const password = LOGIN_FORM.passwordLogin.value;
@@ -77,7 +82,12 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     if (err.message === ERRORES.incorrectNameOrPassword)
       return console.error("INCORRECT");
     console.error(err);
+  } finally {
+    LOGIN_FORM.submit.classList.remove("loading");
   }
+
+  
+
 });
 
 // =======================================================================
@@ -87,6 +97,9 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
 const REGISTER_FORM = document.forms.Register_Form;
 
 REGISTER_FORM.addEventListener("submit", async (e) => {
+
+  
+
   e.preventDefault();
 
   const Name = REGISTER_FORM.Username.value;
