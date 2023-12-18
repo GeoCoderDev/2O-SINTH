@@ -75,6 +75,10 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
 
     localStorage.setItem("authenticatedUserData", JSON.stringify(userData));
 
+    // Eliminando valores ingresados
+    usernameOrEmail.value = "";
+    password.value = "";
+
     // Redirigiendo a 2O-SINTH
     const urlActual = new URL(window.location.href);
     window.location.href = `${urlActual.protocol}//${urlActual.host}/2O-SINTH`;
