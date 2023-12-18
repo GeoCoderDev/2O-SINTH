@@ -16,7 +16,7 @@ if (token && authenticatedUserData) {
   loginButton.style.display = "none";
   nombreUsuarioHTML.innerText = JSON.parse(authenticatedUserData).Name;
 
-  userAuthenticatedSection.display = "flex";
+  userAuthenticatedSection.style.display = "flex";
 
   delegarEvento("click", closeSessionButton, () => {
     localStorage.removeItem("authenticatedUserData");
