@@ -26,8 +26,9 @@ LOGIN_FORM.addEventListener("submit", (e)=>{
     
     e.preventDefault();
 
-    window.location.href = "index.html"
+    let urlActual = new URL(window.location.href);
 
+    window.location.href = urlActual.host + "/2O-SINTH";
 
 })
 
