@@ -4,6 +4,7 @@
 
 const ERRORES = {
   incorrectNameOrPassword: "Username or password incorrect",
+  invalidPassword: "Invalid Password",
 };
 
 // ========================================================================
@@ -26,7 +27,7 @@ loginLink.addEventListener("click", () => {
 // |                              LOGIN                                  |
 // =======================================================================
 
-const LOGIN_FORM = document.getElementById("Login-Form");
+const LOGIN_FORM = document.forms.Login_Form;
 
 LOGIN_FORM.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -61,7 +62,7 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     const meResponse = await fetch(`${API_URL}/api/auth/me`, {
       method: "GET",
       headers: {
-        authorization: token,
+        authorization: token
       },
     });
 
@@ -73,7 +74,39 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     const urlActual = new URL(window.location.href);
     window.location.href = `${urlActual.protocol}//${urlActual.host}/2O-SINTH`;
   } catch (err) {
-    if (err.message === ERRORES.incorrectNameOrPassword) return console.error("INCORRECT");
+    if (err.message === ERRORES.incorrectNameOrPassword)
+      return console.error("INCORRECT");
     console.error(err);
   }
+});
+
+// =======================================================================
+// |                            REGISTER                                 |
+// =======================================================================
+
+const REGISTER_FORM = document.forms.Register_Form;
+
+REGISTER_FORM.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const Name = REGISTER_FORM.Username.value;
+  const Email = REGISTER_FORM.Email.value;
+  const Password = REGISTER_FORM.password.value;
+
+  if (!passwordValidate(Password)) return console.error("Contraseña no valida");
+
+  const newUserData = { Name, Email, Password };
+
+  const registerResponse = await fetch(`${API_URL}/api/auth/register`, {
+    method: "POST",
+    body: JSON.stringify(newUserData),
+    headers:{
+      "Content-Type": "application/json"
+    }
+  });
+
+  if(registerResponse.status === 409){
+    console.error(registerResponse);
+  }
+
 });
