@@ -31,15 +31,24 @@ const LOGIN_FORM = document.forms.Login_Form;
 const usernameOrEmailElement = LOGIN_FORM.Username_Or_Email;
 const passwordElement = LOGIN_FORM.passwordLogin;
 
+usernameOrEmailElement.addEventListener("change",(e)=>{
+  e.target.style.backgroundColor = "transparent";
+  
+})
+
+usernameOrEmailElement.addEventListener("autocomplete", () => {
+  usernameOrEmailElement.style.backgroundColor = "#f5f5f5"; 
+});
+
 LOGIN_FORM.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if (LOGIN_FORM.submit.classList.contains("loading")) return;
 
   LOGIN_FORM.submit.classList.add("loading");
-
-  const usernameOrEmail = LOGIN_FORM.Username_Or_Email.value;
-  const password = LOGIN_FORM.passwordLogin.value;
+  
+  const usernameOrEmail = LOGIN_FORM.Username_Or_Email.value.trim();
+  const password = LOGIN_FORM.passwordLogin.value.trim();
 
   try {
     const datosUsuario = {
