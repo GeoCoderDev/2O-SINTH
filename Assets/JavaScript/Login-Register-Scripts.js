@@ -1,3 +1,8 @@
+
+// ========================================================================
+// |          FUNCIONALIDADES NECESARIAS PARA EL FORMULARIO DOBLE         |
+// ========================================================================
+
 const wrapper = document.querySelector(".wrapper");
 const loginLink = document.querySelector(".login-link")
 const registerLink = document.querySelector(".register-link");
@@ -9,3 +14,20 @@ registerLink.addEventListener("click",()=>{
 loginLink.addEventListener("click",()=>{
     wrapper.classList.remove("register-mode");
 })
+
+
+// =======================================================================
+// |                              LOGIN                                  |
+// =======================================================================
+
+const LOGIN_FORM = document.getElementById("Login-Form");
+
+LOGIN_FORM.addEventListener("submit", (e)=>{
+    
+    e.preventDefault();
+
+    window.location.href = "index.html"
+
+
+})
+
