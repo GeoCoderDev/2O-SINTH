@@ -10,7 +10,6 @@ let teclaRollHTMLPorTecla = [];
 
 let adsrActivado = true;
 
-
 const FRECUENCIAS_12NOTAS_OCTAVA0 = new Map([
                                             ["C", 16.35],    //C0
                                             ["Csos", 17.32], //C#0
@@ -597,9 +596,13 @@ let C4 = new NotaSintetizador("C",4,document.getElementById('C4'),document.getEl
 ANALIZADOR
 =====================================================================================================================*/
 
-var analizadorHTML = document.getElementById('analizador');
-var contextoAnalizador = analizadorHTML.getContext('2d');
+const analizadorHTML = document.getElementById('analizador');
+const analizadorPequenoHTML = document.getElementById("analizador-pequeno");
+const contextoAnalizador = analizadorHTML.getContext('2d');
+const contextoAnalizadorPequeno = analizadorPequenoHTML.getContext("2d");
+
 contextoAnalizador.clearRect(0,0,analizadorHTML.width,analizadorHTML.height);
+contextoAnalizadorPequeno.clearRect(0,0, analizadorPequenoHTML.width, analizadorPequenoHTML.width);
 
 /**
  * Esta funcion dibuja el sonido en el elemento canva
@@ -609,28 +612,58 @@ function dibujarSonido(){
     requestAnimationFrame(dibujarSonido);
     
     nodoAnalizador.getByteTimeDomainData(datosAnalizador);
+
     contextoAnalizador.fillStyle = 'rgb(226,225,223)';
     contextoAnalizador.fillRect(0,0,analizadorHTML.width,analizadorHTML.height);
     contextoAnalizador.lineWidth = 2;
     contextoAnalizador.strokeStyle = 'rgb(165, 161, 161)';
     contextoAnalizador.beginPath();
-    var sliceWidth = analizadorHTML.width * 1.0 /bufferLength;
-    var x = 0;
 
-    for(var i =0; i < bufferLength; i++){
-        var v = datosAnalizador[i]/128.0;
-        var y = v * analizadorHTML.height/2;
+    contextoAnalizadorPequeno.fillStyle = 'rgb(216, 190, 228)';
+    contextoAnalizadorPequeno.fillRect(0,0,analizadorPequenoHTML.width,analizadorPequenoHTML.height);
+    contextoAnalizadorPequeno.lineWidth = 3;
+    contextoAnalizadorPequeno.strokeStyle = 'rgb(71, 58, 79)';
+    contextoAnalizadorPequeno.beginPath();
+
+    if(seccion_en_vista==1) {
+        let sliceWidth = analizadorHTML.width * 1.0 /bufferLength;
+        let x = 0;
+    
+        for(let i =0; i < bufferLength; i++){
+            let v = datosAnalizador[i]/128.0;
+            let y = v * analizadorHTML.height/2;
+    
+            if(i===0){
+                contextoAnalizador.moveTo(x,y);
+            }else{
+                contextoAnalizador.lineTo(x,y);
+            }
+            x += sliceWidth;
+        }
+        contextoAnalizador.lineTo(analizadorHTML.width,analizadorHTML.height/2);
+        
+        contextoAnalizador.stroke();
+    }
+
+    // Dibujando en el analizador pequeño
+    let sliceWidthPequeno = analizadorPequenoHTML.width * 1.0 /bufferLength;
+    let x = 0;
+
+    for(let i =0; i < bufferLength; i++){
+        let v = datosAnalizador[i]/128.0;
+        let y = v * analizadorPequenoHTML.height/2;
 
         if(i===0){
-            contextoAnalizador.moveTo(x,y);
+            contextoAnalizadorPequeno.moveTo(x,y);
         }else{
-            contextoAnalizador.lineTo(x,y);
+            contextoAnalizadorPequeno.lineTo(x,y);
         }
-        x += sliceWidth;
+        x += sliceWidthPequeno;
     }
-    contextoAnalizador.lineTo(analizadorHTML.width,analizadorHTML.height/2);
-    if(seccion_en_vista!=1) return; //Talvez deberias sacarlo
-    contextoAnalizador.stroke();
+    contextoAnalizadorPequeno.lineTo(analizadorPequenoHTML.width,analizadorPequenoHTML.height/2);
+    
+    contextoAnalizadorPequeno.stroke();
+
 };
 
 dibujarSonido();

@@ -15,10 +15,10 @@
 
         <div class="wrapper">
 
-            <div class="form-box">
+            <div class="form-box login">
                 <div>
-                    <div id="logo-2O-SINTH"></div>
-                    <h2>Login into 2O SINTH</h2>
+                    <div class="logo-2O-SINTH"></div>
+                    <h2>Login in to 2O SINTH</h2>
                 </div>
                 <form id="Login-Form">
                     <div class="input-box">
@@ -44,6 +44,44 @@
 
             </div>
 
+
+            <div class="form-box register">
+                <div>
+                    <div class="logo-2O-SINTH"></div>
+                    <h2>Register on 2O SINTH</h2>
+                </div>
+                
+                <form id="Register-Form">
+
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person"></ion-icon></span>
+                        <input type="text" id="Username" name="Username" required>
+                        <label for="Username">Username</label>
+                    </div>
+
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                        <input type="text" id="Username_Or_Email" name="Username_Or_Email" required>
+                        <label for="Email">Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                        <input type="password" name="password" id="passwordRegister" required>
+                        <label for="passwordRegister">Password</label>
+                        
+                    </div>
+
+                    <input class="btn" type="submit" value="Register">
+
+                    <div class="login-register">
+
+                        <p>Already have a account? <a class="login-link" href="#">Login</a></p>
+                        
+                    </div>
+                </form>
+
+            </div>
+
         </div>
 
     </div>
@@ -55,8 +93,8 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-
+    <script src=""></script>
+    <script src="./Assets/JavaScript/Login-Register-Scripts.js"></script>
 
   </body>
 </html>

@@ -18,7 +18,7 @@
         <div id="ContenedorNotas"></div>
         <div id="ContenedorDatos"></div>
 
-        <a href="#" id="boton-iniciar-sesion">INICIAR SESION</a>
+        <a href="./Login.html" id="boton-iniciar-sesion">INICIAR SESION</a>
     </header>
 
     <div id="contenido-todo">
@@ -43,7 +43,7 @@
                             
                             <div class="titulo_osc">OSCILADOR 1</div>
                             
-                            <div class="Cont_tipos_de_onda" id="Cont-tipos-onda-OSC1">
+                            <div translate="no" class="Cont_tipos_de_onda" id="Cont-tipos-onda-OSC1">
                             <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (Slider_imagenes_tipos_de_ondas.js) -->
                             </div>
 
@@ -74,7 +74,7 @@
 
                             <div class="titulo_osc">OSCILADOR 2</div>
                             
-                            <div class="Cont_tipos_de_onda" id="Cont-tipos-onda-OSC2">                                
+                            <div translate="no" class="Cont_tipos_de_onda" id="Cont-tipos-onda-OSC2">                                
                                 <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (Slider_imagenes_tipos_de_ondas.js) -->
                             </div>
 
@@ -185,7 +185,7 @@
 
                             <div class="titulo-efecto">LFO</div>
 
-                            <div id="cont-slider-ondas-lfo" class="Cont_tipos_de_onda">
+                            <div translate="no" id="cont-slider-ondas-lfo" class="Cont_tipos_de_onda">
                                 <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (Slider_imagenes_tipos_de_ondas.js) -->
                             </div>
 
@@ -215,7 +215,7 @@
 
                             <div class="titulo-efecto">FILTRO</div>
                             
-                            <div id="cont-slider-tipos-de-filtros">
+                            <div translate="no" id="cont-slider-tipos-de-filtros">
                                 <!-- EL CONTENIDO SE HACE CON JAVASCRIPT (Slider_imagenes_tipos_de_ondas.js) -->
                             </div>
 
@@ -1712,7 +1712,7 @@
             <div id="contenedor-secuenciador-ritmos" class="contenedor-seccion" data-numero_seccion="4">
                 <h1 class="titulo-seccion">SECUENCIADOR DE RITMOS</h1>
 
-                <div id="Secuenciador-Ritmos" oncontextmenu="return false">
+                <div translate="no" id="Secuenciador-Ritmos" oncontextmenu="return false">
 
                     <div class="Percusion-Ritmo" data-drumname="kick">KICK</div>
                     <div class="Semicorchea-Ritmo"></div>
@@ -1996,33 +1996,19 @@
 
             <div id="controles-y-botones-de-guardado-contenedor">
 
-                <div id="contenedor-boton-guardado-preset" class="sub-secciones">
-                    <div class="titulo-sub-seccion">GUARDAR PRESET</div>
+                <div id="time-position-cont" class="sub-secciones">
+                    <h2 class="titulo-sub-seccion">POSICION DE TIEMPO</h2>
+                    <div id="time-position">0:00:00</div>
+                </div>
+
+                <div id="analizador-pequeno-cont" class="sub-secciones">
+                    <h2 class="titulo-sub-seccion">ANALIZADOR</h2>
+                    <canvas id="analizador-pequeno"></canvas>
                 </div>
                 
-                <!-- <div id="contenedor-boton-guardado-melodia">
-
-                </div>
-
-                <div id="contenedor-boton-guardado-ritmo">
-
-                </div> -->
-
-                <div id="contenedor-insertor-preset"  class="sub-secciones">
-                    <div class="titulo-sub-seccion">ABRIR</div>
-                </div>
-
-                <!-- <div id="contenedor-insertor-melodia">
-
-                </div>
-
-                <div id="contenedor-insertor-ritmo">
-
-                </div> -->
-
                 <div id="contenedor-controles-reproduccion-y-tempo" class="sub-secciones">
                     
-                    <div class="titulo-sub-seccion">CONTROLES</div>
+                    <h2 class="titulo-sub-seccion">CONTROLES</h2>
                     
                     <div id="contenedor-botones-reproduccion">
                 
@@ -2078,6 +2064,13 @@
 
                 </div>
                 
+                <!-- <div id="contenedor-insertor-preset"  class="sub-secciones">
+                    <div class="titulo-sub-seccion">ABRIR</div>
+                </div> -->
+
+                <div id="contenedor-boton-guardado-apertura" class="sub-secciones">
+                    GUARDAR/ABRIR
+                </div>
 
             </div>
 
@@ -2085,7 +2078,7 @@
 
     </div>
 
-    <footer>
+    <footer translate="no">
         <div id="datos-1">JUAN MANUEL CHAVEZ SALDAÑA | 2022 - 2023</div>
         <a href="https://github.com/GeoCoderDev" target="_blank" class="icon-github" id="Icono-Github"></a>
     </footer>

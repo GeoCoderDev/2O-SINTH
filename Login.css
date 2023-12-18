@@ -1,3 +1,7 @@
+:root{
+    --wrapper-width: 400px;
+}
+
 *{
     box-sizing: border-box;
     padding: 0;
@@ -44,7 +48,7 @@ body{
 
 .wrapper{
     position: relative;
-    width: 400px;
+    width: var(--wrapper-width);
     height: 70%;
     background-color: transparent;
     border: 2px solid rgba(255, 255, 255, 0.5);
@@ -54,7 +58,37 @@ body{
     display: flex; 
     align-items: center;
     justify-content: space-evenly;
+    overflow: hidden;
+    transition: height 0.2s;
 }
+
+.wrapper .form-box.register{    
+    position: absolute;
+    transform: translateX( var(--wrapper-width));
+    transition: none;
+}
+
+.wrapper .form-box.login{
+    transition: transform 0.18s ease;
+    transform: translateX(0);
+}
+
+.wrapper.register-mode{
+    height: 80%;
+}
+
+.wrapper.register-mode .form-box.login{
+    transition: none;
+    position:absolute;
+    transform: translateX(-400px);
+}
+
+.wrapper.register-mode .form-box.register{
+    transition: transform 0.18s ease;
+    transform: translateX(0);
+}
+
+
 
 @media screen and (width<400px) {
     #background{
@@ -78,21 +112,21 @@ body{
 
 .form-box h2{
     /* border: 1px solid #000; */
-    font-size: 1.6em;
-    /* font-style: italic; */
+    font-size: 1.5em;
+    /* font-style: italic; */ 
 }
 
-#logo-2O-SINTH{    
+.logo-2O-SINTH{    
     width: 100%;
     height: 40px;    
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     background-size: contain;
     background-image: url("./Assets/Imagenes/Logo\ 2O\ SYNTH\ V3\(Sin\ Sombra\).svg");    
     filter: brightness(0.95);
     /* border: 1px solid #000; */
 }
 
-#Login-Form{
+#Login-Form, #Register-Form{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,11 +136,19 @@ body{
     /* border: 1px solid #000; */
 }
 
+#Register-Form{
+    height: 65%;
+}
+
 .input-box{
     position: relative;
     height: 20%;
     width: 100%;    
     border-bottom: 2px solid #000;    
+}
+
+#Register-Form .input-box{
+    height: 15%;
 }
 
 .input-box label{
@@ -145,7 +187,7 @@ body{
 
 .btn{
     width: 100%;
-    height: 18%;
+    height: 15%;
     background-color: #000;
     color: #fff;
     border-radius: 5px;
