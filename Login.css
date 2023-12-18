@@ -21,7 +21,7 @@ body{
 }
 
 #background{
-    background-image: url("./Assets/Imagenes/Login-Fondo.png");
+    background-image: url("./Assets/Imagenes/Login-Fondo.webp");
     height: 100vh;  
     width: 100%;
     /* animation: hueRotate 5s  linear reverse infinite; */
