@@ -10,7 +10,7 @@ const EVENTOS_USADOS = [
 // EVENTO CLICK
 
 
-EventoClick: 
+EventoClick:
 var mapaDeEventosClick = new Map();
 var eventosClickID = 0;
 

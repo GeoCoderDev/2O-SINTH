@@ -129,7 +129,7 @@ ANIMACIONES
         /* border: 1px solid black; */
     }
     
-    #boton-iniciar-sesion{
+    .button-header{
         text-decoration: none;
         /* color: white; */
         font-size:3vh;
@@ -149,6 +149,20 @@ ANIMACIONES
         color: rgb(24, 30, 134);
     }
     
+    #boton-iniciar-sesion{
+        margin-right: -21.75vw;
+    }
+
+    #boton-cerrar-sesion{
+        height: 6vh;
+        color: rgb(255, 74, 74);
+        cursor: pointer;
+        margin-left: -20vw;
+        padding:0 !important;
+        display: none;
+        width: 24vh;
+    }
+
     #boton-iniciar-sesion:hover{
         filter: brightness(0.9);
     }
@@ -156,6 +170,14 @@ ANIMACIONES
     #boton-iniciar-sesion:active{
         scale: 0.95;
     }
+
+    #Username-Authenticated{
+        font-size: 1.7vw;
+        margin-right: 1.5vw;
+        color: rgb(206, 206, 206);
+        font-weight: 100;
+    }
+
 
     #contenido-todo{
         display: flex;

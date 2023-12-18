@@ -2,6 +2,29 @@ const BODY = document.querySelector("body");
 const CONTENEDOR_TODO = document.getElementById("contenido-todo");
 
 //=============================================================================
+//               BOTON INICIO DE SESION O NOMBRE DE USUARIO                   |
+// ============================================================================
+
+const authenticatedUserData = localStorage.getItem("authenticatedUserData");
+const token = localStorage.getItem("userSessionToken");
+const loginButton = document.getElementById("boton-iniciar-sesion");
+const nombreUsuarioHTML = document.getElementById("Username-Authenticated");
+const closeSessionButton = document.getElementById("boton-cerrar-sesion");
+
+if (token && authenticatedUserData) {
+  loginButton.style.display = "none";
+  nombreUsuarioHTML.innerText = JSON.parse(authenticatedUserData).Name;
+
+  closeSessionButton.style.display = "flex";
+
+  delegarEvento("click", closeSessionButton, () => {
+    window.location.reload();
+    localStorage.removeItem("authenticatedUserData");
+    localStorage.removeItem("userSessionToken");
+  });
+}
+
+//=============================================================================
 //                 ELEMENTOS NECESARIOS PARA EL SINTETIZADOR                  |
 // ============================================================================
 
@@ -77,7 +100,7 @@ const AUDIO_BUFFER_DRUMS = {};
 
 // Object.entries() => [KEY, VALUE]
 
-(async function() {
+(async function () {
   for (const [drumName, ruta] of Object.entries(DRUMS_RUTAS)) {
     try {
       const response = await fetch(ruta);
@@ -89,9 +112,8 @@ const AUDIO_BUFFER_DRUMS = {};
     }
   }
 })().then(() => {
-    DRUMS_DATA_DISPONIBLE = true;
+  DRUMS_DATA_DISPONIBLE = true;
 });
-
 
 //============================================================
 //            VARIABLES GLOBALES DE REPRODUCCION             |
