@@ -8,6 +8,7 @@ const CONTENEDOR_TODO = document.getElementById("contenido-todo");
 const authenticatedUserData = localStorage.getItem("authenticatedUserData");
 const token = localStorage.getItem("userSessionToken");
 const loginButton = document.getElementById("boton-iniciar-sesion");
+const userAuthenticatedSection = document.getElementById("authentizated-user-section");
 const nombreUsuarioHTML = document.getElementById("Username-Authenticated");
 const closeSessionButton = document.getElementById("boton-cerrar-sesion");
 
@@ -15,12 +16,12 @@ if (token && authenticatedUserData) {
   loginButton.style.display = "none";
   nombreUsuarioHTML.innerText = JSON.parse(authenticatedUserData).Name;
 
-  closeSessionButton.style.display = "flex";
+  userAuthenticatedSection.display = "flex";
 
   delegarEvento("click", closeSessionButton, () => {
-    window.location.reload();
     localStorage.removeItem("authenticatedUserData");
-    localStorage.removeItem("userSessionToken");
+    localStorage.removeItem("userSessionToken");    
+    window.location.reload();
   });
 }
 

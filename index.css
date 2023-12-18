@@ -129,7 +129,7 @@ ANIMACIONES
         /* border: 1px solid black; */
     }
     
-    .button-header{
+    #boton-iniciar-sesion{
         text-decoration: none;
         /* color: white; */
         font-size:3vh;
@@ -149,19 +149,6 @@ ANIMACIONES
         color: rgb(24, 30, 134);
     }
     
-    #boton-iniciar-sesion{
-        margin-right: -21.75vw;
-    }
-
-    #boton-cerrar-sesion{
-        height: 6vh;
-        color: rgb(255, 74, 74);
-        cursor: pointer;
-        margin-left: -20vw;
-        padding:0 !important;
-        display: none;
-        width: 24vh;
-    }
 
     #boton-iniciar-sesion:hover{
         filter: brightness(0.9);
@@ -171,11 +158,39 @@ ANIMACIONES
         scale: 0.95;
     }
 
+    #authentizated-user-section{
+        /* border: 1px solid #eee;         */
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;        
+        font-size: min(4vw, 4vh);
+        min-width: 18%;
+        padding: 0 1vw;
+        display: none;
+    }
+
     #Username-Authenticated{
-        font-size: 1.7vw;
+        font-size: min(3.5vw, 3.5vh);
         margin-right: 1.5vw;
         color: rgb(206, 206, 206);
-        font-weight: 100;
+        font-weight: 100;   
+    }
+
+    #boton-cerrar-sesion{
+        height: 6vh;        
+        color: rgb(255, 74, 74);
+        cursor: pointer;
+        padding:0 !important;
+        display: none;
+        font-size: min(2.7vw,2.7vh);
+        background-color:#fff;
+        border-radius: 1vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5vh 1vw !important;        
+        min-width: max-content;
     }
 
 
