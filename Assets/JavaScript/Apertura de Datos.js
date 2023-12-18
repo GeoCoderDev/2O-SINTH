@@ -71,19 +71,22 @@ function openFXs({
 // MELODIA
 /**
  *
- * @param {{melody: object[], compasesUsados: number, tempo: number}} melodyData
+ * @param {{melody: Array[], compasesUsados: number, tempo: number}} melodyData
  */
 function openMelody({ melody, compasesUsados, tempo }) {
-
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
-  
-  TEMPO.value = (tempo==="")? TEMPO_AL_CARGAR_LA_PAGINA: tempo;
+
+  TEMPO.value = tempo === "" ? TEMPO_AL_CARGAR_LA_PAGINA : tempo;
   TEMPO.dispatchEvent(new Event("change"));
 
   melody.forEach(
-    (dataNote) => new NotaSecuenciadorDeMelodias(dataNote)
+    (dataNote) =>
+      new NotaSecuenciadorDeMelodias({
+        indiceTablaX: dataNote[0],
+        indiceTablaY: dataNote[1],
+        longitudSemicorcheas: dataNote[2],
+      })
   );
-
 }
 
 //RITMO

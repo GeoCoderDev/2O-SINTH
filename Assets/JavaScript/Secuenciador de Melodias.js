@@ -766,7 +766,7 @@ class NotaSecuenciadorDeMelodias {
 
   getDataNote() {
     const { indiceTablaX, indiceTablaY, longitudSemicorcheas } = this;
-    return { indiceTablaX, indiceTablaY, longitudSemicorcheas };
+    return [indiceTablaX, indiceTablaY, longitudSemicorcheas] ;
   }
 
   /**
