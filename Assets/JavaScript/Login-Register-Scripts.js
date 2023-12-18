@@ -28,12 +28,13 @@ loginLink.addEventListener("click", () => {
 // =======================================================================
 
 const LOGIN_FORM = document.forms.Login_Form;
+const usernameOrEmailElement = LOGIN_FORM.Username_Or_Email;
+const passwordElement = LOGIN_FORM.passwordLogin;
 
 LOGIN_FORM.addEventListener("submit", async (e) => {
-  
   e.preventDefault();
-  
-  if(LOGIN_FORM.submit.classList.contains("loading")) return;
+
+  if (LOGIN_FORM.submit.classList.contains("loading")) return;
 
   LOGIN_FORM.submit.classList.add("loading");
 
@@ -67,7 +68,7 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     const meResponse = await fetch(`${API_URL}/api/auth/me`, {
       method: "GET",
       headers: {
-        authorization: token
+        authorization: token,
       },
     });
 
@@ -76,8 +77,8 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     localStorage.setItem("authenticatedUserData", JSON.stringify(userData));
 
     // Eliminando valores ingresados
-    usernameOrEmail.value = "";
-    password.value = "";
+    usernameOrEmailElement.value = "";
+    passwordElement.value = "";
 
     // Redirigiendo a 2O-SINTH
     const urlActual = new URL(window.location.href);
@@ -89,9 +90,6 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
   } finally {
     LOGIN_FORM.submit.classList.remove("loading");
   }
-
-  
-
 });
 
 // =======================================================================
@@ -101,9 +99,6 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
 const REGISTER_FORM = document.forms.Register_Form;
 
 REGISTER_FORM.addEventListener("submit", async (e) => {
-
-  
-
   e.preventDefault();
 
   const Name = REGISTER_FORM.Username.value;
@@ -117,13 +112,12 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
   const registerResponse = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     body: JSON.stringify(newUserData),
-    headers:{
-      "Content-Type": "application/json"
-    }
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
-  if(registerResponse.status === 409){
+  if (registerResponse.status === 409) {
     console.error(registerResponse);
   }
-
 });
