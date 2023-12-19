@@ -110,7 +110,7 @@ body {
 
 .form-box h2 {
   /* border: 1px solid #000; */
-  font-size: 1.5em;
+  font-size: 1.4em;
   /* font-style: italic; */
 }
 
@@ -142,6 +142,8 @@ body {
   /* font-style: oblique; */
   color: rgb(163, 17, 17);
   display: none;
+  text-align: center;
+
 }
 
 .mostrar-block{
@@ -157,7 +159,7 @@ body {
   height: 20%;
   width: 100%;
   border-bottom: 2px solid #000;
-  background-color: transparent !important;
+  background-color: transparent !important;  
 }
 
 #Register-Form .input-box {
@@ -177,8 +179,17 @@ body {
 }
 
 .input-box input:focus ~ label,
-.input-box input:valid ~ label {
+.input-box input:valid ~ label{
   top: -10%;
+}
+
+.input-box label.elevar{
+  top: -10%;
+}
+
+.input-box label.enUso{
+  font-weight: 500;
+  color: rgb(167, 20, 20);
 }
 
 .input-box input {
@@ -222,7 +233,7 @@ input:-webkit-autofill {
 
 .btn {
   width: 100%;
-  height: 15%;
+  height: 45px;
   background-color: #000;
   color: #fff;
   border-radius: 5px;

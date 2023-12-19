@@ -18,7 +18,7 @@
             <div class="form-box login">
                 <div>
                     <div class="logo-2O-SINTH"></div>
-                    <h2>Login in to 2O SINTH</h2>
+                    <h2>Inicia sesión en 2O SINTH</h2>
                 </div>
                 <form id="Login-Form" name="Login_Form">
                     <div class="input-box">
@@ -27,24 +27,24 @@
 
                         <input type="text" name="Username_Or_Email" id="Username_Or_Email"  autocapitalize="off" autocorrect="off" autocomplete="username" autofocus="autofocus" required>
 
-                        <label for="Username_Or_Email">Username or email address</label>
+                        <label for="Username_Or_Email">Nombre de Usuario o Correo</label>
 
 
                     </div>
                     <div class="input-box">
                         <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                        <input type="password" name="passwordLogin" id="password" required>
-                        <label for="password">Password</label>
+                        <input type="password" name="passwordLogin" id="password" required autocomplete="new-password">
+                        <label for="password">Contraseña</label>
                         
                     </div>
 
-                    <div id="mensaje-credenciales-incorrectas">Username/Correo o Contraseña Incorrectos</div>
+                    <div id="mensaje-credenciales-incorrectas">Nombre de Usuario/Correo o Contraseña Incorrectos</div>
 
-                    <button class="btn" name="submit"  type="submit"><span>Login</span><img src="./Assets/Imagenes/Rolling-0.8s-200px.gif" alt="loader"></button>                    
+                    <button class="btn" name="submit"  type="submit"><span>Iniciar Sesión</span><img src="./Assets/Imagenes/Rolling-0.8s-200px.gif" alt="loader"></button>                    
 
                     <div class="login-register">
 
-                        <p>Don't have a account? <a class="register-link" href="#">Register</a></p>
+                        <p>¿No tienes una cuenta? <a class="register-link" href="#">Registrate</a></p>
                         
                     </div>
                 </form>
@@ -55,7 +55,7 @@
             <div class="form-box register">
                 <div>
                     <div class="logo-2O-SINTH"></div>
-                    <h2>Register on 2O SINTH</h2>
+                    <h2>Registrate en 2O SINTH</h2>
                 </div>
                 
                 <form id="Register-Form" name="Register_Form">
@@ -63,26 +63,25 @@
                     <div class="input-box">
                         <span class="icon"><ion-icon name="person"></ion-icon></span>
                         <input type="text" id="Username" name="Username" required>
-                        <label for="Username">Username</label>
+                        <label for="Username">Nombre de Usuario</label>
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                        <input type="text" id="Email" name="Email" required>
-                        <label for="Email">Email</label>
+                        <input type="email" id="Email" name="Email" required>
+                        <label for="Email">Correo</label>
                     </div>
                     <div class="input-box">
                         <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
                         <input type="password" name="password" id="passwordRegister" required>
-                        <label for="passwordRegister">Password</label>
+                        <label for="passwordRegister">Contraseña</label>
                         
                     </div>
 
-                    <input class="btn" type="submit" value="Register">
-
+                    <button class="btn" name="submit"  type="submit"><span>Registrar</span><img src="./Assets/Imagenes/Rolling-0.8s-200px.gif" alt="loader"></button>
                     <div class="login-register">
 
-                        <p>Already have a account? <a class="login-link" href="#">Login</a></p>
+                        <p>¿Ya tienes una cuenta? <a class="login-link" href="#">Iniciar Sesion</a></p>
                         
                     </div>
                 </form>

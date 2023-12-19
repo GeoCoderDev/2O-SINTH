@@ -114,9 +114,42 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
 // =======================================================================
 
 const REGISTER_FORM = document.forms.Register_Form;
+const registerButton = REGISTER_FORM.submit;
+const usernameElement = document.getElementById("Username");
+const emailElement = document.getElementById("Email");
+
+
+const passwordRegisterElement = document.getElementById("passwordRegister");
+
+const NameLabel = document.querySelector(`label[for="Username"]`);
+const EmailLabel = document.querySelector(`label[for="Email"]`);
+
+emailElement.addEventListener("blur",()=>{
+  if(emailElement.value.trim()!==""){
+    EmailLabel.classList.add("elevar");
+  }else{
+    EmailLabel.classList.remove("elevar");
+  }
+})
+
+usernameElement.addEventListener("input",()=>{
+  if(!NameLabel.classList.contains("enUso")) return;
+  NameLabel.classList.remove("enUso");
+  NameLabel.innerText = "Nombre de Usuario";
+})
+
+emailElement.addEventListener("input",()=>{
+  if(!EmailLabel.classList.contains("enUso")) return;
+  EmailLabel.classList.remove("enUso");
+  EmailLabel.innerText = "Correo";
+})
 
 REGISTER_FORM.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  if (registerButton.classList.contains("loading")) return;
+
+  registerButton.classList.add("loading");
 
   const Name = REGISTER_FORM.Username.value;
   const Email = REGISTER_FORM.Email.value;
@@ -124,17 +157,35 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
 
   if (!passwordValidate(Password)) return console.error("Contraseña no valida");
 
-  const newUserData = { Name, Email, Password };
-
-  const registerResponse = await fetch(`${API_URL}/api/auth/register`, {
-    method: "POST",
-    body: JSON.stringify(newUserData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (registerResponse.status === 409) {
-    console.error(registerResponse);
+  try {    
+    const newUserData = { Name, Email, Password };
+  
+    const registerResponse = await fetch(`${API_URL}/api/auth/register`, {
+      method: "POST",
+      body: JSON.stringify(newUserData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  
+    // CONFLICTO
+    if (registerResponse.status === 409) {
+      const responseError = await registerResponse.text();
+      if(responseError==="NAME"){
+        NameLabel.classList.add("enUso");
+        NameLabel.innerText += "(Ya esta en uso)";
+      }
+      
+      if(responseError==="EMAIL"){
+        EmailLabel.classList.add("enUso");
+        EmailLabel.innerText += "(Ya esta en uso)"
+      }
+    }
+    
+  } catch (error) {
+    console.error(error);
+  }finally{
+    registerButton.classList.remove("loading");
   }
+
 });
