@@ -1,9 +1,13 @@
 // =======================================================================
+// |                                                      |
+// =======================================================================
+
+// =======================================================================
 // |                              LOGIN                                  |
 // =======================================================================
 
 const ERRORES = {
-  incorrectNameOrPassword: "Username or password incorrect",
+  incorrectNameOrPasswordOrEmail: "Username, password or emai incorrect",
   invalidPassword: "Invalid Password",
 };
 
@@ -30,14 +34,16 @@ loginLink.addEventListener("click", () => {
 const LOGIN_FORM = document.forms.Login_Form;
 const usernameOrEmailElement = LOGIN_FORM.Username_Or_Email;
 const passwordElement = LOGIN_FORM.passwordLogin;
+const credentialsIncorrectMessageElement = document.getElementById(
+  "mensaje-credenciales-incorrectas"
+);
 
-usernameOrEmailElement.addEventListener("change",(e)=>{
-  e.target.style.backgroundColor = "transparent";
-  
-})
+usernameOrEmailElement.addEventListener("input", () => {
+  credentialsIncorrectMessageElement.classList.remove("mostrar-block");
+});
 
-usernameOrEmailElement.addEventListener("autocomplete", () => {
-  usernameOrEmailElement.style.backgroundColor = "#f5f5f5"; 
+passwordElement.addEventListener("input", () => {
+  credentialsIncorrectMessageElement.classList.remove("mostrar-block");
 });
 
 LOGIN_FORM.addEventListener("submit", async (e) => {
@@ -46,7 +52,7 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
   if (LOGIN_FORM.submit.classList.contains("loading")) return;
 
   LOGIN_FORM.submit.classList.add("loading");
-  
+
   const usernameOrEmail = LOGIN_FORM.Username_Or_Email.value.trim();
   const password = LOGIN_FORM.passwordLogin.value.trim();
 
@@ -65,7 +71,7 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     });
 
     if (loginResponse.status === 401) {
-      throw new Error(ERRORES.incorrectNameOrPassword);
+      throw new Error(ERRORES.incorrectNameOrPasswordOrEmail);
     } else if (!loginResponse.ok) {
       throw new Error("Error en la solicitud: " + loginResponse.statusText);
     }
@@ -93,8 +99,10 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
     const urlActual = new URL(window.location.href);
     window.location.href = `${urlActual.protocol}//${urlActual.host}/2O-SINTH`;
   } catch (err) {
-    if (err.message === ERRORES.incorrectNameOrPassword)
-      return console.error("INCORRECT");
+    if (err.message === ERRORES.incorrectNameOrPasswordOrEmail)
+      return credentialsIncorrectMessageElement.classList.toggle(
+        "mostrar-block"
+      );
     console.error(err);
   } finally {
     LOGIN_FORM.submit.classList.remove("loading");

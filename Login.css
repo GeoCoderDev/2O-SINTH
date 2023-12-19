@@ -135,6 +135,19 @@ body {
   /* border: 1px solid #000; */
 }
 
+
+#mensaje-credenciales-incorrectas{
+  font-size: min(2.2vh, 2.2vw);
+  font-weight: bolder;
+  /* font-style: oblique; */
+  color: rgb(163, 17, 17);
+  display: none;
+}
+
+.mostrar-block{
+  display: block !important;  
+}
+
 #Register-Form {
   height: 65%;
 }
