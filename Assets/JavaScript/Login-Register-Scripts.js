@@ -119,10 +119,35 @@ const usernameElement = document.getElementById("Username");
 const emailElement = document.getElementById("Email");
 
 
-const passwordRegisterElement = document.getElementById("passwordRegister");
 
 const NameLabel = document.querySelector(`label[for="Username"]`);
 const EmailLabel = document.querySelector(`label[for="Email"]`);
+
+const passwordMessage = document.getElementById("mensaje-contraseña");
+
+const passwordRegisterElement = document.getElementById("passwordRegister");
+
+passwordRegisterElement.addEventListener("input",()=>{
+  
+  if(passwordRegisterElement.value.trim()==="") return passwordMessage.style.display = "none";
+
+  passwordMessage.style.display = "block";
+
+  let result = passwordValidate(passwordRegisterElement.value);
+  
+  if(result === true){
+    passwordMessage.classList.remove("invalid");
+    passwordMessage.classList.add("valid");
+    passwordMessage.innerText = "La cotraseña es valida, asegurate de recordarla";
+  }else{
+    passwordMessage.classList.remove("valid");
+    passwordMessage.classList.add("invalid");
+    passwordMessage.innerText = result;
+  };
+
+})
+
+
 
 emailElement.addEventListener("blur",()=>{
   if(emailElement.value.trim()!==""){
@@ -155,7 +180,8 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
   const Email = REGISTER_FORM.Email.value;
   const Password = REGISTER_FORM.password.value;
 
-  if (!passwordValidate(Password)) return console.error("Contraseña no valida");
+  if (passwordValidate(Password)!==true){
+  } 
 
   try {    
     const newUserData = { Name, Email, Password };
@@ -173,12 +199,12 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
       const responseError = await registerResponse.text();
       if(responseError==="NAME"){
         NameLabel.classList.add("enUso");
-        NameLabel.innerText += "(Ya esta en uso)";
+        NameLabel.innerText = "Nombre de Usuario(Ya esta en uso)";
       }
       
       if(responseError==="EMAIL"){
         EmailLabel.classList.add("enUso");
-        EmailLabel.innerText += "(Ya esta en uso)"
+        EmailLabel.innerText = "Correo(Ya esta en uso)"
       }
     }
     

@@ -132,38 +132,44 @@ body {
   justify-content: space-between;
   height: 55%;
   width: 100%;
-  /* border: 1px solid #000; */
+  
 }
 
-
-#mensaje-credenciales-incorrectas{
+#mensaje-credenciales-incorrectas {
   font-size: min(2.2vh, 2.2vw);
   font-weight: bolder;
-  /* font-style: oblique; */
+  
   color: rgb(163, 17, 17);
   display: none;
   text-align: center;
-
-}
-
-.mostrar-block{
-  display: block !important;  
 }
 
 #Register-Form {
-  height: 65%;
+  height: 66%;
+  /* border: 1px solid #eee; */
+  
 }
 
 .input-box {
   position: relative;
-  height: 20%;
+  height: 45px;
   width: 100%;
   border-bottom: 2px solid #000;
-  background-color: transparent !important;  
+  background-color: transparent !important;
 }
 
-#Register-Form .input-box {
-  height: 15%;
+#input-box-cont {
+  width: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 58%;
+}
+
+#input-box-cont .input-box {
+  height: 27%;
 }
 
 .input-box label {
@@ -179,15 +185,15 @@ body {
 }
 
 .input-box input:focus ~ label,
-.input-box input:valid ~ label{
+.input-box input:valid ~ label {
   top: -10%;
 }
 
-.input-box label.elevar{
+.input-box label.elevar {
   top: -10%;
 }
 
-.input-box label.enUso{
+.input-box label.enUso {
   font-weight: 500;
   color: rgb(167, 20, 20);
 }
@@ -229,6 +235,32 @@ input:-webkit-autofill {
   font-size: 1.2em;
   color: #000;
   top: 33%;
+}
+
+/* #Register-Form .input-box{
+  margin-top: 2vh;
+} */
+
+#mensaje-contraseña {
+  font-size: max(0.8vw, 0.8vh);
+  padding: 5px;
+  border-radius: 5px;
+  display: none;
+  width: 100%;
+  font-weight: bold;
+}
+
+#mensaje-contraseña.invalid {
+  background-color: rgba(219, 34, 34, 0.372);
+  border: 1px solid rgb(178, 18, 18);
+  color: rgb(178, 18, 18);
+}
+
+#mensaje-contraseña.valid {
+  background-color: rgba(59, 219, 34, 0.372);
+  border: 1px solid rgb(9, 103, 12);
+  color: rgb(9, 103, 12);
+  text-align: center;
 }
 
 .btn {
@@ -289,4 +321,8 @@ input:-webkit-autofill {
 
 .login-register p a:hover {
   text-decoration: underline;
+}
+
+.mostrar-block {
+  display: block !important;
 }

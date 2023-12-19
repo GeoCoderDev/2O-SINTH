@@ -25,7 +25,7 @@
                         <span class="icon"><ion-icon name="mail"></ion-icon></span>
 
 
-                        <input type="text" name="Username_Or_Email" id="Username_Or_Email"  autocapitalize="off" autocorrect="off" autocomplete="username" autofocus="autofocus" required>
+                        <input type="text" name="Username_Or_Email" id="Username_Or_Email"  autocapitalize="off" autocorrect="off" autocomplete="username" autofocus="autofocus" maxlength="40" required>
 
                         <label for="Username_Or_Email">Nombre de Usuario o Correo</label>
 
@@ -33,7 +33,7 @@
                     </div>
                     <div class="input-box">
                         <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                        <input type="password" name="passwordLogin" id="password" required autocomplete="new-password">
+                        <input type="password" name="passwordLogin" id="password" maxlength="20" required autocomplete="new-password">
                         <label for="password">Contraseña</label>
                         
                     </div>
@@ -60,23 +60,27 @@
                 
                 <form id="Register-Form" name="Register_Form">
 
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="person"></ion-icon></span>
-                        <input type="text" id="Username" name="Username" required>
-                        <label for="Username">Nombre de Usuario</label>
-                    </div>
+                    <div id="input-box-cont">     
 
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                        <input type="email" id="Email" name="Email" required>
-                        <label for="Email">Correo</label>
-                    </div>
-                    <div class="input-box">
-                        <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                        <input type="password" name="password" id="passwordRegister" required>
-                        <label for="passwordRegister">Contraseña</label>
-                        
-                    </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="Username" name="Username"  maxlength="20" required>
+                            <label for="Username">Nombre de Usuario</label>
+                        </div>
+    
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="Email" name="Email" maxlength="40" required>
+                            <label for="Email">Correo</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" name="password" id="passwordRegister" maxlength="20" required>
+                            <label for="passwordRegister">Contraseña</label>
+                        </div>
+                    </div>                    
+
+                    <div id="mensaje-contraseña">La contraseña debe tener por lo menos 8 caracteres, Caracteres, al menos un caracter especial, un numero y una letra mayuscula y minuscula</div>
 
                     <button class="btn" name="submit"  type="submit"><span>Registrar</span><img src="./Assets/Imagenes/Rolling-0.8s-200px.gif" alt="loader"></button>
                     <div class="login-register">
