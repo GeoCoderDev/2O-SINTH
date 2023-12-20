@@ -1,3 +1,10 @@
+// --------------------------------------------------------------------------------
+// |                               TIME POSITION                                  |
+// --------------------------------------------------------------------------------
+
+const timePosition = document.getElementById("time-position");
+const timePositioner = new CronometroConCentisegundos(timePosition);
+
 // ---------------------------------------------------------------
 // |              REPRODUCCIÓN DE NOTAS Y RITMOS                 |
 // ---------------------------------------------------------------
@@ -54,6 +61,9 @@ function reproducirNotasYRitmos() {
       if (estaPausado) return;
       // Si esta pausado no tiene porque reproducirse la melodia
       animacionActual = reproducirMelodiaAnimacion();
+
+      timePositioner.reiniciarYSeguir();
+
       actualizarDurationSemicorcheas();
       // TimeOutParaEmpezarAReproducirMelodiaDeNuevo = undefined;
       // }, duracionSemicorcheas * 1000);
@@ -162,9 +172,10 @@ function reproducirMelodiaAnimacion() {
     [
       { transform: `translateX(${pixelsToVWVH(posicionDeInicio, "vw")}vw)` },
       {
-        transform: `translateX(${
-          pixelsToVWVH(PIANO_ROLL.clientWidth, "vw")
-        }vw)`,
+        transform: `translateX(${pixelsToVWVH(
+          PIANO_ROLL.clientWidth,
+          "vw"
+        )}vw)`,
       },
     ],
     {
@@ -172,7 +183,7 @@ function reproducirMelodiaAnimacion() {
       easing: "linear",
       fill: "forwards",
       duration:
-      duracionSemicorcheaAlEmpezarReproduccion *
+        duracionSemicorcheaAlEmpezarReproduccion *
         (16 * CANTIDAD_DE_COMPASES - indiceInicialDeLaAnimacion) *
         1000,
     }
@@ -211,6 +222,7 @@ function pararMelodia() {
     animacionActual.cancel();
     animacionActual = undefined;
   }
+  animacionActual = new Animation();
 
   ultimoIndiceX = undefined;
   indiceCuadroSemicorcheaEnReproduccion = 0;
@@ -240,6 +252,9 @@ function actualizarDurationSemicorcheas() {
     animacionActual.playbackRate = TEMPO.value / Tempo_al_empezar_Reproduccion;
   }
   duracionSemicorcheas = 60 / (TEMPO.value * 4);
+  
+  if(!ultimoIndiceX) return;
+  timePositioner.establecerTiempoTranscurrido(duracionSemicorcheas * (ultimoIndiceX + 1));
 }
 
 TEMPO.addEventListener("change", actualizarDurationSemicorcheas);
@@ -273,6 +288,7 @@ function reproducirTodo() {
   estaPausado = false;
   reproducirMelodiaYRitmo();
   cambiarBotonAPlayOPausa();
+  timePositioner.iniciar();
 }
 
 function pausarTodo() {
@@ -281,6 +297,7 @@ function pausarTodo() {
     seEstaReproduciendo = false;
     estaPausado = true;
     cambiarBotonAPlayOPausa();
+    timePositioner.pausar();
   }
 }
 
@@ -289,7 +306,8 @@ function pausarTodo() {
  * @returns devuelve true si cuando se paro no estaba pausado, y false si esta pausado.
  */
 function pararTodo() {
-  
+  timePositioner.parar();
+
   Todos_los_cuadros_semicorchea_ritmos.forEach((cuadroSemicorcheaRitmo) => {
     cuadroSemicorcheaRitmo.style.border = "";
   });
@@ -352,6 +370,7 @@ function arrastrarTransportBar(eventoMouseDown) {
       )
     );
 
+
     for (let i = 0; i < todasLasPosicionesRelativasAlMarco.length; i++) {
       if (
         posicionNueva >=
@@ -380,7 +399,11 @@ function arrastrarTransportBar(eventoMouseDown) {
             estiloParaEliminarBordeDelTransportBar = undefined;
           }
         }
+
+        timePositioner.establecerTiempoTranscurrido(i*duracionSemicorcheas);
+
         ultimoIndiceX = i - 1;
+
         break;
       }
     }

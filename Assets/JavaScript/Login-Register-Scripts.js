@@ -215,3 +215,4 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
   }
 
 });
+
