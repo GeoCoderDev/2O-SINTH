@@ -12,7 +12,7 @@
     <header>
         <div id="seccion-header-left">
             <div id="logo"></div>
-            <div id="texto-2o-sinth">2O SINTH</div>
+            <h1 id="texto-2o-sinth">2O SINTH</h1>
         </div>
 
         <div id="ContenedorNotas"></div>
@@ -2099,6 +2099,126 @@
         <div id="Imagen-voltear"></div>        
     </div>
 
+    <div id="cont-ventana-modal-guardar-abrir">
+
+        
+        <div id="ventana-modal-guardar-abrir">
+            <!-- <div id="boton-actualizar-modal" title="Actualizar Ventana">&#x21BB;</div> -->
+            <div id="boton-cerrar-modal" title="Cerrar Ventana">X</div>
+            
+            <section id="guardado-de-datos">
+                <h2>GUARDAR</h2>
+                <form name="Save_Form" id="Save_Form">
+
+                    <select name="Tipo_Dato" required>
+                        <option value="">-- Selecciona --</option>
+                        <option value="preset">Preset Actual</option>
+                        <option value="fxs">Efectos</option>
+                        <option value="melody">Melodia</option>
+                        <option value="rhythm">Ritmo</option>            
+                    </select>
+
+                    <ul id="opciones-almacenamiento">En: 
+                        <li>
+                            <label>
+                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                            </label>
+                            <div><!--MENSAJE AQUI  --></div>
+                            
+                        </li>
+                        <li>
+                            <label class="opcion-cuenta">
+                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                            </label>
+                        </li>
+                    </ul>
+
+                    <label>Nombre: 
+                        <input type="text" name="Name" maxlength="30" required>
+                        <p id="mensaje-bajo-nombre">Nombre en Uso!</p>
+                        
+                    </label>
+
+                    <button type="submit" name="Submit_Button">GUARDAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                        
+
+                </form>
+            </section>
+
+            <section id="apertura-de-datos">
+                <h2>ABRIR</h2>
+                <form name="Open_Form">
+                    <select name="Tipo_Dato" required>
+                        <option value="">-- Selecciona --</option>
+                        <option value="preset">Preset</option>
+                        <option value="fxs">Efectos</option>
+                        <option value="melody">Melodia</option>
+                        <option value="rhythm">Ritmo</option>                        
+                    </select>
+
+                    <ul id="opciones-apertura">De: 
+                        <li>
+                            <label>
+                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                            </label>
+                            <div><!--MENSAJE AQUI  --></div>
+                            
+                        </li>
+                        <li>
+                            <label class="opcion-cuenta">
+                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                            </label>
+                        </li>
+                    </ul>
+
+
+                    <select name="Nombre_Dato" required>
+                        <option value="">-- Selecciona --</option>
+                    </select>                    
+
+                    <button type="submit">ABRIR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
+
+                </form>
+            </section>
+
+            <section id="eliminacion-de-datos">
+                <h2>ELIMINAR</h2>
+                <form name="Delete_Form">
+
+                    <select name="Tipo_Dato" id="" required>
+                        <option value="">-- Selecciona --</option>
+                        <option value="preset">Preset</option>
+                        <option value="fxs">Efectos</option>
+                        <option value="melody">Melodia</option>
+                        <option value="rhythm">Ritmo</option>                        
+                    </select>
+
+                    <ul id="opciones-eliminacion">De: 
+                        <li>
+                            <label>
+                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                            </label>
+                            <div><!--MENSAJE AQUI  --></div>
+                            
+                        </li>
+                        <li>
+                            <label class="opcion-cuenta">
+                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                            </label>
+                        </li>
+                    </ul>
+
+                    <select name="Nombre_Dato" id="" required>
+                        <option value="">-- Selecciona --</option>
+                    </select>
+
+                    <button type="submit">ELIMINAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
+
+                </form>
+            </section>
+
+        </div>
+
+    </div>
 
 
     <!--========================================================================-->
@@ -2120,13 +2240,12 @@
     <script src="Assets/JavaScript/Sonido.js"></script>
     <script src="Assets/JavaScript/Secuenciador de Melodias.js"></script>
     <script src="Assets/JavaScript/Secuenciador de Ritmos.js"></script>
-    <script src="Assets/JavaScript/CronometroConCentisegundos.js"></script>
+    <script src="Assets/JavaScript/CronometroConCentisegundos(Class).js"></script>
     <script src="Assets/JavaScript/Controles de Reproduccion.js"></script>    
     <script src="Assets/JavaScript/Guardado de Datos.js"></script>
     <script src="Assets/JavaScript/Apertura de Datos.js"></script>
     <script src="Assets/JavaScript/Ventanas Modales.js"></script>
     <script src="Assets/JavaScript/RYFAElementosHTML.js"></script>
-    
 
 </body>
 </html>

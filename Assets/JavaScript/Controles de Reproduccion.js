@@ -456,7 +456,11 @@ delegarEvento("click", "#boton-grabar, #boton-grabar *", grabarOPararGrabacion);
 
 let teclasPulsadas = new Map();
 
-window.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", (e) => {
+
+  // Si el input está enfocado, no hagas nada
+  if (document.activeElement.tagName === 'INPUT') return;
+  
   if (e.ctrlKey || e.shiftKey || e.altKey) return;
   //Comprobando si la tecla pulsada se encuentra en nuestra lista de teclas pulsadas
   //para agregarla

@@ -112,10 +112,12 @@ let spaceKeyPressCount = 0;
 let lastKeyPressTime = 0;
 
 window.addEventListener("keyup", (e) => {
+  
   const currentTime = new Date().getTime();
 
   if (e.keyCode == 32) {
 
+    if(document.activeElement.tagName === "INPUT") return;
     e.preventDefault();
 
     if (currentTime - lastKeyPressTime < 300) {

@@ -5,6 +5,8 @@ const CONTENEDOR_TODO = document.getElementById("contenido-todo");
 //               BOTON INICIO DE SESION O NOMBRE DE USUARIO                   |
 // ============================================================================
 
+let Se_Inicio_Sesion = false;
+
 const authenticatedUserData = localStorage.getItem("authenticatedUserData");
 const token = localStorage.getItem("userSessionToken");
 const loginButton = document.getElementById("boton-iniciar-sesion");
@@ -18,11 +20,14 @@ if (token && authenticatedUserData) {
 
   userAuthenticatedSection.style.display = "flex";
 
+  Se_Inicio_Sesion = true;
+
   delegarEvento("click", closeSessionButton, () => {
     localStorage.removeItem("authenticatedUserData");
     localStorage.removeItem("userSessionToken");    
     window.location.reload();
   });
+
 }
 
 //=============================================================================

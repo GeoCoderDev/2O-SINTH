@@ -188,6 +188,7 @@ window.addEventListener("keydown", (e) => {
     }
     // Tecla Espacio
   } else if (e.key === " ") {
+    if (document.activeElement.tagName === "INPUT") return;
     e.preventDefault();
   }
 });
