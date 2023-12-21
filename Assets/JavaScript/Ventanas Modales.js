@@ -43,20 +43,27 @@ SAVE_FORM.addEventListener("submit", async (e) => {
     let datoAGuardar;
 
     if (tipoAlmacenamiento.value === "localstorage") {
+    
+      let prefijo;
+
       if (tipoDeDato.value === "preset") {
         datoAGuardar = getCurrentPreset();
+        prefijo = "P";
       } else if (tipoDeDato.value === "fxs") {
         datoAGuardar = getCurrentFXs();
+        prefijo = "F";
       } else if (tipoDeDato.value === "melody") {
         datoAGuardar = getCurrentMelody();
+        prefijo = "M";
       } else if (tipoDeDato.value === "rhythm") {
         datoAGuardar = getCurrentRhythm();
+        prefijo = "R";
       } else {
         alert("Error al guardar el Dato: Tipo de Dato Incorrecto");
       }
 
       localStorage.setItem(
-        nombreElement.value.trim(),
+        prefijo + "-" + nombreElement.value.trim(),
         JSON.stringify(datoAGuardar)
       );
     } else if (tipoAlmacenamiento.value === "account") {
