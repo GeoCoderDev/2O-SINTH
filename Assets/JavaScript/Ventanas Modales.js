@@ -62,10 +62,18 @@ SAVE_FORM.addEventListener("submit", async (e) => {
         alert("Error al guardar el Dato: Tipo de Dato Incorrecto");
       }
 
+      const nombre = prefijo + "-" + nombreElement.value.trim();
+
+      if(localStorage.getItem(nombre)){
+        mensajeBajoNombre.classList.add("mostrar-block");
+        return mensajeBajoNombre.innerText = "¡El nombre ya esta en uso!";
+      }
+
       localStorage.setItem(
-        prefijo + "-" + nombreElement.value.trim(),
+        nombre,
         JSON.stringify(datoAGuardar)
       );
+
     } else if (tipoAlmacenamiento.value === "account") {
       let URL_PET = API_URL + "/api";
       let tipoDato;

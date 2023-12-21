@@ -242,7 +242,7 @@ input:-webkit-autofill {
 } */
 
 #mensaje-contraseña {
-  font-size: max(0.8vw, 0.8vh);
+  font-size: 12px;
   padding: 5px;
   border-radius: 5px;
   display: none;

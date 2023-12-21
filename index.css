@@ -1688,6 +1688,24 @@ ANIMACIONES
     font-size:0.9em;
   }
 
+  #ventana-modal-guardar-abrir li input~div{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 500;
+    font-size:0.75em;
+    margin: 5px 0 0 20px;
+    color: rgb(205, 28, 28);
+    display: none;
+  }
+
+  #ventana-modal-guardar-abrir li input~div em{
+    margin-right: 0.2em;
+  }
+
+  #ventana-modal-guardar-abrir li input:checked~div{
+    display: block;
+  }
+
   #ventana-modal-guardar-abrir li span{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
