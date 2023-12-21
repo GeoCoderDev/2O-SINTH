@@ -53,8 +53,10 @@ LOGIN_FORM.addEventListener("submit", async (e) => {
 
   LOGIN_FORM.submit.classList.add("loading");
 
+
+  
   const usernameOrEmail = LOGIN_FORM.Username_Or_Email.value.trim();
-  const password = LOGIN_FORM.passwordLogin.value.trim();
+  const password = LOGIN_FORM.passwordLogin.value;
 
   try {
     const datosUsuario = {
@@ -147,8 +149,6 @@ passwordRegisterElement.addEventListener("input",()=>{
 
 })
 
-
-
 emailElement.addEventListener("blur",()=>{
   if(emailElement.value.trim()!==""){
     EmailLabel.classList.add("elevar");
@@ -173,15 +173,17 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if (registerButton.classList.contains("loading")) return;
+  
+  if(REGISTER_FORM.Username.value.trim()===""){
+    NameLabel.classList.add("enUso");
+    return NameLabel.innerText = "Nombre de Usuario(No puede estar vacio)";
+  }
 
-  registerButton.classList.add("loading");
-
-  const Name = REGISTER_FORM.Username.value;
+  const Name = REGISTER_FORM.Username.value.trim();
   const Email = REGISTER_FORM.Email.value;
   const Password = REGISTER_FORM.password.value;
 
-  if (passwordValidate(Password)!==true){
-  } 
+  registerButton.classList.add("loading");
 
   try {    
     const newUserData = { Name, Email, Password };

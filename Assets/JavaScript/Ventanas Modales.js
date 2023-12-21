@@ -32,6 +32,8 @@ delegarEvento("input", nombreElement, () => {
 SAVE_FORM.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  submitButtonSaveForm.classList.contains("loading");
+  
   if (nombreElement.value.trim() === "") {
     mensajeBajoNombre.classList.add("mostrar-block");
     return (mensajeBajoNombre.innerText = "El Nombre no puede estar vacio");
