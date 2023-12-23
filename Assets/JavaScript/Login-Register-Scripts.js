@@ -210,6 +210,8 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
       }
     }
     
+    window.location.reload();
+
   } catch (error) {
     console.error(error);
   }finally{
