@@ -35,7 +35,7 @@ body {
 a {
   text-decoration: none;
   display: inline;
-  color: rgb(218, 33, 33);
+  color: white;
 }
 
 input:-webkit-autofill {
@@ -1554,7 +1554,6 @@ ANIMACIONES
     position: fixed;
     background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
-    
     top: 0;
     left: 0;
     width: 100%;
@@ -1568,7 +1567,7 @@ ANIMACIONES
 
   #ventana-modal-guardar-abrir {
     position: relative;
-    height: 62%;
+    height: 63%;
     width: 78%;
     display: grid;
     /* box-shadow: 0 0 0.7vw 0.3vw inset rgba(20, 20, 20, 0.408); */
@@ -1579,10 +1578,10 @@ ANIMACIONES
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     color: rgb(24, 30, 134);
-    
   }
 
-  #boton-cerrar-modal, #boton-actualizar-modal{
+  #boton-cerrar-modal,
+  #boton-actualizar-modal {
     position: absolute;
     width: 40px;
     height: 40px;
@@ -1594,40 +1593,39 @@ ANIMACIONES
     align-items: center;
     justify-content: center;
     font-family: monospace;
-    font-size: 2em;    
+    font-size: 2vw;
     cursor: pointer;
     border-radius: 50%;
     color: white;
     outline: none;
     border: none;
-    cursor: pointer;    
+    cursor: pointer;
   }
 
-  #boton-actualizar-modal{
+  #boton-actualizar-modal {
     left: -15px;
     background-color: rgb(24, 30, 134);
   }
 
-
-  #boton-cerrar-modal:active, #boton-actualizar-modal:active{
+  #boton-cerrar-modal:active,
+  #boton-actualizar-modal:active {
     scale: 0.95;
   }
-
 
   #ventana-modal-guardar-abrir section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 4.5vh 0;
+    padding: 4vh 0;
   }
 
   #ventana-modal-guardar-abrir h2 {
-    line-height: 0.8em;
+    line-height: 1vw;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     /* border: 1px solid #000; */
-    font-size: 1.7em;
+    font-size: 1.8vw;
   }
 
   #ventana-modal-guardar-abrir form {
@@ -1639,92 +1637,103 @@ ANIMACIONES
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    
   }
 
-  #ventana-modal-guardar-abrir form a:hover{
-    text-decoration: underline;    
+  #ventana-modal-guardar-abrir form a:hover {
+    text-decoration: underline;
   }
 
   #ventana-modal-guardar-abrir select {
     color: rgb(24, 30, 134);
     text-align: center;
-    font-size: 0.9em;
+    font-size: 1vw;
     padding: 5px 12px;
     border-radius: 4px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: bolder;
     outline: none;
     border: 1px solid rgb(24, 30, 134);
+    max-width:85%;
+    text-overflow: ellipsis;
   }
 
-  #ventana-modal-guardar-abrir select option{
+  #ventana-modal-guardar-abrir select option {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
   }
 
   #ventana-modal-guardar-abrir ul {
     list-style: none;
     /* border: 1px solid #000; */
-    padding-left: 17px;
+    /* padding-left: 1.2vw; */
     padding-bottom: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
+    font-size: 1.2vw;
+    width: 80%;
   }
 
   #ventana-modal-guardar-abrir li {
-    margin: 10px 15px 20px;
-    
+    margin: 1.5vh 0 1.75vh 1vw;
+    width: 100%;
+  }
+
+  form li:nth-child(2) {
+    margin-bottom: 0 !important;
   }
 
   #ventana-modal-guardar-abrir li label {
     cursor: pointer;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
-    font-size:0.9em;
+    font-size: 1vw;
   }
 
-  #ventana-modal-guardar-abrir li input~div{
+  #ventana-modal-guardar-abrir li input ~ div {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
-    font-size:0.75em;
-    margin: 5px 0 0 20px;
+    font-size: 0.8vw;
+    margin: 5px 0 0 1.5vw;
     color: rgb(205, 28, 28);
     display: none;
+    width: 80%;
   }
 
-  #ventana-modal-guardar-abrir li input~div em{
-    margin-right: 0.2em;
+  #ventana-modal-guardar-abrir li input ~ div em {
+    margin-right: 0.3em;
   }
 
-  #ventana-modal-guardar-abrir li input:checked~div{
+  #ventana-modal-guardar-abrir li input:checked ~ div {
     display: block;
   }
 
-  #ventana-modal-guardar-abrir li span{
+  #ventana-modal-guardar-abrir li span {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
     color: rgb(205, 28, 28);
     display: none;
   }
 
-  #ventana-modal-guardar-abrir li span a{
+  #ventana-modal-guardar-abrir li span a {
     font-weight: bolder !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    font-weight: 500;    
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 500;
+    color: red;
   }
 
-  form>label, form>label input[type="text"]{
+  form > label,
+  form > label input[type="text"] {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: 500;
+    font-size: 1vw;
   }
 
   #ventana-modal-guardar-abrir li:nth-child(2) {
@@ -1742,12 +1751,13 @@ ANIMACIONES
     border-bottom: 2px solid rgb(24, 30, 134);
     margin-left: 10px;
     color: rgb(24, 30, 134);
-    width: 220px;
+    width: 17vw;
+    padding-top: 0;
   }
 
   #ventana-modal-guardar-abrir button {
-    font-size: 0.8em;
-    padding: 10px 75px;
+    font-size: 0.8vw;
+    padding: 10px 5vw;
     outline: none;
     border: none;
     background-color: rgb(24, 30, 134);
@@ -1761,18 +1771,28 @@ ANIMACIONES
     justify-content: center;
   }
 
-  #ventana-modal-guardar-abrir button img {
+  #ventana-modal-guardar-abrir * img {
     display: none;
   }
-  
-  #ventana-modal-guardar-abrir button.loading img {
+
+  #ventana-modal-guardar-abrir *.loading img {
     display: inline-block;
-    width:21px;
+    width: 21px;
     height: 19px;
     padding-left: 2px;
     /* border: 1px solid #eee; */
   }
 
+  #cont-nombres-valores-apertura, #cont-nombres-valores-eliminacion{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #cont-nombres-valores-apertura img, #cont-nombres-valores-eliminacion img{
+    margin-left: 0.5vw;
+  }
 
   #ventana-modal-guardar-abrir button:active {
     scale: 0.95;
@@ -1783,11 +1803,11 @@ ANIMACIONES
     border-right: 2px dashed rgb(24, 30, 134);
   }
 
-  #mensaje-bajo-nombre{
+  #mensaje-bajo-nombre {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-weight: bolder;
-    font-size: 0.8em;
+    font-size: 0.8vw;
     width: 100%;
     text-align: center;
     margin-top: 1.2vh;
@@ -1795,11 +1815,25 @@ ANIMACIONES
     display: none;
   }
 
+  form .mensaje-exito{
+    color: green;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 500;
+    font-size: 1vw;
+    margin-top: -3vh;
+    display: none;
+  }
 
+  @media screen and (min-aspect-ratio: 230/100) {
+    #ventana-modal-guardar-abrir {
+      height: 78%;
+    }
+  }
 
   /*=========================================
-                    PIE DE PAGINA
-    =========================================== */
+                      PIE DE PAGINA
+      =========================================== */
 
   footer {
     background-color: black;
@@ -1828,6 +1862,6 @@ ANIMACIONES
   }
 }
 
-.mostrar-block{
+.mostrar-block {
   display: block !important;
 }

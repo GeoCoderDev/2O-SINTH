@@ -113,8 +113,8 @@ delegarEvento("change", "#Piano-Roll ,#Tempo", setMelodyInLocalStorage);
 
 // Guardando ritmo + Eventos
 function setRhythmInLocalStorage() {
-  const CURRENT_RHYTHM = { rhythm: getCurrentRhythm() };
-  localStorage.setItem(KEY_LAST_RHYTHM, JSON.stringify(CURRENT_RHYTHM));
+  const CURRENT_RHYTHM = getCurrentRhythm();
+  localStorage.setItem(KEY_LAST_RHYTHM, CURRENT_RHYTHM);
 }
 
 delegarEvento("mousemove", `.Semicorchea-Ritmo`, setRhythmInLocalStorage);

@@ -74,6 +74,11 @@ function openFXs({
  * @param {{melody: Array[], compasesUsados: number, tempo: number}} melodyData
  */
 function openMelody({ melody, compasesUsados, tempo }) {
+  // Eliminando notas presentes en secuenciador de melodias
+  NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias) => {
+    notaSecuenciadorMelodias.remove();
+  });
+
   setCantidadCompasesEnSecuenciadorMelodias(parseInt(compasesUsados));
 
   TEMPO.value = tempo === "" ? TEMPO_AL_CARGAR_LA_PAGINA : tempo;
@@ -132,8 +137,8 @@ function openLastData() {
 
   // OPENING THE RHYTHM
   if (KEY_LAST_RHYTHM in localStorage) {
-    let lastRhythm = JSON.parse(localStorage.getItem(KEY_LAST_RHYTHM));
-    openRhythm(lastRhythm.rhythm);
+    let lastRhythm = localStorage.getItem(KEY_LAST_RHYTHM);
+    openRhythm(lastRhythm);
   }
 }
 

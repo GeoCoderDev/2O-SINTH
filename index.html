@@ -2083,6 +2083,146 @@
 
         </div>
 
+
+        <div id="cont-ventana-modal-guardar-abrir">
+
+        
+            <div id="ventana-modal-guardar-abrir">
+                <!-- <div id="boton-actualizar-modal" title="Actualizar Ventana">&#x21BB;</div> -->
+                <div id="boton-cerrar-modal" title="Cerrar Ventana">X</div>
+                
+                <section id="guardado-de-datos">
+                    <h2>GUARDAR</h2>
+                    <form name="Save_Form" id="Save_Form">
+    
+                        <select name="Tipo_Dato" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="preset">Preset Actual</option>
+                            <option value="fxs">Efectos</option>
+                            <option value="melody">Melodia</option>
+                            <option value="rhythm">Ritmo</option>            
+                        </select>
+    
+                        <ul id="opciones-almacenamiento">En: 
+                            <li>
+                                <label>
+                                    <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                                    <div><em>2O-SINTH</em> no garantiza que tus datos no se eliminen automaticamente por el navegador</div>
+                                </label>
+                                
+                                
+                            </li>
+                            <li>
+                                <label class="opcion-cuenta">
+                                    <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                                </label>
+                            </li>
+                        </ul>
+    
+                        <label>Nombre: 
+                            <input type="text" name="Name" maxlength="30" required>
+                            <p id="mensaje-bajo-nombre">Nombre en Uso!</p>                            
+                        </label>
+    
+                        <button type="submit" name="Submit_Button">GUARDAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                        
+                        <p class="mensaje-exito">¡Se Agrego Corretamente!</p>
+
+                    </form>
+                </section>
+    
+                <section id="apertura-de-datos">
+                    <h2>ABRIR</h2>
+                    <form id="Open_Form" name="Open_Form">
+                        <select name="Tipo_Dato" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="preset">Preset</option>
+                            <option value="fxs">Efectos</option>
+                            <option value="melody">Melodia</option>
+                            <option value="rhythm">Ritmo</option>                        
+                        </select>
+    
+                        <ul id="opciones-apertura">De: 
+                            <li>
+                                <label>
+                                    <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                                </label>
+                                <div><!--MENSAJE AQUI  --></div>
+                                
+                            </li>
+                            <li>
+                                <label class="opcion-cuenta">
+                                    <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                                </label>
+                            </li>
+                        </ul>
+    
+    
+                        <div id="cont-nombres-valores-apertura">
+
+                            <select name="Nombre_Dato" required>
+                                <option value="">-- Selecciona --</option>            
+                            </select>                    
+        
+                            <img src="./Assets/Imagenes/Loader Azul fondo blanco.gif" alt="loader">    
+
+                        </div>
+
+
+                        <button type="submit">ABRIR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
+    
+                        <p class="mensaje-exito">¡Se Abrio Corretamente!</p>
+
+                    </form>
+                </section>
+    
+                <section id="eliminacion-de-datos">
+                    <h2>ELIMINAR</h2>
+                    <form id="Delete_Form" name="Delete_Form">
+    
+                        <select name="Tipo_Dato" id="" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="preset">Preset</option>
+                            <option value="fxs">Efectos</option>
+                            <option value="melody">Melodia</option>
+                            <option value="rhythm">Ritmo</option>                        
+                        </select>
+    
+                        <ul id="opciones-eliminacion">De: 
+                            <li>
+                                <label>
+                                    <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
+                                </label>
+                                
+                            </li>
+                            <li>
+                                <label class="opcion-cuenta">
+                                    <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
+                                </label>
+                            </li>
+                        </ul>
+    
+                        <div id="cont-nombres-valores-eliminacion">
+
+                            <select name="Nombre_Dato" required>
+                                <option value="">-- Selecciona --</option>            
+                            </select>                    
+        
+                            <img src="./Assets/Imagenes/Loader Azul fondo blanco.gif" alt="loader">    
+
+                        </div>
+    
+                        <button name="Submit_Button" type="submit">ELIMINAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
+    
+                        <p class="mensaje-exito">¡Se Elimino Corretamente!</p>
+
+                    </form>
+                </section>
+    
+            </div>
+    
+        </div>
+
+
     </div>
 
     <footer translate="no">
@@ -2097,128 +2237,6 @@
     <div id="Mensaje-portrait">
         <h1 id="Mensaje-portrait-text">POR FAVOR GIRE LA PANTALLA</h1>
         <div id="Imagen-voltear"></div>        
-    </div>
-
-    <div id="cont-ventana-modal-guardar-abrir">
-
-        
-        <div id="ventana-modal-guardar-abrir">
-            <!-- <div id="boton-actualizar-modal" title="Actualizar Ventana">&#x21BB;</div> -->
-            <div id="boton-cerrar-modal" title="Cerrar Ventana">X</div>
-            
-            <section id="guardado-de-datos">
-                <h2>GUARDAR</h2>
-                <form name="Save_Form" id="Save_Form">
-
-                    <select name="Tipo_Dato" required>
-                        <option value="">-- Selecciona --</option>
-                        <option value="preset">Preset Actual</option>
-                        <option value="fxs">Efectos</option>
-                        <option value="melody">Melodia</option>
-                        <option value="rhythm">Ritmo</option>            
-                    </select>
-
-                    <ul id="opciones-almacenamiento">En: 
-                        <li>
-                            <label>
-                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
-                                <div><em>2O-SINTH</em> no garantiza que tus datos no se eliminen automaticamente por el navegador</div>
-                            </label>
-                            
-                            
-                        </li>
-                        <li>
-                            <label class="opcion-cuenta">
-                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
-                            </label>
-                        </li>
-                    </ul>
-
-                    <label>Nombre: 
-                        <input type="text" name="Name" maxlength="30" required>
-                        <p id="mensaje-bajo-nombre">Nombre en Uso!</p>
-                        
-                    </label>
-
-                    <button type="submit" name="Submit_Button">GUARDAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                        
-
-                </form>
-            </section>
-
-            <section id="apertura-de-datos">
-                <h2>ABRIR</h2>
-                <form name="Open_Form">
-                    <select name="Tipo_Dato" required>
-                        <option value="">-- Selecciona --</option>
-                        <option value="preset">Preset</option>
-                        <option value="fxs">Efectos</option>
-                        <option value="melody">Melodia</option>
-                        <option value="rhythm">Ritmo</option>                        
-                    </select>
-
-                    <ul id="opciones-apertura">De: 
-                        <li>
-                            <label>
-                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
-                            </label>
-                            <div><!--MENSAJE AQUI  --></div>
-                            
-                        </li>
-                        <li>
-                            <label class="opcion-cuenta">
-                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
-                            </label>
-                        </li>
-                    </ul>
-
-
-                    <select name="Nombre_Dato" required>
-                        <option value="">-- Selecciona --</option>
-                    </select>                    
-
-                    <button type="submit">ABRIR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
-
-                </form>
-            </section>
-
-            <section id="eliminacion-de-datos">
-                <h2>ELIMINAR</h2>
-                <form name="Delete_Form">
-
-                    <select name="Tipo_Dato" id="" required>
-                        <option value="">-- Selecciona --</option>
-                        <option value="preset">Preset</option>
-                        <option value="fxs">Efectos</option>
-                        <option value="melody">Melodia</option>
-                        <option value="rhythm">Ritmo</option>                        
-                    </select>
-
-                    <ul id="opciones-eliminacion">De: 
-                        <li>
-                            <label>
-                                <input checked value="localstorage" type="radio" name="Tipo_Almacenamiento" >Almacenamiento Local del Navegador
-                            </label>
-                            <div><!--MENSAJE AQUI  --></div>
-                            
-                        </li>
-                        <li>
-                            <label class="opcion-cuenta">
-                                <input type="radio" value="account" name="Tipo_Almacenamiento">Mi Cuenta <span>(Debes <a href="Login.html">Iniciar Sesion</a>)</span> 
-                            </label>
-                        </li>
-                    </ul>
-
-                    <select name="Nombre_Dato" id="" required>
-                        <option value="">-- Selecciona --</option>
-                    </select>
-
-                    <button type="submit">ELIMINAR<img src="./Assets/Imagenes/Loader blanco fondo azul.gif" alt="loader"></button>                                    
-
-                </form>
-            </section>
-
-        </div>
-
     </div>
 
 
