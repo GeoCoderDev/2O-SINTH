@@ -201,15 +201,19 @@ REGISTER_FORM.addEventListener("submit", async (e) => {
       const responseError = await registerResponse.text();
       if(responseError==="NAME"){
         NameLabel.classList.add("enUso");
-        NameLabel.innerText = "Nombre de Usuario(Ya esta en uso)";
+        return NameLabel.innerText = "Nombre de Usuario(Ya esta en uso)";
       }
       
       if(responseError==="EMAIL"){
         EmailLabel.classList.add("enUso");
-        EmailLabel.innerText = "Correo(Ya esta en uso)"
+        return EmailLabel.innerText = "Correo(Ya esta en uso)"
       }
     }
     
+    EmailLabel.value = "";
+    NameLabel.value = "";
+    passwordElement.value = "";
+
     window.location.reload();
 
   } catch (error) {
