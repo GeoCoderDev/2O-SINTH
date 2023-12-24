@@ -1,4 +1,3 @@
-
 const TIEMPO_MENSAJE_EXITOSO_MILISEGUNDOS = 1200;
 
 const contenedorVentanaModal = document.getElementById(
@@ -18,15 +17,35 @@ delegarEvento("click", botonCerrarModal, () => {
 
 // delegarEvento("click",botonnActualizarModal,()=>{console.log("j")});
 
-// =======================================================================
-// |                   FORMULARIO DE GUARDADO DE DATOS                   |
-// =======================================================================
 const SAVE_FORM = document.forms.Save_Form;
 const nombreElement = SAVE_FORM.Name;
 const mensajeBajoNombre = document.getElementById("mensaje-bajo-nombre");
 const tipoAlmacenamiento = SAVE_FORM.Tipo_Almacenamiento;
 const tipoDeDato = SAVE_FORM.Tipo_Dato;
 const submitButtonSaveForm = SAVE_FORM.Submit_Button;
+
+const OPEN_FORM = document.forms.Open_Form;
+
+const tipoDeDatoOpenForm = OPEN_FORM.Tipo_Dato;
+const tipoAlmacenamientoOpenForm = OPEN_FORM.Tipo_Almacenamiento;
+const nombreDelDatoOpenForm = OPEN_FORM.Nombre_Dato;
+const loaderNombresYValores = document.getElementById(
+  "cont-nombres-valores-apertura"
+);
+
+const DELETE_FORM = document.forms.Delete_Form;
+
+const tipoDeDatoDeleteForm = DELETE_FORM.Tipo_Dato;
+const tipoAlmacenamientoDeleteForm = DELETE_FORM.Tipo_Almacenamiento;
+const nombreDelDatoDeleteForm = DELETE_FORM.Nombre_Dato;
+const loaderNombresYValoresDeleteForm = document.getElementById(
+  "cont-nombres-valores-eliminacion"
+);
+const submitButtonDeleteForm = DELETE_FORM.Submit_Button;
+
+// =======================================================================
+// |                   FORMULARIO DE GUARDADO DE DATOS                   |
+// =======================================================================
 
 delegarEvento("input", nombreElement, () => {
   mensajeBajoNombre.classList.remove("mostrar-block");
@@ -45,7 +64,6 @@ SAVE_FORM.addEventListener("submit", async (e) => {
   submitButtonSaveForm.classList.add("loading");
 
   try {
-
     mensajeBajoNombre.classList.remove("mostrar-block");
 
     let datoAGuardar;
@@ -78,8 +96,17 @@ SAVE_FORM.addEventListener("submit", async (e) => {
 
       localStorage.setItem(nombre, JSON.stringify(datoAGuardar));
 
-      await actualizarDatosApertura();
-      await actualizarDatosEliminacion();
+      if (
+        tipoDeDatoOpenForm.value === tipoDeDato.value &&
+        tipoAlmacenamientoOpenForm.value === tipoAlmacenamiento.value
+      )
+        await actualizarDatosApertura();
+
+      if (
+        tipoDeDatoDeleteForm.value === tipoDeDato.value &&
+        tipoAlmacenamientoDeleteForm.value === tipoAlmacenamiento.value
+      )
+        await actualizarDatosEliminacion();
 
       nombreElement.value = "";
 
@@ -92,7 +119,6 @@ SAVE_FORM.addEventListener("submit", async (e) => {
           .querySelector(`#${SAVE_FORM.id} .mensaje-exito`)
           .classList.remove("mostrar-block");
       }, TIEMPO_MENSAJE_EXITOSO_MILISEGUNDOS);
-
     } else if (tipoAlmacenamiento.value === "account") {
       let URL_PET = API_URL + "/api";
       let tipoDato;
@@ -130,13 +156,22 @@ SAVE_FORM.addEventListener("submit", async (e) => {
 
       if (response.status === 409) {
         mensajeBajoNombre.classList.add("mostrar-block");
-        throw mensajeBajoNombre.innerText = "¡El nombre ya esta en uso!";
+        throw (mensajeBajoNombre.innerText = "¡El nombre ya esta en uso!");
       }
 
       nombreElement.value = "";
 
-      await actualizarDatosApertura();
-      await actualizarDatosEliminacion();
+      if (
+        tipoDeDatoOpenForm.value === tipoDeDato.value &&
+        tipoAlmacenamientoOpenForm.value === tipoAlmacenamiento.value
+      )
+        await actualizarDatosApertura();
+
+      if (
+        tipoDeDatoDeleteForm.value === tipoDeDato.value &&
+        tipoAlmacenamientoDeleteForm.value === tipoAlmacenamiento.value
+      )
+        await actualizarDatosEliminacion();
 
       document
         .querySelector(`#${SAVE_FORM.id} .mensaje-exito`)
@@ -158,15 +193,6 @@ SAVE_FORM.addEventListener("submit", async (e) => {
 // =======================================================================
 // |                  FORMULARIO DE APERTURA DE DATOS                    |
 // =======================================================================
-
-const OPEN_FORM = document.forms.Open_Form;
-
-const tipoDeDatoOpenForm = OPEN_FORM.Tipo_Dato;
-const tipoAlmacenamientoOpenForm = OPEN_FORM.Tipo_Almacenamiento;
-const nombreDelDatoOpenForm = OPEN_FORM.Nombre_Dato;
-const loaderNombresYValores = document.getElementById(
-  "cont-nombres-valores-apertura"
-);
 
 function limpiarSelectOpenForm() {
   Array.from(nombreDelDatoOpenForm.children).forEach((option) => {
@@ -299,15 +325,14 @@ async function abrirDatos(e) {
     }
 
     document
-    .querySelector(`#${OPEN_FORM.id} .mensaje-exito`)
-    .classList.add("mostrar-block");
+      .querySelector(`#${OPEN_FORM.id} .mensaje-exito`)
+      .classList.add("mostrar-block");
 
     setTimeout(() => {
       document
         .querySelector(`#${OPEN_FORM.id} .mensaje-exito`)
         .classList.remove("mostrar-block");
     }, TIEMPO_MENSAJE_EXITOSO_MILISEGUNDOS);
-
   } catch (err) {
     console.log(err);
   }
@@ -318,16 +343,6 @@ OPEN_FORM.addEventListener("submit", abrirDatos);
 // =======================================================================
 // |                 FORMULARIO DE ELIMINACION DE DATOS                  |
 // =======================================================================
-
-const DELETE_FORM = document.forms.Delete_Form;
-
-const tipoDeDatoDeleteForm = DELETE_FORM.Tipo_Dato;
-const tipoAlmacenamientoDeleteForm = DELETE_FORM.Tipo_Almacenamiento;
-const nombreDelDatoDeleteForm = DELETE_FORM.Nombre_Dato;
-const loaderNombresYValoresDeleteForm = document.getElementById(
-  "cont-nombres-valores-eliminacion"
-);
-const submitButtonDeleteForm = DELETE_FORM.Submit_Button;
 
 function limpiarSelectDeleteForm() {
   Array.from(nombreDelDatoDeleteForm.children).forEach((option) => {
@@ -477,8 +492,13 @@ DELETE_FORM.addEventListener("submit", async (e) => {
           .classList.remove("mostrar-block");
       }, TIEMPO_MENSAJE_EXITOSO_MILISEGUNDOS);
 
-      await actualizarDatosApertura();
       await actualizarDatosEliminacion();
+
+      if (
+        tipoDeDatoOpenForm.value === tipoDeDatoDeleteForm.value &&
+        tipoAlmacenamientoOpenForm.value === tipoAlmacenamientoDeleteForm.value
+      )
+        await actualizarDatosApertura();
     } else if (tipoAlmacenamientoDeleteForm.value === "account") {
       let URL_PET = API_URL + "/api";
 
@@ -525,8 +545,13 @@ DELETE_FORM.addEventListener("submit", async (e) => {
           .classList.remove("mostrar-block");
       }, TIEMPO_MENSAJE_EXITOSO_MILISEGUNDOS);
 
-      await actualizarDatosApertura();
       await actualizarDatosEliminacion();
+
+      if (
+        tipoDeDatoOpenForm.value === tipoDeDatoDeleteForm.value &&
+        tipoAlmacenamientoOpenForm.value === tipoAlmacenamientoDeleteForm.value
+      )
+        await actualizarDatosApertura();
     }
   } catch (err) {
     console.log(err);

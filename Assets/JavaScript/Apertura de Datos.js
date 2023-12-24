@@ -142,4 +142,11 @@ function openLastData() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", openLastData);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    openLastData();
+  }, 300);
+
+});

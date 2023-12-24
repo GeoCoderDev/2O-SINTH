@@ -81,8 +81,7 @@ const encontrando_secciones = (entradas, observador) => {
                     ultimaAnimacionParaLetrasGuia = desvanecerElemento(LETRAS_GUIA_CONTENEDOR,0.7,true)
                 }               
             } 
-
-
+            
             // LOGICA PARA MOSTRAR EL CONTENEDOR DE CANTIDAD DE CAMPASES
             if(seccion_en_vista==3&&window.getComputedStyle(CANTIDAD_COMPASES_CONTENEDOR).display=="none"){
                 

@@ -23,7 +23,7 @@ function desvanecerElemento(HTMLelement,duracionSegundos,horizontalmente=false,o
             {opacity:0,width:`${anchoOriginalEnPorcentaje}%`, margin:0}, //25%
             {}, //55%
             {}, //75%
-            {opacity:0,width:0,margin:`0 -${anchoOriginalEnPorcentaje/2}%`,display:"none"} //100%
+            {opacity:0,width:0,margin:`0 -${anchoOriginalEnPorcentaje/2}%`,display: "none"} //100%
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
@@ -80,11 +80,11 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalCSS,disp
     if(horizontalmente){        
 
         const APPEAR_HORIZONTAL = HTMLelement.animate([
-            {opacity:0,width:0,margin:`0 -${cantidad/2}${unidad}`,display:displayOriginal}, //0%
+            {opacity:0,width:0,margin:`0 -${cantidad/2}${unidad}`,display: displayOriginal}, //0%
             {}, //25%
             {}, //50%
-            {opacity:0,width:`${dimensionOriginalCSS}`, margin:margenOriginal, display:displayOriginal}, //75%
-            {opacity:opacityOriginal, width:`${dimensionOriginalCSS}`, margin:margenOriginal, display:displayOriginal} //100%
+            {opacity:0,width:`${dimensionOriginalCSS}`, margin:margenOriginal, display: displayOriginal}, //75%
+            {opacity:opacityOriginal, width:`${dimensionOriginalCSS}`, margin:margenOriginal, display: displayOriginal} //100%
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos
@@ -97,11 +97,11 @@ function aparecerElemento(HTMLelement,duracionSegundos,dimensionOriginalCSS,disp
     }else{        
         
         const APPEAR_VERTICAL = HTMLelement.animate([
-            {opacity:0,height:0,display:displayOriginal, margin:`-${cantidad/2}${unidad} 0`}, //0%
+            {opacity:0,height:0,position: "static", visibility: "visible", top: "auto", left: "auto", margin:`-${cantidad/2}${unidad} 0`}, //0%
             {}, //25%
             {}, //50%
-            {opacity:0,height:`${dimensionOriginalCSS}`, margin:margenOriginal,display:displayOriginal}, //75%
-            {opacity:opacityOriginal,height:`${dimensionOriginalCSS}`, margin:margenOriginal,display:displayOriginal} //100%
+            {opacity:0,height:`${dimensionOriginalCSS}`, margin:margenOriginal,display: displayOriginal}, //75%
+            {opacity:opacityOriginal,height:`${dimensionOriginalCSS}`, margin:margenOriginal,display: displayOriginal} //100%
         ],{
             iterations:1,
             duration: duracionSegundos * 1000, //esta propiedad recibe un valor en milisegundos

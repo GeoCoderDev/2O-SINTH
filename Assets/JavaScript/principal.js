@@ -87,6 +87,8 @@ const PANTALLA_TACTIL =
 //                            CARGANDO DRUMS...                               |
 // ============================================================================
 
+const PRELOADER_BACKGROUND = document.getElementById("preloader-background");
+
 let DRUMS_DATA_DISPONIBLE = false;
 
 const ENTORNO_AUDIO_DRUMS = new AudioContext();
@@ -119,6 +121,10 @@ const AUDIO_BUFFER_DRUMS = {};
   }
 })().then(() => {
   DRUMS_DATA_DISPONIBLE = true;
+  setTimeout(()=>{
+    desvanecerElemento(PRELOADER_BACKGROUND,1,true, 1);
+  },1000)
+
 });
 
 //============================================================
