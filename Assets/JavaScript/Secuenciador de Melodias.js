@@ -420,6 +420,9 @@ class NotaSecuenciadorDeMelodias {
    * @param {{indiceInicioX: number, indiceInicioY: number}} indicesInicio Cuando el inicializador es una Promesa debes indicar los indices donde se empezara a dibujar la nota
    * @returns {NotaSecuenciadorDeMelodias}
    */
+
+  static NombreMelodiaEnPianoRoll;
+
   constructor(inicializador, indicesInicio) {
     // Evitar crear nuevo div si se hace clic en uno existente o si no esta haciendo clic en un elemento de la cuadricula
     if (
@@ -625,7 +628,6 @@ class NotaSecuenciadorDeMelodias {
       });
 
       NotaSecuenciadorDeMelodias.emitirEventoCambio();
-      
     } else if (inicializador instanceof MouseEvent) {
       // Iniciar arrastre automáticamente
       onMouseDown(inicializador, true);
@@ -656,7 +658,22 @@ class NotaSecuenciadorDeMelodias {
       onMouseUp();
     }
 
-    NOTAS_SECUENCIADOR_DE_MELODIAS.push(this);
+    return new Promise((resolve, reject) => {
+      let nombreMelodiaQueEstabaEnPianoRoll =
+        NotaSecuenciadorDeMelodias.NombreMelodiaEnPianoRoll;
+
+      if (PIANO_ROLL.contains(this.elementoHTML))
+        resolve(NOTAS_SECUENCIADOR_DE_MELODIAS.push(this));
+
+      if (
+        NotaSecuenciadorDeMelodias.NombreMelodiaEnPianoRoll ===
+        nombreMelodiaQueEstabaEnPianoRoll
+      )
+        reject();
+        
+      resolve();
+
+    });
   }
 
   actualizarIndices() {
@@ -767,7 +784,7 @@ class NotaSecuenciadorDeMelodias {
 
   getDataNote() {
     const { indiceTablaX, indiceTablaY, longitudSemicorcheas } = this;
-    return [indiceTablaX, indiceTablaY, longitudSemicorcheas] ;
+    return [indiceTablaX, indiceTablaY, longitudSemicorcheas];
   }
 
   /**
@@ -820,6 +837,8 @@ class NotaSecuenciadorDeMelodias {
 
   static emitirEventoCambio() {
     PIANO_ROLL.dispatchEvent(new Event("change", { bubbles: true }));
+    // LA MELODIA EN PIANO ROLL DEBE SER DE SEGURO UNA TOTALMENTE DISTINTA
+    // NotaSecuenciadorDeMelodias.NombreMelodiaEnPianoRoll = undefined; //(No se si activarlo, talvez vaya a implementar la actualizacion)
   }
 }
 

@@ -123,7 +123,7 @@ const AUDIO_BUFFER_DRUMS = {};
   DRUMS_DATA_DISPONIBLE = true;
   setTimeout(()=>{
     desvanecerElemento(PRELOADER_BACKGROUND,0.8,true, 1);
-  },800)
+  },500)
 
 });
 

@@ -73,7 +73,9 @@ function openFXs({
  *
  * @param {{melody: Array[], compasesUsados: number, tempo: number}} melodyData
  */
-function openMelody({ melody, compasesUsados, tempo }) {
+function openMelody({ melody, compasesUsados, tempo }, nombreMelodia) {
+  NotaSecuenciadorDeMelodias.NombreMelodiaEnPianoRoll = nombreMelodia;
+
   // Eliminando notas presentes en secuenciador de melodias
   NOTAS_SECUENCIADOR_DE_MELODIAS.forEach((notaSecuenciadorMelodias) => {
     notaSecuenciadorMelodias.remove();
@@ -84,14 +86,21 @@ function openMelody({ melody, compasesUsados, tempo }) {
   TEMPO.value = tempo === "" ? TEMPO_AL_CARGAR_LA_PAGINA : tempo;
   TEMPO.dispatchEvent(new Event("change"));
 
-  melody.forEach(
-    (dataNote) =>
+  melody.forEach((dataNote) => {
+    let datosNota = dataNote;
+    new NotaSecuenciadorDeMelodias({
+      indiceTablaX: datosNota[0],
+      indiceTablaY: datosNota[1],
+      longitudSemicorcheas: datosNota[2],
+    }).catch((e) => {
+      console.log(`Error al crear nota ${datosNota}:`, e);
       new NotaSecuenciadorDeMelodias({
-        indiceTablaX: dataNote[0],
-        indiceTablaY: dataNote[1],
-        longitudSemicorcheas: dataNote[2],
-      })
-  );
+        indiceTablaX: datosNota[0],
+        indiceTablaY: datosNota[1],
+        longitudSemicorcheas: datosNota[2],
+      });
+    });
+  });
 }
 
 //RITMO
@@ -132,7 +141,7 @@ function openLastData() {
   if (KEY_LAST_MELODY in localStorage) {
     let lastMelody = JSON.parse(localStorage.getItem(KEY_LAST_MELODY));
 
-    openMelody(lastMelody);
+    openMelody(lastMelody, "LastMelody");
   }
 
   // OPENING THE RHYTHM
@@ -142,11 +151,30 @@ function openLastData() {
   }
 }
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     openLastData();
-  }, 300);
 
+    setTimeout(()=>{
+      delegarEvento(
+        "change",
+        `#seccion-efectos .${CLASE_CONTENEDOR_KNOBS}, #seccion-efectos .${CLASE_CONTENEDOR_BARRAS}, #seccion-efectos .${CLASE_CONTENEDOR_SLIDER_IMAGENES}, input[type="range"]`,
+        setFXsInLocalStorage
+      );
+      
+      delegarEvento("change", "#Piano-Roll ,#Tempo", setMelodyInLocalStorage);
+      
+      delegarEvento(
+        "change",
+        "#Cont-tipos-onda-OSC1, #Cont-tipos-onda-OSC2,#Cantidad_voces_osc_1, #Cantidad_voces_osc_2, #Cantidad_desafinacion_osc_1, #Cantidad_desafinacion_osc_2",
+        setPresetInLocalStorage
+      );
+      
+      
+      delegarEvento("mousemove", `.Semicorchea-Ritmo`, setRhythmInLocalStorage);
+      delegarEvento("mouseup", ".Semicorchea-Ritmo", setRhythmInLocalStorage);
+    },1500)
+
+
+  }, 1000);
 });

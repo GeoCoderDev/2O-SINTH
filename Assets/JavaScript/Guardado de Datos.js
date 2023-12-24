@@ -74,10 +74,15 @@ function getCurrentRhythm() {
 // ---------------------------------------------------------------
 // |                   LOCAL STORAGE(DEFAULT)                    |
 // ---------------------------------------------------------------
+
+
+
 const KEY_LAST_PRESET = "lastPreset";
 const KEY_LAST_FXs = "lastFXs";
 const KEY_LAST_MELODY = "lastMelody";
 const KEY_LAST_RHYTHM = "lastRhythm";
+
+
 
 // Guardando Preset + Eventos
 function setPresetInLocalStorage() {
@@ -85,11 +90,6 @@ function setPresetInLocalStorage() {
   localStorage.setItem(KEY_LAST_PRESET, JSON.stringify(CURRENT_PRESET));
 }
 
-delegarEvento(
-  "change",
-  "#Cont-tipos-onda-OSC1, #Cont-tipos-onda-OSC2,#Cantidad_voces_osc_1, #Cantidad_voces_osc_2, #Cantidad_desafinacion_osc_1, #Cantidad_desafinacion_osc_2",
-  setPresetInLocalStorage
-);
 
 // Guardando FXs + Eventos
 function setFXsInLocalStorage() {
@@ -97,11 +97,7 @@ function setFXsInLocalStorage() {
   localStorage.setItem(KEY_LAST_FXs, JSON.stringify(CURRENT_Fxs));
 }
 
-delegarEvento(
-  "change",
-  `#seccion-efectos .${CLASE_CONTENEDOR_KNOBS}, #seccion-efectos .${CLASE_CONTENEDOR_BARRAS}, #seccion-efectos .${CLASE_CONTENEDOR_SLIDER_IMAGENES}, input[type="range"]`,
-  setFXsInLocalStorage
-);
+
 
 // Guardando Melodia + Eventos
 function setMelodyInLocalStorage() {
@@ -109,7 +105,7 @@ function setMelodyInLocalStorage() {
   localStorage.setItem("lastMelody", JSON.stringify(CURRENT_MELODY));
 }
 
-delegarEvento("change", "#Piano-Roll ,#Tempo", setMelodyInLocalStorage);
+
 
 // Guardando ritmo + Eventos
 function setRhythmInLocalStorage() {
@@ -117,5 +113,4 @@ function setRhythmInLocalStorage() {
   localStorage.setItem(KEY_LAST_RHYTHM, CURRENT_RHYTHM);
 }
 
-delegarEvento("mousemove", `.Semicorchea-Ritmo`, setRhythmInLocalStorage);
-delegarEvento("mouseup", ".Semicorchea-Ritmo", setRhythmInLocalStorage);
+
