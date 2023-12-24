@@ -122,8 +122,8 @@ const AUDIO_BUFFER_DRUMS = {};
 })().then(() => {
   DRUMS_DATA_DISPONIBLE = true;
   setTimeout(()=>{
-    desvanecerElemento(PRELOADER_BACKGROUND,1,true, 1);
-  },1000)
+    desvanecerElemento(PRELOADER_BACKGROUND,0.8,true, 1);
+  },800)
 
 });
 
