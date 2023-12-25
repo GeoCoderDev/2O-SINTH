@@ -112,7 +112,12 @@ function openRhythm(ritmo) {
   if (ritmo === "") return;
 
   Array.from(ritmo).forEach((bit, index) => {
-    if (bit == 0) return;
+    
+    if (bit == 0)
+      return Todos_los_cuadros_semicorchea_ritmos[index].classList.remove(
+        "Semicorchea-Ritmo-Activa"
+      );
+
     Todos_los_cuadros_semicorchea_ritmos[index].classList.add(
       "Semicorchea-Ritmo-Activa"
     );
@@ -155,26 +160,23 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     openLastData();
 
-    setTimeout(()=>{
+    setTimeout(() => {
       delegarEvento(
         "change",
         `#seccion-efectos .${CLASE_CONTENEDOR_KNOBS}, #seccion-efectos .${CLASE_CONTENEDOR_BARRAS}, #seccion-efectos .${CLASE_CONTENEDOR_SLIDER_IMAGENES}, input[type="range"]`,
         setFXsInLocalStorage
       );
-      
+
       delegarEvento("change", "#Piano-Roll ,#Tempo", setMelodyInLocalStorage);
-      
+
       delegarEvento(
         "change",
         "#Cont-tipos-onda-OSC1, #Cont-tipos-onda-OSC2,#Cantidad_voces_osc_1, #Cantidad_voces_osc_2, #Cantidad_desafinacion_osc_1, #Cantidad_desafinacion_osc_2",
         setPresetInLocalStorage
       );
-      
-      
+
       delegarEvento("mousemove", `.Semicorchea-Ritmo`, setRhythmInLocalStorage);
       delegarEvento("mouseup", ".Semicorchea-Ritmo", setRhythmInLocalStorage);
-    },1500)
-
-
+    }, 1500);
   }, 1000);
 });

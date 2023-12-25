@@ -166,11 +166,11 @@ const encontrando_secciones = (entradas, observador) => {
 
       if (seccion_en_vista != 1 && seccion_en_vista != 3) {
         if (ultimaAnimacionParaLetrasGuia)
-          if (ultimaAnimacionParaLetrasGuia.iniciar() === false)
+          // if (ultimaAnimacionParaLetrasGuia.iniciar() === false)
             ultimaAnimacionParaLetrasGuia.finalizar();
 
         if (ultimaAnimacionParaCantidadCompasContenedor) {
-          if (ultimaAnimacionParaCantidadCompasContenedor.iniciar() === false)
+          // if (ultimaAnimacionParaCantidadCompasContenedor.iniciar() === false)
             ultimaAnimacionParaCantidadCompasContenedor.finalizar();
         }
       }
