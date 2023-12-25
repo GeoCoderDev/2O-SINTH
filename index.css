@@ -1544,16 +1544,23 @@ transform-origin: 0 0; /* see note above */
     /* border: 1px solid black; */
     width: 40%;
     height: 100%;
+
   }
+
+  #contenedor-letras-guia{
+    position: absolute;
+    top: -100%;
+    opacity: 0;
+  }
+
+
 
   #cantidad-compases-contenedor {
-    width: 30%;
-    display: none;
+    position: absolute;
+    top: -100%;
+    opacity: 0;
   }
 
-  #contenedor-letras-guia {
-    display: none;
-  }
 
   #Tempo,
   #Cantidad-Compases,
@@ -1599,11 +1606,6 @@ transform-origin: 0 0; /* see note above */
     /* transition: all 0.1s; */
   }
 
-  .botones-reproduccion:hover,
-  #Tempo:hover,
-  #Cantidad-Compases:hover {
-    /* box-shadow: 0 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2) inset; */
-  }
 
   .boton-reproduccion-pulsado {
     box-shadow: 0 0 0.7vw 0.3vw rgba(0, 0, 0, 0.3) inset;

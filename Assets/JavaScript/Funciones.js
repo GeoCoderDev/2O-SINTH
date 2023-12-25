@@ -45,6 +45,10 @@ function insertarReglasCSSAdicionales(reglasCSS) {
   return elementoStyle;
 }
 
+/**
+ * 
+ * @param {HTMLStyleElement} elementoStyle 
+ */
 function eliminarReglasCSSAdicionales(elementoStyle) {
   document.head.removeChild(elementoStyle);
 }
