@@ -321,10 +321,10 @@ class AnimacionAparicionYDesaparicion {
     durationSegundos,
     dimensionOriginal,
     horizontalmente = true,
-    promesaParaDesaparecer,
+    promesaParaDesaparecer
   ) {
     this.elementoHTML = elementoHTML;
-    console.log(this.elementoHTML.parentElement)
+    console.log(this.elementoHTML.parentElement);
     this.elementoHTML.className = "";
     this.elementoHTML.style[`${horizontalmente ? "width" : "height"}`] =
       dimensionOriginal;
@@ -380,7 +380,7 @@ class AnimacionAparicionYDesaparicion {
                       margin: 0 -${
                         (espacioEntreElementos -
                           espacioEntreElementosConElementoAdicional) *
-                        ((hijosContenedor.length + 1 )/ 2)
+                        ((hijosContenedor.length + 1) / 2)
                       }px;
                       width: 0;                     
                     `
@@ -446,7 +446,7 @@ class AnimacionAparicionYDesaparicion {
       this.finalizar.bind(this)
     );
 
-    if(promesaParaDesaparecer){
+    if (promesaParaDesaparecer) {
       promesaParaDesaparecer.then(() => {
         this.iniciar();
       });
@@ -454,10 +454,9 @@ class AnimacionAparicionYDesaparicion {
   }
 
   iniciar() {
-    if (!this.elementoHTML.classList.contains(this.Nombre_Clase_Animacion)){
+    if (!this.elementoHTML.classList.contains(this.Nombre_Clase_Animacion)) {
       this.elementoHTML.classList.add(this.Nombre_Clase_Animacion);
       return false;
-
     }
 
     this.elementoHTML.style.animationPlayState = "running";
@@ -467,7 +466,7 @@ class AnimacionAparicionYDesaparicion {
     this.elementoHTML.style.animationPlayState = "paused";
   }
 
-  finalizar() {
+  finalizar(Resolver = true) {
     if (!this.elementoHTML.classList.contains(this.Nombre_Clase_Animacion))
       return false;
 
@@ -476,6 +475,6 @@ class AnimacionAparicionYDesaparicion {
       eliminarReglasCSSAdicionales(this.estilosCssAdicionales);
     this.estilosCssAdicionales = undefined;
 
-    this.#promiseFinishedResolve();
+    if (Resolver) this.#promiseFinishedResolve();
   }
 }

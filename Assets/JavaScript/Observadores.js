@@ -166,12 +166,12 @@ const encontrando_secciones = (entradas, observador) => {
 
       if (seccion_en_vista != 1 && seccion_en_vista != 3) {
         if (ultimaAnimacionParaLetrasGuia)
-          // if (ultimaAnimacionParaLetrasGuia.iniciar() === false)
-            ultimaAnimacionParaLetrasGuia.finalizar();
+          if (ultimaAnimacionParaLetrasGuia.iniciar() === false)
+            ultimaAnimacionParaLetrasGuia.finalizar(false);
 
         if (ultimaAnimacionParaCantidadCompasContenedor) {
-          // if (ultimaAnimacionParaCantidadCompasContenedor.iniciar() === false)
-            ultimaAnimacionParaCantidadCompasContenedor.finalizar();
+          if (ultimaAnimacionParaCantidadCompasContenedor.iniciar() === false)
+            ultimaAnimacionParaCantidadCompasContenedor.finalizar(false);
         }
       }
     }
