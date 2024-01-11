@@ -136,7 +136,7 @@ body {
 }
 
 #mensaje-credenciales-incorrectas {
-  font-size: min(2.2vh, 2.2vw);
+  font-size: 10px;
   font-weight: bolder;
   
   color: rgb(163, 17, 17);

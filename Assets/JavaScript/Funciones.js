@@ -295,5 +295,17 @@ Array.prototype.remove = function (value) {
 };
 
 
+/**
+ * Esta funcion genera un string "unico" de cierta longitud de bytes, por lo cual devuelve un string del doble de longitud
+ * @param {Number} length
+ * @returns {string}
+ */
+function generarIdUnico(length) {
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
 
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
 

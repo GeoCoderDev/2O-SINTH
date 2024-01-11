@@ -291,19 +291,6 @@ function eliminacionRapidaAlEstiloFLStudio(
   ).finished;
 }
 
-/**
- * Esta funcion genera un string "unico" de cierta longitud de bytes, por lo cual devuelve un string del doble de longitud
- * @param {Number} length
- * @returns {string}
- */
-function generarIdUnico(length) {
-  const bytes = new Uint8Array(length);
-  crypto.getRandomValues(bytes);
-
-  return Array.from(bytes)
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
 
 class AnimacionAparicionYDesaparicion {
   #promiseFinishedResolve;
@@ -313,19 +300,30 @@ class AnimacionAparicionYDesaparicion {
    * @param {HTMLElement} elementoHTML
    * @param {number} durationSegundos
    * @param {string} dimensionOriginal
-   * @param {Promise | undefined} promesaParaDesaparecer
+   * @param {string[]} clasesARespetar
    * @param {boolean} horizontalmente
+   * @param {Promise | undefined} promesaParaDesaparecer
    */
   constructor(
     elementoHTML,
     durationSegundos,
     dimensionOriginal,
+    clasesARespetar = [],
     horizontalmente = true,
     promesaParaDesaparecer
   ) {
     this.elementoHTML = elementoHTML;
-    console.log(this.elementoHTML.parentElement);
-    this.elementoHTML.className = "";
+
+    let clasesAEliminar = [];
+
+    this.elementoHTML.classList.forEach((clase) => {
+      if (clasesARespetar.indexOf(clase) === -1) clasesAEliminar.push(clase);
+    });
+
+    clasesAEliminar.forEach((clase) =>
+      this.elementoHTML.classList.remove(clase)
+    );
+
     this.elementoHTML.style[`${horizontalmente ? "width" : "height"}`] =
       dimensionOriginal;
     this.dimensionOriginal = dimensionOriginal;
@@ -369,69 +367,69 @@ class AnimacionAparicionYDesaparicion {
       (this.elementoHTML.parentElement.children.length + 1);
 
     this.estilosCssAdicionales = insertarReglasCSSAdicionales(`
-        
-      @keyframes A-${this.Nombre_Clase_Animacion}{
-          0%{
-              position: relative;
-
-                ${
-                  horizontalmente
-                    ? `                     
-                      margin: 0 -${
+          
+        @keyframes A-${this.Nombre_Clase_Animacion}{
+            0%{
+                position: relative;
+  
+                  ${
+                    horizontalmente
+                      ? `                     
+                        margin: 0 -${
+                          (espacioEntreElementos -
+                            espacioEntreElementosConElementoAdicional) *
+                          ((hijosContenedor.length + 1) / 2)
+                        }px;
+                        width: 0;                     
+                      `
+                      : `                        
+                      margin: -${
                         (espacioEntreElementos -
                           espacioEntreElementosConElementoAdicional) *
                         ((hijosContenedor.length + 1) / 2)
-                      }px;
-                      width: 0;                     
+                      }px 0;
+                        height: 0;                           
                     `
-                    : `                        
-                    margin: -${
-                      (espacioEntreElementos -
-                        espacioEntreElementosConElementoAdicional) *
-                      ((hijosContenedor.length + 1) / 2)
-                    }px 0;
-                      height: 0;                           
-                  `
-                }
-
-            }
-            75% {          
-              position: relative;
-              opacity: 0;
-              top: 0;
-              margin: 0 0;
-              ${horizontalmente ? "width" : "height"}: ${dimensionOriginal};
-            }
-            95% {
-              position: relative;
-              opacity: 1;
-              top: 0;                    
-              margin: 0 0;
-              ${horizontalmente ? "width" : "height"}: ${dimensionOriginal};
-            }  
-            100%{                
-              position: relative;
-              opacity: 1;
-              top: 0;                    
-              margin: 0 0;
-              ${
-                horizontalmente ? "width" : "height"
-              }: ${dimensionOriginal};                    
-            }
-      }
-
-      .${this.Nombre_Clase_Animacion}{
-          position: absolute;
-          top: -100%;
-          animation: A-${
-            this.Nombre_Clase_Animacion
-          } ${durationSegundos}s linear;
-          animation-iteration-count: 2;
-          animation-direction: alternate;
-          opacity: 0;
-          display:block;
-      }  
-    `);
+                  }
+  
+              }
+              75% {          
+                position: relative;
+                opacity: 0;
+                top: 0;
+                margin: 0 0;
+                ${horizontalmente ? "width" : "height"}: ${dimensionOriginal};
+              }
+              95% {
+                position: relative;
+                opacity: 1;
+                top: 0;                    
+                margin: 0 0;
+                ${horizontalmente ? "width" : "height"}: ${dimensionOriginal};
+              }  
+              100%{                
+                position: relative;
+                opacity: 1;
+                top: 0;                    
+                margin: 0 0;
+                ${
+                  horizontalmente ? "width" : "height"
+                }: ${dimensionOriginal};                    
+              }
+        }
+  
+        .${this.Nombre_Clase_Animacion}{
+            position: absolute;
+            top: -100%;
+            animation: A-${
+              this.Nombre_Clase_Animacion
+            } ${durationSegundos}s linear;
+            animation-iteration-count: 2;
+            animation-direction: alternate;
+            opacity: 0;
+            display:block;
+        }  
+      `);
 
     this.finished = new Promise((resolve, reject) => {
       this.#promiseFinishedResolve = resolve;

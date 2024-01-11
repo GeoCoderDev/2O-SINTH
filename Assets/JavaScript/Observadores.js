@@ -83,8 +83,7 @@ const encontrando_secciones = (entradas, observador) => {
             ultimaAnimacionParaLetrasGuia = new AnimacionAparicionYDesaparicion(
               LETRAS_GUIA_CONTENEDOR,
               0.5,
-              "40%",
-              true
+              "40%"
             );
             ultimaAnimacionParaLetrasGuia.iniciar();
           }
@@ -95,8 +94,7 @@ const encontrando_secciones = (entradas, observador) => {
         ultimaAnimacionParaLetrasGuia = new AnimacionAparicionYDesaparicion(
           LETRAS_GUIA_CONTENEDOR,
           0.5,
-          "40%",
-          true
+          "40%"
         );
         ultimaAnimacionParaLetrasGuia.iniciar();
       } else {
@@ -108,8 +106,7 @@ const encontrando_secciones = (entradas, observador) => {
                 new AnimacionAparicionYDesaparicion(
                   CANTIDAD_COMPASES_CONTENEDOR,
                   0.5,
-                  "30%",
-                  true
+                  "30%"
                 );
               ultimaAnimacionParaCantidadCompasContenedor.iniciar();
             }
@@ -125,8 +122,7 @@ const encontrando_secciones = (entradas, observador) => {
               new AnimacionAparicionYDesaparicion(
                 CANTIDAD_COMPASES_CONTENEDOR,
                 0.5,
-                "30%",
-                true
+                "30%"
               );
 
             ultimaAnimacionParaCantidadCompasContenedor.iniciar();
@@ -139,8 +135,7 @@ const encontrando_secciones = (entradas, observador) => {
           new AnimacionAparicionYDesaparicion(
             CANTIDAD_COMPASES_CONTENEDOR,
             0.5,
-            "30%",
-            true
+            "30%"
           );
 
         ultimaAnimacionParaCantidadCompasContenedor.iniciar();
@@ -154,8 +149,7 @@ const encontrando_secciones = (entradas, observador) => {
                 new AnimacionAparicionYDesaparicion(
                   LETRAS_GUIA_CONTENEDOR,
                   0.5,
-                  "40%",
-                  true
+                  "40%"
                 );
 
               ultimaAnimacionParaLetrasGuia.iniciar();
