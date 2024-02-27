@@ -1,4 +1,5 @@
 class CronometroConCentisegundos {
+
   isRunning = false;
   isPaused = false;
   startTime;
